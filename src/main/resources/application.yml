@@ -1,0 +1,64 @@
+server:
+    contextPath: ''
+    port: 80
+    tomcat:
+        uri-encoding: UTF-8
+
+mybatis-plus:
+    configuration:
+        cache-enabled: false
+        map-underscore-to-camel-case: true
+    global-config:
+        db-column-underline: true
+        field-strategy: 0
+        id-type: 0
+        refresh-mapper: true
+    mapper-locations: classpath:/mapper/*Dao.xml
+    typeAliasesPackage: io.github.entity
+
+spring:
+    datasource:
+        connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+        driverClassName: com.mysql.jdbc.Driver
+        filters: stat,wall,log4j
+        initialSize: 5
+        maxActive: 20
+        maxPoolPreparedStatementPerConnectionSize: 20
+        maxWait: 60000
+        minEvictableIdleTimeMillis: 300000
+        minIdle: 5
+        password: 3xdata
+        poolPreparedStatements: true
+        testOnBorrow: false
+        testOnReturn: false
+        testWhileIdle: true
+        timeBetweenEvictionRunsMillis: 60000
+        type: com.alibaba.druid.pool.DruidDataSource
+        url: jdbc:mysql://192.168.1.120:3306/bootplus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
+        username: root
+        validationQuery: SELECT 1 FROM DUAL
+    freemarker:
+        allow-request-override: false
+        cache: false
+        charset: UTF-8
+        check-template-location: true
+        content-type: text/html
+        expose-request-attributes: true
+        expose-session-attributes: true
+        request-context-attribute: rc
+        settings:
+            number_format: 0.##
+        suffix: .ftl
+        template-loader-path: /WEB-INF/templates
+    http:
+        encoding:
+            charset: UTF-8
+            enabled: true
+            force: true
+        multipart:
+            maxFileSize: 10Mb
+            maxRequestSize: 10Mb
+    messages:
+        encoding: UTF-8
+    resources:
+        static-locations: /statics

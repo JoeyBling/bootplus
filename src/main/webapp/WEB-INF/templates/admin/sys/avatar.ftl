@@ -109,7 +109,8 @@
         var portraitsettings = {
             language: 'zh', //设置语言
             overwriteInitial: true,
-            maxFileSize: 1500,
+            //单位为kb，如果为0表示不限制文件大小
+            maxFileSize: 5000,
             showClose: false,
             showCaption: false,
             browseLabel: '选择文件',

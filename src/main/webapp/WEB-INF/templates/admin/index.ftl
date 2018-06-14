@@ -19,13 +19,15 @@
     <div class="sidebar-collapse">
         <ul class="nav" id="side-menu">
             <li class="nav-header">
-                <div class="dropdown profile-element"><span> </span> 
-                	<span class="default-avatar">
-                		<img alt="image" width="58" height="58" class="img-circle" src="${rc.contextPath}/${admin.avatarUrl!""}"></span>
-                	<a
-                        data-toggle="dropdown" class="dropdown-toggle" href="javascript:void(0);"> <span class="clear"> <span
-                        class="block m-t-xs"><strong class="font-bold">${admin.username}</strong></span> <span
-                        class="text-muted text-xs block">${admin.email}<b class="caret"></b></span> </span> </a>
+                <div class="dropdown profile-element"><span> </span>
+                    <span class="default-avatar">
+                		<img alt="image" width="58" height="58" class="img-circle"
+                             src="${rc.contextPath}/${admin.avatarUrl!""}"></span>
+                    <a
+                            data-toggle="dropdown" class="dropdown-toggle" href="javascript:void(0);"> <span
+                            class="clear"> <span
+                            class="block m-t-xs"><strong class="font-bold">${admin.username}</strong></span> <span
+                            class="text-muted text-xs block">${admin.email}<b class="caret"></b></span> </span> </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a class="J_menuItem" href="${rc.contextPath}/admin/sys/user/view"
                                data-index="1">个人资料</a></li>
@@ -38,17 +40,19 @@
             </li>
             [#list menuList as list]
 	            <li><a href="javascript:void(0);" aria-expanded="false"> <i
-	                    class="${list.icon}"></i> <span class="nav-label">${list.name}</span> <span class="fa arrow"></span> </a>
-	                <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                        class="${list.icon}"></i> <span class="nav-label">${list.name}</span> <span
+                        class="fa arrow"></span> </a>
+                    <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
 	                
 	                [#if list.list??]
 			            	[#list list.list as children]
 				                    <li><a class="J_menuItem" href="${rc.contextPath}/${children.url}"
-				                           data-index="${children_index}"><i class="${children.icon}"></i>${children.name}</a></li>
-			            	[/#list]
-            		[/#if]
-	                </ul>
-	            </li>
+                                           data-index="${children_index}"><i
+                                            class="${children.icon}"></i>${children.name}</a></li>
+                            [/#list]
+                    [/#if]
+                    </ul>
+                </li>
             [/#list]
         </ul>
     </div>
@@ -58,7 +62,8 @@
 <div id="page-wrapper" class="gray-bg dashbard-1">
     <div class="row border-bottom">
         <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="javascript:void(0);"><i
+            <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary "
+                                          href="javascript:void(0);"><i
                     class="fa fa-bars"></i> </a>
 
                 <div role="search" class="navbar-form-custom">
@@ -68,14 +73,26 @@
                 </div>
             </div>
             <ul class="nav navbar-top-links navbar-right">
+                <li>
+                    <a _ngcontent-c2="" href="https://gitee.com/zhousiwei/bootplus" target="_blank">
+                        <img _ngcontent-c2="" alt="star"
+                             src="https://gitee.com/zhousiwei/bootplus/badge/star.svg?theme=white">
+                    </a>
+                </li>
 
+                <li>
+                    <a _ngcontent-c2="" href="https://github.com/JoeyBling/SpringBoot_MyBatisPlus" target="_blank">
+                        <img _ngcontent-c2="" alt="star"
+                             src="https://img.shields.io/github/stars/JoeyBling/SpringBoot_MyBatisPlus.svg?style=white&amp;label=Stars">
+                    </a>
+                </li>
             </ul>
         </nav>
     </div>
     <div class="row content-tabs">
         <button class="roll-nav roll-left J_tabLeft"><i class="fa fa-backward"></i></button>
         <nav class="page-tabs J_menuTabs">
-            <div class="page-tabs-content"><a href="javascript:;" class="active J_menuTab" data-id="">首页</a></div>
+            <div class="page-tabs-content"><a href="javascript:;" class="active J_menuTab" data-id="">个人资料</a></div>
         </nav>
         <button class="roll-nav roll-right J_tabRight"><i class="fa fa-forward"></i></button>
         <div class="btn-group roll-nav roll-right">
@@ -87,15 +104,17 @@
                 <li class="J_tabCloseOther"><a>关闭其他选项卡</a></li>
             </ul>
         </div>
-        <a href="${rc.contextPath}/admin/sys/logout" class="roll-nav roll-right J_tabExit"><i class="fa fa fa-sign-out"></i>
+        <a href="${rc.contextPath}/admin/sys/logout" class="roll-nav roll-right J_tabExit"><i
+                class="fa fa fa-sign-out"></i>
             退出</a></div>
     <div class="row J_mainContent" id="content-main">
-        <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="${rc.contextPath}/admin/home.html" frameborder="0" data-id=""
+        <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="${rc.contextPath}/admin/sys/user/view"
+                frameborder="0" data-id=""
                 seamless></iframe>
     </div>
     <div class="footer">
-        <div class="pull-right">© 2017-2018<a href="javascript:void(0);"
-                                              target="_Blank"> ### </a>
+        <div class="pull-right">© 2018-2019<a href="https://zhousiwei.gitee.io/" target="_Blank">
+            試毅-思伟</a>
         </div>
     </div>
 </div>

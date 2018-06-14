@@ -67,8 +67,7 @@
 
                             <div class="col-sm-6">
                                 <input type="text" class="form-control disabled-form-control" disabled="disabled"
-                                       value="[@formatTime unix="${admin.createTime?c}" pattern="yyyy-MM-dd HH:mm:ss"]
-                                [/@formatTime]">
+                                       value="[@formatTime unix="${admin.createTime?c}" pattern="yyyy-MM-dd HH:mm:ss"] [/@formatTime]">
                             </div>
                         </div>
                         <div class="form-group">

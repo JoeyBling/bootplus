@@ -11,7 +11,7 @@
  Target Server Version : 100207
  File Encoding         : 65001
 
- Date: 11/06/2018 15:20:00
+ Date: 14/06/2018 17:34:54
 */
 
 SET NAMES utf8mb4;
@@ -53,7 +53,6 @@ INSERT INTO `sys_menu` VALUES (14, 4, '新增', NULL, 'sys:menu:save,sys:menu:se
 INSERT INTO `sys_menu` VALUES (15, 4, '修改', NULL, 'sys:menu:update,sys:menu:select', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (16, 4, '删除', NULL, 'sys:menu:delete', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (17, 1, '监控管理', 'druid/index.html', 'druid:druid:manager', 1, 'fa fa-cogs', 3);
-INSERT INTO `sys_menu` VALUES (18, 1, 'Swagger管理', 'swagger-ui.html', 'swaggerui:swaggerui:manager', 1, 'fa fa-diamond', 4);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -95,7 +94,6 @@ INSERT INTO `sys_role_menu` VALUES (246, 13, 9);
 INSERT INTO `sys_role_menu` VALUES (247, 13, 4);
 INSERT INTO `sys_role_menu` VALUES (248, 13, 13);
 INSERT INTO `sys_role_menu` VALUES (249, 13, 17);
-INSERT INTO `sys_role_menu` VALUES (250, 13, 18);
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -120,7 +118,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 0, '2434387555@qq.com', '13647910242', 1500018856, '192.168.1.88', 'upload/adminAvatar/201707/1499675749475head.jpg', 1, 1498801511);
+INSERT INTO `sys_user` VALUES (1, 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 1, '2434387555@qq.com', '13647910412', 1528967776, '0:0:0:0:0:0:0:1', 'upload/adminAvatar/201707/1499675749475head.jpg', 1, 1498801511);
 INSERT INTO `sys_user` VALUES (7, 'lastone', 'd50b4c0cab140a3310e256d86fd3cd33c02f145635df4694e71df062c1679a8f', 2, 'asd@qq.com', '13456465465', 1499069279, '192.168.1.88', 'upload/adminAvatar/201707/1499675749475head.jpg', 1, 1499069190);
 INSERT INTO `sys_user` VALUES (8, 'joey', 'bfef4adc39f01b033fe749bb5f28f10b581fef319d34445d21a7bc63fe732fa3', 2, '2434387555@qq.com', '13647910412', 1499670576, '192.168.1.88', 'upload/adminAvatar/201707/1499675749475head.jpg', 0, 1499410874);
 
@@ -136,7 +134,7 @@ CREATE TABLE `sys_user_login_log`  (
   `operating_system` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '操作系统',
   `browser` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '浏览器',
   PRIMARY KEY (`log_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 402 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户登录表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 409 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户登录表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_user_login_log
@@ -399,6 +397,13 @@ INSERT INTO `sys_user_login_log` VALUES (398, 1500018358, '192.168.1.88', 1, 'WI
 INSERT INTO `sys_user_login_log` VALUES (399, 1500018527, '192.168.1.88', 1, 'WINDOWS_7', 'CHROME49');
 INSERT INTO `sys_user_login_log` VALUES (400, 1500018635, '192.168.1.88', 1, 'WINDOWS_7', 'CHROME49');
 INSERT INTO `sys_user_login_log` VALUES (401, 1500018856, '192.168.1.88', 1, 'WINDOWS_7', 'CHROME49');
+INSERT INTO `sys_user_login_log` VALUES (402, 1528708116, '0:0:0:0:0:0:0:1', 1, 'WINDOWS_81', 'CHROME');
+INSERT INTO `sys_user_login_log` VALUES (403, 1528960179, '0:0:0:0:0:0:0:1', 1, 'WINDOWS_81', 'CHROME');
+INSERT INTO `sys_user_login_log` VALUES (404, 1528961880, '0:0:0:0:0:0:0:1', 1, 'WINDOWS_81', 'CHROME');
+INSERT INTO `sys_user_login_log` VALUES (405, 1528964863, '0:0:0:0:0:0:0:1', 1, 'WINDOWS_81', 'CHROME');
+INSERT INTO `sys_user_login_log` VALUES (406, 1528965837, '0:0:0:0:0:0:0:1', 1, 'WINDOWS_81', 'CHROME');
+INSERT INTO `sys_user_login_log` VALUES (407, 1528967698, '0:0:0:0:0:0:0:1', 1, 'WINDOWS_81', 'CHROME');
+INSERT INTO `sys_user_login_log` VALUES (408, 1528967776, '0:0:0:0:0:0:0:1', 1, 'WINDOWS_81', 'CHROME');
 
 -- ----------------------------
 -- Table structure for sys_user_role

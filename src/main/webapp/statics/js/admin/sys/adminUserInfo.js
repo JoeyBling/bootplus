@@ -76,6 +76,8 @@ function save_info() {
 		return false;
 	}
 
+	var _sex = ($("input[name='sex']:checked").val());
+	$("#sex").val(_sex == 1 ? "男" : _sex == 2 ? "女" : "保密");
 	var params = '';
 	$("#form input").each(function() {
 		params += $(this).serialize() + "&";
