@@ -54,7 +54,7 @@ bootplus
 
 - 修改application.yml，更新MySQL连接信息
 
-- 项目访问路径：http://localhost/
+- 项目访问路径：http://localhost/admin
 - 管理员账号密码：admin/admin
 
 
