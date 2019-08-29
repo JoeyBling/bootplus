@@ -2,6 +2,9 @@ package io.github.shiro;
 
 import io.github.entity.SysMenuEntity;
 import io.github.entity.SysUserEntity;
+import io.github.service.SysMenuService;
+import io.github.service.SysUserService;
+import io.github.util.Constant;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -11,6 +14,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -21,6 +25,15 @@ import java.util.*;
  */
 public class UserRealm extends AuthorizingRealm {
     private Logger logger = LoggerFactory.getLogger(UserRealm.class);
+
+    @Resource
+    private SysUserService sysUserService;
+
+    @Resource
+    private SysMenuService sysMenuService;
+
+    @Resource
+    private Constant constant;
 
     /**
      * 授权(验证权限时调用)
@@ -34,14 +47,14 @@ public class UserRealm extends AuthorizingRealm {
         List<String> permsList = null;
 
         // 系统管理员，拥有最高权限
-        if (userId.equals(TempUtil.constant.adminId)) {
-            List<SysMenuEntity> menuList = TempUtil.sysMenuService.queryList(new HashMap<String, Object>(10));
+        if (constant.adminId.equals(userId)) {
+            List<SysMenuEntity> menuList = sysMenuService.queryList(new HashMap<String, Object>(10));
             permsList = new ArrayList<>(menuList.size());
             for (SysMenuEntity menu : menuList) {
                 permsList.add(menu.getPerms());
             }
         } else {
-            permsList = TempUtil.sysUserService.queryAllPerms(userId);
+            permsList = sysUserService.queryAllPerms(userId);
         }
 
         // 用户权限列表
@@ -67,7 +80,7 @@ public class UserRealm extends AuthorizingRealm {
         String username = (String) token.getPrincipal();
         String password = new String((char[]) token.getCredentials());
         // 查询用户信息
-        SysUserEntity user = TempUtil.sysUserService.queryByUserName(username);
+        SysUserEntity user = sysUserService.queryByUserName(username);
 
         // 账号不存在
         if (user == null) {

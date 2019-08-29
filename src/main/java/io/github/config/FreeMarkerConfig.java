@@ -9,7 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 /**
- * Freemaker
+ * FreeMaker配置
  *
  * @author Joey
  * @Email 2434387555@qq.com

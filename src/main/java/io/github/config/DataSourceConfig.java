@@ -31,7 +31,8 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 public class DataSourceConfig {
-    private Logger logger = LoggerFactory.getLogger(DataSourceConfig.class);
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Value("${spring.datasource.url}")
     private String dbUrl;

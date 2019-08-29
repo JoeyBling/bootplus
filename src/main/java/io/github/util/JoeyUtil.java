@@ -37,7 +37,7 @@ public class JoeyUtil {
      * @param myString 原字符串
      * @return 替换后字符串
      */
-    public static String parseTxtByRN(String myString) {
+    public static String parseTxtByRn(String myString) {
         String newString = null;
         Matcher m = CRLF.matcher(myString);
         if (m.find()) {

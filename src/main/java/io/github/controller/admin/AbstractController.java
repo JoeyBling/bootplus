@@ -68,7 +68,7 @@ abstract class AbstractController {
      *
      * @param search   要解析Json的字符串
      * @param keyNames 查询的Names
-     * @return Map<String , T>
+     * @return Map<String, T>
      */
     @SuppressWarnings("unchecked")
     protected <T> Map<String, T> parseObject(String search, String... keyNames) {
