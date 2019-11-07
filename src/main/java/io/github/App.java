@@ -21,8 +21,7 @@ import java.util.Collections;
  * @Email 2434387555@qq.com
  */
 @ServletComponentScan
-@ComponentScan(basePackages = {"io.github"})
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"io.github"})
 public class App extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
