@@ -31,7 +31,7 @@ public class App extends SpringBootServletInitializer {
     }
 
     /**
-     * 部署Tomcat---mvn clean package
+     * 部署Tomcat---mvn clean package(如果使用Tomcat将packaging改为war)
      */
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {

@@ -53,7 +53,7 @@ spring:
     settings:
       number_format: 0.##
     suffix: .ftl
-    template-loader-path: /WEB-INF/templates
+    template-loader-path: classpath:/WEB-INF/templates
   http:
     encoding:
       charset: UTF-8
@@ -65,4 +65,4 @@ spring:
   messages:
     encoding: UTF-8
   resources:
-    static-locations: /statics
+    static-locations: classpath:/statics

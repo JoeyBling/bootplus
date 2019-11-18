@@ -132,6 +132,7 @@ public class ShiroConfiguration {
         SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
         // <!-- 记住我cookie生效时间30天 ,单位秒;-->
         simpleCookie.setMaxAge(259200);
+        simpleCookie.setHttpOnly(true);
         return simpleCookie;
     }
 

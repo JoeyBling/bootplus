@@ -6,11 +6,10 @@
     <groupId>io.github.joeybling</groupId>
     <artifactId>bootplus</artifactId>
     <version>1.0</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>bootplus</name>
     <url>https://gitee.com/zhousiwei/bootplus</url>
-
 
     <properties>
         <kaptcha.version>0.0.9</kaptcha.version>
@@ -191,6 +190,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <!-- LomBok插件 -->
@@ -201,9 +201,51 @@
 
     </dependencies>
 
-    <!-- 编译版本 -->
     <build>
+        <resources>
+            <!-- 打包时将jsp文件拷贝到META-INF目录下(其实也可以直接放在`src/main/resources`目录下) -->
+            <resource>
+                <!-- 指定resources插件处理哪个目录下的资源文件 -->
+                <directory>${basedir}/src/main/webapp</directory>
+                <!-- 千万不能加这个 -->
+                <!-- <targetPath>MATE-INF/resources</targetPath> -->
+                <!--注意此次必须要放在此目录下才能被访问到-->
+                <!-- <targetPath>META-INF/resources</targetPath> -->
+                <includes>
+                    <include>**/**</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
         <plugins>
+            <plugin>
+                <!-- 配置spring boot之maven插件 -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- fork : 如果没有该项配置，devtools不会起作用，即应用不会restart 【实测：可以不配置】 -->
+                    <fork>true</fork>
+                    <includeSystemScope>true</includeSystemScope>
+                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+                    <!--<mainClass>io.github.App</mainClass>
+                    <layout>JAR</layout>-->
+                </configuration>
+            </plugin>
+
+            <!-- 编译版本 -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -231,6 +273,7 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <!-- maven打包的时候告诉maven不需要web.xml,否刚会报找不到web.xml错误 -->
@@ -243,7 +286,6 @@
                 <artifactId>lombok-maven-plugin</artifactId>
                 <version>1.16.8.0</version>
             </plugin>
-
         </plugins>
         <finalName>bootplus</finalName>
     </build>

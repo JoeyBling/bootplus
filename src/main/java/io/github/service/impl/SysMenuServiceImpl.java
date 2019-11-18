@@ -45,7 +45,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
         if (menuIdList == null) {
             return menuList;
         }
-        List<SysMenuEntity> userMenuList = new ArrayList<>();
+        List<SysMenuEntity> userMenuList = new ArrayList<SysMenuEntity>();
         for (SysMenuEntity menu : menuList) {
             if (menuIdList.contains(menu.getMenuId())) {
                 userMenuList.add(menu);

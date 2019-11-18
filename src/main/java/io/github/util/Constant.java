@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @Email 2434387555@qq.com
  */
 @Component
-@PropertySource("classpath:config.properties")
+@PropertySource("classpath:/config.properties")
 public class Constant {
 
     /**
@@ -33,8 +33,6 @@ public class Constant {
 
     @Value("${database.adminId}")
     public Long adminId;
-
-    public final String loginSessionAttr = "ADMINLOGINCOOKIEKEY";
 
     /**
      * 菜单类型
