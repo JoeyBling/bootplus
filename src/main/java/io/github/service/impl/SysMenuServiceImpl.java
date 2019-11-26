@@ -59,6 +59,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> i
         return baseMapper.queryNotButtonList();
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<SysMenuEntity> getUserMenuList(Long userId) {
         String cacheName = EhCacheNames.MENUCACHENAME + userId;
