@@ -264,7 +264,7 @@
             <plugin>
                 <!-- https://github.com/spotify/docker-maven-plugin -->
                 <!-- docker:push 发布 -->
-                <!-- 运行命令 mvn clean package docker:build -DOCKER_HOST=localhost:38808 打包并生成docker镜像 -->
+                <!-- 运行命令 mvn clean package docker:build -DOCKER_HOST=http://localhost:38808 打包并生成docker镜像 -->
                 <groupId>com.spotify</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>1.0.0</version>
