@@ -78,11 +78,7 @@ public class SysLoginController extends AbstractController {
     }
 
     /**
-     * 管理员验证码
-     *
-     * @param response HttpServletResponse
-     * @throws ServletException
-     * @throws IOException
+     * 获取登陆验证码
      */
     @RequestMapping("/captcha.jpg")
     public void captcha(HttpServletResponse response) throws ServletException, IOException {

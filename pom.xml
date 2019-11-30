@@ -12,6 +12,9 @@
     <url>https://gitee.com/zhousiwei/bootplus</url>
 
     <properties>
+        <!-- Docker 插件 -->
+        <docker.repostory>io.github</docker.repostory>
+        <docker.registry.name>bootplus</docker.registry.name>
         <kaptcha.version>0.0.9</kaptcha.version>
         <commons-lang.version>3.3.2</commons-lang.version>
         <shiro.version>1.4.0</shiro.version>
@@ -255,6 +258,38 @@
                     <compilerArguments>
                         <!-- <extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs> -->
                     </compilerArguments>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <!-- https://github.com/spotify/docker-maven-plugin -->
+                <!-- docker:push 发布 -->
+                <!-- 运行命令 mvn clean package docker:build -DOCKER_HOST=localhost:38808 打包并生成docker镜像 -->
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <dockerHost>http://localhost:38808</dockerHost>
+                    <!--Dockerfile文件位置-->
+                    <dockerDirectory>${project.basedir}</dockerDirectory>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                    <imageName>${docker.repostory}/${docker.registry.name}/${project.artifactId}:${project.version}
+                    </imageName>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <exposes>
+                        <expose>8080</expose>
+                    </exposes>
+                    <!-- optionally overwrite tags every time image is built with docker:build -->
+                    <forceTags>true</forceTags>
                 </configuration>
             </plugin>
 
