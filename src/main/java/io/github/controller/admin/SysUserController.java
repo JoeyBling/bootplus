@@ -8,7 +8,7 @@ import io.github.service.SysUserRoleService;
 import io.github.service.SysUserService;
 import io.github.util.PageUtils;
 import io.github.util.R;
-import io.github.util.ShiroUtils;
+import io.github.util.spring.ShiroUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;

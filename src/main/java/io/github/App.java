@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -20,6 +20,7 @@ import java.util.Collections;
  * @author Joey
  * @Email 2434387555@qq.com
  */
+@EnableScheduling
 @ServletComponentScan
 @SpringBootApplication(scanBasePackages = {"io.github"})
 public class App extends SpringBootServletInitializer {
@@ -48,6 +49,7 @@ public class App extends SpringBootServletInitializer {
         // cookie - it will only be used/accessed by the HTTP transport
         // mechanism in use
         SessionCookieConfig sessionCookieConfig = servletContext.getSessionCookieConfig();
+        logger.debug(String.format("sessionCookieConfig.isHttpOnly()===>%s", sessionCookieConfig.isHttpOnly()));
         sessionCookieConfig.setHttpOnly(true);
     }
 }

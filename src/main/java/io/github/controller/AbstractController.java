@@ -1,7 +1,7 @@
 package io.github.controller;
 
-import io.github.util.Constant;
-import io.github.util.EhcacheUtil;
+import io.github.util.config.Constant;
+import io.github.util.spring.EhcacheUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

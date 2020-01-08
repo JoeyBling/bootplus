@@ -9,10 +9,18 @@ import io.github.service.SysMenuService;
 import io.github.service.SysUserLoginLogService;
 import io.github.service.SysUserService;
 import io.github.util.*;
+import io.github.util.config.EhCacheNames;
+import io.github.util.http.GetIpAddress;
+import io.github.util.http.HttpUtil;
+import io.github.util.spring.EhcacheUtil;
+import io.github.util.spring.ShiroUtils;
+import io.github.util.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.apache.shiro.subject.Subject;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -79,11 +87,13 @@ public class SysLoginController extends AbstractController {
 
     /**
      * 获取登陆验证码
+     *
+     * @see com.google.code.kaptcha.servlet.KaptchaExtend#captcha(HttpServletRequest, HttpServletResponse)
      */
     @RequestMapping("/captcha.jpg")
     public void captcha(HttpServletResponse response) throws ServletException, IOException {
-        response.setHeader("Cache-Control", "no-store, no-cache");
-        response.setContentType("image/jpeg");
+        response.setHeader(HttpHeaders.CACHE_CONTROL, "no-store, no-cache");
+        response.setContentType(MediaType.IMAGE_JPEG_VALUE);
 
         // 生成文字验证码
         String text = producer.createText();

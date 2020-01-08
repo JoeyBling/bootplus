@@ -4,7 +4,7 @@ import io.github.entity.SysMenuEntity;
 import io.github.entity.SysUserEntity;
 import io.github.service.SysMenuService;
 import io.github.service.SysUserService;
-import io.github.util.Constant;
+import io.github.util.config.Constant;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;

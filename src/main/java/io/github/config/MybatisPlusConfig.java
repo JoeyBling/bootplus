@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * MybatisPlusConfig
+ * MybatisPlus Config
  *
  * @author Joey
  */
@@ -16,7 +16,7 @@ public class MybatisPlusConfig {
 
     /**
      * mybatis-plus分页插件<br>
-     * 文档：http://mp.baomidou.com<br>
+     * 文档：http://mp.baomidou.com
      */
     @Bean
     public PaginationInterceptor paginationInterceptor() {

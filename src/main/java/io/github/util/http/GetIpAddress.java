@@ -1,9 +1,10 @@
-package io.github.util;
+package io.github.util.http;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 /**
  * 根据IP地址获取详细的地域信息
@@ -55,8 +56,8 @@ public class GetIpAddress {
     /**
      * 根据IP地址获取所在市区
      *
-     * @param ip       ip地址 请求的参数 格式为：name=xxx&pwd=xxx
-     * @param encoding 服务器端请求编码。如GBK,UTF-8等
+     * @param ip             ip地址 请求的参数 格式为：name=xxx&pwd=xxx
+     * @param encodingString 服务器端请求编码。如GBK,UTF-8等
      * @return 所在市区
      * @throws IOException
      */
@@ -107,22 +108,25 @@ public class GetIpAddress {
             connection.setDoInput(true);// 是否打开输入流true|false
             connection.setRequestMethod("POST");// 提交方法POST|GET
             connection.setUseCaches(false);// 是否缓存true|false
-            connection.connect();// 打开连接端口
-            DataOutputStream out = new DataOutputStream(connection.getOutputStream());// 打开输出流往对端服务器写数据
-            // out.writeBytes(content);// 写数据,也就是提交你的表单 name=xxx&pwd=xxx
-            out.flush();// 刷新
-            out.close();// 关闭输出流
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), encoding));// 往对端写完数据对端服务器返回数据
-            // ,以BufferedReader流来读取
-            StringBuffer buffer = new StringBuffer();
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                buffer.append(line);
+            // 打开连接端口
+            connection.connect();
+            // 打开输出流往对端服务器写数据
+            try (DataOutputStream out = new DataOutputStream(connection.getOutputStream())) {
+                // out.writeBytes(content);// 写数据,也就是提交你的表单 name=xxx&pwd=xxx
+                out.flush();// 刷新
             }
-            reader.close();
+            // 往对端写完数据对端服务器返回数据
+            StringBuffer buffer;
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), encoding))) {
+                // ,以BufferedReader流来读取
+                buffer = new StringBuffer();
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    buffer.append(line);
+                }
+            }
             return buffer.toString();
         } catch (IOException e) {
-            e.printStackTrace();
             throw e;
         } finally {
             if (connection != null) {
@@ -179,7 +183,7 @@ public class GetIpAddress {
                                 value = (value << 4) + 10 + aChar - 'A';
                                 break;
                             default:
-                                throw new IllegalArgumentException("Malformed      encoding.");
+                                throw new IllegalArgumentException("Malformed encoding.");
                         }
                     }
                     outBuffer.append((char) value);
@@ -205,7 +209,6 @@ public class GetIpAddress {
     /**
      * 测试
      *
-     * @param args String[]
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
@@ -213,12 +216,9 @@ public class GetIpAddress {
         // 测试ip 219.136.134.157 中国=华南=广东省=广州市=越秀区=电信
         String ip = "61.235.13.252";
         String address = "";
-        try {
-            address = addressUtils.getAddresses(ip, "utf-8");
-            System.out.println(address);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
         // 输出结果为：广东省,广州市,越秀区
+        address = addressUtils.getAddresses(ip, StandardCharsets.UTF_8.name());
+        System.out.println(address);
+
     }
 }

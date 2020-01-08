@@ -4,11 +4,14 @@ import com.alibaba.druid.filter.Filter;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import com.alibaba.druid.util.DruidPasswordCallback;
 import com.alibaba.druid.wall.WallConfig;
 import com.alibaba.druid.wall.WallFilter;
+import io.github.util.config.MyDruidPasswordCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -111,7 +114,7 @@ public class DataSourceConfig {
     }
 
     /**
-     * 注册DruidFilter拦截
+     * 注册DruidFilter拦截(网络url统计)
      *
      * @return FilterRegistrationBean
      */
@@ -121,20 +124,19 @@ public class DataSourceConfig {
         filterRegistrationBean.setFilter(new WebStatFilter());
         Map<String, String> initParams = new HashMap<String, String>(1);
         // 设置忽略请求
-        initParams.put("exclusions", "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*");
+        initParams.put(WebStatFilter.PARAM_NAME_EXCLUSIONS, "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*");
         filterRegistrationBean.setInitParameters(initParams);
         filterRegistrationBean.addUrlPatterns("/*");
         return filterRegistrationBean;
     }
 
     /**
-     * 配置DataSource(因为使用了多数据源注解掉@Bean)
+     * 配置DataSource(使用了多数据源注解掉@Bean)
      *
      * @return DataSource
-     * @throws SQLException
      */
-    @Bean
-    public DataSource dataSource() throws SQLException {
+    @Bean(initMethod = "init")
+    public DruidDataSource dataSource(DruidPasswordCallback druidPasswordCallback) {
         DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setUrl(dbUrl);
         druidDataSource.setUsername(username);
@@ -153,6 +155,9 @@ public class DataSourceConfig {
         druidDataSource.setTestOnReturn(testOnReturn);
         druidDataSource.setPoolPreparedStatements(poolPreparedStatements);
         druidDataSource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
+        druidDataSource.setConnectionProperties(connectionProperties);
+        // 数据库密码回调
+        druidDataSource.setPasswordCallback(druidPasswordCallback);
         try {
             List<Filter> proxyFilters = new ArrayList<Filter>();
             WallFilter statFilter = new WallFilter();
@@ -166,8 +171,18 @@ public class DataSourceConfig {
         } catch (SQLException e) {
             logger.error("druid configuration initialization filter", e);
         }
-        druidDataSource.setConnectionProperties(connectionProperties);
         return druidDataSource;
+    }
+
+    /**
+     * 数据库密码回调解密
+     *
+     * @return MyDruidPasswordCallback
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public DruidPasswordCallback myDruidPasswordCallback() {
+        return new MyDruidPasswordCallback();
     }
 
 }

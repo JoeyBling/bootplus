@@ -51,7 +51,7 @@ public class MainSiteErrorController extends DefaultErrorAttributes implements E
     public R handleError(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> errorAttributes = getErrorAttributes(request, false);
         log.error("handleError---errorAttributes={}", JSON.toJSONString(errorAttributes));
-        Integer status = null != errorAttributes.get("status").toString() ?
+        Integer status = null != errorAttributes.get("status") ?
                 Integer.valueOf(errorAttributes.get("status").toString()) : null;
         int code = null == status ? response.getStatus() : status;
         // 设置响应状态码

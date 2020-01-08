@@ -1,5 +1,6 @@
 package io.github.config;
 
+import com.google.code.kaptcha.Producer;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -19,10 +20,12 @@ public class ProducerConfig {
 
     @Bean
     @ConditionalOnMissingBean
-    public DefaultKaptcha kaptcha() {
+    public Producer kaptcha() {
         DefaultKaptcha kaptcha = new DefaultKaptcha();
         Properties properties = new Properties();
+        // 是否有边框
         properties.put("kaptcha.border", "no");
+        // 字体颜色
         properties.put("kaptcha.textproducer.font.color", "black");
         // 文字间隔
         properties.put("kaptcha.textproducer.char.space", "4");

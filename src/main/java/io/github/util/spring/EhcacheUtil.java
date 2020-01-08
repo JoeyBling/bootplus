@@ -1,4 +1,4 @@
-package io.github.util;
+package io.github.util.spring;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;

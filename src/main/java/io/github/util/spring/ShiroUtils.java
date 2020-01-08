@@ -1,6 +1,7 @@
-package io.github.util;
+package io.github.util.spring;
 
 import io.github.entity.SysUserEntity;
+import io.github.util.RRException;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -15,8 +16,6 @@ public class ShiroUtils {
 
     /**
      * 获取Shiro Session
-     *
-     * @return
      */
     public static Session getSession() {
         return SecurityUtils.getSubject().getSession();

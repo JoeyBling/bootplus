@@ -7,7 +7,6 @@ server:
     tracking-modes: cookie
     cookie:
       http-only: true
-
 mybatis-plus:
   configuration:
     cache-enabled: false
@@ -22,7 +21,7 @@ mybatis-plus:
 
 spring:
   datasource:
-    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;password=${spring.datasource.password}
     driverClassName: com.mysql.jdbc.Driver
     filters: stat,wall,log4j
     initialSize: 5
@@ -66,3 +65,10 @@ spring:
     encoding: UTF-8
   resources:
     static-locations: classpath:/statics
+
+thread-pool:
+#  core-pool-size: 3
+#  max-pool-size: 2000
+#  queue-capacity: 200
+#  keep-alive-seconds: 2000
+#  thread-name-prefix: boot-task-

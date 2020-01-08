@@ -1,4 +1,4 @@
-package io.github.util;
+package io.github.util.file;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;

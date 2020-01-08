@@ -1,4 +1,4 @@
-package io.github.util;
+package io.github.util.config;
 
 /**
  * EhCache缓存名

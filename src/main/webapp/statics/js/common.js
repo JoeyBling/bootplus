@@ -129,12 +129,10 @@ function eventstop(event) {
 
 /**
  * Button交互
- *
- * @param {}
  *            e
  */
 function loadingButton(e) {
-    var $btn = $(e);
+    let $btn = $(e);
     $btn.attr("disabled", "disabled");
     $btn.button('loading');
     setTimeout(function () {

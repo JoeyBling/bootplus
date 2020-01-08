@@ -10,7 +10,7 @@ import java.io.Writer;
 import java.util.Map;
 
 /**
- * Freemaker格式化时间戳为指定日期
+ * FreeMarker格式化时间戳为指定日期
  * 使用:[#-- 自定义标签格式化时间戳 ?c防止时间戳有,逗号 --]
  * [@formatTime unix="${entity.createTime?c}" pattern="yyyy-MM-dd HH:mm:ss"] [/@formatTime]
  *

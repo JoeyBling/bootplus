@@ -25,9 +25,11 @@
                              src="${rc.contextPath}/${admin.avatarUrl!""}"></span>
                     <a
                             data-toggle="dropdown" class="dropdown-toggle" href="javascript:void(0);"> <span
-                            class="clear"> <span
-                            class="block m-t-xs"><strong class="font-bold">${admin.username}</strong></span> <span
-                            class="text-muted text-xs block">${admin.email}<b class="caret"></b></span> </span> </a>
+                                class="clear"> <span
+                                    class="block m-t-xs"><strong
+                                        class="font-bold">${admin.username}</strong></span> <span
+                                    class="text-muted text-xs block">${admin.email}<b class="caret"></b></span> </span>
+                    </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a class="J_menuItem" href="${rc.contextPath}/admin/sys/user/view"
                                data-index="1">个人资料</a></li>
@@ -39,18 +41,18 @@
                 </div>
             </li>
             [#list menuList as list]
-	            <li><a href="javascript:void(0);" aria-expanded="false"> <i
-                        class="${list.icon}"></i> <span class="nav-label">${list.name}</span> <span
-                        class="fa arrow"></span> </a>
+                <li><a href="javascript:void(0);" aria-expanded="false"> <i
+                                class="${list.icon}"></i> <span class="nav-label">${list.name}</span> <span
+                                class="fa arrow"></span> </a>
                     <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
-	                
-	                [#if list.list??]
-			            	[#list list.list as children]
-				                    <li><a class="J_menuItem" href="${rc.contextPath}/${children.url}"
-                                           data-index="${children_index}"><i
-                                            class="${children.icon}"></i>${children.name}</a></li>
+
+                        [#if list.list??]
+                            [#list list.list as children]
+                                <li><a class="J_menuItem" href="${rc.contextPath}/${children.url}"
+                                       data-index="${children_index}"><i
+                                                class="${children.icon}"></i>${children.name}</a></li>
                             [/#list]
-                    [/#if]
+                        [/#if]
                     </ul>
                 </li>
             [/#list]
@@ -64,7 +66,7 @@
         <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary "
                                           href="javascript:void(0);"><i
-                    class="fa fa-bars"></i> </a>
+                            class="fa fa-bars"></i> </a>
 
                 <div role="search" class="navbar-form-custom">
                     <div class="form-group">
@@ -105,7 +107,7 @@
             </ul>
         </div>
         <a href="${rc.contextPath}/admin/sys/logout" class="roll-nav roll-right J_tabExit"><i
-                class="fa fa fa-sign-out"></i>
+                    class="fa fa fa-sign-out"></i>
             退出</a></div>
     <div class="row J_mainContent" id="content-main">
         <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="${rc.contextPath}/admin/sys/user/view"
@@ -113,8 +115,8 @@
                 seamless></iframe>
     </div>
     <div class="footer">
-        <div class="pull-right">© 2018-2019<a href="https://zhousiwei.gitee.io/" target="_Blank">
-            試毅-思伟</a>
+        <div class="pull-right">© 2018-2019<a href="https://github.com/JoeyBling" target="_Blank">
+                試毅-思伟</a>
         </div>
     </div>
 </div>

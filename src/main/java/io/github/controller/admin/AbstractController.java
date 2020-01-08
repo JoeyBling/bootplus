@@ -3,9 +3,9 @@ package io.github.controller.admin;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import io.github.entity.SysUserEntity;
-import io.github.util.Constant;
-import io.github.util.EhcacheUtil;
-import io.github.util.ShiroUtils;
+import io.github.util.config.Constant;
+import io.github.util.spring.EhcacheUtil;
+import io.github.util.spring.ShiroUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,4 +1,4 @@
-package io.github.util;
+package io.github.util.http;
 
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.OperatingSystem;

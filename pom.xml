@@ -9,21 +9,23 @@
     <packaging>jar</packaging>
 
     <name>bootplus</name>
-    <url>https://gitee.com/zhousiwei/bootplus</url>
+    <url>https://github.com/JoeyBling/bootplus</url>
 
     <properties>
         <!-- Docker 插件 -->
         <docker.repostory>io.github</docker.repostory>
         <docker.registry.name>bootplus</docker.registry.name>
         <kaptcha.version>0.0.9</kaptcha.version>
-        <commons-lang.version>3.3.2</commons-lang.version>
+        <commons-lang.version>3.5</commons-lang.version>
         <shiro.version>1.4.0</shiro.version>
         <mybatis-plus.version>2.0.8</mybatis-plus.version>
         <mybatisplus-spring-boot-starter.version>1.0.2</mybatisplus-spring-boot-starter.version>
         <spring-log4j.version>1.3.5.RELEASE</spring-log4j.version>
+        <guava.version>17.0</guava.version>
+        <jsoup.version>1.11.3</jsoup.version>
 
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.locales>zh_CN</project.build.locales>
@@ -55,11 +57,50 @@
             <version>8.8.8.RELEASE</version>
         </dependency>
 
-        <!-- Freemaker Tags -->
+        <!-- HTML解析器 -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
+        </dependency>
+
+        <!-- FreeMaker Tags -->
         <dependency>
             <groupId>net.mingsoft</groupId>
             <artifactId>shiro-freemarker-tags</artifactId>
-            <version>0.1</version>
+            <version>1.0.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.shiro</groupId>
+                    <artifactId>shiro-all</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- google java lib -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+
+        <!-- 条形码、二维码生成 -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>2.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.0</version>
+            <optional>true</optional>
         </dependency>
 
         <!-- 验证码生成器 -->
@@ -75,6 +116,10 @@
             <version>0.4.8</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -250,10 +295,11 @@
 
             <!-- 编译版本 -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.source}</target>
+                    <target>${maven.compiler.target}</target>
                     <encoding>${maven.compiler.encoding}</encoding>
                     <compilerArguments>
                         <!-- <extdirs>${project.basedir}/src/main/webapp/WEB-INF/lib</extdirs> -->
@@ -330,6 +376,21 @@
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
                 <version>1.16.8.0</version>
+                <!--<executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>delombok</goal>
+                        </goals>
+                        <configuration>
+                            <addOutputDirectory>false</addOutputDirectory>
+                            <sourceDirectory>${basedir}/src/main/java</sourceDirectory>
+                            <formatPreferences>
+                                <pretty/>
+                            </formatPreferences>
+                        </configuration>
+                    </execution>
+                </executions>-->
             </plugin>
         </plugins>
         <finalName>bootplus</finalName>
