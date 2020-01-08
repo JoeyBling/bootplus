@@ -63,7 +63,7 @@ bootplus
 - 管理员账号密码：`admin/admin`
 
 ### 效果展示
-![](/images/1.png "个人资料")
-![](/images/2.png "新建菜单")
-![](/images/3.png "菜单管理")
-![](/images/4.png "角色管理")
+![](./images/1.png "个人资料")
+![](./images/2.png "新建菜单")
+![](./images/3.png "菜单管理")
+![](./images/4.png "角色管理")
