@@ -7,8 +7,11 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.util.Assert;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,20 +24,27 @@ import java.io.IOException;
 @Slf4j
 @Data
 @Order(1)
+@WebFilter(initParams = {
+}, filterName = "myCorsFilter", urlPatterns = {"/*"})
 public class MyCorsFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
+        Assert.notNull(filterConfig, "FilterConfig must not be null");
+        log.info("WebFilter->[{}] init success...", filterConfig.getFilterName());
         // 允许跨域访问的域名数组(使用,分隔)
-        String allowOriginStr = ConfUtil.getInstance("config").getString("access.control.allow.origin");
+        String allowOriginStr = ConfUtil.getInstance("configs").getString("access.control.allow.origin");
         // 允许跨域的请求方法
-        allowMethods = ConfUtil.getInstance("config").getString("access.control.allow.methods");
+        allowMethods = StringUtils.defaultIfEmpty(
+                ConfUtil.getInstance("config").getString("access.control.allow.methods"), DEFAULT_ALLOW_METHODS);
         // 请求的有效期,单位为秒
-        maxAge = ConfUtil.getInstance("config").getString("access.control.max.age");
+        maxAge = StringUtils.defaultIfEmpty(
+                ConfUtil.getInstance("config").getString("access.control.max.age"), "3600");
         // CORS请求中允许的标头
-        allowHeaders = ConfUtil.getInstance("config").getString("access.control.allow.headers");
+        allowHeaders = StringUtils.defaultIfEmpty(
+                ConfUtil.getInstance("config").getString("access.control.allow.headers"), "Content-Type, sign");
         allowOrigins = StringUtils.split(allowOriginStr, ",");
-        log.debug("初始化CORS跨域请求安全配置完成===={}", this.toString());
+        log.info("初始化CORS跨域请求安全配置完成===={}", this.toString());
     }
 
     /**
@@ -66,11 +76,11 @@ public class MyCorsFilter implements Filter {
                 }
             }
             rep.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, allowOrigin);
-            rep.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, StringUtils.isBlank(allowMethods) ? "POST, GET, OPTIONS, DELETE" : allowMethods);
-            rep.setHeader(HttpHeaders.ACCESS_CONTROL_MAX_AGE, StringUtils.isBlank(maxAge) ? "3600" : maxAge);
-            rep.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, StringUtils.isBlank(allowHeaders) ? "Content-Type, sign" : allowHeaders);
-            // 页面只能被本站页面嵌入到iframe或者frame中(造成跨域iframe)
-            rep.setHeader("X-Frame-Options", "SAMEORIGIN");
+            rep.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, allowMethods);
+            rep.setHeader(HttpHeaders.ACCESS_CONTROL_MAX_AGE, maxAge);
+            rep.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS, allowHeaders);
+            // 页面只能被本站页面嵌入到iframe或者frame中(造成跨域iframe)---X-Frame-Options
+            rep.setHeader(com.google.common.net.HttpHeaders.X_FRAME_OPTIONS, "SAMEORIGIN");
             chain.doFilter(request, rep);
         } else {
             chain.doFilter(request, response);
@@ -97,5 +107,16 @@ public class MyCorsFilter implements Filter {
      * CORS请求中允许的标头
      */
     private String allowHeaders;
+
+    /**
+     * 默认允许跨域的请求方法数组
+     */
+    protected final static String[] DEFAULT_ALLOW_METHODS_ARRAY = ArrayUtils.toArray(
+            HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.OPTIONS.name(), HttpMethod.DELETE.name(), HttpMethod.PUT.name());
+
+    /**
+     * 默认允许跨域的请求方法
+     */
+    protected final static String DEFAULT_ALLOW_METHODS = StringUtils.join(DEFAULT_ALLOW_METHODS_ARRAY, ", ");
 
 }

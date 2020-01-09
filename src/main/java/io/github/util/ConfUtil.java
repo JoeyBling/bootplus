@@ -80,10 +80,10 @@ public class ConfUtil {
      * @param confName 配置文件名称(无需后缀)
      * @param charset  编码
      */
-    private void init(String confName, String charset) {
+    private void init(String confName, @Deprecated String charset) {
         try (InputStream inputStream = this.getClass().getResourceAsStream("/" + confName + ".properties")) {
             properties.load(inputStream);
-        } catch (IOException e) {
+        } catch (Throwable e) {
             log.error("配置文件加载错误[/" + confName + ".properties]", e);
         }
     }

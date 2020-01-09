@@ -121,6 +121,8 @@ public class DataSourceConfig {
     @Bean
     public FilterRegistrationBean druidFilterRegistrationBean() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        // 设置加载顺序
+        filterRegistrationBean.setOrder(3);
         filterRegistrationBean.setFilter(new WebStatFilter());
         Map<String, String> initParams = new HashMap<String, String>(1);
         // 设置忽略请求
