@@ -71,7 +71,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     @ResponseBody
-    public Object methodArgumentNotValidHandler(HttpServletRequest request, Exception exception) throws Exception {// 记录异常日志
+    public Object methodArgumentNotValidHandler(HttpServletRequest request, Exception exception) throws Exception {
+        // 记录异常日志
         logger.error(exception.getMessage(), exception);
         return R.error();
     }

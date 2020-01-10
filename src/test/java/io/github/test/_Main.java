@@ -1,6 +1,7 @@
 package io.github.test;
 
 import io.github.config.filter.MyCorsFilter;
+import io.github.util.http.RestTemplateUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -27,6 +28,7 @@ public class _Main {
         System.out.println(new ToStringBuilder(array, ToStringStyle.SHORT_PREFIX_STYLE).append(array).toString());
         System.out.println(new ToStringBuilder(array, ToStringStyle.NO_CLASS_NAME_STYLE).append(array).toString());
         System.out.println(new ToStringBuilder(array, ToStringStyle.NO_FIELD_NAMES_STYLE).append(array).toString());
+        System.out.println(RestTemplateUtil.postForObject("https://www.gerensuodeshui.cn/", null, String.class, 2000));
     }
 
 }

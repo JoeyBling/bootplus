@@ -33,7 +33,7 @@ public class MyCorsFilter implements Filter {
         Assert.notNull(filterConfig, "FilterConfig must not be null");
         log.info("WebFilter->[{}] init success...", filterConfig.getFilterName());
         // 允许跨域访问的域名数组(使用,分隔)
-        String allowOriginStr = ConfUtil.getInstance("configs").getString("access.control.allow.origin");
+        String allowOriginStr = ConfUtil.getInstance("config").getString("access.control.allow.origin");
         // 允许跨域的请求方法
         allowMethods = StringUtils.defaultIfEmpty(
                 ConfUtil.getInstance("config").getString("access.control.allow.methods"), DEFAULT_ALLOW_METHODS);

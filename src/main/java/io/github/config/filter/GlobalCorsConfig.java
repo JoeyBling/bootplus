@@ -1,5 +1,6 @@
 package io.github.config.filter;
 
+import io.github.util.ClassUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -25,10 +26,11 @@ import org.springframework.web.filter.CorsFilter;
 @Deprecated
 public class GlobalCorsConfig {
 
-    private final static String missingClassPath = getClass(MyCorsFilter.class);
+    private final static String missingClassPath = ClassUtil.getClass(MyCorsFilter.class);
 
     /**
-     * @return
+     * 如果需要开启 删除@ConditionalOnMissingClass 注解即可，然后注释 MyCorsFilter 类的 @WebFilter 注解
+     *
      * @ConditionalOnMissingClass 当某些类不存在于 classpath 上时候才创建某个Bean
      */
     @Bean
@@ -59,24 +61,4 @@ public class GlobalCorsConfig {
         return new CorsFilter(source);
     }
 
-    /**
-     * 获取包路径
-     */
-    private static String getPackageName(Object obj) {
-        return obj.getClass().getPackage().getName();
-    }
-
-    /**
-     * 获取类名
-     */
-    private static String getClassName(Object obj) {
-        return obj.getClass().getSimpleName();
-    }
-
-    /**
-     * 获取类路劲
-     */
-    private static String getClass(Object obj) {
-        return obj.getClass().getName();
-    }
 }

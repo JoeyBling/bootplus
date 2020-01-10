@@ -7,6 +7,7 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import io.github.config.aop.MyLog;
 import io.github.util.QrCodeUtil;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -48,6 +49,7 @@ public class QrCodeController {
      * @param height 高度
      * @param text   内容（可以为URL或者文本）
      */
+    @MyLog
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public void qrCode(@RequestParam(required = false, value = "w", defaultValue = "200") Integer width,
                        @RequestParam(required = false, value = "h", defaultValue = "200") Integer height,

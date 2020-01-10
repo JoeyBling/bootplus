@@ -6,6 +6,7 @@ import org.jsoup.safety.Whitelist;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import java.util.Enumeration;
 
 /**
  * XSS过滤处理
@@ -21,6 +22,30 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
      */
     public XssHttpServletRequestWrapper(HttpServletRequest request) {
         super(request);
+    }
+
+    @Override
+    public String getHeader(String name) {
+        return super.getHeader(name);
+    }
+
+    @Override
+    public Enumeration<String> getHeaders(String name) {
+        return super.getHeaders(name);
+    }
+
+    @Override
+    public String getRequestURI() {
+        return super.getRequestURI();
+    }
+
+    /**
+     * 需要手动调用此方法，SpringMVC默认应该使用getParameterValues来封装的Model
+     * 但是又有一个问题，如果Controller只显示调用一个参数，其他参数又一起走的此方法，不得其解
+     */
+    @Override
+    public String getParameter(String name) {
+        return super.getParameter(name);
     }
 
     @Override

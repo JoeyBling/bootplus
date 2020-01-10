@@ -7,6 +7,7 @@ server:
     tracking-modes: cookie
     cookie:
       http-only: true
+
 mybatis-plus:
   configuration:
     cache-enabled: false
@@ -65,6 +66,18 @@ spring:
     encoding: UTF-8
   resources:
     static-locations: classpath:/statics
+
+management:
+  context-path: /monitor
+  security:
+    # 权限拦截
+    enabled: true
+
+security:
+  user:
+    name: admin
+    password: admin
+    role: admin
 
 thread-pool:
 #  core-pool-size: 3

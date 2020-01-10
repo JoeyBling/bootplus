@@ -1,8 +1,11 @@
 package io.github.config;
 
+import io.github.config.interceptor.LogInterceptor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -15,6 +18,7 @@ import javax.servlet.MultipartConfigElement;
  * @Email 2434387555@qq.com
  */
 @Configuration
+@Slf4j
 public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 
     /**
@@ -26,6 +30,17 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
         registry.addResourceHandler("/upload/**").addResourceLocations("classpath:/upload/");
         super.addResourceHandlers(registry);
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        // 自定义拦截器
+        registry.addInterceptor(new LogInterceptor()).addPathPatterns("/**").excludePathPatterns(
+                "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
+        if (log.isDebugEnabled()) {
+            log.debug("自定义拦截器初始化完成...");
+        }
+        super.addInterceptors(registry);
     }
 
     /**
