@@ -1,6 +1,6 @@
 package io.github.service.impl;
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import io.github.config.aop.BaseAopService;
 import io.github.dao.SysUserRoleDao;
 import io.github.entity.SysUserRoleEntity;
 import io.github.service.SysUserRoleService;
@@ -18,7 +18,7 @@ import java.util.Map;
  * @Email 2434387555@qq.com
  */
 @Service
-public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleDao, SysUserRoleEntity>
+public class SysUserRoleServiceImpl extends BaseAopService<SysUserRoleServiceImpl, SysUserRoleDao, SysUserRoleEntity>
         implements SysUserRoleService {
 
     @Override

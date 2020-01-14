@@ -9,6 +9,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import io.github.config.aop.MyLog;
 import io.github.util.QrCodeUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -36,6 +37,7 @@ import java.util.Map;
  *
  * @author Created by 思伟 on 2019/11/29
  */
+@Slf4j
 @Controller
 @RequestMapping("/share/qrcode")
 public class QrCodeController {
@@ -75,3 +77,4 @@ public class QrCodeController {
     }
 
 }
+

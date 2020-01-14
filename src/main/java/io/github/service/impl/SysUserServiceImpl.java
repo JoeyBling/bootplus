@@ -3,14 +3,16 @@ package io.github.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import io.github.config.aop.BaseAopService;
 import io.github.dao.SysUserDao;
 import io.github.entity.SysUserEntity;
 import io.github.service.SysUserRoleService;
 import io.github.service.SysUserService;
 import io.github.util.DateUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
+import org.springframework.aop.support.AopUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +28,9 @@ import java.util.Map;
  * @Email 2434387555@qq.com
  */
 @Service
-public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> implements SysUserService {
+@Slf4j
+public class SysUserServiceImpl extends BaseAopService<SysUserServiceImpl, SysUserDao, SysUserEntity>
+        implements SysUserService {
 
     @Resource
     private SysUserRoleService sysUserRoleService;
@@ -51,6 +55,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void save(SysUserEntity user) throws Exception {
+//        log.debug("是否是代理调用:{}", AopUtils.isAopProxy(self));
         user.setCreateTime(DateUtils.getCurrentUnixTime());
         // sha256加密
         user.setPassword(new Sha256Hash(user.getPassword()).toHex());

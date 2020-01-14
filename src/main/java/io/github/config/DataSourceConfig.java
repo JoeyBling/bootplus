@@ -2,23 +2,27 @@ package io.github.config;
 
 import com.alibaba.druid.filter.Filter;
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
+import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
 import com.alibaba.druid.util.DruidPasswordCallback;
 import com.alibaba.druid.wall.WallConfig;
 import com.alibaba.druid.wall.WallFilter;
 import io.github.util.config.MyDruidPasswordCallback;
+import org.aopalliance.aop.Advice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,8 +36,21 @@ import java.util.Map;
  * @Email 2434387555@qq.com
  */
 @Configuration
-@EnableTransactionManagement
+@EnableTransactionManagement(proxyTargetClass = true)
+//@Import(DruidSpringAopConfiguration.class)
 public class DataSourceConfig {
+
+    @Bean
+    public Advice advice() {
+        return new DruidStatInterceptor();
+    }
+
+    @Bean
+    public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        advisorAutoProxyCreator.setProxyTargetClass(true);
+        return advisorAutoProxyCreator;
+    }
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 

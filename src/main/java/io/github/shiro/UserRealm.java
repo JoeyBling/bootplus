@@ -5,6 +5,7 @@ import io.github.entity.SysUserEntity;
 import io.github.service.SysMenuService;
 import io.github.service.SysUserService;
 import io.github.util.config.Constant;
+import io.github.util.spring.SpringContextUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -14,7 +15,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -26,13 +26,13 @@ import java.util.*;
 public class UserRealm extends AuthorizingRealm {
     private Logger logger = LoggerFactory.getLogger(UserRealm.class);
 
-    @Resource
+    // @Resource
     private SysUserService sysUserService;
 
-    @Resource
+    // @Resource
     private SysMenuService sysMenuService;
 
-    @Resource
+    // @Resource
     private Constant constant;
 
     /**
@@ -40,6 +40,7 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+        preHandleNull();
         logger.info("授权(验证权限时调用)");
         SysUserEntity user = (SysUserEntity) principals.getPrimaryPrincipal();
         Long userId = user.getUserId();
@@ -76,6 +77,7 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        preHandleNull();
         logger.info("认证(登录时调用)");
         String username = (String) token.getPrincipal();
         String password = new String((char[]) token.getCredentials());
@@ -99,6 +101,24 @@ public class UserRealm extends AuthorizingRealm {
 
         SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password, getName());
         return info;
+    }
+
+    /**
+     * 前置处理非空对象
+     * shiroFilter在Spring自动装配bean之前实例化
+     * 相关联的Bean都被初始化完成且没有被代理（包括BeanPostProcessor也会无效）导致事务失效等......
+     * 使用动态获取代理对象即可解决
+     */
+    protected void preHandleNull() {
+        if (null == sysMenuService) {
+            sysMenuService = SpringContextUtils.getBean(SysMenuService.class);
+        }
+        if (null == sysUserService) {
+            sysUserService = SpringContextUtils.getBean(SysUserService.class);
+        }
+        if (null == constant) {
+            constant = SpringContextUtils.getBean(Constant.class);
+        }
     }
 
 }

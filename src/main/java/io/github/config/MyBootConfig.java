@@ -1,7 +1,9 @@
 package io.github.config;
 
+import io.github.config.aop.MyInjectBeanSelfProcessor;
 import org.springframework.aop.interceptor.AsyncExecutionAspectSupport;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -72,5 +74,13 @@ public class MyBootConfig {
         return executor;
     }
 
-
+    /**
+     * 手动注入self解决内部方法调用事务注解无效的问题
+     */
+    @Bean
+    public BeanPostProcessor beanPostProcessor() {
+        return new MyInjectBeanSelfProcessor();
+    }
 }
+
+

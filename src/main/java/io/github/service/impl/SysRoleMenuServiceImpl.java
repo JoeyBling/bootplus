@@ -1,6 +1,6 @@
 package io.github.service.impl;
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import io.github.config.aop.BaseAopService;
 import io.github.dao.SysRoleMenuDao;
 import io.github.entity.SysRoleMenuEntity;
 import io.github.service.SysRoleMenuService;
@@ -18,7 +18,7 @@ import java.util.Map;
  * @Email 2434387555@qq.com
  */
 @Service
-public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuDao, SysRoleMenuEntity>
+public class SysRoleMenuServiceImpl extends BaseAopService<SysRoleMenuServiceImpl, SysRoleMenuDao, SysRoleMenuEntity>
         implements SysRoleMenuService {
 
     @Override

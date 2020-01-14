@@ -3,12 +3,12 @@ package io.github.controller.admin;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.plugins.Page;
 import io.github.entity.SysUserEntity;
-import io.github.service.SysUserLoginLogService;
 import io.github.service.SysUserRoleService;
 import io.github.service.SysUserService;
 import io.github.util.PageUtils;
 import io.github.util.R;
 import io.github.util.spring.ShiroUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -35,6 +35,7 @@ import java.util.Map;
  * @Email 2434387555@qq.com
  */
 @Controller
+@Slf4j
 @RequestMapping("/admin/sys/user")
 public class SysUserController extends AbstractController {
 
@@ -42,8 +43,6 @@ public class SysUserController extends AbstractController {
     private SysUserService sysUserService;
     @Resource
     private SysUserRoleService sysUserRoleService;
-    @Resource
-    private SysUserLoginLogService sysUserLoginLogService;
 
     /**
      * 所有用户列表

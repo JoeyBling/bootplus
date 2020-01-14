@@ -1,6 +1,6 @@
 package io.github.service.impl;
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import io.github.config.aop.BaseAopService;
 import io.github.dao.SysMenuDao;
 import io.github.entity.SysMenuEntity;
 import io.github.service.SysMenuService;
@@ -26,7 +26,7 @@ import java.util.Map;
  * @Email 2434387555@qq.com
  */
 @Service
-public class SysMenuServiceImpl extends ServiceImpl<SysMenuDao, SysMenuEntity> implements SysMenuService {
+public class SysMenuServiceImpl extends BaseAopService<SysMenuServiceImpl, SysMenuDao, SysMenuEntity> implements SysMenuService {
 
     @Resource
     private SysUserService sysUserService;

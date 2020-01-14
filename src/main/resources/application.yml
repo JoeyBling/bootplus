@@ -22,8 +22,6 @@ mybatis-plus:
 
 spring:
   datasource:
-    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;password=${spring.datasource.password}
-    driverClassName: com.mysql.jdbc.Driver
     filters: stat,wall,log4j
     initialSize: 5
     maxActive: 20
@@ -40,6 +38,8 @@ spring:
     url: jdbc:mysql://localhost:3306/bootplus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: root
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;password=${spring.datasource.password}
+    driverClassName: com.mysql.jdbc.Driver
     validationQuery: SELECT 1 FROM DUAL
   freemarker:
     allow-request-override: false
@@ -66,6 +66,9 @@ spring:
     encoding: UTF-8
   resources:
     static-locations: classpath:/statics
+  aop:
+    auto: true
+    proxy-target-class: true
 
 management:
   context-path: /monitor
@@ -78,6 +81,9 @@ security:
     name: admin
     password: admin
     role: admin
+  basic:
+    path: /monitor/**
+    enabled: true
 
 thread-pool:
 #  core-pool-size: 3

@@ -1,8 +1,7 @@
 package io.github.service;
 
 import io.github.entity.SysUserEntity;
-import io.github.test.AppTest;
-import org.junit.Test;
+import io.github.base.BaseAppTest;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -14,7 +13,7 @@ import java.util.List;
  * @Email 2434387555@qq.com
  *
  */
-public class SysUserServiceTest extends AppTest {
+public class SysUserServiceTest extends BaseAppTest {
 
 	@Resource
 	private SysUserService sysUserService;

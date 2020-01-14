@@ -3,7 +3,7 @@ package io.github.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import io.github.config.aop.BaseAopService;
 import io.github.dao.SysUserLoginLogDao;
 import io.github.entity.SysUserLoginLogEntity;
 import io.github.service.SysUserLoginLogService;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  * @Email 2434387555@qq.com
  */
 @Service
-public class SysUserLoginLogServiceImpl extends ServiceImpl<SysUserLoginLogDao, SysUserLoginLogEntity>
+public class SysUserLoginLogServiceImpl extends BaseAopService<SysUserLoginLogServiceImpl, SysUserLoginLogDao, SysUserLoginLogEntity>
         implements SysUserLoginLogService {
 
     @Override

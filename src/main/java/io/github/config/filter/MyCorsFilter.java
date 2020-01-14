@@ -28,21 +28,10 @@ import java.io.IOException;
 }, filterName = "myCorsFilter", urlPatterns = {"/*"})
 public class MyCorsFilter implements Filter {
 
-    /**
-     * 上下文路径系统参数名称
-     */
-    private final static String contextPathPropertyName = "web.root.admin";
-    /**
-     * 应用程序上下文路径
-     */
-    private static String contextPath;
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         Assert.notNull(filterConfig, "FilterConfig must not be null");
         log.info("WebFilter->[{}] init success...", filterConfig.getFilterName());
-        contextPath = StringUtils.defaultString(filterConfig.getServletContext().getContextPath());
-        System.setProperty(contextPathPropertyName, contextPath);
         // 允许跨域访问的域名数组(使用,分隔)
         String allowOriginStr = ConfUtil.getInstance("config").getString("access.control.allow.origin");
         // 允许跨域的请求方法

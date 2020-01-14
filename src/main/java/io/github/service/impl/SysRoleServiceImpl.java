@@ -3,7 +3,7 @@ package io.github.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import io.github.config.aop.BaseAopService;
 import io.github.dao.SysRoleDao;
 import io.github.entity.SysRoleEntity;
 import io.github.service.SysRoleMenuService;
@@ -24,7 +24,7 @@ import java.util.Map;
  * @Email 2434387555@qq.com
  */
 @Service
-public class SysRoleServiceImpl extends ServiceImpl<SysRoleDao, SysRoleEntity> implements SysRoleService {
+public class SysRoleServiceImpl extends BaseAopService<SysRoleServiceImpl, SysRoleDao, SysRoleEntity> implements SysRoleService {
 
     @Resource
     private SysRoleMenuService sysRoleMenuService;

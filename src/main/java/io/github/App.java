@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import javax.servlet.ServletContext;
@@ -20,6 +21,9 @@ import java.util.Collections;
  * @author Joey
  * @Email 2434387555@qq.com
  */
+// 开启AspectJ 自动代理模式
+//@EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
+@EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableScheduling
 @ServletComponentScan
 @SpringBootApplication(scanBasePackages = {"io.github"})
@@ -53,3 +57,5 @@ public class App extends SpringBootServletInitializer {
         sessionCookieConfig.setHttpOnly(true);
     }
 }
+
+

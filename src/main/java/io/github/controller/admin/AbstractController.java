@@ -70,7 +70,6 @@ abstract class AbstractController {
      * @param keyNames 查询的Names
      * @return Map<String, T>
      */
-    @SuppressWarnings("unchecked")
     protected <T> Map<String, T> parseObject(String search, String... keyNames) {
         JSONObject parseObject = JSONArray.parseObject(search);
         if (null != parseObject && null != keyNames) {

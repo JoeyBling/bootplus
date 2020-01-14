@@ -21,6 +21,8 @@ public class MybatisPlusConfig {
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+        // 开启 PageHelper 的支持
+//        paginationInterceptor.setLocalPage(true);
         paginationInterceptor.setDialectType("mysql");
         return paginationInterceptor;
     }

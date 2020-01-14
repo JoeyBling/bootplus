@@ -83,6 +83,7 @@ public class SysFileController extends AbstractController {
             if (file == null) {
                 return R.error("上传文件为空");
             }
+            // 这里还需要改进，如果打成Jar包后运行是不能上传的
             uploadPath = request.getServletContext().getRealPath(uploadPath) + File.separator;
             fileName = file.getOriginalFilename();
             logger.info("上传的文件原名称:" + fileName);
