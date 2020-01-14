@@ -34,9 +34,6 @@ public class MyInjectBeanSelfProcessor implements BeanPostProcessor, Application
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         // ② 如果Bean没有实现BeanSelfAware标识接口
         if (bean instanceof BeanSelfAware) {
-            if (log.isDebugEnabled()) {
-                log.debug("BeanName={},注入代理对象", beanName);
-            }
             // ③ 如果当前对象是AOP代理对象，直接注入
             if (AopUtils.isAopProxy(bean)) {
                 ((BeanSelfAware) bean).setSelf(bean);
@@ -44,6 +41,9 @@ public class MyInjectBeanSelfProcessor implements BeanPostProcessor, Application
                 // ④ 如果当前对象不是AOP代理，则通过context.getBean(beanName)获取代理对象并注入
                 // 此种方式不适合解决 prototype Bean的代理对象注入
                 ((BeanSelfAware) bean).setSelf(context.getBean(beanName));
+            }
+            if (log.isDebugEnabled()) {
+                log.debug("BeanName={},注入代理对象成功", beanName);
             }
         }
         return bean;

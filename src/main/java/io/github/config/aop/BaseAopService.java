@@ -20,6 +20,7 @@ public abstract class BaseAopService<S, M extends BaseMapper<T>, T> extends Serv
     /**
      * self会在编译的时候和this具有相同的效果，而this是关键字
      * 使用内部方法时可以指定self... 或者不加关键字即可使用代理对象(勿使用this不然无效)
+     * 不加关键字测试了好像不行，建议使用self
      */
     protected S self;
 
