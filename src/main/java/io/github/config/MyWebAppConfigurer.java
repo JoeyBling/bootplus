@@ -10,6 +10,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.servlet.MultipartConfigElement;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 自定义配置
@@ -20,6 +22,8 @@ import javax.servlet.MultipartConfigElement;
 @Configuration
 @Slf4j
 public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
+
+    private final static List<String> EXCLUDE_PATH = Arrays.asList("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
 
     /**
      * 自定义资源映射
@@ -35,8 +39,8 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 自定义拦截器
-        registry.addInterceptor(new LogInterceptor()).addPathPatterns("/**").excludePathPatterns(
-                "/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
+        registry.addInterceptor(new LogInterceptor()).addPathPatterns("/**").
+                excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
         if (log.isDebugEnabled()) {
             log.debug("自定义拦截器初始化完成...");
         }

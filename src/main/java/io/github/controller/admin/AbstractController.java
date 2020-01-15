@@ -75,7 +75,8 @@ abstract class AbstractController {
         if (null != parseObject && null != keyNames) {
             Map<String, T> map = new HashMap<String, T>(5);
             for (String key : keyNames) {
-                map.put(key, (T) parseObject.get(key));
+                Object value = parseObject.get(key);
+                map.put(key, (T) value);
             }
             return map;
         }

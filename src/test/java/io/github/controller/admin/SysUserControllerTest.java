@@ -1,6 +1,7 @@
 package io.github.controller.admin;
 
 import io.github.controller.QrCodeController;
+import io.github.service.SysUserLoginLogService;
 import io.github.service.SysUserRoleService;
 import io.github.service.impl.SysUserRoleServiceImpl;
 import io.github.base.BaseAppShiroTest;
@@ -49,6 +50,7 @@ public class SysUserControllerTest extends BaseAppShiroTest {
         QrCodeController bean1 = SpringContextUtils.getBean(QrCodeController.class);
         SysUserRoleService bean = SpringContextUtils.getBean(SysUserRoleService.class);
         SysUserRoleService bean2 = SpringContextUtils.getBean(SysUserRoleServiceImpl.class);
+        SysUserLoginLogService bean222 = SpringContextUtils.getBean(SysUserLoginLogService.class);
         log.debug("是否是代理调用:{}", AopUtils.isAopProxy(bean));
         log.debug("是否是cglib类代理调用:{}", AopUtils.isCglibProxy(bean));
         log.debug("是否是jdk动态接口代理调用:{}", AopUtils.isJdkDynamicProxy(bean));

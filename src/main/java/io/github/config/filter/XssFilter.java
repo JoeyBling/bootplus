@@ -24,20 +24,10 @@ import java.util.regex.Pattern;
  */
 @Order(2)
 @WebFilter(initParams = {
-        @WebInitParam(name = XssFilter.PARAM_NAME_EXCLUSIONS, value = "http://localhost,http://127.0.0.1,")
+        @WebInitParam(name = XssFilter.PARAM_NAME_EXCLUSIONS, value = XssFilter.PARAM_VALUE_EXCLUSIONS)
 }, filterName = "xssFilter", urlPatterns = {"/*"})
 @Slf4j
 public class XssFilter implements Filter {
-
-    /**
-     * 参数名
-     */
-    public static final String PARAM_NAME_EXCLUSIONS = "exclusions";
-
-    /**
-     * 排除链接
-     */
-    public List<String> excludes = Lists.newArrayList();
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -46,7 +36,7 @@ public class XssFilter implements Filter {
         {
             // 普通代码块
             String temp = filterConfig.getInitParameter(PARAM_NAME_EXCLUSIONS);
-            String[] url = StringUtils.split(temp, ",");
+            String[] url = StringUtils.split(temp, DEFAULT_SEPARATOR_CHARS);
             for (int i = 0; url != null && i < url.length; i++) {
                 excludes.add(url[i]);
             }
@@ -96,5 +86,25 @@ public class XssFilter implements Filter {
     @Override
     public void destroy() {
     }
+
+    /**
+     * 排除链接默认分隔符
+     */
+    public static final String DEFAULT_SEPARATOR_CHARS = ",";
+
+    /**
+     * 参数名
+     */
+    public static final String PARAM_NAME_EXCLUSIONS = "exclusions";
+
+    /**
+     * 初始化参数值
+     */
+    public static final String PARAM_VALUE_EXCLUSIONS = "http://localhost,http://127.0.0.1,";
+
+    /**
+     * 排除链接
+     */
+    public List<String> excludes = Lists.newArrayList();
 
 }

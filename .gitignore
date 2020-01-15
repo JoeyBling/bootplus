@@ -105,3 +105,4 @@ jspm_packages
 .node_repl_history
 
 # The custom
+application.yml.bak
