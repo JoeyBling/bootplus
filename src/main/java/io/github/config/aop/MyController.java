@@ -15,6 +15,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MyController {
 
+    /**
+     * Test Field
+     */
     String value() default "https://github.com/JoeyBling";
 
 }

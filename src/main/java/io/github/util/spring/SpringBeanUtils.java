@@ -1,6 +1,8 @@
 package io.github.util.spring;
 
+import io.github.util.AopTargetUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -62,13 +64,37 @@ public class SpringBeanUtils {
     /**
      * 注册Controller
      *
+     * @throws Exception
+     */
+    public static void registerController(Class<?> controllerBean)
+            throws Exception {
+        Object controller = SpringContextUtils.getBean(controllerBean);
+        String[] contextBeanNamesForType = SpringContextUtils.applicationContext.
+                getBeanNamesForType(AopTargetUtils.getTarget(controller).getClass());
+        if (!ArrayUtils.isEmpty(contextBeanNamesForType)) {
+            registerController(controller, contextBeanNamesForType[0]);
+        }
+    }
+
+    /**
+     * 注册Controller
+     *
+     * @throws Exception
+     */
+    public static void registerController(Class<?> controllerBean, String controllerBeanName)
+            throws Exception {
+        Object controller = SpringContextUtils.getBean(controllerBean);
+        registerController(controller, controllerBeanName);
+    }
+
+    /**
+     * 注册Controller
+     *
      * @param controllerBeanName
      * @throws Exception
      */
-    public static void registerController(String controllerBeanName) throws Exception {
+    public static void registerController(Object controller, String controllerBeanName) throws Exception {
         if (requestMappingHandlerMapping != null) {
-            String handler = controllerBeanName;
-            Object controller = SpringContextUtils.getBean(handler);
             if (controller == null) {
                 return;
             }
@@ -77,7 +103,7 @@ public class SpringBeanUtils {
             Method method = requestMappingHandlerMapping.getClass().getSuperclass().getSuperclass().
                     getDeclaredMethod("detectHandlerMethods", Object.class);
             method.setAccessible(true);
-            method.invoke(requestMappingHandlerMapping, handler);
+            method.invoke(requestMappingHandlerMapping, controllerBeanName);
         }
     }
 

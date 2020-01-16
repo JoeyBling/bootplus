@@ -69,6 +69,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
     /**
      * 拼接文件路径(同时会转换\或/出现2次以上的转/)推荐使用
+     * For windows style path, we replace '\' to '/'.
      *
      * @param url 文件路径
      * @return 拼接后的文件路径

@@ -1,7 +1,7 @@
 package io.github.config;
 
 import io.github.config.interceptor.LogInterceptor;
-import io.github.util.http.RestTemplateUtil;
+import io.github.util.file.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,14 +34,11 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // For windows style path, we replace '\' to '/'.
-        uploadPath = RestTemplateUtil.generateFileUrl(uploadPath);
+        uploadPath = FileUtils.generateFileUrl(uploadPath);
         // 必须加上文件路径前缀
         if (!StringUtils.startsWithIgnoreCase(uploadPath, FILE_PREFIX)) {
-            uploadPath = FILE_PREFIX.concat(uploadPath);
-        }
-        // 映射路径必须以/结束
-        if (!StringUtils.endsWithAny(uploadPath, "/", "\\")) {
-            uploadPath = uploadPath.concat(File.separator);
+            // 防止路径符号重复且映射路径必须以/结束
+            uploadPath = FileUtils.generateFileUrl(FILE_PREFIX, uploadPath, File.separator);
         }
         registry.addResourceHandler("/statics/**").addResourceLocations("classpath:/statics/");
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
