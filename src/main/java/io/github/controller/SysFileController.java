@@ -1,11 +1,15 @@
 package io.github.controller;
 
-import io.github.util.*;
+import io.github.config.MyWebAppConfigurer;
+import io.github.util.DateUtils;
+import io.github.util.R;
+import io.github.util.RRException;
 import io.github.util.config.Constant;
 import io.github.util.file.FileUtil;
-import io.github.util.DateUtils;
+import io.github.util.file.FileUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,10 +21,12 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -35,26 +41,6 @@ import java.util.Iterator;
 public class SysFileController extends AbstractController {
 
     /**
-     * 上传文件保存的路径
-     */
-    protected String uploadPath;
-
-    /**
-     * 存放路径上下文
-     */
-    protected String fileContextPath;
-
-    /**
-     * 上传文件类型
-     */
-    protected String fileType;
-
-    /**
-     * 上传文件名称
-     */
-    protected String fileName;
-
-    /**
      * 文件上传(上传后返回保存的相对路径)---此处没有做权限验证
      *
      * @param uploadType 上传文件类型(不同保存的文件夹就不同)
@@ -65,10 +51,6 @@ public class SysFileController extends AbstractController {
     @ResponseBody
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public R upload(Integer uploadType, HttpServletRequest request) throws Exception {
-        // 上传文件保存的路径
-        uploadPath = constant.uploadPath;
-        // 存放路径上下文
-        fileContextPath = constant.fileContextPath;
         MultipartHttpServletRequest multipartRequest = null;
         // 判断request是否有文件上传
         if (ServletFileUpload.isMultipartContent(request)) {
@@ -76,6 +58,8 @@ public class SysFileController extends AbstractController {
         } else {
             return R.error("请先选择上传的文件");
         }
+        // 存入数据库的相对路径
+        String fileContextPath = null;
         Iterator<String> ite = multipartRequest.getFileNames();
         while (ite.hasNext()) {
             MultipartFile file = multipartRequest.getFile(ite.next());
@@ -83,28 +67,29 @@ public class SysFileController extends AbstractController {
             if (file == null) {
                 return R.error("上传文件为空");
             }
-            // 这里还需要改进，如果打成Jar包后运行是不能上传的
-            uploadPath = request.getServletContext().getRealPath(uploadPath) + File.separator;
-            fileName = file.getOriginalFilename();
-            logger.info("上传的文件原名称:" + fileName);
+            // request.getServletContext().getRealPath(uploadPath)
+            // 如果打成了jar包，Linux路径会变成/tmp/tomcat-docbase.*.*/
+            String fileName = file.getOriginalFilename();
+            logger.info("上传的文件原名称:{}", fileName);
             // 上传文件类型
-            fileType = fileName.indexOf(".") != -1
-                    ? fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()) : null;
+            String fileType = fileName.indexOf(".") != -1
+                    ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
 
-            logger.info("上传文件类型:" + fileType);
+            logger.info("上传文件类型:{}", fileType);
             // 自定义的文件名称
             String trueFileName = getTrueFileName(fileName, uploadType);
-            fileContextPath += File.separator + trueFileName;
             // 防止火狐等浏览器不显示图片
-            fileContextPath = fileContextPath.replace("\\", "/");
-            uploadPath += trueFileName;
+            fileContextPath = FileUtils.generateFileUrl(
+                    MyWebAppConfigurer.FILE_UPLOAD_PATH_EXT, trueFileName);
+            // 上传文件保存的路径
+            String uploadPath = FileUtils.generateFileUrl(constant.getUploadPath(), trueFileName);
             // 上传文件后的保存路径
             File fileUpload = new File(uploadPath);
 
-            // 创建父级目录
+            // 创建父级目录(Linux需要注意启动用户的权限问题)
             FileUtil.createParentPath(fileUpload);
 
-            logger.info("存放文件的路径:" + uploadPath);
+            logger.info("存放文件的路径:{}", uploadPath);
             file.transferTo(fileUpload);
             // 进行文件处理
             fileHandle(fileUpload);
@@ -121,12 +106,12 @@ public class SysFileController extends AbstractController {
      */
     private void fileHandle(File file) throws IOException {
         try {
-            BufferedImage bufreader = ImageIO.read(file);
-            int width = bufreader.getWidth();
+            BufferedImage buffered = ImageIO.read(file);
+            int width = buffered.getWidth();
             int maxWidth = 800;
             if (width > maxWidth) {
                 logger.info("进行图片压缩处理...");
-                Thumbnails.of(file).height(800).toFile(file);
+                Thumbnails.of(file).height(maxWidth).toFile(file);
                 logger.info("图片压缩处理完毕...");
             }
         } catch (Exception e) {
@@ -144,6 +129,7 @@ public class SysFileController extends AbstractController {
     private String getTrueFileName(String fileName, Integer uploadType) {
         StringBuffer bf = new StringBuffer();
         if (null == uploadType) {
+            bf.append("other" + File.separator);
         } else if (uploadType == Constant.UploadType.adminAvatar.getValue()) {
             bf.append("adminAvatar" + File.separator);
         } else if (uploadType == Constant.UploadType.other.getValue()) {
@@ -155,7 +141,7 @@ public class SysFileController extends AbstractController {
     }
 
     /**
-     * 下载文件
+     * 下载文件(后续待优化...有可能是下载模板，或者已经上传的文件)
      *
      * @param fileName 文件路径
      * @param real     是否是绝对路径(如果为True就不转换)
@@ -169,29 +155,37 @@ public class SysFileController extends AbstractController {
         if (null == fileName) {
             throw new RRException("未找到资源");
         }
-        request.setCharacterEncoding("UTF-8");
+        // 默认编码
+        String defaultCharsetName = StandardCharsets.UTF_8.name();
+        request.setCharacterEncoding(defaultCharsetName);
         BufferedInputStream bis = null;
         BufferedOutputStream bos = null;
 
-        fileName = URLDecoder.decode(fileName, "UTF-8");
-        logger.info("下载文件的名称" + fileName);
+        // 解码
+        fileName = URLDecoder.decode(fileName, defaultCharsetName);
+        logger.info("下载文件的名称:{}", fileName);
         if (null == real || !real) {
             fileName = request.getServletContext().getRealPath(fileName);
         }
         logger.info("下载文件的绝对路径" + fileName);
-        File file = new File(fileName);
-        if (file.exists() && file.isFile()) {
+        File file = null;
+        try {
+            file = new File(fileName);
+        } catch (Exception e) {
+        }
+        if (null != file && file.exists() && file.isFile()) {
             // 获取文件的长度
             long fileLength = file.length();
 
             // 设置文件输出类型
             try {
-                response.setContentType("application/octet-stream");
+                response.setContentType(MediaType.APPLICATION_OCTET_STREAM_VALUE);
                 String name = file.getName();
                 if (null == real || !real) {
                     name = name.length() > 13 ? name.substring(13) : name;
                 }
-                response.setHeader("Content-disposition", "attachment; filename=" + URLEncoder.encode(name, "utf-8"));
+                response.setHeader("Content-disposition",
+                        "attachment; filename=" + URLEncoder.encode(name, defaultCharsetName));
                 // 设置输出长度
                 response.setHeader("Content-Length", String.valueOf(fileLength));
                 // 获取输入流

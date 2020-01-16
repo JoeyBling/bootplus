@@ -3,6 +3,8 @@ package io.github.util.file;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.ObjectUtils;
 
+import java.io.File;
+
 /**
  * 文件工具类
  *
@@ -64,4 +66,22 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
                     + String.valueOf((size % 100)) + "GB";
         }
     }
+
+    /**
+     * 拼接文件路径(同时会转换\或/出现2次以上的转/)推荐使用
+     *
+     * @param url 文件路径
+     * @return 拼接后的文件路径
+     */
+    public static final String generateFileUrl(final String... url) {
+        if (null == url) {
+            return null;
+        }
+        // StringUtils.join自动过滤Null值
+        String uri = StringUtils.join(url, StringUtils.equals(
+                File.separator, "\\") ? "/" : File.separator);
+        // (?i)在前面 不区分大小写
+        return uri.replaceAll("(\\\\|/)+", "/");
+    }
+
 }

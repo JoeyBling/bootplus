@@ -7,12 +7,13 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import io.github.config.aop.MyController;
 import io.github.config.aop.MyLog;
 import io.github.util.QrCodeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,7 +39,9 @@ import java.util.Map;
  * @author Created by 思伟 on 2019/11/29
  */
 @Slf4j
-@Controller
+//@Controller
+//@Component
+@MyController
 @RequestMapping("/share/qrcode")
 public class QrCodeController {
 

@@ -7,14 +7,14 @@ import org.springframework.util.Assert;
  *
  * @author Created by 思伟 on 2020/1/10
  */
-public class ClassUtil<main> {
+public class ClassUtil {
 
     /**
      * 获取包路径
      */
-    public static String getPackageName(Object obj) {
+    public static String getPackageName(Object obj) throws Exception {
         Assert.notNull(obj, "obj must not be null");
-        return getPackageName(obj.getClass());
+        return getPackageName(AopTargetUtils.getTarget(obj).getClass());
     }
 
     public static String getPackageName(Class obj) {
@@ -25,9 +25,9 @@ public class ClassUtil<main> {
     /**
      * 获取类名
      */
-    public static String getClassName(Object obj) {
+    public static String getClassName(Object obj) throws Exception {
         Assert.notNull(obj, "obj must not be null");
-        return getClassName(obj.getClass());
+        return getClassName(AopTargetUtils.getTarget(obj).getClass());
     }
 
     public static String getClassName(Class obj) {
@@ -38,9 +38,9 @@ public class ClassUtil<main> {
     /**
      * 获取类路劲
      */
-    public static String getClass(Object obj) {
+    public static String getClass(Object obj) throws Exception {
         Assert.notNull(obj, "obj must not be null");
-        return getClass(obj.getClass());
+        return getClass(AopTargetUtils.getTarget(obj).getClass());
     }
 
     public static String getClass(Class obj) {

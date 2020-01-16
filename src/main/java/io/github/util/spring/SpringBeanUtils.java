@@ -1,12 +1,18 @@
 package io.github.util.spring;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import java.lang.reflect.Method;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Spring手动注册Bean
@@ -16,6 +22,9 @@ import java.lang.reflect.Method;
 @Slf4j
 public class SpringBeanUtils {
 
+    /**
+     * Mapping映射对象
+     */
     static final RequestMappingHandlerMapping requestMappingHandlerMapping =
             SpringContextUtils.getBean(RequestMappingHandlerMapping.class);
 
@@ -44,7 +53,7 @@ public class SpringBeanUtils {
                         requestMappingHandlerMapping.unregisterMapping(requestMappingInfo);
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    log.error(String.format("去掉Controller的Mapping失败,e=%s", e.getMessage()), e);
                 }
             }, ReflectionUtils.USER_DECLARED_METHODS);
         }
@@ -72,5 +81,44 @@ public class SpringBeanUtils {
         }
     }
 
+    /**
+     * 注册Bean
+     *
+     * @param className   注册class全称
+     * @param serviceName 注册别名
+     * @param propertyMap 注入属性
+     */
+    private static void addBean(String className, String serviceName, Map<?, ?> propertyMap) {
+        try {
+            Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
+            BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(clazz);
+            if (propertyMap != null) {
+                Iterator<?> entries = propertyMap.entrySet().iterator();
+                Map.Entry<?, ?> entry;
+                while (entries.hasNext()) {
+                    entry = (Map.Entry<?, ?>) entries.next();
+                    String key = (String) entry.getKey();
+                    Object val = entry.getValue();
+                    beanDefinitionBuilder.addPropertyValue(key, val);
+                }
+            }
+            registerBean(serviceName, beanDefinitionBuilder.getRawBeanDefinition());
+        } catch (ClassNotFoundException e) {
+            log.error(className + ",主动注册失败.");
+        }
+    }
+
+    /**
+     * 向spring容器注册bean
+     *
+     * @param beanName 注册别名
+     */
+    private static void registerBean(String beanName, BeanDefinition beanDefinition) {
+        ConfigurableApplicationContext configurableApplicationContext =
+                (ConfigurableApplicationContext) SpringContextUtils.applicationContext;
+        BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) configurableApplicationContext
+                .getBeanFactory();
+        beanDefinitionRegistry.registerBeanDefinition(beanName, beanDefinition);
+    }
 
 }

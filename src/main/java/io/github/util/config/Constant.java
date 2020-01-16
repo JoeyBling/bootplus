@@ -20,16 +20,10 @@ public class Constant {
     public static String uploadSavePathFormat = "yyyyMM";
 
     /**
-     * 文件上传保存路径
+     * 文件上传保存路径-不提供set方法，防止恶意篡改值
      */
     @Value("${file.UploadPath}")
-    public String uploadPath;
-
-    /**
-     * 文件上传存放路径上下文
-     */
-    @Value("${file.UploadPath}")
-    public String fileContextPath;
+    private String uploadPath;
 
     @Value("${database.adminId}")
     public Long adminId;
@@ -106,4 +100,7 @@ public class Constant {
         }
     }
 
+    public String getUploadPath() {
+        return uploadPath;
+    }
 }
