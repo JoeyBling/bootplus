@@ -237,18 +237,24 @@ public class JoeyUtil {
      * @param obj Object
      * @return byte[]
      */
-    public static byte[] toByteArray(Object obj) {
+    public static byte[] toByteArray(Object obj) throws IOException {
         byte[] bytes = null;
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(bos);
+        try (ObjectOutputStream oos = new ObjectOutputStream(bos)) {
             oos.writeObject(obj);
             oos.flush();
             bytes = bos.toByteArray();
             oos.close();
-            bos.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            throw ex;
+        } finally {
+            if (null != bos) {
+                try {
+                    bos.close();
+                } catch (IOException e) {
+
+                }
+            }
         }
         return bytes;
     }
@@ -259,18 +265,15 @@ public class JoeyUtil {
      * @param bytes byte[]
      * @return Object
      */
-    public static Object toObject(byte[] bytes) {
+    public static Object toObject(byte[] bytes) throws IOException, ClassNotFoundException {
         Object obj = null;
         try {
-            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-            ObjectInputStream ois = new ObjectInputStream(bis);
-            obj = ois.readObject();
-            ois.close();
-            bis.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+            try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+                 ObjectInputStream ois = new ObjectInputStream(bis)) {
+                obj = ois.readObject();
+            }
+        } catch (IOException | ClassNotFoundException ex) {
+            throw ex;
         }
         return obj;
     }

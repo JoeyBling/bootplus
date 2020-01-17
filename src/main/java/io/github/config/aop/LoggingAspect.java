@@ -45,6 +45,7 @@ public class LoggingAspect {
 //        log.debug("被代理对象是否是cglib类代理调用:{}", AopUtils.isCglibProxy(joinPoint.getTarget()));
 //        log.debug("被代理对象是否是jdk动态接口代理调用:{}", AopUtils.isJdkDynamicProxy(joinPoint.getTarget()));
         log.info("---Before method {} invoke, param: {}---", joinPoint.getSignature().toShortString(), joinPoint.getArgs());
+        // https://segmentfault.com/a/1190000013258647
     }
 
     /**

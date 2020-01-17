@@ -58,6 +58,12 @@
             <version>8.8.8.RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
+
         <!-- 应用监控Actuator -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

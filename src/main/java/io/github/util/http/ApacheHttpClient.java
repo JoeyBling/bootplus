@@ -2,9 +2,16 @@ package io.github.util.http;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.*;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.util.Assert;
@@ -52,7 +59,11 @@ public class ApacheHttpClient {
      */
     public static String getContentType(final String url, final String httpRequestBody,
                                         final String charset, final String contentType) throws IOException {
-        return getHttpEntityByGet(url, httpRequestBody, charset, contentType).getContentType().getValue();
+        Header headerType = getHttpEntityByGet(url, httpRequestBody, charset, contentType).getContentType();
+        if (null == headerType) {
+            return null;
+        }
+        return headerType.getValue();
     }
 
     /**
@@ -308,9 +319,18 @@ public class ApacheHttpClient {
         try {
             // 这个也不能过早关闭，否则一样有问题
             CloseableHttpClient httpClient = HttpClients.createDefault();
+
+            // Http认证授权
+//            UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("admin", "13675882400");
+//            CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+//            credentialsProvider.setCredentials(AuthScope.ANY, credentials);
+//            HttpClientContext context = HttpClientContext.create();
+//            context.setCredentialsProvider(credentialsProvider);
+
             if (null != entity && request instanceof HttpPost) {
                 ((HttpPost) request).setEntity(entity);
             }
+//            response = httpClient.execute(request, context);
             response = httpClient.execute(request);
             return response;
         } catch (IOException e) {
@@ -342,7 +362,8 @@ public class ApacheHttpClient {
         // text/html;charset=utf-8
         String url = "https://www.baidu.com/";
 //        url = "http://gogs-git.hztywl.cn/";
-        for (int i = 0; i < 100; i++) {
+        url = "http://183.129.141.106:8081/nexus/content/groups/public/com/tynet/";
+        for (int i = 0; i < 2; i++) {
             System.out.println(ApacheHttpClient.getContentType(url, null));
             System.out.println(ApacheHttpClient.httpGet(url, null));
         }

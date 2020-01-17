@@ -1,10 +1,10 @@
 package io.github.controller.admin;
 
+import io.github.base.BaseAppShiroTest;
 import io.github.controller.QrCodeController;
 import io.github.service.SysUserLoginLogService;
 import io.github.service.SysUserRoleService;
 import io.github.service.impl.SysUserRoleServiceImpl;
-import io.github.base.BaseAppShiroTest;
 import io.github.util.spring.SpringContextUtils;
 import org.junit.Test;
 import org.springframework.aop.support.AopUtils;

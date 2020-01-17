@@ -11,6 +11,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @Documented
+@Inherited // 可以被继承
 public @interface MyLog {
 
     String value() default "https://github.com/JoeyBling";

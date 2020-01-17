@@ -5,6 +5,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Spring Context 工具类
  *
@@ -21,14 +24,62 @@ public class SpringContextUtils implements ApplicationContextAware {
     }
 
     public static Object getBean(String name) {
+        if (null == applicationContext) {
+            return null;
+        }
         return applicationContext.getBean(name);
     }
 
     public static <T> T getBean(Class<T> requiredType) {
+        if (null == applicationContext) {
+            return null;
+        }
         return applicationContext.getBean(requiredType);
     }
 
+    /**
+     * 不抛出异常获取bean，如果有异常返回null
+     */
+    public static <T> T getBeanWithNoException(Class<T> requiredType) {
+        if (null == applicationContext) {
+            return null;
+        }
+        T bean = null;
+        try {
+            bean = applicationContext.getBean(requiredType);
+        } catch (Exception e) {
+        }
+        return bean;
+    }
+
+    /**
+     * 包括单例，不抛出异常获取bean，如果有异常返回null
+     *
+     * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#getBeanNamesForType(Class, boolean, boolean)
+     */
+    public static <T> T getBeanWithNoExceptionAndNoSingleton(Class<T> requiredType) {
+        if (null == applicationContext) {
+            return null;
+        }
+        T bean = null;
+        Map<String, T> beans = null;
+        try {
+            beans = applicationContext.getBeansOfType(requiredType, false, true);
+            Set<String> beanKeySet = beans.keySet();
+            for (String beanKey : beanKeySet) {
+                bean = beans.get(beanKey);
+                // 默认获取第一个
+                break;
+            }
+        } catch (Exception e) {
+        }
+        return bean;
+    }
+
     public static <T> T getBean(String name, Class<T> requiredType) {
+        if (null == applicationContext) {
+            return null;
+        }
         return applicationContext.getBean(name, requiredType);
     }
 
@@ -41,6 +92,9 @@ public class SpringContextUtils implements ApplicationContextAware {
     }
 
     public static Class<? extends Object> getType(String name) {
+        if (null == applicationContext) {
+            return null;
+        }
         return applicationContext.getType(name);
     }
 

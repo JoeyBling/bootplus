@@ -7,6 +7,7 @@ import java.lang.annotation.Target;
 
 /**
  * 自定义Controller注解（用于Spring动态代理手动注册Controller）
+ * 同等于@Controller的效果
  *
  * @author Created by 思伟 on 2020/1/16
  * @see MyControllerRegistry

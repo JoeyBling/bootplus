@@ -41,7 +41,7 @@ import java.util.Map;
  */
 @Slf4j
 //@Controller
-@Component
+//@Component
 @MyController
 @RequestMapping("/share/qrcode")
 public class QrCodeController {

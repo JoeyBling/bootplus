@@ -114,7 +114,7 @@ public class SpringBeanUtils {
      * @param serviceName 注册别名
      * @param propertyMap 注入属性
      */
-    private static void addBean(String className, String serviceName, Map<?, ?> propertyMap) {
+    public static void addBean(String className, String serviceName, Map<?, ?> propertyMap) throws ClassNotFoundException {
         try {
             Class<?> clazz = Thread.currentThread().getContextClassLoader().loadClass(className);
             BeanDefinitionBuilder beanDefinitionBuilder = BeanDefinitionBuilder.genericBeanDefinition(clazz);
@@ -131,6 +131,7 @@ public class SpringBeanUtils {
             registerBean(serviceName, beanDefinitionBuilder.getRawBeanDefinition());
         } catch (ClassNotFoundException e) {
             log.error(className + ",主动注册失败.");
+            throw e;
         }
     }
 
