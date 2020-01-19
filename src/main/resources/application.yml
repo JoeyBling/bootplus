@@ -85,6 +85,7 @@ security:
     path: /monitor/**
     enabled: true
 
+# 自定义线程池
 thread-pool:
 #  core-pool-size: 3
 #  max-pool-size: 2000
