@@ -1,6 +1,6 @@
 package io.github.config;
 
-import io.github.config.aop.MyInjectBeanSelfProcessor;
+import io.github.config.aop.service.MyInjectBeanSelfProcessor;
 import org.springframework.aop.interceptor.AsyncExecutionAspectSupport;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;

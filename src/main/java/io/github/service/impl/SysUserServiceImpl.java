@@ -3,7 +3,7 @@ package io.github.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
-import io.github.config.aop.BaseAopService;
+import io.github.config.aop.service.BaseAopService;
 import io.github.dao.SysUserDao;
 import io.github.entity.SysUserEntity;
 import io.github.service.SysUserRoleService;

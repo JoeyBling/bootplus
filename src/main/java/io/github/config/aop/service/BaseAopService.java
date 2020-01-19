@@ -1,11 +1,9 @@
-package io.github.config.aop;
+package io.github.config.aop.service;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.ParameterizedType;
 
 /**
  * 所有service必须继承此类来解决内部方法调用事务失效问题

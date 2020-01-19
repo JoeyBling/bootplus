@@ -1,6 +1,6 @@
 package io.github.service.impl;
 
-import io.github.config.aop.BaseAopService;
+import io.github.config.aop.service.BaseAopService;
 import io.github.dao.SysUserRoleDao;
 import io.github.entity.SysUserRoleEntity;
 import io.github.service.SysUserRoleService;

@@ -1,6 +1,6 @@
 package io.github.service.impl;
 
-import io.github.config.aop.BaseAopService;
+import io.github.config.aop.service.BaseAopService;
 import io.github.dao.SysMenuDao;
 import io.github.entity.SysMenuEntity;
 import io.github.service.SysMenuService;
