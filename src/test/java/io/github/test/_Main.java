@@ -21,6 +21,8 @@ import java.util.concurrent.TimeUnit;
 public class _Main {
 
     public static void main(String[] args) {
+        // 不同的平台生成相应平台的换行符
+        System.out.println(System.getProperty("line.separator", "\n"));
         System.out.println(MyCorsFilter.class.getSimpleName());
         System.out.println(MyCorsFilter.class.getName());
         System.out.println(MyCorsFilter.class.getTypeName());
