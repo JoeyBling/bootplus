@@ -50,7 +50,7 @@ public class ClassUtil {
     }
 
     /**
-     * 获取类路劲
+     * 获取类路径
      */
     public static String getClass(Object obj) throws Exception {
         Assert.notNull(obj, "obj must not be null");

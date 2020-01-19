@@ -30,8 +30,10 @@ public class ContextListener implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        log.debug("自定义监听器:ServletContextListener->contextInitialized=={}",
-                servletContextEvent.getServletContext().getContextPath());
+        if (log.isDebugEnabled()) {
+            log.debug("自定义监听器:ServletContextListener->contextInitialized=={}",
+                    servletContextEvent.getServletContext().getContextPath());
+        }
         contextPath = StringUtils.defaultString(servletContextEvent.getServletContext().getContextPath());
         System.setProperty(contextPathPropertyName, contextPath);
     }
@@ -41,7 +43,9 @@ public class ContextListener implements ServletContextListener {
      */
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        log.debug("ServletContext对象销毁");
+        if (log.isDebugEnabled()) {
+            log.debug("ServletContext对象销毁");
+        }
     }
 
 }

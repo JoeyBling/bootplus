@@ -59,15 +59,13 @@ public class SysLoginController extends AbstractController {
 
     /**
      * 默认访问页面
-     *
-     * @return String
      */
-    @RequestMapping("/")
+    @RequestMapping(value = {"", "/"})
     public String redirect() {
         if (ShiroUtils.isLogin()) {
             return "redirect:/admin/index.html";
         } else {
-            return "/admin/login";
+            return "/admin/login.html";
         }
     }
 

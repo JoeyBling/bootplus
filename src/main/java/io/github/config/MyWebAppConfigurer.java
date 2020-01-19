@@ -9,12 +9,22 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.AbstractHttpMessageConverter;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.server.ServletServerHttpRequest;
+import org.springframework.http.server.ServletServerHttpResponse;
+import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import javax.servlet.MultipartConfigElement;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +38,55 @@ import java.util.List;
 @Slf4j
 @PropertySource({"classpath:/config.properties"})
 public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
+
+    /**
+     * 解决String乱码问题
+     *
+     * @see org.springframework.web.servlet.mvc.method.annotation.AbstractMessageConverterMethodProcessor#writeWithMessageConverters(Object, MethodParameter, ServletServerHttpRequest, ServletServerHttpResponse)
+     */
+    @Bean
+    public HttpMessageConverter<String> defaultStringHttpMessageConverter() {
+        /**
+         * @see AbstractHttpMessageConverter#getDefaultCharset()
+         */
+        StringHttpMessageConverter converter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
+        return converter;
+    }
+
+    /**
+     * 添加StringHttpMessageConverter默认配置
+     *
+     * @see org.springframework.http.converter.AbstractHttpMessageConverter#addDefaultHeaders(HttpHeaders, Object, MediaType)
+     */
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        super.configureMessageConverters(converters);
+        // 不建议使用添加，而是进行修改
+//        converters.add(defaultStringHttpMessageConverter());
+    }
+
+    /**
+     * 修改StringHttpMessageConverter默认配置
+     *
+     * @param converters
+     */
+    @Override
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+        super.extendMessageConverters(converters);
+        for (int i = 0; null != converters && i < converters.size(); i++) {
+            HttpMessageConverter<?> httpMessageConverter = converters.get(i);
+            if (httpMessageConverter.getClass().equals(StringHttpMessageConverter.class)) {
+                converters.set(i, defaultStringHttpMessageConverter());
+            }
+        }
+    }
+
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        super.configureContentNegotiation(configurer);
+//        configurer.favorPathExtension(false);
+    }
+
     /**
      * 自定义资源映射（如果存在2层映射资源路径有相同名字，后一个定义的优先）
      */

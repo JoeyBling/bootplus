@@ -110,7 +110,7 @@ public class SpringBeanUtils {
     /**
      * 注册Bean
      *
-     * @param className   注册class全称
+     * @param className   注册class类路径
      * @param serviceName 注册别名
      * @param propertyMap 注入属性
      */
@@ -130,7 +130,7 @@ public class SpringBeanUtils {
             }
             registerBean(serviceName, beanDefinitionBuilder.getRawBeanDefinition());
         } catch (ClassNotFoundException e) {
-            log.error(className + ",主动注册失败.");
+            log.error("ClassName[{}],主动注册失败.", className);
             throw e;
         }
     }

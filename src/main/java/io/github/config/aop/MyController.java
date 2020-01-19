@@ -1,9 +1,6 @@
 package io.github.config.aop;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * 自定义Controller注解（用于Spring动态代理手动注册Controller）
@@ -11,14 +8,25 @@ import java.lang.annotation.Target;
  *
  * @author Created by 思伟 on 2020/1/16
  * @see MyControllerRegistry
+ * @see org.springframework.stereotype.Controller
  */
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Inherited // 可以被继承
 public @interface MyController {
+
+    /**
+     * The value may indicate a suggestion for a logical component name,
+     * to be turned into a Spring bean in case of an autodetected component.
+     *
+     * @return the suggested component name, if any
+     */
+    String value() default "";
 
     /**
      * Test Field
      */
-    String value() default "https://github.com/JoeyBling";
+    String test() default "https://github.com/JoeyBling";
 
 }

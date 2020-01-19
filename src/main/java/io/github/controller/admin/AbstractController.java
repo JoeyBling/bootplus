@@ -8,6 +8,8 @@ import io.github.util.spring.EhcacheUtil;
 import io.github.util.spring.ShiroUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -81,5 +83,22 @@ abstract class AbstractController {
             return map;
         }
         return null;
+    }
+
+    /**
+     * 事实证明@RequestMapping...等注解不可以被继承
+     * 注解需要添加@Inherited 才可以被继承
+     */
+    @RequestMapping("/Inherited")
+    @ResponseBody
+    public boolean testInherited() {
+        return true;
+//        return "test-Inherited测试";
+    }
+
+    @RequestMapping("/testString")
+    @ResponseBody
+    public String testString() {
+        return "测试String乱码问题";
     }
 }

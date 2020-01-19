@@ -115,7 +115,7 @@ public class SysFileController extends AbstractController {
                 logger.info("图片压缩处理完毕...");
             }
         } catch (Exception e) {
-            logger.info("上传的文件不是图片");
+            logger.warn("上传的文件不是图片");
         }
     }
 

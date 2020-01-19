@@ -16,6 +16,12 @@ import java.util.Set;
  */
 @Component
 public class SpringContextUtils implements ApplicationContextAware {
+
+    /**
+     * Spring上下文
+     * 使用@PostConstruct修饰的方法在Spring容器启动时会
+     * 先于实现ApplicationContextAware接口的工具类 setApplicationContext()方法运行
+     */
     public static ApplicationContext applicationContext;
 
     @Override
@@ -53,7 +59,7 @@ public class SpringContextUtils implements ApplicationContextAware {
     }
 
     /**
-     * 包括单例，不抛出异常获取bean，如果有异常返回null
+     * 从单例集合获取Bean，不抛出异常获取bean，如果有异常返回null
      *
      * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#getBeanNamesForType(Class, boolean, boolean)
      */

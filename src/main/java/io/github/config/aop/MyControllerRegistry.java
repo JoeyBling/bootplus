@@ -12,9 +12,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.core.ResolvableType;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
 
 import javax.annotation.PostConstruct;
@@ -64,7 +64,8 @@ public class MyControllerRegistry implements ApplicationListener<ContextRefreshe
                 log.info("Spring手动注册Controller成功=={},value={}",
                         ClassUtil.getClass(aopObject), myController.value());
             }
-//            handleRegister(App.scanBasePackages, annotationClass);
+            // 这里从包扫描注册Controller
+            handleRegister(App.scanBasePackages, annotationClass);
         }
     }
 
@@ -90,31 +91,43 @@ public class MyControllerRegistry implements ApplicationListener<ContextRefreshe
      * @throws Exception
      */
     private <A extends Annotation> void handleRegister(String scanBasePackages, Class<A> annotationClass) throws Exception {
+        Assert.notNull(annotationClass, "AnnotationClass must not be null");
+        ApplicationContext applicationContext = SpringContextUtils.applicationContext;
+        Assert.notNull(applicationContext, "ApplicationContext初始化失败，" +
+                "请确认调用方法未使用@PostConstruct注解！");
         // 通过包名获取包内所有类
         List<Class<?>> classList = ClassUtil.getAllClassByPackageName(scanBasePackages);
         for (Class<?> clazz : classList) {
             // 类是否含有注解
             if (clazz.isAnnotationPresent(annotationClass)) {
+                // 获取类路径
                 String className = ClassUtil.getClass(clazz);
                 try {
                     // 获取注解类
                     A annotation = AnnotationUtils.findAnnotation(clazz, annotationClass);
+                    // 声明beanName
+                    String simpleName = null;
+                    // 处理自定义beanName
+                    if (annotation.annotationType().equals(MyController.class)) {
+                        simpleName = ((MyController) annotation).value();
+                    }
+                    if (StringUtils.isEmpty(simpleName)) {
+                        // 获取类名
+                        simpleName = ClassUtil.getClassName(clazz);
+                    }
+                    simpleName = StringUtils.toLowerCaseFirstOne(simpleName);
                     // 这里因为还未注册Bean,需要先注册Bean（如果注册了跳过）
-                    if (null == SpringContextUtils.getBeanWithNoException(clazz)) {
-                        // 首字母转小写
-                        String simpleName = StringUtils.toLowerCaseFirstOne(
-                                ClassUtil.getClassName(clazz));
+                    // 这里不能使用getBean方法判断，因为有缓存会导致后面不能注册
+                    if (!applicationContext.containsBeanDefinition(simpleName)) {
+                        // 不存在Bean则手动注册Bean
                         SpringBeanUtils.addBean(className, simpleName, null);
                     }
                     // 注册Controller
-                    /**
-                     * @see org.springframework.beans.factory.support.DefaultListableBeanFactory#getBeanNamesForType(Class, boolean, boolean)
-                     */
                     SpringBeanUtils.registerController(clazz);
                     log.info("手动注册Controller[{}]成功,={}",
                             className, StringUtils.defaultString(annotation.toString()));
                 } catch (Exception e) {
-                    log.info(String.format("手动注册Controller[%s]失败", className), e);
+                    log.error(String.format("手动注册Controller[%s]失败", className), e);
                     throw e;
                 }
             } else {
