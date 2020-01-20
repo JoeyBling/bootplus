@@ -8,6 +8,7 @@ import io.github.dao.SysUserLoginLogDao;
 import io.github.entity.SysUserLoginLogEntity;
 import io.github.service.SysUserLoginLogService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,6 +24,9 @@ public class SysUserLoginLogServiceImpl extends BaseAopService<SysUserLoginLogSe
     @Override
     public Page<SysUserLoginLogEntity> getSelf(Integer offset, Integer limit, Long adminId, String loginIp, String sort,
                                                Boolean order) {
+        // @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
+        // 获取当前代理对象【从ThreadLocal获取代理对象】(不建议使用)
+//        Object proxy = AopContext.currentProxy();
         Wrapper<SysUserLoginLogEntity> wrapper = new EntityWrapper<SysUserLoginLogEntity>();
         wrapper.eq("user_id", adminId);
         if (StringUtils.isNoneBlank(sort) && null != order) {
