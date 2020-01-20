@@ -1,4 +1,4 @@
-package io.github.util;
+package io.github.util.spring;
 
 import org.springframework.aop.framework.AdvisedSupport;
 import org.springframework.aop.framework.AopProxy;
