@@ -8,20 +8,27 @@ import io.github.util.spring.EhcacheUtil;
 import io.github.util.spring.ShiroUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.MethodIntrospector;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Controller公共组件
+ * 要想继承实现@RequestMapping和@ResponseBody 父类的访问修饰符必须是public，不然获取到的方法和实际的方法不一致
  *
  * @author Joey
  * @Email 2434387555@qq.com
+ * @see org.springframework.web.servlet.handler.AbstractHandlerMethodMapping#detectHandlerMethods(Object)
+ * @see org.springframework.core.MethodIntrospector#selectMethods(Class, MethodIntrospector.MetadataLookup)
+ * @see org.springframework.util.ClassUtils#getMostSpecificMethod(Method, Class)
  */
-abstract class AbstractController {
+public abstract class AbstractController {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
@@ -89,16 +96,19 @@ abstract class AbstractController {
      * 事实证明@RequestMapping...等注解不可以被继承
      * 注解需要添加@Inherited 才可以被继承
      */
-    @RequestMapping("/Inherited")
+//    @RequestMapping("/Inherited")
     @ResponseBody
-    public boolean testInherited() {
+    @Deprecated
+    public boolean testInherited(Model model) {
         return true;
 //        return "test-Inherited测试";
     }
 
-    @RequestMapping("/testString")
+    //    @RequestMapping("/testString")
     @ResponseBody
-    public String testString() {
+    @Deprecated
+    public String testString(Model model) {
         return "测试String乱码问题";
     }
+
 }

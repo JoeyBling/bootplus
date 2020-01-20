@@ -9,7 +9,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 import org.springframework.http.HttpMethod;
+import org.springframework.ui.Model;
 
+import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -20,7 +22,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class _Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException {
+        // 要想继承实现@RequestMapping和@ResponseBody 父类的访问修饰符必须是public，不然获取到的方法和实际的方法不一致
+        Method testString = Class.forName("io.github.controller.admin.SysLoginController").getMethod("testString", Model.class);
+        System.out.println(testString);
         // 不同的平台生成相应平台的换行符
         System.out.println(System.getProperty("line.separator", "\n"));
         System.out.println(MyCorsFilter.class.getSimpleName());

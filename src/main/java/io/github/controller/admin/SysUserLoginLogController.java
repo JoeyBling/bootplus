@@ -47,16 +47,4 @@ public class SysUserLoginLogController extends AbstractController {
         return R.ok().put("page", pageUtil);
     }
 
-    @Override
-    public boolean testInherited() {
-        return super.testInherited();
-    }
-
-    /**
-     * 只有重写父类的方法才能继承父类注解
-     */
-    @Override
-    public String testString() {
-        return super.testString();
-    }
 }
