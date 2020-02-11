@@ -300,7 +300,7 @@
         </dependency>
 
         <!-- 包含支持UI模版（Velocity，FreeMarker，JasperReports）， 邮件服务， 脚本服务(JRuby)， 缓存Cache（EHCache），
-            任务计划Scheduling（uartz）。 -->
+            任务计划Scheduling（quartz）。 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
