@@ -16,6 +16,11 @@ import java.util.Enumeration;
 public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
 
     /**
+     * 默认XSS过滤处理白名单
+     */
+    public final static Whitelist DEFAULT_WHITE_LIST = Whitelist.relaxed().addAttributes(":all", "style");
+
+    /**
      * 唯一构造器
      *
      * @param request HttpServletRequest
@@ -45,7 +50,11 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
      */
     @Override
     public String getParameter(String name) {
-        return super.getParameter(name);
+        String parameter = super.getParameter(name);
+        if (parameter != null) {
+            return StringUtils.trim(Jsoup.clean(parameter, DEFAULT_WHITE_LIST));
+        }
+        return null;
     }
 
     @Override
@@ -57,13 +66,13 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
             for (int i = 0; i < length; i++) {
                 if (null != values[i]) {
                     // 防xss攻击和过滤前后空格
-                    escapeValues[i] = StringUtils.trim(Jsoup.clean(values[i], Whitelist.relaxed()));
+                    escapeValues[i] = StringUtils.trim(Jsoup.clean(values[i], DEFAULT_WHITE_LIST));
                 } else {
                     escapeValues[i] = null;
                 }
             }
             return escapeValues;
         }
-        return super.getParameterValues(name);
+        return null;
     }
 }

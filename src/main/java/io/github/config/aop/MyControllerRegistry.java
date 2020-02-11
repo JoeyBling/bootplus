@@ -94,7 +94,7 @@ public class MyControllerRegistry implements ApplicationListener<ContextRefreshe
         Assert.notNull(annotationClass, "AnnotationClass must not be null");
         ApplicationContext applicationContext = SpringContextUtils.applicationContext;
         Assert.notNull(applicationContext, "ApplicationContext初始化失败，" +
-                "请确认调用方法未使用@PostConstruct注解！");
+                "请确认调用方法未使用`@PostConstruct`注解！");
         // 通过包名获取包内所有类
         List<Class<?>> classList = ClassUtil.getAllClassByPackageName(scanBasePackages);
         for (Class<?> clazz : classList) {

@@ -22,6 +22,7 @@
 ##### 基于CGLIB的代理与基于JDK的动态代理实现的声明式事务的区别
 - CGLIB基于继承实现，JDK动态代理基于实现接口实现
 - CGLIB的代理类需要事务注解@Transactional标注在类上（或方法）;而JDK动态代理类事务注解@Transactional可以标注在接口上（或方法），也可以标注在实现类上（或方法）
+- CGLIB或JDK动态代理是不是不能代理`private`或`final`修饰的类或方法
 
 > 配置项 `spring.aop.auto`&`spring.aop.proxy-target-class`&`@EnableTransactionManagement(proxyTargetClass = true)`
 
