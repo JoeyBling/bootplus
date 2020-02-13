@@ -166,6 +166,7 @@ public class RestTemplateUtil {
      * @param <T>         返回类型
      * @return post入参
      */
+    @SuppressWarnings("unchecked")
     public static <T extends Object> T buildPostBody(final T body, final MediaType contentType) {
         if (null == body) {
             return null;

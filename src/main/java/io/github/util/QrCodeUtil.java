@@ -37,7 +37,6 @@ public class QrCodeUtil {
             writeToFile(bitMatrix, "png", file);
         } catch (Exception e) {
             throw e;
-
         }
     }
 
@@ -87,11 +86,10 @@ public class QrCodeUtil {
             LuminanceSource source = new BufferedImageLuminanceSource(image);
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(
                     source));
-            Result result;
-            Hashtable hints = new Hashtable();
+            Hashtable<DecodeHintType, String> hints = new Hashtable<DecodeHintType, String>();
             // 解码设置编码方式为：utf-8
             hints.put(DecodeHintType.CHARACTER_SET, StandardCharsets.UTF_8.name());
-            result = new MultiFormatReader().decode(bitmap, hints);
+            Result result = new MultiFormatReader().decode(bitmap, hints);
             String resultStr = result.getText();
             log.info("解析后内容：" + resultStr);
         } catch (IOException ioe) {

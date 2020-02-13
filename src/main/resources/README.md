@@ -18,11 +18,16 @@
 | trace| 基本追踪信息 | true |
 
 # 代理配置说明
+> Java中代理的实现一般分为三种：JDK静态代理、JDK动态代理以及CGLIB动态代理
+
 [SpringBoot中修改proxyTargetClass，但事务代理始终为CGLIB](https://blog.csdn.net/laoxilaoxi_/article/details/99896738)
 ##### 基于CGLIB的代理与基于JDK的动态代理实现的声明式事务的区别
 - CGLIB基于继承实现，JDK动态代理基于实现接口实现
 - CGLIB的代理类需要事务注解@Transactional标注在类上（或方法）;而JDK动态代理类事务注解@Transactional可以标注在接口上（或方法），也可以标注在实现类上（或方法）
+- CGLIB采用的是继承，所以不能对final修饰的类进行代理
 - CGLIB或JDK动态代理是不是不能代理`private`或`final`修饰的类或方法
+- CGLIB不能对目标类的`private`、`final`修饰的方法进行代理，因为父类的`final`方法不允许子类重写，父类的`private`方法不允许子类访问
+- 被`final`修饰的类只能使用JDK动态代理，因为被`final`修饰的类不能被继承
 
 > 配置项 `spring.aop.auto`&`spring.aop.proxy-target-class`&`@EnableTransactionManagement(proxyTargetClass = true)`
 

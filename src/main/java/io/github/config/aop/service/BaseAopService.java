@@ -22,6 +22,7 @@ public abstract class BaseAopService<S, M extends BaseMapper<T>, T> extends Serv
      */
     protected S self;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void setSelf(Object proxyBean) {
         // Class clazz = getClass();
