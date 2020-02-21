@@ -321,7 +321,7 @@ public class ApacheHttpClient {
             CloseableHttpClient httpClient = HttpClients.createDefault();
 
             // Http认证授权
-//            UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("admin", "13675882400");
+//            UsernamePasswordCredentials credentials = new UsernamePasswordCredentials("admin", "*****");
 //            CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
 //            credentialsProvider.setCredentials(AuthScope.ANY, credentials);
 //            HttpClientContext context = HttpClientContext.create();
@@ -362,7 +362,7 @@ public class ApacheHttpClient {
         // text/html;charset=utf-8
         String url = "https://www.baidu.com/";
 //        url = "http://gogs-git.hztywl.cn/";
-        url = "http://183.129.141.106:8081/nexus/content/groups/public/com/tynet/";
+//        url = "http://183.129.141.106:8081/nexus/content/groups/public/com/tynet/";
         for (int i = 0; i < 2; i++) {
             System.out.println(ApacheHttpClient.getContentType(url, null));
             System.out.println(ApacheHttpClient.httpGet(url, null));
