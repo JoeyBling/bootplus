@@ -245,10 +245,10 @@ public class ApacheHttpClient {
         // 默认以post处理
         if (StringUtils.isBlank(httpMethod)) {
             request = new HttpPost(uri);
-        } else if (_POST.equalsIgnoreCase(httpMethod)) {
-            request = new HttpPost(uri);
         } else if (_GET.equalsIgnoreCase(httpMethod)) {
             request = new HttpGet(uri);
+        } else if (_POST.equalsIgnoreCase(httpMethod)) {
+            request = new HttpPost(uri);
         } else if (_PUT.equalsIgnoreCase(httpMethod)) {
             request = new HttpPut(uri);
         } else if (_DELETE.equalsIgnoreCase(httpMethod)) {
