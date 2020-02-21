@@ -15,6 +15,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
 
 import javax.annotation.PostConstruct;
@@ -52,17 +53,19 @@ public class MyControllerRegistry implements ApplicationListener<ContextRefreshe
             // 这里只能获取注册了Bean的注解类
             Class<? extends Annotation> annotationClass = MyController.class;
             Map<String, Object> beanWithAnnotation = applicationContext.getBeansWithAnnotation(annotationClass);
-            Set<Map.Entry<String, Object>> entitySet = beanWithAnnotation.entrySet();
-            for (Map.Entry<String, Object> entry : entitySet) {
-                // 获取bean对象
-                Object aopObject = entry.getValue();
-                Class<? extends Object> clazz = aopObject.getClass();
-                // 注册Controller
-                SpringBeanUtils.registerController(clazz);
-                // 获取注解类
-                MyController myController = AnnotationUtils.findAnnotation(clazz, MyController.class);
-                log.info("Spring手动注册Controller成功=={},value={}",
-                        ClassUtil.getClass(aopObject), myController.value());
+            if (!ObjectUtils.isEmpty(beanWithAnnotation)) {
+                Set<Map.Entry<String, Object>> entitySet = beanWithAnnotation.entrySet();
+                for (Map.Entry<String, Object> entry : entitySet) {
+                    // 获取bean对象
+                    Object aopObject = entry.getValue();
+                    Class<? extends Object> clazz = aopObject.getClass();
+                    // 注册Controller
+                    SpringBeanUtils.registerController(clazz);
+                    // 获取注解类
+                    MyController myController = AnnotationUtils.findAnnotation(clazz, MyController.class);
+                    log.info("Spring手动注册Controller成功=={},value={}",
+                            ClassUtil.getClass(aopObject), myController.value());
+                }
             }
             // 这里从包扫描注册Controller
             handleRegister(App.scanBasePackages, annotationClass);
