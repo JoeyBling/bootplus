@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 所有service必须继承此类来解决内部方法调用事务失效问题
  * （ 泛型：S为当前对象，M 是 mapper 对象，T 是实体 ， PK 是主键泛型 ）
+ * TODO 后面写个单独类，实现的接口都可以取得AOP self对象属性
  *
  * @author Created by 思伟 on 2020/1/13
  * @see MyInjectBeanSelfProcessor#postProcessAfterInitialization(Object, String)

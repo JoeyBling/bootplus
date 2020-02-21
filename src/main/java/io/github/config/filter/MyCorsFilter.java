@@ -111,12 +111,12 @@ public class MyCorsFilter implements Filter {
     /**
      * 默认允许跨域的请求方法数组
      */
-    protected final static String[] DEFAULT_ALLOW_METHODS_ARRAY = ArrayUtils.toArray(
+    public final static String[] DEFAULT_ALLOW_METHODS_ARRAY = ArrayUtils.toArray(
             HttpMethod.GET.name(), HttpMethod.POST.name(), HttpMethod.OPTIONS.name(), HttpMethod.DELETE.name(), HttpMethod.PUT.name());
 
     /**
      * 默认允许跨域的请求方法
      */
-    protected final static String DEFAULT_ALLOW_METHODS = StringUtils.join(DEFAULT_ALLOW_METHODS_ARRAY, ", ");
+    public final static String DEFAULT_ALLOW_METHODS = StringUtils.join(DEFAULT_ALLOW_METHODS_ARRAY, ", ");
 
 }

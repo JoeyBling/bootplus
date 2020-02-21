@@ -82,7 +82,7 @@ security:
     password: admin
     role: admin
   basic:
-    path: /monitor/**
+    path: ${management.context-path:/monitor}/**
     enabled: true
 
 # 自定义线程池

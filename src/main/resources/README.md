@@ -21,6 +21,7 @@
 > Java中代理的实现一般分为三种：JDK静态代理、JDK动态代理以及CGLIB动态代理
 
 [SpringBoot中修改proxyTargetClass，但事务代理始终为CGLIB](https://blog.csdn.net/laoxilaoxi_/article/details/99896738)
+
 ##### 基于CGLIB的代理与基于JDK的动态代理实现的声明式事务的区别
 - CGLIB基于继承实现，JDK动态代理基于实现接口实现
 - CGLIB的代理类需要事务注解@Transactional标注在类上（或方法）;而JDK动态代理类事务注解@Transactional可以标注在接口上（或方法），也可以标注在实现类上（或方法）
@@ -41,3 +42,16 @@
 | false | true | false | JDK动态代理 |  |
 | false | false | true | CGLIB |  |
 | false | true | true | CGLIB |  |
+
+> 启用AspectJ对Annotation的支持
+- `Spring XML`:
+```xml
+ <!-- 启用AspectJ对Annotation的支持 -->
+<aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
+```
+- `SpringBoot`:
+```
+@EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
+```
+> 获取当前代理对象【从ThreadLocal获取代理对象】(不建议使用)-【expose-proxy必须设为true】
+`Object proxy = org.springframework.aop.framework.AopContext.currentProxy();`
