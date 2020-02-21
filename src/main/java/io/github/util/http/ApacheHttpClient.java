@@ -327,8 +327,12 @@ public class ApacheHttpClient {
 //            HttpClientContext context = HttpClientContext.create();
 //            context.setCredentialsProvider(credentialsProvider);
 
-            if (null != entity && request instanceof HttpPost) {
-                ((HttpPost) request).setEntity(entity);
+            if (null != entity) {
+                if (request instanceof HttpPost) {
+                    ((HttpPost) request).setEntity(entity);
+                } else if (request instanceof HttpPut) {
+                    ((HttpPut) request).setEntity(entity);
+                }
             }
 //            response = httpClient.execute(request, context);
             response = httpClient.execute(request);
