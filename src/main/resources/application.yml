@@ -45,7 +45,6 @@ spring:
     allow-request-override: false
     cache: false
     charset: UTF-8
-    check-template-location: true
     content-type: text/html
     expose-request-attributes: true
     expose-session-attributes: true
@@ -53,6 +52,7 @@ spring:
     settings:
       number_format: 0.##
     suffix: .ftl
+    check-template-location: true
     template-loader-path: classpath:/WEB-INF/templates
   http:
     encoding:
