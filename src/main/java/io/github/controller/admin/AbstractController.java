@@ -2,6 +2,7 @@ package io.github.controller.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import io.github.config.aop.service.BaseAopContext;
 import io.github.entity.SysUserEntity;
 import io.github.util.config.Constant;
 import io.github.util.spring.EhcacheUtil;
@@ -10,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodIntrospector;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -28,7 +28,7 @@ import java.util.Map;
  * @see org.springframework.core.MethodIntrospector#selectMethods(Class, MethodIntrospector.MetadataLookup)
  * @see org.springframework.util.ClassUtils#getMostSpecificMethod(Method, Class)
  */
-public abstract class AbstractController {
+public abstract class AbstractController<S> extends BaseAopContext<S> {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**

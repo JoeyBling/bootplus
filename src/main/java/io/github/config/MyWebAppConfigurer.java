@@ -120,6 +120,9 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 
     /**
      * 文件上传配置
+     * TODO org.springframework.web.multipart.MultipartException:
+     * Could not parse multipart servlet request; nested exception is java.io.IOException:
+     * The temporary upload location [/tmp/tomcat.*./work/Tomcat/localhost/ROOT] is not valid
      *
      * @return MultipartConfigElement
      */
@@ -130,7 +133,15 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
         factory.setMaxFileSize("10MB");
         // 设置总上传数据总大小
         factory.setMaxRequestSize("20MB");
+        // 临时目录属性
         // Sets the directory location where files will be stored.
+        // springboot打jar包通过java -jar启动的项目
+        // 如果上传文件会在linux的/temp/下生成一个tomcat*的文件夹，
+        // 上传的文件先要转换成临时文件保存在这个文件夹下面。
+        // 由于临时/tmp目录下的文件，在长时间（10天）没有使用的情况下，
+        // 就会被系统机制自动删除掉。所以如果系统长时间无人问津的话，就可能导致上面这个问题
+        //————————————————
+        // 配置项：server.tomcat.basedir=/home/temp
         // factory.setLocation("路径地址");
         return factory.createMultipartConfig();
     }

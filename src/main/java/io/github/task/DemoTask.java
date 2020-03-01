@@ -25,6 +25,7 @@ public class DemoTask {
      * 0 0/30 * * * ?（每隔30分钟）
      * 0 0/15 * * * ?（每隔15分钟）
      * 0 0 0/1 * * ?（每隔1个小时）
+     * {http://www.bejson.com/othertools/cron/}
      */
     @Scheduled(cron = "0 0 0/2 * * ?")
 //    @Scheduled(cron = "* * * * * ?")

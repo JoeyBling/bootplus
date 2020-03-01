@@ -71,7 +71,7 @@ spring:
     proxy-target-class: true
 
 management:
-  context-path: /monitor
+  #  context-path: /monitor
   security:
     # 权限拦截
     enabled: true

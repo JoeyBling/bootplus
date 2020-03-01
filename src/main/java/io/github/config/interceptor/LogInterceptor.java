@@ -18,8 +18,8 @@ import java.text.SimpleDateFormat;
  */
 @Slf4j
 public class LogInterceptor implements HandlerInterceptor {
-
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss.SSS");
+
     /**
      * 默认本地执行线程开始时间标识
      */

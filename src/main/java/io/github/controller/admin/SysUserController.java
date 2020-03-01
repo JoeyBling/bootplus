@@ -37,7 +37,7 @@ import java.util.Map;
 @Controller
 @Slf4j
 @RequestMapping("/admin/sys/user")
-public class SysUserController extends AbstractController {
+public class SysUserController extends AbstractController<SysUserController> {
 
     @Resource
     private SysUserService sysUserService;
@@ -54,7 +54,7 @@ public class SysUserController extends AbstractController {
                   @RequestParam(name = "search", required = false) String search) {
         String userName = null;
         String email = null;
-        Map<String, String> searchList = parseObject(search, "q_userName", "q_email");
+        Map<String, String> searchList = self.parseObject(search, "q_userName", "q_email");
         if (null != searchList) {
             userName = searchList.get("q_userName");
             email = searchList.get("q_email");

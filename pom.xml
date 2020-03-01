@@ -83,10 +83,10 @@
         </dependency>
 
         <!-- 应用监控Actuator -->
-        <dependency>
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
+        </dependency>-->
         <!-- 解决报错：net.sf.ehcache.Ehcache.getStatistics()Lnet/sf/ehcache/statistics/StatisticsGateway -->
         <!-- https://mvnrepository.com/artifact/net.sf.ehcache.internal/ehcache-core -->
         <dependency>

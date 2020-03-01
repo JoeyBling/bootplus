@@ -19,23 +19,36 @@ public class ContextListener implements ServletContextListener {
     /**
      * 上下文路径系统参数名称
      */
-    private final static String contextPathPropertyName = "web.root.admin";
+    public final static String contextPathPropertyName = "web.root.context.admin";
+
+    /**
+     * 上下文真实路径系统参数名称
+     */
+    public final static String contextRealPathPropertyName = "web.root.admin";
+
     /**
      * 应用程序上下文路径
      */
-    private static String contextPath;
+    public static String contextPath;
+
+    /**
+     * 应用程序上下文真实路径
+     */
+    public static String contextRealPath;
 
     /**
      * 创建时执行
      */
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
+        contextPath = StringUtils.defaultString(servletContextEvent.getServletContext().getContextPath());
+        contextRealPath = StringUtils.defaultString(servletContextEvent.getServletContext().getRealPath("/"));
+        System.setProperty(contextPathPropertyName, contextPath);
+        System.setProperty(contextRealPathPropertyName, contextRealPath);
         if (log.isDebugEnabled()) {
             log.debug("自定义监听器:ServletContextListener->contextInitialized=={}",
-                    servletContextEvent.getServletContext().getContextPath());
+                    this.toString());
         }
-        contextPath = StringUtils.defaultString(servletContextEvent.getServletContext().getContextPath());
-        System.setProperty(contextPathPropertyName, contextPath);
     }
 
     /**
@@ -48,4 +61,11 @@ public class ContextListener implements ServletContextListener {
         }
     }
 
+    @Override
+    public String toString() {
+        return "ContextListener{" +
+                "contextPath='" + contextPath + '\'' +
+                ", contextRealPath='" + contextRealPath + '\'' +
+                '}';
+    }
 }

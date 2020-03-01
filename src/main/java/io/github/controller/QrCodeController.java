@@ -44,7 +44,7 @@ import java.util.Map;
 //@Component
 @MyController
 @RequestMapping("/share/qrcode")
-public class QrCodeController {
+public class QrCodeController extends AbstractController {
 
     private MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
 

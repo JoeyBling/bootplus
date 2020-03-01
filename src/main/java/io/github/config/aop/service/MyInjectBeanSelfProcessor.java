@@ -43,7 +43,7 @@ public class MyInjectBeanSelfProcessor implements BeanPostProcessor, Application
                 ((BeanSelfAware) bean).setSelf(context.getBean(beanName));
             }
             if (log.isDebugEnabled()) {
-                log.debug("BeanName={},注入代理对象成功", beanName);
+                log.debug("BeanName={},注入代理对象成功！", beanName);
             }
         }
         return bean;

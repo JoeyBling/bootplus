@@ -1,5 +1,6 @@
 package io.github.controller;
 
+import io.github.config.aop.service.BaseAopContext;
 import io.github.util.config.Constant;
 import io.github.util.spring.EhcacheUtil;
 import org.slf4j.Logger;
@@ -13,7 +14,7 @@ import javax.annotation.Resource;
  * @author Joey
  * @Email 2434387555@qq.com
  */
-abstract class AbstractController {
+abstract class AbstractController<S> extends BaseAopContext<S> {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**

@@ -2,7 +2,6 @@ package io.github.util;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
@@ -80,9 +79,11 @@ public class ConfUtil {
      * @param confName 配置文件名称(无需后缀)
      * @param charset  编码
      */
-    private void init(String confName, @Deprecated String charset) {
-        try (InputStream inputStream = this.getClass().getResourceAsStream("/" + confName + ".properties")) {
-            properties.load(inputStream);
+    private void init(String confName, String charset) {
+        try (InputStream fileInputStream = this.getClass().getResourceAsStream("/" + confName + ".properties")) {
+            try (InputStreamReader reader = new InputStreamReader(fileInputStream, charset)) {
+                properties.load(reader);
+            }
         } catch (Throwable e) {
             log.error("配置文件加载错误[/" + confName + ".properties]", e);
         }
