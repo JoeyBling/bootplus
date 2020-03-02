@@ -74,6 +74,21 @@
             <groupId>io.gitee.zhousiwei</groupId>
             <artifactId>fastjson-spring-boot-starter</artifactId>
             <version>8.8.8.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <!-- FastJson 1.2.60 以下版本 有重大漏洞 -->
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>fastjson</artifactId>
+                </exclusion>
+            </exclusions>
+            <!--<version>10.10.10.RELEASE</version>-->
+        </dependency>
+
+        <!-- FastJson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.60</version>
         </dependency>
 
         <dependency>
@@ -260,13 +275,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
-        </dependency>
-
-        <!-- FastJson -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.15</version>
         </dependency>
 
         <!-- MyBatisPlus -->
