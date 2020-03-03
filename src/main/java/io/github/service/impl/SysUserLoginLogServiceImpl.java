@@ -28,6 +28,7 @@ public class SysUserLoginLogServiceImpl extends BaseAopService<SysUserLoginLogSe
         //    <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
         // SpringBoot:@EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
         // 获取当前代理对象【从ThreadLocal获取代理对象】(不建议使用)-【expose-proxy必须设为true】
+        // 只会取到代理对象,如果当前对象为空，则一层层往上获取代理对象【如果不存在会报错】
 //        Object proxy = org.springframework.aop.framework.AopContext.currentProxy();
         Wrapper<SysUserLoginLogEntity> wrapper = new EntityWrapper<SysUserLoginLogEntity>();
         wrapper.eq("user_id", adminId);
