@@ -21,6 +21,9 @@ mybatis-plus:
   typeAliasesPackage: io.github.entity
 
 spring:
+  profiles:
+    # 生产环境
+    active: prd
   datasource:
     filters: stat,wall,log4j
     initialSize: 5
