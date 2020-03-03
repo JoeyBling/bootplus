@@ -25,7 +25,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping("/admin/sys/menu")
-public class SysMenuController extends AbstractController {
+public class SysMenuController extends AbstractController<SysMenuController> {
 
     @Resource
     private SysMenuService sysMenuService;
@@ -44,7 +44,7 @@ public class SysMenuController extends AbstractController {
             parentName = searchList.get("q_parentName");
             menuName = searchList.get("q_menuName");
         }
-        Map<String, Object> map = new HashMap<>(6);
+        Map<String, Object> map = new HashMap<String, Object>(6);
         map.put("offset", offset);
         map.put("limit", limit);
         // 没用到MyBatisPlus只能这样先写
@@ -126,7 +126,6 @@ public class SysMenuController extends AbstractController {
     @RequiresPermissions("sys:menu:update")
     public R update(SysMenuEntity menu) {
         // 数据校验
-
         verifyForm(menu);
         if (sysMenuService.updateById(menu)) {
             // 清空菜单缓存
@@ -154,7 +153,7 @@ public class SysMenuController extends AbstractController {
 
         List<Long> menuIdsFlag = new ArrayList<Long>();
         Collections.addAll(menuIdsFlag, menuIds);
-        boolean flag = true;
+        boolean flag;
         for (Long menuId : menuIds) {
             flag = true;
             // 判断是否有子菜单或按钮
