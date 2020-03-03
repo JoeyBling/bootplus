@@ -71,9 +71,11 @@
         </dependency>
 
         <dependency>
+            <!-- https://github.com/JoeyBling/fastjson-spring-boot-starter/ -->
             <groupId>io.gitee.zhousiwei</groupId>
             <artifactId>fastjson-spring-boot-starter</artifactId>
             <version>8.8.8.RELEASE</version>
+            <!--<version>10.10.10.RELEASE</version>-->
             <exclusions>
                 <exclusion>
                     <!-- FastJson 1.2.60 以下版本 有重大漏洞 -->
@@ -81,7 +83,6 @@
                     <artifactId>fastjson</artifactId>
                 </exclusion>
             </exclusions>
-            <!--<version>10.10.10.RELEASE</version>-->
         </dependency>
 
         <!-- FastJson -->

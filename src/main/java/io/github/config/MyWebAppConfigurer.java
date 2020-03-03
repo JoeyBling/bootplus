@@ -17,10 +17,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.http.server.ServletServerHttpResponse;
-import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 import javax.servlet.MultipartConfigElement;
 import java.io.File;
@@ -144,6 +141,14 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
         // 配置项：server.tomcat.basedir=/home/temp
         // factory.setLocation("路径地址");
         return factory.createMultipartConfig();
+    }
+
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        super.addViewControllers(registry);
+        // 默认首页
+//        registry.addViewController("/").setViewName("forward:/admin");
+        registry.addViewController("/").setViewName("redirect:/admin");
     }
 
     /**
