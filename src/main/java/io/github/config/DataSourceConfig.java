@@ -150,6 +150,17 @@ public class DataSourceConfig {
     }
 
     /**
+     * 数据库密码回调解密
+     *
+     * @return MyDruidPasswordCallback
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public DruidPasswordCallback myDruidPasswordCallback() {
+        return new MyDruidPasswordCallback();
+    }
+
+    /**
      * 配置DataSource(使用了多数据源注解掉@Bean)
      *
      * @return DataSource
@@ -191,17 +202,6 @@ public class DataSourceConfig {
             logger.error("druid configuration initialization filter", e);
         }
         return druidDataSource;
-    }
-
-    /**
-     * 数据库密码回调解密
-     *
-     * @return MyDruidPasswordCallback
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public DruidPasswordCallback myDruidPasswordCallback() {
-        return new MyDruidPasswordCallback();
     }
 
 }

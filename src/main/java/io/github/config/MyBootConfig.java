@@ -1,16 +1,21 @@
 package io.github.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import io.github.config.aop.service.MyInjectBeanSelfProcessor;
 import org.springframework.aop.interceptor.AsyncExecutionAspectSupport;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.text.SimpleDateFormat;
+import java.util.TimeZone;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -81,6 +86,30 @@ public class MyBootConfig {
     public BeanPostProcessor beanPostProcessor() {
         return new MyInjectBeanSelfProcessor();
     }
+
+    /**
+     * Jackson配置
+     *
+     * @return ObjectMapper
+     * org.springframework.boot.autoconfigure.condition.OnBeanCondition#getMatchOutcome(ConditionContext, AnnotatedTypeMetadata)
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    @ConditionalOnMissingClass({"io.gitee.zhousiwei.FastJsonAutoConfiguration"})
+    public ObjectMapper ObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
+        // 取消timestamps形式
+        mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        mapper.setDateFormat(dateFormat);
+        //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+        // 设置时区
+        mapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        System.err.println("starter for Jackson-----Jackson init success.");
+        return mapper;
+    }
+
 }
 
 
