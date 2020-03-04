@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.github.util.encry.Md5Util;
 import io.github.util.file.FileTypeUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.MediaType;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -25,13 +26,15 @@ import java.util.UUID;
  */
 public class HttpClient {
 
-    // OK: Success!
+    /**
+     * OK: Success!
+     */
     private static final int OK = 200;
-    private static final int ConnectionTimeout = 3000;
-    private static final int ReadTimeout = 3000;
+    private static final int CONNECTION_TIMEOUT = 3000;
+    private static final int READ_TIMEOUT = 3000;
     private static final String DEFAULT_CHARSET = StandardCharsets.UTF_8.name();
-    private static final String _GET = "GET";
-    private static final String _POST = "POST";
+    private static final String GET_METHOD = "GET";
+    private static final String POST_METHOD = "POST";
     private String contentType = "application/x-www-form-urlencoded";
 
     /**
@@ -41,7 +44,7 @@ public class HttpClient {
      * @return 输出流对象
      */
     public HttpResponse get(String url) throws IOException {
-        return httpRequest(url, _GET, "", DEFAULT_CHARSET);
+        return httpRequest(url, GET_METHOD, "", DEFAULT_CHARSET);
     }
 
     /**
@@ -52,19 +55,19 @@ public class HttpClient {
      * @throws IOException
      */
     public HttpResponse post(String url, String postData, String charset) throws IOException {
-        return httpRequest(url, _POST, postData, charset);
+        return httpRequest(url, POST_METHOD, postData, charset);
     }
 
     public HttpResponse post(String url, String postData) throws IOException {
-        return httpRequest(url, _POST, postData, DEFAULT_CHARSET);
+        return httpRequest(url, POST_METHOD, postData, DEFAULT_CHARSET);
     }
 
     public HttpResponse post(String url, Map<String, String> postParams, String charset) throws IOException {
-        return httpRequest(url, _POST, postParams, charset);
+        return httpRequest(url, POST_METHOD, postParams, charset);
     }
 
     public HttpResponse post(String url, Map<String, String> postParams) throws IOException {
-        return httpRequest(url, _POST, postParams, DEFAULT_CHARSET);
+        return httpRequest(url, POST_METHOD, postParams, DEFAULT_CHARSET);
     }
 
     /**
@@ -85,26 +88,27 @@ public class HttpClient {
         StringBuffer bufferRes = new StringBuffer();
         try {
             // 定义数据分隔线 
-            String BOUNDARY = "----WebKitFormBoundaryiDGnV9zdZA1eM1yL";
+            String boundary = "----WebKitFormBoundaryiDGnV9zdZA1eM1yL";
             //创建https请求连接
-            http = getHttpURLConnection(url);
+            http = getHttpUrlConnection(url);
             //设置header和ssl证书
-            setHttpHeader(http, _POST);
+            setHttpHeader(http, POST_METHOD);
             //不缓存
             http.setUseCaches(false);
             //保持连接
             http.setRequestProperty("connection", "Keep-Alive");
             //设置文档类型
-            http.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
+            http.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
             //定义输出流
             OutputStream out = null;
             try {
                 out = new DataOutputStream(http.getOutputStream());
-                byte[] end_data = ("\r\n--" + BOUNDARY + "--\r\n").getBytes();// 定义最后数据分隔线  
+                // 定义最后数据分隔线
+                byte[] endData = ("\r\n--" + boundary + "--\r\n").getBytes();
                 StringBuilder sb = new StringBuilder();
                 sb.append("--");
-                sb.append(BOUNDARY);
+                sb.append(boundary);
                 sb.append("\r\n");
                 sb.append("Content-Disposition: form-data;name=\"media\";filename=\"").append(file.getName()).append("\"\r\n");
                 sb.append("Content-Type:application/octet-stream\r\n\r\n");
@@ -117,9 +121,10 @@ public class HttpClient {
                     while ((bytes = dataInputStream.read(bufferOut)) != -1) {
                         out.write(bufferOut, 0, bytes);
                     }
-                    out.write("\r\n".getBytes()); //多个文件时，二个文件之间加入这个
+                    //多个文件时，二个文件之间加入这个
+                    out.write("\r\n".getBytes());
                 }
-                out.write(end_data);
+                out.write(endData);
                 out.flush();
             } finally {
                 if (out != null) {
@@ -154,23 +159,23 @@ public class HttpClient {
     /**
      * 下载附件
      *
-     * @param url 附件地址
+     * @param httpUrl 附件地址
      * @return 附件对象
      * @throws IOException
      */
-    public HttpAttachment download(String url) throws IOException, NoSuchAlgorithmException {
+    public HttpAttachment download(String httpUrl) throws IOException, NoSuchAlgorithmException {
         HttpAttachment att = new HttpAttachment();
-        URL _url = new URL(url);
-        HttpURLConnection http = (HttpURLConnection) _url.openConnection();
+        URL url = new URL(httpUrl);
+        HttpURLConnection http = (HttpURLConnection) url.openConnection();
         //设置头
         setHttpHeader(http, "GET");
-        if (StringUtils.equalsIgnoreCase(http.getContentType(), "text/plain")) {
+        if (StringUtils.equalsIgnoreCase(http.getContentType(), MediaType.TEXT_PLAIN_VALUE)) {
             // 定义BufferedReader输入流来读取URL的响应  
             StringBuilder bufferRes;
             InputStream in = null;
             try {
                 in = http.getInputStream();
-                BufferedReader read = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+                BufferedReader read = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8.name()));
                 String valueString;
                 bufferRes = new StringBuilder();
                 while ((valueString = read.readLine()) != null) {
@@ -186,7 +191,8 @@ public class HttpClient {
             BufferedInputStream bis = new BufferedInputStream(http.getInputStream());
             String ds = http.getHeaderField("Content-disposition");
             String fullName = "", relName = "", suffix = "";
-            if (StringUtils.isNotBlank(ds) && StringUtils.containsAny(ds, "filename")) {
+            String filename = "filename";
+            if (StringUtils.isNotBlank(ds) && StringUtils.containsAny(ds, filename)) {
                 // 从http头获取文件名称等信息
                 fullName = ds.substring(ds.indexOf("filename=\"") + 10, ds.length() - 1);
                 relName = fullName.substring(0, fullName.lastIndexOf("."));
@@ -218,7 +224,7 @@ public class HttpClient {
      * @return http连接对象
      * @throws IOException
      */
-    private HttpURLConnection getHttpURLConnection(String url) throws IOException {
+    private HttpURLConnection getHttpUrlConnection(String url) throws IOException {
         URL urlGet = new URL(url);
         HttpURLConnection con = (HttpURLConnection) urlGet.openConnection();
         return con;
@@ -239,7 +245,7 @@ public class HttpClient {
         OutputStream output = null;
         HttpURLConnection http;
         //创建https请求连接
-        http = getHttpURLConnection(url);
+        http = getHttpUrlConnection(url);
         //判断https是否为空，如果为空返回null响应
         if (http != null) {
             //设置Header信息
@@ -250,7 +256,7 @@ public class HttpClient {
                 setHttpHeader(http, method);
             }
             //判断是否需要提交数据
-            if (method.equals(_POST) && null != postData && postData.length() > 0) {
+            if (method.equals(POST_METHOD) && null != postData && postData.length() > 0) {
                 //将参数转换为字节提交
                 byte[] bytes = postData.getBytes(charset);
                 //设置头信息
@@ -287,13 +293,13 @@ public class HttpClient {
         OutputStream output = null;
         HttpURLConnection http;
         //创建https请求连接
-        http = getHttpURLConnection(url);
+        http = getHttpUrlConnection(url);
         //判断https是否为空，如果为空返回null响应
         if (http != null) {
             //设置Header信息
             setHttpHeader(http, method);
             //判断是否需要提交数据
-            if (method.equals(_POST) && null != postParams) {
+            if (method.equals(POST_METHOD) && null != postParams) {
                 String postData = "";
                 Iterator<Entry<String, String>> it = postParams.entrySet().iterator();
                 while (it.hasNext()) {
@@ -344,12 +350,12 @@ public class HttpClient {
         //设置请求方式
         httpUrlConnection.setRequestMethod(method);
         //设置连接超时时间
-        if (ConnectionTimeout > 0) {
-            httpUrlConnection.setConnectTimeout(ConnectionTimeout);
+        if (CONNECTION_TIMEOUT > 0) {
+            httpUrlConnection.setConnectTimeout(CONNECTION_TIMEOUT);
         }
         //设置请求超时
-        if (ReadTimeout > 0) {
-            httpUrlConnection.setReadTimeout(ReadTimeout);
+        if (READ_TIMEOUT > 0) {
+            httpUrlConnection.setReadTimeout(READ_TIMEOUT);
         }
         //设置编码
         httpUrlConnection.setRequestProperty("Charsert", "UTF-8");
@@ -368,12 +374,12 @@ public class HttpClient {
         //设置请求方式
         httpUrlConnection.setRequestMethod(method);
         //设置连接超时时间
-        if (ConnectionTimeout > 0) {
-            httpUrlConnection.setConnectTimeout(ConnectionTimeout);
+        if (CONNECTION_TIMEOUT > 0) {
+            httpUrlConnection.setConnectTimeout(CONNECTION_TIMEOUT);
         }
         //设置请求超时
-        if (ReadTimeout > 0) {
-            httpUrlConnection.setReadTimeout(ReadTimeout);
+        if (READ_TIMEOUT > 0) {
+            httpUrlConnection.setReadTimeout(READ_TIMEOUT);
         }
         //设置编码
         httpUrlConnection.setRequestProperty("Charsert", "UTF-8");

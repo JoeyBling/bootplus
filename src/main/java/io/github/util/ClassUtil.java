@@ -266,7 +266,7 @@ public class ClassUtil {
         System.out.println(ClassUtil.getClass(ClassUtil.class));
 //        System.out.println(ClassUtil.getClass(null));
 //        List<Class<?>> classList = ClassUtil.getAllClassByPackageName(ClassUtil.class.getPackage());
-        List<Class<?>> classList = ClassUtil.getAllClassByPackageName(App.scanBasePackages);
+        List<Class<?>> classList = ClassUtil.getAllClassByPackageName(App.SCAN_BASE_PACKAGES);
         classList.forEach(aClass -> {
             System.out.println(ClassUtil.getClass(aClass));
         });

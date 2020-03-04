@@ -49,7 +49,7 @@ public class XssFilter implements Filter {
         if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
             HttpServletRequest req = (HttpServletRequest) request;
             HttpServletResponse resp = (HttpServletResponse) response;
-            if (handleExcludeURL(req, resp)) {
+            if (handleExcludeUrl(req, resp)) {
                 chain.doFilter(request, response);
                 return;
             }
@@ -65,17 +65,21 @@ public class XssFilter implements Filter {
      *
      * @return boolean
      */
-    private boolean handleExcludeURL(HttpServletRequest request, HttpServletResponse response) {
+    private boolean handleExcludeUrl(HttpServletRequest request, HttpServletResponse response) {
         Assert.notNull(request, "HttpServletRequest must not be null");
         Assert.notNull(response, "HttpServletResponse must not be null");
         if (ObjectUtils.isEmpty(excludes)) {
             return false;
         }
-        String requestURI = request.getRequestURI();
-        String url = request.getServletPath();
+        // 返回除去host（域名或者ip）部分的路径
+        String requestUri = request.getRequestURI();
+        // 返回除去host和工程名部分的路径
+        String servletPath = request.getServletPath();
+        //返回全路径
+        StringBuffer requestURL = request.getRequestURL();
         for (String pattern : excludes) {
             Pattern p = Pattern.compile("^" + pattern);
-            Matcher m = p.matcher(url);
+            Matcher m = p.matcher(requestURL);
             if (m.find()) {
                 return true;
             }

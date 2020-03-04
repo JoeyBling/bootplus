@@ -109,7 +109,7 @@ public class QrCodeUtil {
         /**
          * 在`com.google.zxing.MultiFormatWriter`类中，定义了一些我们不知道的码,二维码只是其中的一种
          */
-        Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
+        Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>(2);
         // 容错级别，H是最高
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
         // 上线左右的空白边距

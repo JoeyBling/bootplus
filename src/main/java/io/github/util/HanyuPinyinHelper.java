@@ -34,7 +34,7 @@ public class HanyuPinyinHelper {
         if (StringUtils.isBlank(chineseLanguage)) {
             return chineseLanguage;
         }
-        char[] cl_chars = chineseLanguage.trim().toCharArray();
+        char[] clChars = chineseLanguage.trim().toCharArray();
         String hanyupinyin = StringUtils.EMPTY;
         HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
         // 输出拼音全部小写
@@ -43,13 +43,13 @@ public class HanyuPinyinHelper {
         defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
         defaultFormat.setVCharType(HanyuPinyinVCharType.WITH_V);
         try {
-            for (int i = 0; i < cl_chars.length; i++) {
+            for (int i = 0; i < clChars.length; i++) {
                 // 如果字符是中文,则将中文转为汉语拼音
-                if (String.valueOf(cl_chars[i]).matches("[\u4e00-\u9fa5]+")) {
-                    hanyupinyin += PinyinHelper.toHanyuPinyinStringArray(cl_chars[i], defaultFormat)[0];
+                if (String.valueOf(clChars[i]).matches("[\u4e00-\u9fa5]+")) {
+                    hanyupinyin += PinyinHelper.toHanyuPinyinStringArray(clChars[i], defaultFormat)[0];
                 } else {
                     // 如果字符不是中文,则不转换
-                    hanyupinyin += cl_chars[i];
+                    hanyupinyin += clChars[i];
                 }
             }
         } catch (BadHanyuPinyinOutputFormatCombination e) {
@@ -78,39 +78,39 @@ public class HanyuPinyinHelper {
         if (StringUtils.isBlank(chineseLanguage)) {
             return chineseLanguage;
         }
-        char[] cl_chars = chineseLanguage.trim().toCharArray();
-        String hanYuPY = StringUtils.EMPTY;
+        char[] clChars = chineseLanguage.trim().toCharArray();
+        String hanYuPinYin = StringUtils.EMPTY;
         HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
         // 指定输出大小写拼音
         defaultFormat.setCaseType(caseType);
         // 不带声调
         defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
         try {
-            for (int i = 0; i < cl_chars.length; i++) {
-                String str = String.valueOf(cl_chars[i]);
+            for (int i = 0; i < clChars.length; i++) {
+                String str = String.valueOf(clChars[i]);
                 // 如果字符是中文,则将中文转为汉语拼音,并取第一个字母
                 if (str.matches("[\u4e00-\u9fa5]+")) {
-                    hanYuPY += PinyinHelper.toHanyuPinyinStringArray(cl_chars[i], defaultFormat)[0].substring(0, 1);
+                    hanYuPinYin += PinyinHelper.toHanyuPinyinStringArray(clChars[i], defaultFormat)[0].substring(0, 1);
                 } else if (str.matches("[0-9]+")) {
                     // 如果字符是数字,取数字
-                    hanYuPY += cl_chars[i];
+                    hanYuPinYin += clChars[i];
                 } else if (str.matches("[a-zA-Z]+")) {
                     // 如果字符是字母,取字母
-                    hanYuPY += cl_chars[i];
+                    hanYuPinYin += clChars[i];
                 } else {
                     //如果是标点符号的话，带着
-                    hanYuPY += cl_chars[i];
+                    hanYuPinYin += clChars[i];
                 }
             }
         } catch (BadHanyuPinyinOutputFormatCombination e) {
             throw e;
         }
         if (HanyuPinyinCaseType.UPPERCASE.equals(caseType)) {
-            hanYuPY = hanYuPY.toUpperCase(Locale.ENGLISH);
+            hanYuPinYin = hanYuPinYin.toUpperCase(Locale.ENGLISH);
         } else {
-            hanYuPY = hanYuPY.toLowerCase(Locale.ENGLISH);
+            hanYuPinYin = hanYuPinYin.toLowerCase(Locale.ENGLISH);
         }
-        return hanYuPY;
+        return hanYuPinYin;
     }
 
     /**
@@ -120,32 +120,35 @@ public class HanyuPinyinHelper {
      * @return
      */
     public static String getFirstLetter(String chineseLanguage) throws BadHanyuPinyinOutputFormatCombination {
-        char[] cl_chars = chineseLanguage.trim().toCharArray();
-        String hanyupinyin = StringUtils.EMPTY;
+        char[] clChars = chineseLanguage.trim().toCharArray();
+        String hanYuPinYin = StringUtils.EMPTY;
         HanyuPinyinOutputFormat defaultFormat = new HanyuPinyinOutputFormat();
         // 输出拼音全部大写
         defaultFormat.setCaseType(HanyuPinyinCaseType.UPPERCASE);
         // 不带声调
         defaultFormat.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
         try {
-            String str = String.valueOf(cl_chars[0]);
-            if (str.matches("[\u4e00-\u9fa5]+")) {
+            String chineseRegex = "[\u4e00-\u9fa5]+";
+            String numberRegex = "[0-9]+";
+            String letterRegex = "[a-zA-Z]+";
+            String str = String.valueOf(clChars[0]);
+            if (str.matches(chineseRegex)) {
                 // 如果字符是中文,则将中文转为汉语拼音,并取第一个字母
-                hanyupinyin = PinyinHelper.toHanyuPinyinStringArray(
-                        cl_chars[0], defaultFormat)[0].substring(0, 1);
-            } else if (str.matches("[0-9]+")) {
+                hanYuPinYin = PinyinHelper.toHanyuPinyinStringArray(
+                        clChars[0], defaultFormat)[0].substring(0, 1);
+            } else if (str.matches(numberRegex)) {
                 // 如果字符是数字,取数字
-                hanyupinyin += cl_chars[0];
-            } else if (str.matches("[a-zA-Z]+")) {
+                hanYuPinYin += clChars[0];
+            } else if (str.matches(letterRegex)) {
                 // 如果字符是字母,取字母
-                hanyupinyin += cl_chars[0];
+                hanYuPinYin += clChars[0];
             } else {
                 // 否则不转换
             }
         } catch (BadHanyuPinyinOutputFormatCombination e) {
             throw e;
         }
-        return hanyupinyin;
+        return hanYuPinYin;
     }
 
     public static void main(String[] args) throws BadHanyuPinyinOutputFormatCombination {

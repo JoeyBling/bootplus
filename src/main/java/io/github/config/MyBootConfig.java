@@ -96,7 +96,7 @@ public class MyBootConfig {
     @Bean
     @ConditionalOnMissingBean
     @ConditionalOnMissingClass({"io.gitee.zhousiwei.FastJsonAutoConfiguration"})
-    public ObjectMapper ObjectMapper() {
+    public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
         // 取消timestamps形式

@@ -44,14 +44,7 @@ public class SysRoleController extends AbstractController {
                   @RequestParam(name = "search", required = false) String roleName) {
         offset = (offset / limit) + 1;
         // 排序逻辑
-        Boolean flag = null;
-        if (StringUtils.isNoneBlank(order)) {
-            if ("asc".equalsIgnoreCase(order)) {
-                flag = true;
-            } else {
-                flag = false;
-            }
-        }
+        Boolean flag = isOrderByAsc(order);
         Page<SysRoleEntity> roleList = sysRoleService.queryListByPage(offset, limit, roleName, sort, flag);
         PageUtils pageUtil = new PageUtils(roleList.getRecords(), roleList.getTotal(), roleList.getSize(),
                 roleList.getCurrent());

@@ -18,6 +18,8 @@ public class JoeyUtil {
 
     private static final Pattern CRLF = Pattern.compile("(\r\n|\r|\n|\n\r)");
 
+    private static final String UNDEFINED = "undefined";
+
     /**
      * 如果为空或undefined返回空
      *
@@ -25,7 +27,7 @@ public class JoeyUtil {
      * @return String
      */
     public static String nullOrUndefined(String flag) {
-        if (null == flag || "undefined".equals(flag)) {
+        if (null == flag || UNDEFINED.equals(flag)) {
             return null;
         }
         return flag;

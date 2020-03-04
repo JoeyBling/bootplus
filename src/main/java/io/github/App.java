@@ -26,13 +26,13 @@ import java.util.Collections;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableScheduling
 @ServletComponentScan
-@SpringBootApplication(scanBasePackages = App.scanBasePackages)
+@SpringBootApplication(scanBasePackages = App.SCAN_BASE_PACKAGES)
 public class App extends SpringBootServletInitializer {
 
     /**
      * 扫描包名
      */
-    public static final String scanBasePackages = "io.github";
+    public static final String SCAN_BASE_PACKAGES = "io.github";
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(App.class);

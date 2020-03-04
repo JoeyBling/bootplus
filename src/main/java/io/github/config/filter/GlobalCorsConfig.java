@@ -26,7 +26,7 @@ import org.springframework.web.filter.CorsFilter;
 @Deprecated
 public class GlobalCorsConfig {
 
-    private final static String missingClassPath = ClassUtil.getClass(MyCorsFilter.class);
+    private final static String MISSING_CLASS_PATH = ClassUtil.getClass(MyCorsFilter.class);
 
     /**
      * 如果需要开启 删除@ConditionalOnMissingClass 注解即可，然后注释 MyCorsFilter 类的 @WebFilter 注解

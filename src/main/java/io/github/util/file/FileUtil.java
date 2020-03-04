@@ -159,7 +159,7 @@ public class FileUtil {
         File dirFile = new File(dir);
         // 如果dir对应的文件不存在，或者不是一个目录，则退出
         if ((!dirFile.exists()) || (!dirFile.isDirectory())) {
-            // System.out.println("删除目录失败：" + dir + "不存在！");
+            // 删除目录失败，文件不存在
             return false;
         }
         boolean flag = true;

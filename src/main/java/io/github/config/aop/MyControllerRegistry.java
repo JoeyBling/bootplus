@@ -68,7 +68,7 @@ public class MyControllerRegistry implements ApplicationListener<ContextRefreshe
                 }
             }
             // 这里从包扫描注册Controller
-            handleRegister(App.scanBasePackages, annotationClass);
+            handleRegister(App.SCAN_BASE_PACKAGES, annotationClass);
         }
     }
 
@@ -82,7 +82,7 @@ public class MyControllerRegistry implements ApplicationListener<ContextRefreshe
      */
     @PostConstruct
     public void doSomeThing() throws Exception {
-//        handleRegister(App.scanBasePackages, MyController.class);
+//        handleRegister(App.SCAN_BASE_PACKAGES, MyController.class);
     }
 
     /**

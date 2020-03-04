@@ -33,14 +33,7 @@ public class SysUserLoginLogController extends AbstractController {
                   @RequestParam(name = "search", required = false) String loginIp, HttpServletRequest request) {
         offset = (offset / limit) + 1;
         // 排序逻辑
-        Boolean flag = null;
-        if (StringUtils.isNoneBlank(order)) {
-            if ("asc".equalsIgnoreCase(order)) {
-                flag = true;
-            } else {
-                flag = false;
-            }
-        }
+        Boolean flag = isOrderByAsc(order);
         Page<SysUserLoginLogEntity> self = sysUserLoginLogService.getSelf(offset, limit, getAdminId(), loginIp, sort,
                 flag);
         PageUtils pageUtil = new PageUtils(self.getRecords(), self.getTotal(), self.getSize(), self.getCurrent());

@@ -3,7 +3,7 @@ package io.github.config;
 import com.jagregory.shiro.freemarker.ShiroTags;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateModelException;
-import io.github.util.freemaker.FormatTimeFTLHelper;
+import io.github.util.freemaker.FormatTimeFtlHelper;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -27,7 +27,7 @@ public class FreeMarkerConfig {
     @PostConstruct
     public void setSharedVariable() throws TemplateModelException {
         configuration.setTagSyntax(freemarker.template.Configuration.AUTO_DETECT_TAG_SYNTAX);
-        configuration.setSharedVariable("formatTime", new FormatTimeFTLHelper());
+        configuration.setSharedVariable("formatTime", new FormatTimeFtlHelper());
         configuration.setSharedVariable("shiro", new ShiroTags());
     }
 

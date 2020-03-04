@@ -1,7 +1,6 @@
 package io.github.util.encry;
 
 import org.apache.commons.codec.binary.Base64;
-import org.springframework.util.Assert;
 
 import javax.crypto.*;
 import java.io.FileInputStream;
@@ -42,7 +41,7 @@ public class CryptoUtil {
     /**
      * 最短密钥生成长度
      */
-    private static final int minSize = 1024;
+    private static final int MIN_SIZE = 1024;
 
     /**
      * 对数据进行加密
@@ -156,8 +155,8 @@ public class CryptoUtil {
      * @throws NoSuchAlgorithmException
      */
     public static Key initKey(String algorithm, int size, Provider provider) throws NoSuchAlgorithmException {
-        if (size < minSize) {
-            throw new IllegalArgumentException(String.format("最短密钥生成长度为%s", minSize));
+        if (size < MIN_SIZE) {
+            throw new IllegalArgumentException(String.format("最短密钥生成长度为%s", MIN_SIZE));
         }
         KeyGenerator keyGen;
         if (null != provider) {
@@ -183,10 +182,10 @@ public class CryptoUtil {
      * @throws NoSuchAlgorithmException
      */
     public static Map<String, Key> initKeyPair(String algorithm, int size, Provider provider) throws NoSuchAlgorithmException {
-        if (size < minSize) {
-            throw new IllegalArgumentException(String.format("最短密钥生成长度为%s", minSize));
+        if (size < MIN_SIZE) {
+            throw new IllegalArgumentException(String.format("最短密钥生成长度为%s", MIN_SIZE));
         }
-        Map<String, Key> keyMap = new HashMap<String, Key>();
+        Map<String, Key> keyMap = new HashMap<String, Key>(2);
         KeyPairGenerator keyPairGen;
         if (null != provider) {
             // 实例化密钥对生成器，指定算法

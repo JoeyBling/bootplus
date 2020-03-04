@@ -1,5 +1,6 @@
 package io.github.util;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,15 +25,16 @@ public class DateUtils {
     /**
      * 日期格式化所有格式
      */
-    private final static SimpleDateFormat[] SIMPLEDATEFORMAT = new SimpleDateFormat[6];
+    private final static SimpleDateFormat[] SIMPLE_DATE_FORMATS = new SimpleDateFormat[6];
 
-    static { // 静态初始化
-        SIMPLEDATEFORMAT[0] = new SimpleDateFormat("yyyy-MM-dd");
-        SIMPLEDATEFORMAT[1] = new SimpleDateFormat("yyyy年MM月dd日");
-        SIMPLEDATEFORMAT[2] = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SIMPLEDATEFORMAT[3] = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
-        SIMPLEDATEFORMAT[4] = new SimpleDateFormat("yyyy/MM/dd");
-        SIMPLEDATEFORMAT[5] = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+    static {
+        // 静态初始化
+        SIMPLE_DATE_FORMATS[0] = new SimpleDateFormat("yyyy-MM-dd");
+        SIMPLE_DATE_FORMATS[1] = new SimpleDateFormat("yyyy年MM月dd日");
+        SIMPLE_DATE_FORMATS[2] = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SIMPLE_DATE_FORMATS[3] = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
+        SIMPLE_DATE_FORMATS[4] = new SimpleDateFormat("yyyy/MM/dd");
+        SIMPLE_DATE_FORMATS[5] = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
     }
 
     /**
@@ -46,6 +48,12 @@ public class DateUtils {
     }
 
     /**
+     * 安全用法
+     */
+    private static final ThreadLocal<DateFormat> TL_DATE_FORMATTER =
+            ThreadLocal.withInitial(() -> new SimpleDateFormat(DATE_TIME_PATTERN));
+
+    /**
      * 转换日期为String
      *
      * @param date    Date
@@ -54,8 +62,10 @@ public class DateUtils {
      */
     public static String format(Date date, String pattern) {
         if (date != null) {
-            SimpleDateFormat df = new SimpleDateFormat(pattern);
-            return df.format(date);
+            if (null != pattern) {
+                TL_DATE_FORMATTER.set(new SimpleDateFormat(pattern));
+            }
+            return TL_DATE_FORMATTER.get().format(date);
         }
         return null;
     }
@@ -69,7 +79,7 @@ public class DateUtils {
      */
     public static Date parse(String date) throws Exception {
         if (date != null) {
-            for (SimpleDateFormat df : SIMPLEDATEFORMAT) {
+            for (SimpleDateFormat df : SIMPLE_DATE_FORMATS) {
                 try {
                     return df.parse(date);
                 } catch (ParseException e) {
@@ -102,7 +112,7 @@ public class DateUtils {
 
         int i = myCalendar.get(Calendar.DAY_OF_WEEK);
         // 星期日i==1，星期六i==7
-        if (i == 1 || i == 7) {
+        if (i == Calendar.SUNDAY || i == Calendar.SATURDAY) {
             return true;
         }
         return false;

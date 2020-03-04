@@ -19,12 +19,12 @@ public class ContextListener implements ServletContextListener {
     /**
      * 上下文路径系统参数名称
      */
-    public final static String contextPathPropertyName = "web.root.context.admin";
+    public final static String CONTEXT_PATH_PROPERTY_NAME = "web.root.context.admin";
 
     /**
      * 上下文真实路径系统参数名称
      */
-    public final static String contextRealPathPropertyName = "web.root.admin";
+    public final static String CONTEXT_REAL_PATH_PROPERTY_NAME = "web.root.admin";
 
     /**
      * 应用程序上下文路径
@@ -43,8 +43,8 @@ public class ContextListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         contextPath = StringUtils.defaultString(servletContextEvent.getServletContext().getContextPath());
         contextRealPath = StringUtils.defaultString(servletContextEvent.getServletContext().getRealPath("/"));
-        System.setProperty(contextPathPropertyName, contextPath);
-        System.setProperty(contextRealPathPropertyName, contextRealPath);
+        System.setProperty(CONTEXT_PATH_PROPERTY_NAME, contextPath);
+        System.setProperty(CONTEXT_REAL_PATH_PROPERTY_NAME, contextRealPath);
         if (log.isDebugEnabled()) {
             log.debug("自定义监听器:ServletContextListener->contextInitialized=={}",
                     this.toString());

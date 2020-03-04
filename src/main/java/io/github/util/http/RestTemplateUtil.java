@@ -177,7 +177,7 @@ public class RestTemplateUtil {
         if (MediaType.APPLICATION_FORM_URLENCODED.equals(contentType)) {
             // APPLICATION_FORM_URLENCODED 类型必须使用LinkedMultiValueMap入参
             if (body instanceof Map && !(body instanceof MultiValueMap)) {
-                return (T) MapToLinkedMap((Map) body);
+                return (T) mapToLinkedMap((Map) body);
             }
         }
         return body;
@@ -191,7 +191,7 @@ public class RestTemplateUtil {
      * @param <V>
      * @return
      */
-    public static <K, V> LinkedMultiValueMap<K, V> MapToLinkedMap(final Map<K, V> map) {
+    public static <K, V> LinkedMultiValueMap<K, V> mapToLinkedMap(final Map<K, V> map) {
         LinkedMultiValueMap<K, V> linkedMaps = new LinkedMultiValueMap<K, V>();
         if (!ObjectUtils.isEmpty(map)) {
             Set<Map.Entry<K, V>> entrySet = map.entrySet();

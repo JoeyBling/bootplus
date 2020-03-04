@@ -26,6 +26,7 @@ import io.github.util.file.FileTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.MediaType;
 
 import javax.net.ssl.*;
 import java.io.*;
@@ -50,15 +51,17 @@ import java.util.UUID;
 public class HttpsClient {
     private static final Logger logger = LoggerFactory.getLogger(HttpsClient.class);
 
-    // OK: Success!
+    /**
+     * OK: Success!
+     */
     private static final int OK = 200;
-    private static final int ConnectionTimeout = 25000;
-    private static final int ReadTimeout = 25000;
+    private static final int CONNECTION_TIMEOUT = 25000;
+    private static final int READ_TIMEOUT = 25000;
     private static final String DEFAULT_CHARSET = StandardCharsets.UTF_8.name();
-    private static final String _GET = "GET";
-    private static final String _POST = "POST";
-    private static final String _PUT = "PUT";
-    private static final String _DELETE = "DELETE";
+    private static final String GET_METHOD = "GET";
+    private static final String POST_METHOD = "POST";
+    private static final String PUT_METHOD = "PUT";
+    private static final String DELETE_METHOD = "DELETE";
 
     public HttpsClient() {
     }
@@ -77,19 +80,19 @@ public class HttpsClient {
         //将JSON数据转换为String字符串
         String jsonString = json == null ? null : json.toString();
         //提交数据
-        return httpsRequest(url, _POST, jsonString, false, null, null, null, null);
+        return httpsRequest(url, POST_METHOD, jsonString, false, null, null, null, null);
     }
 
     public HttpResponse post(String url, String json) throws SysRuntimeException {
         //将JSON数据转换为String字符串
         //提交数据
-        return httpsRequest(url, _POST, json, false, null, null, null, null);
+        return httpsRequest(url, POST_METHOD, json, false, null, null, null, null);
     }
 
     public HttpResponse post(String url, String json, Map<String, String> headerProperties) throws SysRuntimeException {
         //将JSON数据转换为String字符串
         //提交数据
-        return httpsRequest(url, _POST, json, false, null, null, null, headerProperties);
+        return httpsRequest(url, POST_METHOD, json, false, null, null, null, headerProperties);
     }
 
     /**
@@ -105,13 +108,13 @@ public class HttpsClient {
     public HttpResponse put(String url, String body) throws SysRuntimeException {
         //将JSON数据转换为String字符串
         //提交数据
-        return httpsRequest(url, _PUT, body, false, null, null, null, null);
+        return httpsRequest(url, PUT_METHOD, body, false, null, null, null, null);
     }
 
     public HttpResponse put(String url, String json, Map<String, String> headerProperties) throws SysRuntimeException {
         //将JSON数据转换为String字符串
         //提交数据
-        return httpsRequest(url, _PUT, json, false, null, null, null, headerProperties);
+        return httpsRequest(url, PUT_METHOD, json, false, null, null, null, headerProperties);
     }
 
     /**
@@ -123,12 +126,12 @@ public class HttpsClient {
      */
     public HttpResponse delete(String url) throws SysRuntimeException {
         //提交数据
-        return httpsRequest(url, _DELETE, null, false, null, null, null, null);
+        return httpsRequest(url, DELETE_METHOD, null, false, null, null, null, null);
     }
 
     public HttpResponse delete(String url, Map<String, String> headerProperties) throws SysRuntimeException {
         //提交数据
-        return httpsRequest(url, _DELETE, null, false, null, null, null, headerProperties);
+        return httpsRequest(url, DELETE_METHOD, null, false, null, null, null, headerProperties);
     }
 
     /**
@@ -141,11 +144,11 @@ public class HttpsClient {
      * @throws SysRuntimeException
      */
     public HttpResponse get(String url) throws SysRuntimeException {
-        return httpsRequest(url, _GET, null, false, null, null, null, null);
+        return httpsRequest(url, GET_METHOD, null, false, null, null, null, null);
     }
 
     public HttpResponse get(String url, Map<String, String> headerProperties) throws SysRuntimeException {
-        return httpsRequest(url, _GET, null, false, null, null, null, headerProperties);
+        return httpsRequest(url, GET_METHOD, null, false, null, null, null, headerProperties);
     }
 
     /**
@@ -157,7 +160,7 @@ public class HttpsClient {
      * @throws SysRuntimeException
      */
     public HttpResponse postXml(String url, String xml) throws SysRuntimeException {
-        return httpsRequest(url, _POST, xml, false, null, null, null, null);
+        return httpsRequest(url, POST_METHOD, xml, false, null, null, null, null);
     }
 
     /**
@@ -173,7 +176,7 @@ public class HttpsClient {
 //        String partnerId = Configuration.getProperty("weixin4j.pay.partner.id");
 //        String certPath = Configuration.getProperty("weixin4j.http.cert.path");
 //        String certSecret = Configuration.getProperty("weixin4j.http.cert.secret");
-//        return httpsRequest(url, _POST, xml, needCert, partnerId, certPath, certSecret);
+//        return httpsRequest(url, POST_METHOD, xml, needCert, partnerId, certPath, certSecret);
 //    }
 
     /**
@@ -188,7 +191,7 @@ public class HttpsClient {
      * @throws SysRuntimeException
      */
     public HttpResponse postXml(String url, String xml, String partnerId, String certPath, String certSecret, Map<String, String> headerProperties) throws SysRuntimeException {
-        return httpsRequest(url, _POST, xml, true, partnerId, certPath, certSecret, headerProperties);
+        return httpsRequest(url, POST_METHOD, xml, true, partnerId, certPath, certSecret, headerProperties);
     }
 
     /**
@@ -207,13 +210,13 @@ public class HttpsClient {
         try {
             logger.debug(String.format("%s %s", method, url));
             //创建https请求连接
-            https = getHttpsURLConnection(url);
+            https = getHttpsUrlConnection(url);
             //判断https是否为空，如果为空返回null响应
             if (https != null) {
                 //设置Header信息，包括https证书
                 setHttpsHeader(https, method, needCert, partnerId, certPath, certSecret, headerProperties);
                 //判断是否需要提交数据
-                if (!method.equals(_GET) && null != postData) {
+                if (!method.equals(GET_METHOD) && null != postData) {
                     logger.debug(String.format("body %s", postData));
                     //讲参数转换为字节提交
                     byte[] bytes = postData.getBytes(DEFAULT_CHARSET);
@@ -262,7 +265,7 @@ public class HttpsClient {
      * @return https连接对象
      * @throws IOException
      */
-    private HttpsURLConnection getHttpsURLConnection(String url) throws IOException {
+    private HttpsURLConnection getHttpsUrlConnection(String url) throws IOException {
         URL urlGet = new URL(url);
         //创建https请求
         HttpsURLConnection httpsUrlConnection = (HttpsURLConnection) urlGet.openConnection();
@@ -317,18 +320,18 @@ public class HttpsClient {
 //        httpsUrlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/33.0.1750.146 Safari/537.36");
 
 
-        //设置可接受信息
+        // 设置可接受信息
         httpsUrlConnection.setDoOutput(true);
-        //设置可输入信息
+        // 设置可输入信息
         httpsUrlConnection.setDoInput(true);
-        //设置请求方式
+        // 设置请求方式
         httpsUrlConnection.setRequestMethod(method);
-        //设置连接超时时间
-        httpsUrlConnection.setConnectTimeout(ConnectionTimeout);
-        //设置请求超时
-        httpsUrlConnection.setReadTimeout(ReadTimeout);
-        //设置编码
-        httpsUrlConnection.setRequestProperty("Charsert", "UTF-8");
+        // 设置连接超时时间
+        httpsUrlConnection.setConnectTimeout(CONNECTION_TIMEOUT);
+        // 设置请求超时
+        httpsUrlConnection.setReadTimeout(READ_TIMEOUT);
+        // 设置编码
+        httpsUrlConnection.setRequestProperty("Charsert", StandardCharsets.UTF_8.name());
     }
 
     /**
@@ -337,33 +340,32 @@ public class HttpsClient {
      * @param url  上传地址
      * @param file 上传文件对象
      * @return 服务器上传响应结果
-     * @throws org.weixin4j.SysRuntimeException
      */
     public String uploadHttps(String url, File file) throws SysRuntimeException {
         HttpsURLConnection https = null;
         StringBuffer bufferRes = new StringBuffer();
         try {
             // 定义数据分隔线 
-            String BOUNDARY = "----WebKitFormBoundaryiDGnV9zdZA1eM1yL";
+            String boundary = "----WebKitFormBoundaryiDGnV9zdZA1eM1yL";
             //创建https请求连接
-            https = getHttpsURLConnection(url);
+            https = getHttpsUrlConnection(url);
             //设置header和ssl证书
-            setHttpsHeader(https, _POST, false, null, null, null, null);
+            setHttpsHeader(https, POST_METHOD, false, null, null, null, null);
             //不缓存
             https.setUseCaches(false);
             //保持连接
             https.setRequestProperty("connection", "Keep-Alive");
             //设置文档类型
-            https.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + BOUNDARY);
+            https.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
 
             //定义输出流
             OutputStream out = null;
             try {
                 out = new DataOutputStream(https.getOutputStream());
-                byte[] end_data = ("\r\n--" + BOUNDARY + "--\r\n").getBytes();// 定义最后数据分隔线  
+                byte[] endData = ("\r\n--" + boundary + "--\r\n").getBytes();// 定义最后数据分隔线
                 StringBuilder sb = new StringBuilder();
                 sb.append("--");
-                sb.append(BOUNDARY);
+                sb.append(boundary);
                 sb.append("\r\n");
                 sb.append("Content-Disposition: form-data;name=\"media\";filename=\"").append(file.getName()).append("\"\r\n");
                 sb.append("Content-Type:application/octet-stream\r\n\r\n");
@@ -378,7 +380,7 @@ public class HttpsClient {
                     }
                     out.write("\r\n".getBytes()); //多个文件时，二个文件之间加入这个
                 }
-                out.write(end_data);
+                out.write(endData);
                 out.flush();
             } finally {
                 if (out != null) {
@@ -437,9 +439,9 @@ public class HttpsClient {
         HttpsURLConnection https;
         try {
             //创建https请求连接
-            https = getHttpsURLConnection(url);
+            https = getHttpsUrlConnection(url);
             //设置header和ssl证书
-            setHttpsHeader(https, _POST, false, null, null, null, null);
+            setHttpsHeader(https, POST_METHOD, false, null, null, null, null);
             //不缓存
             https.setUseCaches(false);
             //保持连接
@@ -448,12 +450,12 @@ public class HttpsClient {
             //初始化返回附件对象
             attachment = new HttpAttachment();
             //根据下载响应内容创建输出流
-            if (StringUtils.containsAny(https.getContentType(), "text/plain")
+            if (StringUtils.containsAny(https.getContentType(), MediaType.TEXT_PLAIN_VALUE)
                     || StringUtils.containsAny(https.getContentType(), "application/json")) {
                 // 定义BufferedReader输入流来读取URL的响应  
                 StringBuilder bufferRes;
                 try (InputStream in = https.getInputStream();
-                     BufferedReader read = new BufferedReader(new InputStreamReader(in, "UTF-8"))) {
+                     BufferedReader read = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8.name()))) {
                     String valueString;
                     bufferRes = new StringBuilder();
                     while ((valueString = read.readLine()) != null) {
@@ -465,7 +467,8 @@ public class HttpsClient {
                 BufferedInputStream bis = new BufferedInputStream(https.getInputStream());
                 String ds = https.getHeaderField("Content-disposition");
                 String fullName = "", relName = "", suffix = "";
-                if (StringUtils.isNotBlank(ds) && StringUtils.containsAny(ds, "filename")) {
+                String filename = "filename";
+                if (StringUtils.isNotBlank(ds) && StringUtils.containsAny(ds, filename)) {
                     // 从http头获取文件名称等信息
                     fullName = ds.substring(ds.indexOf("filename=\"") + 10, ds.length() - 1);
                     relName = fullName.substring(0, fullName.lastIndexOf("."));

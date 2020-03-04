@@ -1,5 +1,7 @@
 package io.github.util.http;
 
+import io.github.util.StringUtils;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -24,29 +26,33 @@ public class GetIpAddress {
     public final static String getIpAddress(HttpServletRequest request) throws IOException {
         // 获取请求主机IP地址,如果通过代理进来，则透过防火墙获取真实IP地址
         String ip = request.getHeader("X-Forwarded-For");
-        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+        String unknown = "unknown";
+        if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
+            if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("Proxy-Client-IP");
             }
-            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("WL-Proxy-Client-IP");
             }
-            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("HTTP_CLIENT_IP");
             }
-            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("HTTP_X_FORWARDED_FOR");
             }
-            if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
                 ip = request.getRemoteAddr();
             }
-        } else if (ip.length() > 15) {
-            String[] ips = ip.split(",");
-            for (int index = 0; index < ips.length; index++) {
-                String strIp = (String) ips[index];
-                if (!("unknown".equalsIgnoreCase(strIp))) {
-                    ip = strIp;
-                    break;
+        } else {
+            int maxIpCheckLength = 15;
+            if (StringUtils.isNotBlank(ip) && ip.length() > maxIpCheckLength) {
+                String[] ips = ip.split(",");
+                for (int index = 0; index < ips.length; index++) {
+                    String strIp = ips[index];
+                    if (!(unknown.equalsIgnoreCase(strIp))) {
+                        ip = strIp;
+                        break;
+                    }
                 }
             }
         }
@@ -69,20 +75,23 @@ public class GetIpAddress {
         if (returnStr != null) {
             // 处理返回的省市区信息
             String[] temp = returnStr.split(",");
-            if (temp.length < 3) {
-                return "0";// 无效IP，局域网测试
+            int minResultLength = 3;
+            if (temp.length < minResultLength) {
+                // 无效IP，局域网测试
+                return "0";
             }
             String country = "";
             String region = "";
             String city = "";
             country = (temp[3].split(":"))[1].replaceAll("\"", "");
-            country = decodeUnicode(country);// 国家
+            // 国家
+            country = decodeUnicode(country);
             region = (temp[4].split(":"))[1].replaceAll("\"", "");
-            region = decodeUnicode(region);// 省份
+            // 省份
+            region = decodeUnicode(region);
             city = (temp[5].split(":"))[1].replaceAll("\"", "");
-            city = decodeUnicode(city);// 市区
-            // System.out.println("国家=" + country + " 省份=" + region + " 市区="
-            // + city);
+            // 市区
+            city = decodeUnicode(city);
             return city;
         }
         return null;
@@ -97,23 +106,30 @@ public class GetIpAddress {
      * @throws IOException
      */
     private String getResult(String urlStr, String encoding) throws IOException {
-        URL url = null;
+        URL url;
         HttpURLConnection connection = null;
         try {
             url = new URL(urlStr);
-            connection = (HttpURLConnection) url.openConnection();// 新建连接实例
-            connection.setConnectTimeout(2000);// 设置连接超时时间，单位毫秒
-            connection.setReadTimeout(2000);// 设置读取数据超时时间，单位毫秒
-            connection.setDoOutput(true);// 是否打开输出流 true|false
-            connection.setDoInput(true);// 是否打开输入流true|false
-            connection.setRequestMethod("POST");// 提交方法POST|GET
-            connection.setUseCaches(false);// 是否缓存true|false
+            // 新建连接实例
+            connection = (HttpURLConnection) url.openConnection();
+            // 设置连接超时时间，单位毫秒
+            connection.setConnectTimeout(2000);
+            // 设置读取数据超时时间，单位毫秒
+            connection.setReadTimeout(2000);
+            // 是否打开输出流 true|false
+            connection.setDoOutput(true);
+            // 是否打开输入流true|false
+            connection.setDoInput(true);
+            // 提交方法POST|GET
+            connection.setRequestMethod("POST");
+            // 是否缓存true|false
+            connection.setUseCaches(false);
             // 打开连接端口
             connection.connect();
             // 打开输出流往对端服务器写数据
             try (DataOutputStream out = new DataOutputStream(connection.getOutputStream())) {
                 // out.writeBytes(content);// 写数据,也就是提交你的表单 name=xxx&pwd=xxx
-                out.flush();// 刷新
+                out.flush();
             }
             // 往对端写完数据对端服务器返回数据
             StringBuffer buffer;
@@ -151,7 +167,8 @@ public class GetIpAddress {
                 aChar = theString.charAt(x++);
                 if (aChar == 'u') {
                     int value = 0;
-                    for (int i = 0; i < 4; i++) {
+                    int length = 4;
+                    for (int i = 0; i < length; i++) {
                         aChar = theString.charAt(x++);
                         switch (aChar) {
                             case '0':

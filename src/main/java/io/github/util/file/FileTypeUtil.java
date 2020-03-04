@@ -21,6 +21,10 @@ import java.util.Map;
 public class FileTypeUtil {
 
     /**
+     * 文件名分离字符
+     */
+    public static final String EXT_SEPARATOR_STR = ".";
+    /**
      * 通过文件头获取文件扩展名
      */
     private static Map<String, String> magicNumberMap = new HashMap<String, String>();
@@ -81,8 +85,8 @@ public class FileTypeUtil {
     public static String getExtensionName(String path) throws IOException {
         FileInputStream is = new FileInputStream(path);
         String extName = getExtensionName(is);
-        if (extName == null && path.lastIndexOf(".") != -1) {
-            String _extName = path.substring(path.lastIndexOf("."));
+        if (extName == null && path.lastIndexOf(EXT_SEPARATOR_STR) != -1) {
+            String _extName = path.substring(path.lastIndexOf(EXT_SEPARATOR_STR));
             // 扩展名一般超过5位，超过5位的
             extName = _extName.length() > 5 ? extName : _extName;
         }
@@ -92,9 +96,10 @@ public class FileTypeUtil {
     public static String getExtensionName(File file) throws IOException {
         FileInputStream is = new FileInputStream(file);
         String extName = getExtensionName(is);
-        if (extName == null && file.getName().lastIndexOf(".") != -1) {
+
+        if (extName == null && file.getName().lastIndexOf(EXT_SEPARATOR_STR) != -1) {
             String name = file.getName();
-            String _extName = name.substring(name.lastIndexOf("."));
+            String _extName = name.substring(name.lastIndexOf(EXT_SEPARATOR_STR));
             // 扩展名一般超过5位，超过5位的
             extName = _extName.length() > 5 ? extName : _extName;
         }
@@ -166,7 +171,7 @@ public class FileTypeUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        FileInputStream fis = new FileInputStream("f:\\A_lAFwRP7_vsIxd.amr");
+        FileInputStream fis = new FileInputStream("D:\\test.png");
         byte[] b = new byte[4];
         fis.read(b, 0, b.length);
         System.out.println(bytesToHexString(b));

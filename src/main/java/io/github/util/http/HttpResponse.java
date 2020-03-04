@@ -129,7 +129,7 @@ public class HttpResponse {
      *
      * @return JSONObject对象
      */
-    public JSONObject asJSONObject() throws SysRuntimeException {
+    public JSONObject asJsonObject() throws SysRuntimeException {
         return JSONObject.parseObject(asString());
     }
 
@@ -138,7 +138,7 @@ public class HttpResponse {
      *
      * @return JSONArray对象
      */
-    public JSONArray asJSONArray() throws SysRuntimeException {
+    public JSONArray asJsonArray() throws SysRuntimeException {
         return JSONArray.parseArray(asString());
     }
 

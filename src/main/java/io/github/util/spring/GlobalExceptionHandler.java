@@ -2,6 +2,7 @@ package io.github.util.spring;
 
 import io.github.util.R;
 import io.github.util.RRException;
+import io.github.util.SysRuntimeException;
 import org.apache.shiro.authz.AuthorizationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class GlobalExceptionHandler {
      * @param e RRException
      * @return Map
      */
-    @ExceptionHandler(RRException.class)
+    @ExceptionHandler({RRException.class, SysRuntimeException.class})
     public R handleRRException(RRException e) {
         R r = new R();
         r.put("code", e.getCode());

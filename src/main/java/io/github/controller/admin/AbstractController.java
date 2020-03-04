@@ -7,10 +7,12 @@ import io.github.entity.SysUserEntity;
 import io.github.util.config.Constant;
 import io.github.util.spring.EhcacheUtil;
 import io.github.util.spring.ShiroUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodIntrospector;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -32,6 +34,21 @@ public abstract class AbstractController<S> extends BaseAopContext<S> {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
+     * 版本号
+     */
+    protected static final long T_VERSION = System.currentTimeMillis();
+
+    /**
+     * 重定向标识
+     */
+    protected String redirect = "redirect:";
+
+    /**
+     * 转发请求标识
+     */
+    protected String forward = "forward:";
+
+    /**
      * 常量帮助类
      */
     @Resource
@@ -39,6 +56,20 @@ public abstract class AbstractController<S> extends BaseAopContext<S> {
 
     @Resource
     protected EhcacheUtil ehcacheUtil;
+
+    /**
+     * 重定向
+     */
+    public String getRedirect(String path) {
+        return redirect + path;
+    }
+
+    /**
+     * 转发
+     */
+    public String getForward(String path) {
+        return forward + path;
+    }
 
     /**
      * 获取当前登录管理员
@@ -94,6 +125,22 @@ public abstract class AbstractController<S> extends BaseAopContext<S> {
     }
 
     /**
+     * 排序规则是否为ASC正序
+     */
+    protected boolean isOrderByAsc(String order) {
+        if (StringUtils.isNoneBlank(order)) {
+            String asc = "asc";
+            if (asc.equalsIgnoreCase(order)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+
+    /**
      * 事实证明@RequestMapping...等注解不可以被继承
      * 注解需要添加@Inherited 才可以被继承
      */
@@ -105,7 +152,7 @@ public abstract class AbstractController<S> extends BaseAopContext<S> {
 //        return "test-Inherited测试";
     }
 
-    //    @RequestMapping("/testString")
+    /*@RequestMapping("/testString")*/
     @ResponseBody
     @Deprecated
     public String testString(Model model) {

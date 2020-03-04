@@ -61,14 +61,7 @@ public class SysUserController extends AbstractController<SysUserController> {
         }
         offset = (offset / limit) + 1;
         // 排序逻辑
-        Boolean flag = null;
-        if (StringUtils.isNoneBlank(order)) {
-            if ("asc".equalsIgnoreCase(order)) {
-                flag = true;
-            } else {
-                flag = false;
-            }
-        }
+        Boolean flag = isOrderByAsc(order);
         Page<SysUserEntity> adminList = sysUserService.queryListByPage(offset, limit, email, userName, sort, flag);
         PageUtils pageUtil = new PageUtils(adminList.getRecords(), adminList.getTotal(), adminList.getSize(),
                 adminList.getCurrent());

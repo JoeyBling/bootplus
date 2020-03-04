@@ -39,7 +39,7 @@ public class MainSiteErrorController extends DefaultErrorAttributes implements E
     public String errorHtml(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> errorAttributes = getErrorAttributes(request, false);
         log.error("errorHtml---errorAttributes={}", JSON.toJSONString(errorAttributes));
-        return "/error";
+        return ERROR_PATH;
     }
 
     /**
@@ -47,7 +47,7 @@ public class MainSiteErrorController extends DefaultErrorAttributes implements E
      */
     @RequestMapping(value = {ERROR_PATH})
     @ResponseBody
-    @ExceptionHandler(value = {Exception.class})
+    @ExceptionHandler({Exception.class})
     public R handleError(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> errorAttributes = getErrorAttributes(request, false);
         log.error("handleError---errorAttributes={}", JSON.toJSONString(errorAttributes));

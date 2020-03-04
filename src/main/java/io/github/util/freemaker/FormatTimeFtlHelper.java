@@ -17,7 +17,7 @@ import java.util.Map;
  * @author Joey
  * @Email 2434387555@qq.com
  */
-public class FormatTimeFTLHelper implements TemplateDirectiveModel {
+public class FormatTimeFtlHelper implements TemplateDirectiveModel {
 
     @Override
     public void execute(Environment env, @SuppressWarnings("rawtypes") Map params, TemplateModel[] loopVars,

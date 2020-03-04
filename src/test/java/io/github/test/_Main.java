@@ -38,6 +38,7 @@ public class _Main {
          linux/unix下的文本文件换行符:\r
          Mac下的文本文件换行符:\n */
         // 获取操作系统对应的换行符
+        System.out.println(File.pathSeparator);
         System.out.println(System.getProperty("line.separator", "\n"));
         System.out.println(MyCorsFilter.class.getSimpleName());
         System.out.println(MyCorsFilter.class.getName());

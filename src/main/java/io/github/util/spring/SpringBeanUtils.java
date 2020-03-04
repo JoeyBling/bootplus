@@ -26,7 +26,7 @@ public class SpringBeanUtils {
     /**
      * Mapping映射对象
      */
-    static final RequestMappingHandlerMapping requestMappingHandlerMapping =
+    static final RequestMappingHandlerMapping REQUEST_MAPPING_HANDLER_MAPPING =
             SpringContextUtils.getBean(RequestMappingHandlerMapping.class);
 
     /**
@@ -35,7 +35,7 @@ public class SpringBeanUtils {
      * @param controllerBeanName
      */
     public static void unregisterController(String controllerBeanName) {
-        if (requestMappingHandlerMapping != null) {
+        if (REQUEST_MAPPING_HANDLER_MAPPING != null) {
             String handler = controllerBeanName;
             Object controller = SpringContextUtils.getBean(handler);
             if (controller == null) {
@@ -49,9 +49,9 @@ public class SpringBeanUtils {
                             getDeclaredMethod("getMappingForMethod", Method.class, Class.class);
                     createMappingMethod.setAccessible(true);
                     RequestMappingInfo requestMappingInfo = (RequestMappingInfo)
-                            createMappingMethod.invoke(requestMappingHandlerMapping, specificMethod, targetClass);
+                            createMappingMethod.invoke(REQUEST_MAPPING_HANDLER_MAPPING, specificMethod, targetClass);
                     if (requestMappingInfo != null) {
-                        requestMappingHandlerMapping.unregisterMapping(requestMappingInfo);
+                        REQUEST_MAPPING_HANDLER_MAPPING.unregisterMapping(requestMappingInfo);
                     }
                 } catch (Exception e) {
                     log.error(String.format("去掉Controller的Mapping失败,e=%s", e.getMessage()), e);
@@ -93,16 +93,16 @@ public class SpringBeanUtils {
      * @throws Exception
      */
     public static void registerController(Object controller, String controllerBeanName) throws Exception {
-        if (requestMappingHandlerMapping != null) {
+        if (REQUEST_MAPPING_HANDLER_MAPPING != null) {
             if (controller == null) {
                 return;
             }
             unregisterController(controllerBeanName);
             //注册Controller
-            Method method = requestMappingHandlerMapping.getClass().getSuperclass().getSuperclass().
+            Method method = REQUEST_MAPPING_HANDLER_MAPPING.getClass().getSuperclass().getSuperclass().
                     getDeclaredMethod("detectHandlerMethods", Object.class);
             method.setAccessible(true);
-            method.invoke(requestMappingHandlerMapping, controllerBeanName);
+            method.invoke(REQUEST_MAPPING_HANDLER_MAPPING, controllerBeanName);
         }
     }
 

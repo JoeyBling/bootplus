@@ -9,13 +9,33 @@ import java.util.List;
  * @author Created by 思伟 on 2020/1/8
  */
 public enum FileTypeEnum {
+    /**
+     * 图片
+     */
     IMAGE("IMAGE", "图片"),
+    /**
+     * 音频文件
+     */
     AUDIO("AUDIO", "音频文件"),
+    /**
+     * 视频文件
+     */
     VIDEO("VIDEO", "视频文件"),
+    /**
+     * 压缩文件
+     */
     ZIP("ZIP", "压缩文件"),
+    /**
+     * 文档文件
+     */
     DOC("DOC", "文档文件"),
+    /**
+     * 文本文件
+     */
     TEXT("TEXT", "文本文件"),
-    // word excel等文件
+    /**
+     * word excel等其他文件
+     */
     OTHER("OTHER", "其他文件");
 
     private String key;
@@ -63,7 +83,7 @@ public enum FileTypeEnum {
 
     public static List<FileTypeEnum> fromArray(String[] typeNameList) {
         List<FileTypeEnum> enumList = new ArrayList<FileTypeEnum>();
-        FileTypeEnum e = null;
+        FileTypeEnum e;
         for (int i = 0; i < typeNameList.length; i++) {
             e = getByKey(typeNameList[i]);
             if (null == e) {

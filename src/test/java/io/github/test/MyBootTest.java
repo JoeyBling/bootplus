@@ -22,7 +22,7 @@ public class MyBootTest extends BaseAppTest {
     @Test
     public void testMyControllerRegistry() throws Exception {
         // 通过包名获取包内所有类
-        List<Class<?>> classList = ClassUtil.getAllClassByPackageName(App.scanBasePackages);
+        List<Class<?>> classList = ClassUtil.getAllClassByPackageName(App.SCAN_BASE_PACKAGES);
         for (Class<?> clazz : classList) {
             // 类是否含有注解
             if (clazz.isAnnotationPresent(MyController.class)) {

@@ -4,14 +4,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.*;
-import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.util.Assert;
@@ -35,10 +29,10 @@ public class ApacheHttpClient {
     /**
      * 请求方法
      */
-    private static final String _GET = "GET";
-    private static final String _POST = "POST";
-    private static final String _PUT = "PUT";
-    private static final String _DELETE = "DELETE";
+    private static final String GET_METHOD = "GET";
+    private static final String POST_METHOD = "POST";
+    private static final String PUT_METHOD = "PUT";
+    private static final String DELETE_METHOD = "DELETE";
 
     /**
      * @see #getContentType(String, String, String, String)
@@ -85,7 +79,7 @@ public class ApacheHttpClient {
      */
     public static HttpEntity getHttpEntityByGet(final String url, final String httpRequestBody,
                                                 final String charset, final String contentType) throws IOException {
-        try (CloseableHttpResponse response = getResponse(getHttpUriRequest(url, _GET),
+        try (CloseableHttpResponse response = getResponse(getHttpUriRequest(url, GET_METHOD),
                 generateEntity(httpRequestBody, charset, contentType))) {
             HttpEntity entity = response.getEntity();
             return entity;
@@ -111,7 +105,7 @@ public class ApacheHttpClient {
      */
     public static HttpEntity getHttpEntityByPost(final String url, final String httpRequestBody,
                                                  final String charset, final String contentType) throws IOException {
-        try (CloseableHttpResponse response = getResponse(getHttpUriRequest(url, _POST),
+        try (CloseableHttpResponse response = getResponse(getHttpUriRequest(url, POST_METHOD),
                 generateEntity(httpRequestBody, charset, contentType))) {
             HttpEntity entity = response.getEntity();
             return entity;
@@ -137,7 +131,7 @@ public class ApacheHttpClient {
      */
     public static String httpPost(final String url, final String httpRequestBody,
                                   final String charset, final String contentType) throws IOException {
-        try (CloseableHttpResponse response = getResponse(getHttpUriRequest(url, _POST),
+        try (CloseableHttpResponse response = getResponse(getHttpUriRequest(url, POST_METHOD),
                 generateEntity(httpRequestBody, charset, contentType))) {
             return getString(charset, response);
         }
@@ -162,7 +156,7 @@ public class ApacheHttpClient {
      */
     public static String httpGet(final String url, final String httpRequestBody,
                                  final String charset, final String contentType) throws IOException {
-        try (CloseableHttpResponse response = getResponse(getHttpUriRequest(url, _GET),
+        try (CloseableHttpResponse response = getResponse(getHttpUriRequest(url, GET_METHOD),
                 generateEntity(httpRequestBody, charset, contentType))) {
             return getString(charset, response);
         }
@@ -187,7 +181,7 @@ public class ApacheHttpClient {
      */
     public static String httpPut(final String url, final String httpRequestBody,
                                  final String charset, final String contentType) throws IOException {
-        try (CloseableHttpResponse response = getResponse(getHttpUriRequest(url, _PUT),
+        try (CloseableHttpResponse response = getResponse(getHttpUriRequest(url, PUT_METHOD),
                 generateEntity(httpRequestBody, charset, contentType))) {
             return getString(charset, response);
         }
@@ -212,7 +206,7 @@ public class ApacheHttpClient {
      */
     public static String httpDelete(final String url, final String httpRequestBody,
                                     final String charset, final String contentType) throws IOException {
-        try (CloseableHttpResponse response = getResponse(getHttpUriRequest(url, _DELETE),
+        try (CloseableHttpResponse response = getResponse(getHttpUriRequest(url, DELETE_METHOD),
                 generateEntity(httpRequestBody, charset, contentType))) {
             return getString(charset, response);
         }
@@ -245,13 +239,13 @@ public class ApacheHttpClient {
         // 默认以post处理
         if (StringUtils.isBlank(httpMethod)) {
             request = new HttpPost(uri);
-        } else if (_GET.equalsIgnoreCase(httpMethod)) {
+        } else if (GET_METHOD.equalsIgnoreCase(httpMethod)) {
             request = new HttpGet(uri);
-        } else if (_POST.equalsIgnoreCase(httpMethod)) {
+        } else if (POST_METHOD.equalsIgnoreCase(httpMethod)) {
             request = new HttpPost(uri);
-        } else if (_PUT.equalsIgnoreCase(httpMethod)) {
+        } else if (PUT_METHOD.equalsIgnoreCase(httpMethod)) {
             request = new HttpPut(uri);
-        } else if (_DELETE.equalsIgnoreCase(httpMethod)) {
+        } else if (DELETE_METHOD.equalsIgnoreCase(httpMethod)) {
             request = new HttpDelete(uri);
         } else {
             request = new HttpPost(uri);
@@ -367,7 +361,8 @@ public class ApacheHttpClient {
         String url = "https://www.baidu.com/";
 //        url = "http://gogs-git.hztywl.cn/";
 //        url = "http://183.129.141.106:8081/nexus/content/groups/public/com/tynet/";
-        for (int i = 0; i < 2; i++) {
+        int y = 2;
+        for (int i = 0; i < y; i++) {
             System.out.println(ApacheHttpClient.getContentType(url, null));
             System.out.println(ApacheHttpClient.httpGet(url, null));
         }
