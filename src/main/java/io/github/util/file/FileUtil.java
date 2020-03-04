@@ -11,8 +11,6 @@ import java.io.File;
  */
 public class FileUtil {
 
-    private static File file;
-
     /**
      * 判断文件是否存在
      *
@@ -23,7 +21,7 @@ public class FileUtil {
         if (path == null) {
             return false;
         }
-        file = new File(path);
+        File file = new File(path);
         return file.exists();
     }
 
@@ -38,7 +36,7 @@ public class FileUtil {
         if (path == null) {
             return false;
         }
-        file = new File(request.getServletContext().getRealPath(path));
+        File file = new File(request.getServletContext().getRealPath(path));
         return file.exists();
     }
 
