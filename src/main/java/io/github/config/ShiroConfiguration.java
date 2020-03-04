@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -193,6 +194,7 @@ public class ShiroConfiguration {
      * cookie对象
      */
     @Bean("rememberMeCookie")
+    @Primary
     public SimpleCookie rememberMeCookie() {
         log.info("ShiroConfiguration.rememberMeCookie()");
         // 这个参数是cookie的名称，对应前端的checkbox 的name = rememberMe
