@@ -5,11 +5,13 @@
     <!--个人博客:https://zhousiwei.gitee.io/ -->
     <groupId>io.github.joeybling</groupId>
     <artifactId>bootplus</artifactId>
-    <version>1.0</version>
+    <version>1.0.0-SNAPSHOT</version>
+    <!--<version>1.0.0.RELEASE</version>-->
     <packaging>jar</packaging>
 
     <name>bootplus</name>
     <url>https://github.com/JoeyBling/bootplus</url>
+    <description>基于SpringBoot + Shiro + MyBatisPlus的权限管理框架</description>
 
     <properties>
         <!-- Docker 插件 -->
@@ -503,11 +505,11 @@
         <finalName>bootplus</finalName>
     </build>
 
-    <!-- 阿里云maven仓库 -->
+    <!-- 依赖仓库-阿里云Maven仓库 -->
     <repositories>
         <repository>
             <id>public</id>
-            <name>aliyun nexus</name>
+            <name>aliyun_nexus</name>
             <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
@@ -515,10 +517,11 @@
         </repository>
     </repositories>
 
+    <!-- 插件仓库-阿里云Maven仓库 -->
     <pluginRepositories>
         <pluginRepository>
             <id>public</id>
-            <name>aliyun nexus</name>
+            <name>aliyun_nexus</name>
             <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>

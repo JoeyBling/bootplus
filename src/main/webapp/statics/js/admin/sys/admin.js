@@ -375,7 +375,7 @@ function saveOrUpdate(e) {
         data: params,
         success: function (r) {
             wstro.progressBarShutDown();
-            if (r.code === 0) {
+            if (r.code == 0) {
                 layer.msg('操作成功!', {
                     icon: 1,
                     time: 1000
