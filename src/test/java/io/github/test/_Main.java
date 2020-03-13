@@ -30,7 +30,11 @@ public class _Main {
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IOException {
         // 要想继承实现@RequestMapping和@ResponseBody 父类的访问修饰符必须是public，不然获取到的方法和实际的方法不一致
-        Method testString = Class.forName("io.github.controller.admin.SysLoginController").getMethod("testString", Model.class);
+        Class<?> sysClass = Class.forName("io.github.controller.admin.SysLoginController");
+        for (Method method : sysClass.getMethods()) {
+            System.out.println(method.getName());
+        }
+        Method testString = sysClass.getMethod("testString", Model.class);
         System.out.println(testString);
         // 不同的平台生成相应平台的换行符
         /** java中的转义符:\r\n

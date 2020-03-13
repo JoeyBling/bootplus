@@ -143,6 +143,8 @@ public abstract class AbstractController<S> extends BaseAopContext<S> {
     /**
      * 事实证明@RequestMapping...等注解不可以被继承
      * 注解需要添加@Inherited 才可以被继承
+     *
+     * @see org.springframework.aop.framework.CglibAopProxy#accept
      */
 //    @RequestMapping("/Inherited")
     @ResponseBody
@@ -155,7 +157,7 @@ public abstract class AbstractController<S> extends BaseAopContext<S> {
     /*@RequestMapping("/testString")*/
     @ResponseBody
     @Deprecated
-    public String testString(Model model) {
+    protected String testString(Model model) {
         return "测试String乱码问题";
     }
 

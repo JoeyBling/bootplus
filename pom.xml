@@ -14,6 +14,8 @@
     <description>基于SpringBoot + Shiro + MyBatisPlus的权限管理框架</description>
 
     <properties>
+        <!-- 默认测试环境 -->
+        <package.environment>dev</package.environment>
         <!-- Docker 插件 -->
         <docker.repostory>io.github</docker.repostory>
         <docker.registry.name>bootplus</docker.registry.name>
@@ -357,6 +359,22 @@
 
     <build>
         <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources/conf/${package.environment}</directory>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <!-- 资源根目录排除各环境的配置，使用单独的资源目录来指定 -->
+                <excludes>
+                    <exclude>conf/**</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
             <!-- 打包时将jsp文件拷贝到META-INF目录下(其实也可以直接放在`src/main/resources`目录下) -->
             <resource>
                 <!-- 指定resources插件处理哪个目录下的资源文件 -->
@@ -379,6 +397,31 @@
         </resources>
 
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <!-- 覆盖原有文件 -->
+                            <overwrite>true</overwrite>
+                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+                            <!--<outputDirectory>${basedir}/target/classes</outputDirectory>-->
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/src/main/resources/conf/${package.environment}</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <!-- 配置spring boot之maven插件 -->
                 <groupId>org.springframework.boot</groupId>
@@ -504,6 +547,30 @@
         </plugins>
         <finalName>bootplus</finalName>
     </build>
+
+    <profiles>
+        <profile>
+            <!-- 开发环境 -->
+            <id>dev</id>
+            <properties>
+                <package.environment>dev</package.environment>
+            </properties>
+        </profile>
+        <profile>
+            <!-- 测试环境 -->
+            <id>stg</id>
+            <properties>
+                <package.environment>stg</package.environment>
+            </properties>
+        </profile>
+        <profile>
+            <!-- 生产环境 -->
+            <id>prd</id>
+            <properties>
+                <package.environment>prd</package.environment>
+            </properties>
+        </profile>
+    </profiles>
 
     <!-- 依赖仓库-阿里云Maven仓库 -->
     <repositories>
