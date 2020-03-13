@@ -1,5 +1,6 @@
 package io.github.config.aop;
 
+import io.github.config.aop.annotation.MyLog;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -67,7 +68,7 @@ public class LoggingAspect {
     /**
      * 签名表达式
      */
-    @Pointcut(value = "@annotation(io.github.config.aop.MyLog)")
+    @Pointcut(value = "@annotation(io.github.config.aop.annotation.MyLog)")
     public void opLogPointcut() {
     }
 

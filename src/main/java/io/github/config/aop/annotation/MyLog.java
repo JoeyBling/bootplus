@@ -1,4 +1,4 @@
-package io.github.config.aop;
+package io.github.config.aop.annotation;
 
 import java.lang.annotation.*;
 

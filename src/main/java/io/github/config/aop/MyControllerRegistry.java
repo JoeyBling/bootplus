@@ -1,6 +1,7 @@
 package io.github.config.aop;
 
 import io.github.App;
+import io.github.config.aop.annotation.MyController;
 import io.github.util.ClassUtil;
 import io.github.util.StringUtils;
 import io.github.util.spring.SpringBeanUtils;

@@ -2,7 +2,7 @@ package io.github.test;
 
 import io.github.App;
 import io.github.base.BaseAppTest;
-import io.github.config.aop.MyController;
+import io.github.config.aop.annotation.MyController;
 import io.github.util.ClassUtil;
 import io.github.util.StringUtils;
 import io.github.util.spring.SpringBeanUtils;

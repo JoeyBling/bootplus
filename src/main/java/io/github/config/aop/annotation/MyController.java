@@ -1,4 +1,6 @@
-package io.github.config.aop;
+package io.github.config.aop.annotation;
+
+import io.github.config.aop.MyControllerRegistry;
 
 import java.lang.annotation.*;
 
