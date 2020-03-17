@@ -978,7 +978,7 @@
 <myfooter> 
   <script type="text/javascript">
 		$(function(){
-			var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+			const index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 			var icon;
 			$('.ibox-content a').click(function() {
 				$('.ibox-content a').removeClass("active");

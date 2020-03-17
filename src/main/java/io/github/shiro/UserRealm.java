@@ -24,7 +24,7 @@ import java.util.*;
  * @Email 2434387555@qq.com
  */
 public class UserRealm extends AuthorizingRealm {
-    private Logger logger = LoggerFactory.getLogger(UserRealm.class);
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     // @Resource
     private SysUserService sysUserService;

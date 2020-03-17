@@ -8,10 +8,18 @@ server:
     cookie:
       http-only: true
 
+logging:
+  level:
+    root: info
+    io.github: debug
+    #    org.springframework: warn
+    org.springframework: info
+
 mybatis-plus:
   configuration:
     cache-enabled: false
     map-underscore-to-camel-case: true
+    log-prefix: bootplus.dao.
   global-config:
     db-column-underline: true
     field-strategy: 0
@@ -23,9 +31,11 @@ mybatis-plus:
 spring:
   profiles:
     # 生产环境
-    active: prd
+    #    active: prd
+    active: dev
   datasource:
-    filters: stat,wall,log4j
+    #    filters: stat,wall,log4j
+    filters: stat,wall,slf4j
     initialSize: 5
     maxActive: 20
     maxPoolPreparedStatementPerConnectionSize: 20

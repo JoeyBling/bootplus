@@ -26,7 +26,7 @@
         <shiro.version>1.4.2</shiro.version>
         <mybatis-plus.version>2.0.8</mybatis-plus.version>
         <mybatisplus-spring-boot-starter.version>1.0.2</mybatisplus-spring-boot-starter.version>
-        <spring-log4j.version>1.3.5.RELEASE</spring-log4j.version>
+        <!--<spring-log4j.version>1.3.5.RELEASE</spring-log4j.version>-->
         <guava.version>17.0</guava.version>
         <jsoup.version>1.11.3</jsoup.version>
         <httpclient.version>4.5.6</httpclient.version>
@@ -51,10 +51,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <exclusions>
-                <exclusion>
+                <!--<exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
+                </exclusion>-->
 
                 <!-- 解决循环继承导致栈溢出的问题 -->
                 <!--The class hierarchy being processed was [org.bouncycastle.asn1.ASN1Boolean->
@@ -268,11 +268,12 @@
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
 
-        <dependency>
+        <!-- 替换log4j为logback -->
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j</artifactId>
             <version>${spring-log4j.version}</version>
-        </dependency>
+        </dependency>-->
 
         <!-- Testing Dependencies -->
         <dependency>

@@ -3,8 +3,6 @@ package io.github.test;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.config.filter.MyCorsFilter;
 import io.github.util.http.RestTemplateUtil;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -14,10 +12,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.ui.Model;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -29,6 +28,18 @@ import java.util.concurrent.TimeUnit;
 public class _Main {
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IOException {
+        Map<String, String> testMap = new HashMap<String, String>(5);
+
+        testMap.put("1", "2");
+        testMap.put("1", "3");
+        testMap.put("2", "5");
+        testMap.put("2", "4");
+        System.out.println(testMap.containsKey("2"));
+        System.out.println(testMap.containsKey("2 "));
+        Set<Map.Entry<String, String>> entrySet = testMap.entrySet();
+        for (Map.Entry<String, String> stringEntry : entrySet) {
+            System.out.println("key=" + stringEntry.getKey() + "，value=" + stringEntry.getValue());
+        }
         // 要想继承实现@RequestMapping和@ResponseBody 父类的访问修饰符必须是public，不然获取到的方法和实际的方法不一致
         Class<?> sysClass = Class.forName("io.github.controller.admin.SysLoginController");
         for (Method method : sysClass.getMethods()) {
