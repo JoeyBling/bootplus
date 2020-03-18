@@ -9,7 +9,9 @@
     <!-- 日志输出文件 -->
     <property name="log.path" value="${catalina.base:-.}/logs"/>
     <property name="log.pattern"
-              value="[%p][%d{yyyy-MM-dd HH:mm:ss}] [%c{1}:%L] %m%n"/>
+              value="[%p][%d{yyyy-MM-dd HH:mm:ss}] [%logger{10}:%L] %m%n"/>
+    <property name="log.pattern.detail"
+              value="[%p][%d{yyyy-MM-dd HH:mm:ss}] %c{1} [%file:%L] %m%n"/>
 
     <!-- 彩色日志 -->
     <!-- 彩色日志依赖的渲染类 -->
@@ -27,6 +29,7 @@
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${log.pattern}</pattern>
+            <!--            <pattern>${log.pattern.detail}</pattern>-->
             <!--            <pattern>${CONSOLE_LOG_PATTERN}</pattern>-->
             <charset>UTF-8</charset>
         </encoder>
@@ -51,15 +54,14 @@
     <!-- 基础日志输出 -->
     <appender name="file_info" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${log.path}/sys-info.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 按天回滚 daily -->
             <fileNamePattern>${log.path}/sys-info.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 日志最大的历史 60天 -->
             <maxHistory>60</maxHistory>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <!-- 每个日志文件的大小 -->
-                <maxFileSize>100MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
+            <totalSizeCap>2GB</totalSizeCap>
+            <!-- 每个日志文件的大小 -->
+            <maxFileSize>100MB</maxFileSize>
         </rollingPolicy>
         <encoder>
             <pattern>${log.pattern}</pattern>
@@ -74,14 +76,12 @@
 
     <appender name="file_error" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${log.path}/sys-error.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${log.path}/sys-error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 日志最大的历史 60天 -->
             <maxHistory>60</maxHistory>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <!-- 每个日志文件的大小 -->
-                <maxFileSize>100MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 每个日志文件的大小 -->
+            <maxFileSize>100MB</maxFileSize>
         </rollingPolicy>
         <encoder>
             <pattern>${log.pattern}</pattern>
@@ -97,18 +97,17 @@
     <!-- 系统日志输出 -->
     <appender name="SYS_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${log.path}/sys-log.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- 按天回滚 daily -->
             <fileNamePattern>${log.path}/sys-log.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <!-- 日志最大的历史 60天 -->
             <maxHistory>60</maxHistory>
-            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <!-- 每个日志文件的大小 -->
-                <maxFileSize>100MB</maxFileSize>
-            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 每个日志文件的大小 -->
+            <!-- each file should be at most 100MB, keep 60 days worth of history, but at most 20GB -->
+            <maxFileSize>100MB</maxFileSize>
         </rollingPolicy>
         <encoder>
-            <pattern>${log.pattern}</pattern>
+            <pattern>${log.pattern.detail}</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>

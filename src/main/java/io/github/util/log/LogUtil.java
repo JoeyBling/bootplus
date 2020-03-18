@@ -63,10 +63,10 @@ public class LogUtil {
     }
 
     /**
-     * @see #addLoggerForMap(String, Boolean)
+     * @see #addLoggerToMap(String, Boolean)
      */
     private Logger addLoggerForMap(String loggerName) {
-        return addLoggerForMap(loggerName, null);
+        return addLoggerToMap(loggerName, null);
     }
 
     /**
@@ -75,7 +75,7 @@ public class LogUtil {
      * @param loggerName Logger名
      * @return Logger
      */
-    private synchronized Logger addLoggerForMap(String loggerName, Boolean cover) {
+    private synchronized Logger addLoggerToMap(String loggerName, Boolean cover) {
         Logger logger = null;
         if (StringUtils.isNotEmpty(loggerName)) {
             logger = LoggerFactory.getLogger(FILE_STATEMENT_LOGGER_NAME);
