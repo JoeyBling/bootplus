@@ -2,15 +2,16 @@ package io.github.controller.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.plugins.Page;
+import io.github.controller.frame.AbstractController;
 import io.github.entity.SysUserEntity;
 import io.github.service.SysUserRoleService;
 import io.github.service.SysUserService;
 import io.github.util.PageUtils;
 import io.github.util.R;
+import io.github.util.StringUtils;
 import io.github.util.spring.ShiroUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.stereotype.Controller;
@@ -95,19 +96,18 @@ public class SysUserController extends AbstractController<SysUserController> {
 
     /**
      * 保存用户
-     *
-     * @throws Exception
      */
     @RequestMapping("/save")
     @ResponseBody
     @RequiresPermissions("sys:user:save")
-    public R save(@RequestParam("role") Long[] roles, @Valid SysUserEntity user, BindingResult result)
+    public R save(@RequestParam("role") Long[] roles, @Valid SysUserEntity user,
+                  BindingResult result)
             throws Exception {
         // 验证有误
         if (result.hasErrors()) {
             return R.error(result.getFieldError().getDefaultMessage());
         }
-        if (roles.length < 1) {
+        if (ArrayUtils.isEmpty(roles)) {
             return R.error("请为用户赋予至少一个权限");
         }
         List<Long> roleIdList = new ArrayList<Long>();
@@ -127,19 +127,19 @@ public class SysUserController extends AbstractController<SysUserController> {
     @ResponseBody
     @RequiresPermissions("sys:user:update")
     public R update(SysUserEntity user, @RequestParam("role") Long[] roles) {
-        if (roles.length < 1) {
+        if (ArrayUtils.isEmpty(roles)) {
             return R.error("请为用户赋予至少一个权限");
         }
-        SysUserEntity userentity = sysUserService.selectById(user.getUserId());
-        if (!"".equals(user.getPassword().trim())) {
+        SysUserEntity userEntity = sysUserService.selectById(user.getUserId());
+        if (StringUtils.isNotBlank(user.getPassword())) {
             user.setPassword(user.getPassword());
         }
         List<Long> roleIdList = new ArrayList<Long>();
         Collections.addAll(roleIdList, roles);
         user.setRoleIdList(roleIdList);
-        user.setCreateTime(userentity.getCreateTime());
-        user.setLastLoginIp(userentity.getLastLoginIp());
-        user.setLastLoginTime(userentity.getLastLoginTime());
+        user.setCreateTime(userEntity.getCreateTime());
+        user.setLastLoginIp(userEntity.getLastLoginIp());
+        user.setLastLoginTime(userEntity.getLastLoginTime());
         if (StringUtils.isBlank(user.getUsername())) {
             return R.error("用户名不能为空");
         }

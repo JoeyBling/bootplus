@@ -1,5 +1,6 @@
 package io.github.test;
 
+import ch.qos.logback.classic.util.ContextInitializer;
 import io.github.base.BaseAppTest;
 import io.github.util.log.LogUtil;
 import org.junit.Test;
@@ -17,12 +18,15 @@ public class LogTest extends BaseAppTest {
     /**
      * TODO logback.xml 是如何加载的？
      * ch.qos.logback.ext.spring.web.LogbackConfigListener
-     * 改回默认logback即可正常在main方法使用,-spring是通过SpringBoot来自动装配的
      *
+     * @see ch.qos.logback.classic.util.ContextInitializer#AUTOCONFIG_FILE
+     * 改回默认logback即可正常在main方法使用,-spring是通过SpringBoot来自动装配的
      * @see org.springframework.boot.logging.logback.LogbackLoggingSystem#loadConfiguration(LoggingInitializationContext, String, LogFile)
      */
     public static void main(String[] args) {
-        System.setProperty("logback.configurationFile", "classpath:/logback-spring.xml");
+//        ContextInitializer.AUTOCONFIG_FILE = "";
+        // 此方法可用，不能加classpath或/
+        System.setProperty("logback.configurationFile", "logback-spring.xml");
         // 输出文件
         Logger logger = LogUtil.getInstance().getFileStatementLogger();
         logger.debug("debug file Statement");

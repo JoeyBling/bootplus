@@ -9,13 +9,16 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import io.github.config.aop.annotation.MyController;
 import io.github.config.aop.annotation.MyLog;
+import io.github.controller.frame.AbstractController;
 import io.github.util.QrCodeUtil;
+import io.github.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -42,7 +45,7 @@ import java.util.Map;
 //@Component
 @MyController
 @RequestMapping("/share/qrcode")
-public class QrCodeController extends AbstractController {
+public class QrCodeController extends AbstractController<QrCodeController> {
 
     private MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
 
@@ -77,6 +80,21 @@ public class QrCodeController extends AbstractController {
             ImageIO.write(bufferedImage, "png", out);
         }
     }
+
+    /**
+     * 测试接口
+     */
+    @RequestMapping(value = "/test")
+    @ResponseBody
+    protected Map<?, ?> test()
+            throws InterruptedException {
+        Map<String, CharSequence> map = Maps.newConcurrentMap();
+        map.put("test", "1");
+        map.put("random", StringUtils.join(T_VERSION, "_", secureRandom.nextInt(2 << 18)));
+        Thread.sleep(3000L);
+        return map;
+    }
+
 
 }
 

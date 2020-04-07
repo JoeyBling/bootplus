@@ -5,7 +5,8 @@
     [#include "/admin/header.ftl"]
     <link href="${rc.contextPath}/statics/common/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet"
           type="text/css">
-    <link href="${rc.contextPath}/statics/common/bootstrap-fileinput/themes/explorer/theme.css" media="all" rel="stylesheet"
+    <link href="${rc.contextPath}/statics/common/bootstrap-fileinput/themes/explorer/theme.css" media="all"
+          rel="stylesheet"
           type="text/css">
     <style>
         .kv-avatar .file-preview-frame, .kv-avatar .file-preview-frame:hover {
@@ -60,41 +61,41 @@
 <script src="${rc.contextPath}/statics/common/bootstrap-fileinput/themes/explorer/theme.js"></script>
 <script src="${rc.contextPath}/statics/common/bootstrap-fileinput/js/locales/zh.js"></script>
 <script>
-	var flag = "${admin.avatarUrl!""}";
-	//提交修改
-    $("#submit").click(function(){
-    	var portrait = $('#portrait').val();
-    	if(flag===portrait){
-    		 layer.alert('请先上传头像', {
+    var flag = "${admin.avatarUrl!""}";
+    //提交修改
+    $("#submit").click(function () {
+        var portrait = $('#portrait').val();
+        if (flag === portrait) {
+            layer.alert('请先上传头像', {
                 icon: 5
             });
             return false;
-    	}
-    	$.ajax({
-				data : {
-					avatarUrl : portrait
-				},
-				dataType : "json",
-				headers : {
-					'Content-Type' : 'application/x-www-form-urlencoded'
-				},
-				url : '${rc.contextPath}/admin/sys/user/updateAvatar',
-				success : function(result) {
-					if (result.code === 0) {
-						layer.alert("头像修改成功!", {
-							title : '提示框',
-							icon : 1
-						},function(){
-							location.reload();
-						});
-					} else {
-						layer.alert(result.msg, {
-							title : '提示框',
-							icon : 0
-						});
-					}
-				}
-			});
+        }
+        $.ajax({
+            data: {
+                avatarUrl: portrait
+            },
+            dataType: "json",
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            url: '${rc.contextPath}/admin/sys/user/updateAvatar',
+            success: function (result) {
+                if (result.code === 0) {
+                    layer.alert("头像修改成功!", {
+                        title: '提示框',
+                        icon: 1
+                    }, function () {
+                        location.reload();
+                    });
+                } else {
+                    layer.alert(result.msg, {
+                        title: '提示框',
+                        icon: 0
+                    });
+                }
+            }
+        });
     });
 
 
@@ -103,7 +104,7 @@
     $(document).ready(function () {
         initportraitFileinput();
     });
-    
+
 
     function initportraitFileinput(previewJson, previewConfigJson) {
         var portraitsettings = {
@@ -142,6 +143,7 @@
         var uploadExtraData = {};
         return uploadExtraData;
     }
+
     $("#portraitFile").on("filebatchselected", function (event, files) {
         $(this).fileinput("upload");
     });
@@ -175,11 +177,12 @@
     function updateportraitBind() {
         var fileids = "";
         for (var i = 0; i < portraitFileList.length; i++) {
-            var fileid = portraitFileList[i].data.filePath;
+            console.log("portraitFileList===>" + portraitFileList);
+            let filePath = "${rc.contextPath}/" + portraitFileList[i].data.filePath;
             if (fileids != '') {
                 fileids += ",";
             }
-            fileids += fileid;
+            fileids += filePath;
         }
         $('#portrait').val(fileids);
         try {

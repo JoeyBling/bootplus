@@ -9,8 +9,8 @@ import io.github.entity.SysUserEntity;
 import io.github.service.SysUserRoleService;
 import io.github.service.SysUserService;
 import io.github.util.DateUtils;
+import io.github.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,11 +53,14 @@ public class SysUserServiceImpl extends BaseAopService<SysUserServiceImpl, SysUs
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(SysUserEntity user) throws Exception {
+    public void save(SysUserEntity user) {
+        // TODO 校验用户名不能重复
 //        log.debug("是否是代理调用:{}", AopUtils.isAopProxy(self));
         user.setCreateTime(DateUtils.getCurrentUnixTime());
         // sha256加密
-        user.setPassword(new Sha256Hash(user.getPassword()).toHex());
+        if (StringUtils.isNotEmpty(user.getPassword())) {
+            user.setPassword(new Sha256Hash(user.getPassword()).toHex());
+        }
         baseMapper.insert(user);
         // 保存用户与角色关系
         sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
@@ -71,7 +74,7 @@ public class SysUserServiceImpl extends BaseAopService<SysUserServiceImpl, SysUs
 
     @Override
     public int updatePassword(Long userId, String password, String newPassword) {
-        Map<String, Object> map = new HashMap<>(3);
+        Map<String, Object> map = new HashMap<String, Object>(3);
         map.put("userId", userId);
         map.put("password", password);
         map.put("newPassword", newPassword);
@@ -84,7 +87,6 @@ public class SysUserServiceImpl extends BaseAopService<SysUserServiceImpl, SysUs
         if (StringUtils.isBlank(entity.getPassword())) {
             entity.setPassword(null);
         } else {
-
             entity.setPassword(new Sha256Hash(entity.getPassword()).toHex());
         }
         dao.updateUser(entity);

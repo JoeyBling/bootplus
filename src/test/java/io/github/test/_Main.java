@@ -2,12 +2,17 @@ package io.github.test;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.config.filter.MyCorsFilter;
+import io.github.common.enums.IEnumHelperFactory;
+import io.github.entity.enums.SysMenuTypeEnum;
+import io.github.util.file.FileTypeEnum;
 import io.github.util.http.RestTemplateUtil;
+import io.github.util.log.LogUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
+import org.slf4j.Logger;
 import org.springframework.http.HttpMethod;
 import org.springframework.ui.Model;
 
@@ -15,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -28,6 +34,25 @@ import java.util.concurrent.TimeUnit;
 public class _Main {
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IOException {
+
+        Logger logger = LogUtil.getInstance().getInterceptorStatementLogger();
+        logger.info(Enum.valueOf(SysMenuTypeEnum.class, "0").getValue());
+        IEnumHelperFactory.IEnumHelper sysMenuTypeHelper = IEnumHelperFactory.getInstance().getByClass(
+                SysMenuTypeEnum.class);
+        logger.info(IEnumHelperFactory.getInstance().getByClass(
+                SysMenuTypeEnum.class).getByKey("0").getValue());
+        logger.info(IEnumHelperFactory.getInstance().getByClass(
+                FileTypeEnum.class).getByKey("IMAGE").getValue());
+        String[] keyArray = sysMenuTypeHelper.getKeyArray();
+        List list = sysMenuTypeHelper.getList();
+        list.forEach(o -> {
+            logger.info(o.toString());
+        });
+        for (String key : keyArray) {
+            logger.info(key);
+        }
+
+
         Map<String, String> testMap = new HashMap<String, String>(5);
 
         testMap.put("1", "2");

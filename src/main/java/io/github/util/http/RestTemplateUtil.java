@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.NamedThreadLocal;
 import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -35,7 +36,7 @@ public class RestTemplateUtil {
     /**
      * 默认本地执行线程
      */
-    private static ThreadLocal<RestTemplate> TL_RT = new ThreadLocal<RestTemplate>() {
+    private static ThreadLocal<RestTemplate> TL_RT = new NamedThreadLocal<RestTemplate>("ThreadLocal_RestTemplate") {
         @Override
         protected RestTemplate initialValue() {
             logger.info("ThreadLocal<RestTemplate> initialValue()...");
@@ -210,7 +211,7 @@ public class RestTemplateUtil {
      * @param charset 编码格式
      */
     private static void preRequestHandle(String url, Integer timeOut, Charset charset) {
-        Assert.isTrue(isHttpUri(url), "非法URI");
+        Assert.isTrue(isNotHttpUri(url), "非法URI");
         if (null != timeOut) {
             SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
             requestFactory.setConnectTimeout(timeOut);
@@ -493,12 +494,12 @@ public class RestTemplateUtil {
     }
 
     /**
-     * 判断URI是否是Http路径
+     * 判断URI是否是Http路径(是返回false，不是返回true)
      *
      * @param uriArray String...
      * @return boolean
      */
-    public static final boolean isHttpUri(String... uriArray) {
+    public static final boolean isNotHttpUri(String... uriArray) {
         if (StringUtils.isAnyEmpty(uriArray)) {
             return false;
         }
@@ -596,10 +597,10 @@ public class RestTemplateUtil {
         String s = RestTemplateUtil.generateHttpUrl("www.baidu,com\\\\sad//asdas",
                 "https://asd\\", "啊是大", "////s///adada", null);
         System.out.println(s);
-        s = RestTemplateUtil.generateFileUrl("/C:/Users/Administrator.QH-20150311UHWZ/Desktop/%e5%b9%b3%e5%ae%89%e5%a5%bd%e5%8c%bb%e7%94%9f/server-net/smarthos-recipe/src/main/webapp/WEB-INF/classes//fonts/SIMLI.TTF", null);
+        s = RestTemplateUtil.generateFileUrl("/C:/Users/Administrator.QH-20150311UHWZ/Desktop/%e5%b9%b3%e5%ae%89%e5%a5%bd%e5%8c%bb%e7%94%9f/server-net/smarthos-recipe/src/main/webapp/WEB-INF/classes/fonts/SIMLI.TTF", null);
         System.out.println(s);
         System.out.println("Users/Administra".toUpperCase(Locale.ENGLISH));
-        System.out.println(RestTemplateUtil.isHttpUri("http://as.cn", "https://www.baid" +
+        System.out.println(RestTemplateUtil.isNotHttpUri("http://as.cn", "https://www.baid" +
                 "u.com/s?ie=utf-8&f=8&rsv_bp=1&tn=baidu&wd=java%E4%BD%BF%E7" +
                 "%94%A8%E6%AD%A3%E5%88%99&oq=java&rsv_pq=fad4cd380003ba66" +
                 "&rsv_t=27d9KW2GQLczi2HTfKg61VnHxi3ZRza5TbAxW6c9gNCotxve%2F8Z" +
@@ -607,8 +608,8 @@ public class RestTemplateUtil {
                 "rsv_sug7=100&rsv_sug2=0&inputT=4444&rsv_sug4=4444"));
         String url = "http11://yingyan.baidu.com/api/v3";
         System.out.println(
-                RestTemplateUtil.isHttpUri(url));
-        Assert.isTrue(isHttpUri(url), "非法URI");
+                RestTemplateUtil.isNotHttpUri(url));
+        Assert.isTrue(isNotHttpUri(url), "非法URI");
     }
 
 }

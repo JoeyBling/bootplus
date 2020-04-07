@@ -1,3 +1,9 @@
+# Spring其他说明
+```java
+// ResourceUtils.CLASSPATH_URL_PREFIX
+// ResourceUtils.getFile 不能以'/'开头 (ClassUtils.getDefaultClassLoader()获取的path以/开头会返回null)
+```
+
 # Actuator健康监控说明
 > 配置项 `management.context-path`
 

@@ -1,11 +1,11 @@
 package io.github.controller.admin;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import io.github.controller.frame.AbstractController;
 import io.github.entity.SysUserLoginLogEntity;
 import io.github.service.SysUserLoginLogService;
 import io.github.util.PageUtils;
 import io.github.util.R;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;

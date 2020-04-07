@@ -38,16 +38,36 @@ public class LogUtil {
     }
 
     /**
-     * 文件日志输出Logger名
+     * 统一文件日志输出Logger名
      */
     private final String FILE_STATEMENT_LOGGER_NAME = "bootplus.file.Statement";
+    /**
+     * 拦截器日志输出Logger名
+     */
+    private final String INTERCEPTOR_STATEMENT_LOGGER_NAME = "bootplus.interceptor.Statement";
 
     private Map<String, Logger> loggerMap = new HashMap<String, Logger>(5);
 
+    /**
+     * 拦截器日志
+     * 最低级别-debug
+     */
+    public Logger getInterceptorStatementLogger() {
+        return getLogger(INTERCEPTOR_STATEMENT_LOGGER_NAME);
+    }
+
+    /**
+     * 统一文件日志
+     * 最低级别-warn
+     */
     public Logger getFileStatementLogger() {
-        Logger logger = getLoggerByMap(FILE_STATEMENT_LOGGER_NAME);
+        return getLogger(FILE_STATEMENT_LOGGER_NAME);
+    }
+
+    private Logger getLogger(String loggerName) {
+        Logger logger = getLoggerByMap(loggerName);
         if (null == logger) {
-            logger = addLoggerForMap(FILE_STATEMENT_LOGGER_NAME);
+            logger = addLoggerToMap(loggerName);
         }
         return logger;
     }
@@ -65,7 +85,7 @@ public class LogUtil {
     /**
      * @see #addLoggerToMap(String, Boolean)
      */
-    private Logger addLoggerForMap(String loggerName) {
+    private Logger addLoggerToMap(String loggerName) {
         return addLoggerToMap(loggerName, null);
     }
 
@@ -78,7 +98,7 @@ public class LogUtil {
     private synchronized Logger addLoggerToMap(String loggerName, Boolean cover) {
         Logger logger = null;
         if (StringUtils.isNotEmpty(loggerName)) {
-            logger = LoggerFactory.getLogger(FILE_STATEMENT_LOGGER_NAME);
+            logger = LoggerFactory.getLogger(loggerName);
             if (null != loggerMap) {
                 if (loggerMap.containsKey(loggerName)) {
                     // 判断是否已存在且覆盖

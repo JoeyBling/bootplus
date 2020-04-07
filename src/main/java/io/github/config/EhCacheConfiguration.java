@@ -14,7 +14,7 @@ import org.springframework.core.io.ClassPathResource;
  * @Email 2434387555@qq.com
  */
 @Configuration
-@EnableCaching
+@EnableCaching(proxyTargetClass = true)
 public class EhCacheConfiguration {
 
     /**

@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
 import lombok.Data;
 
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.List;
 
@@ -37,6 +38,7 @@ public class SysMenuEntity implements Serializable {
      * 父菜单名称
      */
     @TableField(exist = false)
+    @Transient
     private String parentName;
 
     /**
@@ -79,9 +81,11 @@ public class SysMenuEntity implements Serializable {
      * ztree属性
      */
     @TableField(exist = false)
+    @Transient
     private Boolean open;
 
     @TableField(exist = false)
+    @Transient
     private List<?> list;
 
 }

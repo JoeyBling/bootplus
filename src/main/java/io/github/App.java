@@ -34,6 +34,12 @@ public class App extends SpringBootServletInitializer {
      */
     public static final String SCAN_BASE_PACKAGES = "io.github";
 
+    /**
+     * TODO cmd控制台运行乱码待解决
+     * mvn clean spring-boot:run -Drun.arguments=--Dfile.encoding=UTF-8
+     * mvn clean spring-boot:run -Dspring-boot.run.jvmArguments=--Dfile.encoding=UTF-8
+     * mvn clean spring-boot:run -Dspring-boot.run.arguments=--Dfile.encoding=UTF-8
+     */
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(App.class);
         app.setBannerMode(Mode.CONSOLE);
@@ -61,6 +67,7 @@ public class App extends SpringBootServletInitializer {
         logger.debug(String.format("sessionCookieConfig.isHttpOnly()===>%s", sessionCookieConfig.isHttpOnly()));
         sessionCookieConfig.setHttpOnly(true);
     }
+
 }
 
 

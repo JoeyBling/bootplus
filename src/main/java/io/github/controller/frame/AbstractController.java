@@ -1,4 +1,4 @@
-package io.github.controller.admin;
+package io.github.controller.frame;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,9 +35,14 @@ public abstract class AbstractController<S> extends BaseAopContext<S> {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
+     * 安全随机数实现
+     */
+    protected final SecureRandom secureRandom = new SecureRandom();
+
+    /**
      * 版本号
      */
-    protected static final long T_VERSION = System.currentTimeMillis();
+    protected final long T_VERSION = System.currentTimeMillis();
 
     /**
      * 重定向标识
@@ -138,7 +144,6 @@ public abstract class AbstractController<S> extends BaseAopContext<S> {
         }
         return false;
     }
-
 
     /**
      * 事实证明@RequestMapping...等注解不可以被继承

@@ -2,6 +2,7 @@ package io.github.controller.admin;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+import io.github.controller.frame.AbstractController;
 import io.github.entity.SysMenuEntity;
 import io.github.entity.SysUserEntity;
 import io.github.entity.SysUserLoginLogEntity;

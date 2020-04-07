@@ -1,9 +1,13 @@
 package io.github.util.file;
 
-import org.apache.commons.lang3.StringUtils;
+import io.github.util.StringUtils;
 import org.springframework.util.ObjectUtils;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * 文件工具类
@@ -11,6 +15,81 @@ import java.io.File;
  * @author Created by 思伟 on 2019/12/31
  */
 public class FileUtils extends org.apache.commons.io.FileUtils {
+
+    /**
+     * @see java.net.URL#toURI()
+     */
+    public static URI toURI(URL url) throws URISyntaxException {
+        return toURI(url.toString());
+    }
+
+    /**
+     * 为给定的位置字符串创建一个URI实例，先用%20 URI编码替换空格。
+     *
+     * @param location 要转换为URI实例的位置字符串
+     * @return the URI实例
+     * @throws URISyntaxException 如果位置不是有效的URI
+     */
+    public static URI toURI(String location) throws URISyntaxException {
+        return new URI(StringUtils.replace(generateFileUrl(location),
+                " ", "%20"));
+    }
+
+    /**
+     * 获取文件，进行编码处理（防止中文乱码）
+     *
+     * @param resourceUrl 文件路径
+     * @throws URISyntaxException
+     */
+    public static File getFile(String resourceUrl) throws URISyntaxException {
+        return new File(toURI(resourceUrl).getSchemeSpecificPart());
+    }
+
+    /**
+     * 判断文件是否存在
+     *
+     * @param path 文件路径
+     * @return boolean
+     */
+    public static boolean isExists(final String path) throws URISyntaxException {
+        if (StringUtils.isEmpty(path)) {
+            return false;
+        }
+        return isExists(getFile(path));
+    }
+
+    /**
+     * 判断文件是否存在
+     *
+     * @param file 文件
+     * @return boolean
+     */
+    public static boolean isExists(final File file) {
+        if (null == file) {
+            return false;
+        }
+        return file.exists();
+    }
+
+    /**
+     * 强制创建父级文件夹
+     *
+     * @param file File
+     * @throws IOException
+     */
+    public static void forceMkdirParent(final File file) throws IOException {
+        if (file.isDirectory() && !isExists(file)) {
+            forceMkdir(file);
+        } else if (!isExists(file)) {
+            final File parent = file.getParentFile();
+            if (parent == null) {
+                return;
+            }
+            if (!isExists(parent)) {
+                forceMkdir(parent);
+            }
+        }
+    }
 
     /**
      * 校验文件名是否是所属文件类型(不区分大小写)
@@ -83,6 +162,14 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
                 File.separator, "\\") ? "/" : File.separator);
         // (?i)在前面 不区分大小写
         return uri.replaceAll("(\\\\|/)+", "/");
+    }
+
+    public static void main(String[] args) throws IOException, URISyntaxException {
+        forceMkdirParent(getFile("/home/fulei/zhousiwei/upload"));
+        forceMkdirParent(getFile("F:/siwei"));
+        forceMkdirParent(getFile("F:\\特扬网络\\WIFI.txt"));
+        forceMkdirParent(getFile("F:\\特扬网络\\"));
+        forceMkdirParent(getFile(FileUtils.class.getResource("/banner.txt").getPath()));
     }
 
 }

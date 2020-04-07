@@ -2,6 +2,7 @@ package io.github.controller.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.plugins.Page;
+import io.github.controller.frame.AbstractController;
 import io.github.entity.SysRoleEntity;
 import io.github.service.SysRoleMenuService;
 import io.github.service.SysRoleService;

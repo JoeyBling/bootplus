@@ -96,6 +96,7 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
             // 防止路径符号重复且映射路径必须以/结束
             uploadPath = FileUtils.generateFileUrl(FILE_PREFIX, uploadPath, File.separator);
         }
+        // ResourceUtils.CLASSPATH_URL_PREFIX
         registry.addResourceHandler("/statics/**").addResourceLocations("classpath:/statics/");
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
         // 媒体资源

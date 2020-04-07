@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.NotNull;
@@ -18,6 +20,7 @@ import java.util.List;
  * @Email 2434387555@qq.com
  */
 @Data
+@NoArgsConstructor
 @TableName("sys_user")
 public class SysUserEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -96,4 +99,20 @@ public class SysUserEntity implements Serializable {
     @TableField(exist = false)
     private List<Long> roleIdList;
 
+    @Builder
+    public SysUserEntity(String username, String password, Integer sex, String email, String mobile,
+                         Long lastLoginTime, String lastLoginIp, String avatarUrl,
+                         Integer status, Long createTime, List<Long> roleIdList) {
+        this.username = username;
+        this.password = password;
+        this.sex = sex;
+        this.email = email;
+        this.mobile = mobile;
+        this.lastLoginTime = lastLoginTime;
+        this.lastLoginIp = lastLoginIp;
+        this.avatarUrl = avatarUrl;
+        this.status = status;
+        this.createTime = createTime;
+        this.roleIdList = roleIdList;
+    }
 }

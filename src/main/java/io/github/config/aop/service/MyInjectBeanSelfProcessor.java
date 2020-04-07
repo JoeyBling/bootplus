@@ -6,6 +6,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.core.Ordered;
 
 /**
  * 只要是在Shiro-AuthorizingRealm接口注入的Bean声明,所有相关联的Bean都被初始化完成且没有被代理[代理会在SpringBoot中无效]（包括BeanPostProcessor也会无效）
@@ -15,7 +16,7 @@ import org.springframework.context.ApplicationContextAware;
  * @author Created by 思伟 on 2020/1/13
  */
 @Slf4j
-public class MyInjectBeanSelfProcessor implements BeanPostProcessor, ApplicationContextAware {
+public class MyInjectBeanSelfProcessor implements BeanPostProcessor, ApplicationContextAware, Ordered {
 
     private ApplicationContext context;
 
@@ -56,6 +57,12 @@ public class MyInjectBeanSelfProcessor implements BeanPostProcessor, Application
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         return bean;
+    }
+
+    @Override
+    public int getOrder() {
+//        return Ordered.HIGHEST_PRECEDENCE;
+        return Ordered.LOWEST_PRECEDENCE;
     }
 
 }

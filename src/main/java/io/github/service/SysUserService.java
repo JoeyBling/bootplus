@@ -59,9 +59,8 @@ public interface SysUserService extends IService<SysUserEntity> {
      * 保存用户
      *
      * @param user SysUserEntity
-     * @throws Exception
      */
-    void save(SysUserEntity user) throws Exception;
+    void save(SysUserEntity user);
 
     /**
      * 修改用户

@@ -1,6 +1,7 @@
 package io.github.controller.admin;
 
 import com.alibaba.fastjson.JSONArray;
+import io.github.controller.frame.AbstractController;
 import io.github.entity.SysMenuEntity;
 import io.github.service.SysMenuService;
 import io.github.util.*;

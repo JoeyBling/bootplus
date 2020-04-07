@@ -14,6 +14,7 @@
     <description>基于SpringBoot + Shiro + MyBatisPlus的权限管理框架</description>
 
     <properties>
+        <spring.boot.dependencies.scope>provided</spring.boot.dependencies.scope>
         <!-- 默认测试环境 -->
         <package.environment>dev</package.environment>
         <!-- Docker 插件 -->
@@ -223,10 +224,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--<dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>-->
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -318,6 +319,12 @@
             <artifactId>shiro-spring</artifactId>
             <version>${shiro.version}</version>
         </dependency>
+        <!-- shiro-redis -->
+        <!--<dependency>
+            <groupId>org.crazycake</groupId>
+            <artifactId>shiro-redis</artifactId>
+            <version>3.2.3</version>
+        </dependency>-->
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-ehcache</artifactId>
@@ -347,7 +354,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
+            <!-- 使用IDEA如果报NoClassDefFoundError的错误，
+                请参考此文章进行解决：https://www.jianshu.com/p/7bbeb663f1c9 -->
+            <!-- Tomcat scope must be 'compile' when 'jar' packaging, or 'provided' when 'war' -->
+            <scope>${spring.boot.dependencies.scope}</scope>
+            <!--            <scope>compile</scope>-->
         </dependency>
 
         <!-- LomBok插件 -->
@@ -499,6 +510,8 @@
                     <!-- 跳过测试阶段或者使用 `mvn clean package -Dmaven.test.skip=true` -->
                     <skipTests>true</skipTests>
                     <useSystemClassLoader>false</useSystemClassLoader>
+                    <!--<forkMode>once</forkMode>
+                    <argLine>-Dfile.encoding=UTF-8</argLine>-->
                 </configuration>
             </plugin>
 
@@ -512,6 +525,8 @@
                     <server>tomcat</server>
                     <username>joey</username>
                     <password>jay</password>
+                    <uriEncoding>UTF-8</uriEncoding>
+                    <port>8080</port>
                     <path>/</path>
                 </configuration>
             </plugin>
@@ -550,6 +565,14 @@
     </build>
 
     <profiles>
+        <!-- https://youtrack.jetbrains.com/issue/IDEA-107048#focus=streamItem-27-2380176.0-0 -->
+        <profile>
+            <!-- 测试无效 -->
+            <id>intellij-workaround</id>
+            <properties>
+                <spring.boot.dependencies.scope>compile</spring.boot.dependencies.scope>
+            </properties>
+        </profile>
         <profile>
             <!-- 开发环境 -->
             <id>dev</id>

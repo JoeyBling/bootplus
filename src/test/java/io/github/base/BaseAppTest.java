@@ -27,7 +27,7 @@ import javax.annotation.Resource;
 @SpringBootTest(classes = App.class)
 @Transactional
 // true ? 测试数据不会污染数据库 : 会真正添加到数据库当中
-@Rollback(false)
+//@Rollback(false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import(WebConfig.class)
 public abstract class BaseAppTest {

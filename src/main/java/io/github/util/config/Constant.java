@@ -47,6 +47,7 @@ public class Constant {
      * @author Joey
      * @Email 2434387555@qq.com
      */
+    @Deprecated
     public enum MenuType {
         /**
          * 目录

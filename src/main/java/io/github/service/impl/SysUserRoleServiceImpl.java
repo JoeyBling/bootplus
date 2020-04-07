@@ -1,9 +1,11 @@
 package io.github.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import io.github.config.aop.service.BaseAopService;
 import io.github.dao.SysUserRoleDao;
 import io.github.entity.SysUserRoleEntity;
 import io.github.service.SysUserRoleService;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +26,7 @@ public class SysUserRoleServiceImpl extends BaseAopService<SysUserRoleServiceImp
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void saveOrUpdate(Long userId, List<Long> roleIdList) {
-        if (roleIdList.size() == 0) {
+        if (ObjectUtil.isEmpty(roleIdList)) {
             return;
         }
         // 先删除用户与角色关系

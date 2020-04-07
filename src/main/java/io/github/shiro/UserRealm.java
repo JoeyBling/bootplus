@@ -26,13 +26,16 @@ import java.util.*;
 public class UserRealm extends AuthorizingRealm {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    // @Resource
+    //    @Resource
+//    @Lazy
     private SysUserService sysUserService;
 
-    // @Resource
+    //    @Resource
+//    @Lazy
     private SysMenuService sysMenuService;
 
-    // @Resource
+    //    @Resource
+//    @Lazy
     private Constant constant;
 
     /**

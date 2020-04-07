@@ -1,11 +1,12 @@
 package io.github.controller;
 
 import io.github.config.MyWebAppConfigurer;
+import io.github.controller.frame.AbstractController;
 import io.github.util.DateUtils;
 import io.github.util.R;
 import io.github.util.RRException;
+import io.github.util.StringUtils;
 import io.github.util.config.Constant;
-import io.github.util.file.FileUtil;
 import io.github.util.file.FileUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
@@ -21,7 +22,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URLDecoder;
@@ -75,7 +75,7 @@ public class SysFileController extends AbstractController {
             String fileType = fileName.indexOf(".") != -1
                     ? fileName.substring(fileName.lastIndexOf(".") + 1) : null;
 
-            logger.info("上传文件类型:{}", fileType);
+            logger.info("上传文件类型:{}", StringUtils.defaultString(fileType));
             // 自定义的文件名称
             String trueFileName = getTrueFileName(fileName, uploadType);
             // 防止火狐等浏览器不显示图片
@@ -84,12 +84,14 @@ public class SysFileController extends AbstractController {
             // 上传文件保存的路径
             String uploadPath = FileUtils.generateFileUrl(constant.getUploadPath(), trueFileName);
             // 上传文件后的保存路径
-            File fileUpload = new File(uploadPath);
+            File fileUpload = FileUtils.getFile(uploadPath);
 
             // 创建父级目录(Linux需要注意启动用户的权限问题)
-            FileUtil.createParentPath(fileUpload);
+            if (!FileUtils.isExists(fileUpload.getParentFile())) {
+                FileUtils.forceMkdirParent(fileUpload);
+            }
 
-            logger.info("存放文件的路径:{}", uploadPath);
+            logger.debug("存放文件的路径:{}", uploadPath);
             file.transferTo(fileUpload);
             // 进行文件处理
             fileHandle(fileUpload);
@@ -110,9 +112,9 @@ public class SysFileController extends AbstractController {
             int width = buffered.getWidth();
             int maxWidth = 800;
             if (width > maxWidth) {
-                logger.info("进行图片压缩处理...");
+                logger.debug("进行图片压缩处理...");
                 Thumbnails.of(file).height(maxWidth).toFile(file);
-                logger.info("图片压缩处理完毕...");
+                logger.debug("图片压缩处理完毕...");
             }
         } catch (Exception e) {
             logger.warn("上传的文件不是图片");
@@ -120,7 +122,7 @@ public class SysFileController extends AbstractController {
     }
 
     /**
-     * 自定义上传文件的名称
+     * 自定义上传文件的相对路径
      *
      * @param fileName   上传文件的名称
      * @param uploadType 上传文件类型(不同保存的文件夹就不同)
@@ -137,7 +139,7 @@ public class SysFileController extends AbstractController {
         } else {
         }
         return bf.append(DateUtils.format(new Date(), Constant.uploadSavePathFormat) + File.separator
-                + String.valueOf(System.currentTimeMillis()) + fileName).toString();
+                + System.currentTimeMillis() + fileName).toString();
     }
 
     /**

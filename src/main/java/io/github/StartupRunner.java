@@ -30,6 +30,7 @@ public class StartupRunner implements CommandLineRunner {
     public void run(String... args) throws Exception {
         log.info(">>服务启动完成，执行加载数据等操作....<<");
         taskExecutor.execute(() -> {
+            log.info("当前线程名称：{}", Thread.currentThread().getName());
             log.info("Real thread begin to execute!==={}", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
         });
     }

@@ -2,6 +2,7 @@ package io.github.config;
 
 import com.alibaba.druid.filter.Filter;
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties;
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
@@ -39,19 +40,6 @@ import java.util.Map;
 @EnableTransactionManagement(proxyTargetClass = true)
 //@Import(DruidSpringAopConfiguration.class)
 public class DataSourceConfig {
-
-    @Bean
-    public Advice advice() {
-        return new DruidStatInterceptor();
-    }
-
-    @Bean
-    public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator() {
-        DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
-        advisorAutoProxyCreator.setProxyTargetClass(true);
-        return advisorAutoProxyCreator;
-    }
-
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Value("${spring.datasource.url}")
@@ -108,6 +96,18 @@ public class DataSourceConfig {
     @Value("${spring.datasource.connectionProperties}")
     private String connectionProperties;
 
+    @Bean
+    public Advice advice() {
+        return new DruidStatInterceptor();
+    }
+
+    @Bean
+    public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator() {
+        DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
+        advisorAutoProxyCreator.setProxyTargetClass(true);
+        return advisorAutoProxyCreator;
+    }
+
     /**
      * 注册DruidServlet
      *
@@ -134,8 +134,9 @@ public class DataSourceConfig {
      * 注册DruidFilter拦截(网络url统计)
      *
      * @return FilterRegistrationBean
+     * @see com.alibaba.druid.spring.boot.autoconfigure.stat.DruidWebStatFilterConfiguration#webStatFilterRegistrationBean(DruidStatProperties)
      */
-    @Bean
+//    @Bean
     public FilterRegistrationBean druidFilterRegistrationBean() {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         // 设置加载顺序
@@ -199,7 +200,7 @@ public class DataSourceConfig {
             druidDataSource.setProxyFilters(proxyFilters);
             druidDataSource.setFilters(filters);
         } catch (SQLException e) {
-            logger.error("druid configuration initialization filter", e);
+            logger.error("druid configuration initialization filter error...", e);
         }
         return druidDataSource;
     }

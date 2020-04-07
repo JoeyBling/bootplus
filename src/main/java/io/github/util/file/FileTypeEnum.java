@@ -1,14 +1,13 @@
 package io.github.util.file;
 
-import java.util.ArrayList;
-import java.util.List;
+import io.github.common.enums.IEnum;
 
 /**
  * 文件类型定义
  *
  * @author Created by 思伟 on 2020/1/8
  */
-public enum FileTypeEnum {
+public enum FileTypeEnum implements IEnum {
     /**
      * 图片
      */
@@ -47,10 +46,12 @@ public enum FileTypeEnum {
         this.value = value;
     }
 
+    @Override
     public String getKey() {
         return key;
     }
 
+    @Override
     public String getValue() {
         return value;
     }
@@ -58,40 +59,6 @@ public enum FileTypeEnum {
     @Override
     public String toString() {
         return this.key;
-    }
-
-    public static FileTypeEnum getByKey(String key) {
-        FileTypeEnum[] es = FileTypeEnum.values();
-        for (int i = 0; i < es.length; i++) {
-            if (es[i].getKey().equals(key)) {
-                return es[i];
-            }
-        }
-        return null;
-    }
-
-    public static String[] toArray(List<FileTypeEnum> enumList) {
-        if (null == enumList || enumList.isEmpty()) {
-            return null;
-        }
-        String[] status = new String[enumList.size()];
-        for (int i = 0; i < enumList.size(); i++) {
-            status[i] = enumList.get(i).getKey();
-        }
-        return status;
-    }
-
-    public static List<FileTypeEnum> fromArray(String[] typeNameList) {
-        List<FileTypeEnum> enumList = new ArrayList<FileTypeEnum>();
-        FileTypeEnum e;
-        for (int i = 0; i < typeNameList.length; i++) {
-            e = getByKey(typeNameList[i]);
-            if (null == e) {
-                continue;
-            }
-            enumList.add(e);
-        }
-        return enumList;
     }
 
 }

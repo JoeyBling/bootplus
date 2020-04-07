@@ -1,14 +1,17 @@
 package io.github.util.file;
 
+import io.github.util.StringUtils;
+
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 
 /**
  * 文件帮助类
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2019/12/31
+ * @see FileUtils
  */
+@Deprecated
 public class FileUtil {
 
     /**
@@ -17,8 +20,8 @@ public class FileUtil {
      * @param path 文件路径
      * @return boolean
      */
-    public static boolean fileIsExists(String path) {
-        if (path == null) {
+    public static boolean isExists(String path) {
+        if (StringUtils.isEmpty(path)) {
             return false;
         }
         File file = new File(path);
@@ -32,8 +35,8 @@ public class FileUtil {
      * @param request HttpServletRequest
      * @return boolean
      */
-    public static boolean fileIsExists(String path, HttpServletRequest request) {
-        if (path == null) {
+    public static boolean isExists(String path, HttpServletRequest request) {
+        if (StringUtils.isEmpty(path)) {
             return false;
         }
         File file = new File(request.getServletContext().getRealPath(path));
@@ -48,44 +51,10 @@ public class FileUtil {
      * @return boolean
      */
     public static String getRealPath(String path, HttpServletRequest request) {
-        if (path == null) {
+        if (StringUtils.isEmpty(path)) {
             throw new RuntimeException("Null Path");
         }
         return request.getServletContext().getRealPath(path);
-    }
-
-    /**
-     * 获取文件名不保留后缀
-     *
-     * @param pathandname 文件名
-     * @return 文件名不保留后缀
-     */
-    public static String getFileName(String pathandname) {
-        /**
-         * 仅保留文件名不保留后缀
-         */
-        int start = pathandname.lastIndexOf("/");
-        int end = pathandname.lastIndexOf(".");
-        if (start != -1 && end != -1) {
-            return pathandname.substring(start + 1, end);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * 保留文件名及后缀
-     *
-     * @param pathandname 文件名
-     * @return 文件名及后缀
-     */
-    public static String getFileNameWithSuffix(String pathandname) {
-        int start = pathandname.lastIndexOf(File.separator);
-        if (start != -1) {
-            return pathandname.substring(start + 1);
-        } else {
-            return null;
-        }
     }
 
     /**
@@ -129,8 +98,7 @@ public class FileUtil {
      * @return 单个文件删除成功返回true，否则返回false
      */
     public static boolean deleteFile(String fileName) {
-        File file = null;
-        file = new File(fileName);
+        File file = new File(fileName);
         // 如果文件路径所对应的文件存在，并且是一个文件，则直接删除
         if (file.exists() && file.isFile()) {
             if (file.delete()) {
@@ -166,14 +134,14 @@ public class FileUtil {
         for (int i = 0; i < files.length; i++) {
             // 删除子文件
             if (files[i].isFile()) {
-                flag = FileUtil.deleteFile(files[i].getAbsolutePath());
+                flag = deleteFile(files[i].getAbsolutePath());
                 if (!flag) {
                     break;
                 }
             }
             // 删除子目录
             else if (files[i].isDirectory()) {
-                flag = FileUtil.deleteDirectory(files[i].getAbsolutePath());
+                flag = deleteDirectory(files[i].getAbsolutePath());
                 if (!flag) {
                     break;
                 }

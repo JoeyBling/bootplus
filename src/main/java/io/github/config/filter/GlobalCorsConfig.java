@@ -33,7 +33,7 @@ public class GlobalCorsConfig {
      *
      * @ConditionalOnMissingClass 当某些类不存在于 classpath 上时候才创建某个Bean
      */
-    @Bean
+    @Bean("corsConfiguration")
     @ConditionalOnMissingBean
     @ConditionalOnMissingClass({"io.github.config.filter.MyCorsFilter"})
     public CorsConfiguration buildCorsConfig() {

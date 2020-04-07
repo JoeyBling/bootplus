@@ -1,8 +1,10 @@
 server:
+  name: bootplus
   contextPath: ''
   port: 80
   tomcat:
     uri-encoding: UTF-8
+    basedir: /home/temp
   session:
     tracking-modes: cookie
     cookie:
@@ -27,6 +29,8 @@ mybatis-plus:
     refresh-mapper: true
   mapper-locations: classpath:/mapper/*Dao.xml
   typeAliasesPackage: io.github.entity
+  # 自定义类型转换处理器包名
+  type-handlers-package: io.github.common.typehandler
 
 spring:
   profiles:
@@ -97,6 +101,8 @@ security:
   basic:
     path: ${management.context-path:/monitor}/**
     enabled: true
+
+################################### 程序自定义配置 ###################################
 
 # 自定义线程池
 thread-pool:

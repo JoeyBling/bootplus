@@ -1,6 +1,15 @@
 # bootplus
 基于SpringBoot + Shiro + MyBatisPlus的权限管理框架
 
+## mvn乱码问题
+```bash
+mvn -v
+// 默认编码：platform encoding: GBK
+```
+> 设置windows环境变量：设置后需要重启IDEA才能生效
+- Key: `MAVEN_OPTS`
+- Value: `-Xms256m -Xmx512m -Dfile.encoding=UTF-8`
+
 ## Git标签管理
 > 查看远程标签
 ```bash
@@ -17,6 +26,10 @@ git tag -d 标签名
 > 从远程仓库中移除这个标签
 ```bash
 git push origin :refs/tags/标签名
+```
+> 推送标签到远程仓库
+```bash
+git push --tags
 ```
 
 ## 表结构修改记录
