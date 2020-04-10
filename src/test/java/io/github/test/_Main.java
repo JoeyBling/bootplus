@@ -1,8 +1,9 @@
 package io.github.test;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import io.github.config.filter.MyCorsFilter;
 import io.github.common.enums.IEnumHelperFactory;
+import io.github.config.filter.MyCorsFilter;
 import io.github.entity.enums.SysMenuTypeEnum;
 import io.github.util.file.FileTypeEnum;
 import io.github.util.http.RestTemplateUtil;
@@ -14,15 +15,13 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 import org.slf4j.Logger;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadFactory;
@@ -33,10 +32,34 @@ import java.util.concurrent.TimeUnit;
  */
 public class _Main {
 
-    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IOException {
+    public static Map<String, String> bTOS(Map<?, ?> map) {
+        return (HashMap<String, String>) map;
+    }
 
+    public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IOException {
+        Map<String, Boolean> testMap1 = new HashMap<String, Boolean>(2);
+        testMap1.put("1", true);
+        testMap1.put("2", false);
+
+        Map<String, String> testMap11 = bTOS(testMap1);
+
+        for (Iterator<String> nameIterator = testMap11.keySet().iterator(); nameIterator.hasNext(); ) {
+            String name = nameIterator.next();
+            System.out.println(name);
+            //  java.lang.Boolean cannot be cast to java.lang.String
+//            System.out.println(testMap11.get(name));
+        }
+
+        ImmutableMap<String, Object> map = new ImmutableMap.Builder<String, Object>()
+                .put("start_time", System.currentTimeMillis())
+                .put("enable_auto_cloud_recording", true).build();
+        System.out.println(RestTemplateUtil.postForObject("https://www.baidu.com/", map, MediaType.APPLICATION_FORM_URLENCODED));
+        System.out.println(RestTemplateUtil.getForObject("http://gogs-git.hztywl.cn/", map));
+
+
+        System.out.println(test2());
         Logger logger = LogUtil.getInstance().getInterceptorStatementLogger();
-        logger.info(Enum.valueOf(SysMenuTypeEnum.class, "0").getValue());
+//        logger.info(Enum.valueOf(SysMenuTypeEnum.class, "0").getValue());
         IEnumHelperFactory.IEnumHelper sysMenuTypeHelper = IEnumHelperFactory.getInstance().getByClass(
                 SysMenuTypeEnum.class);
         logger.info(IEnumHelperFactory.getInstance().getByClass(
@@ -128,6 +151,19 @@ public class _Main {
 //        FileOutputStream out = new FileOutputStream("C:\\Users\\Administrator.QH-20150311UHWZ\\Desktop\\平安好医生\\code.rar");
 //        out.write(bytes);
 //        out.close();
+
+    }
+
+
+    public static int test2() {
+        int i = 1;
+        try {
+            System.out.println("try语句块中");
+            return 1;
+        } finally {
+            System.out.println("finally语句块中");
+            return 2;
+        }
 
     }
 

@@ -30,7 +30,7 @@ public class SysUserLoginLogController extends AbstractController {
     @RequestMapping("/list")
     @ResponseBody
     public R list(Integer offset, Integer limit, String sort, String order,
-                  @RequestParam(name = "search", required = false) String loginIp, HttpServletRequest request) {
+                  @RequestParam(name = "search", required = false) String loginIp, HttpServletRequest request) throws Exception {
         offset = (offset / limit) + 1;
         // 排序逻辑
         Boolean flag = isOrderByAsc(order);

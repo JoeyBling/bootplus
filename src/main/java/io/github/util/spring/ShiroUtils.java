@@ -1,7 +1,7 @@
 package io.github.util.spring;
 
 import io.github.entity.SysUserEntity;
-import io.github.util.RRException;
+import io.github.util.exception.RRException;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;

@@ -5,6 +5,7 @@ import io.github.entity.SysUserEntity;
 import io.github.base.BaseAppTest;
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.TestContext;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -35,14 +36,21 @@ public class SysUserServiceTest extends BaseAppTest {
 
     /**
      * 测试事务回滚
+     * 加了 @Transactional 默认事务就是会回滚的
+     * AnnotatedElementUtils.findMergedAnnotation
+     *
+     * @see org.springframework.test.context.transaction.TransactionalTestExecutionListener#isDefaultRollback(TestContext)
+     * @see org.springframework.test.context.transaction.TransactionalTestExecutionListener#isRollback(TestContext)
      */
     @Test
     @Rollback(false)
     public void save() {
-        SysUserEntity user = SysUserEntity.builder().username("zhousiwei").build();
+        long timeMillis = System.currentTimeMillis();
+        SysUserEntity user = SysUserEntity.builder().username("zhousiwei" + timeMillis + timeMillis + timeMillis + timeMillis + timeMillis + timeMillis).build();
         sysUserService.save(user);
         user = SysUserEntity.builder().username("zhousiwei2").build();
         sysUserService.save(user);
     }
+
 
 }

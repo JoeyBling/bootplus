@@ -21,7 +21,7 @@ package io.github.util.http;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import io.github.util.SysRuntimeException;
+import io.github.util.exception.SysRuntimeException;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;

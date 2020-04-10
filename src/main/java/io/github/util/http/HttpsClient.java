@@ -20,7 +20,7 @@
 package io.github.util.http;
 
 import com.alibaba.fastjson.JSONObject;
-import io.github.util.SysRuntimeException;
+import io.github.util.exception.SysRuntimeException;
 import io.github.util.encry.Md5Util;
 import io.github.util.file.FileTypeUtil;
 import org.apache.commons.lang3.StringUtils;

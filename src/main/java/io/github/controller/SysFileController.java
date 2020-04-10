@@ -4,7 +4,7 @@ import io.github.config.MyWebAppConfigurer;
 import io.github.controller.frame.AbstractController;
 import io.github.util.DateUtils;
 import io.github.util.R;
-import io.github.util.RRException;
+import io.github.util.exception.RRException;
 import io.github.util.StringUtils;
 import io.github.util.config.Constant;
 import io.github.util.file.FileUtils;

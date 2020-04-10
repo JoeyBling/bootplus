@@ -1,7 +1,8 @@
 package io.github.util.sketch;
 
 import com.google.common.collect.Maps;
-import io.github.util.RRException;
+import io.github.util.exception.RRException;
+import io.github.util.exception.SysRuntimeException;
 import io.github.util.file.FileUtils;
 import io.github.util.sketch.img.Img;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -23,6 +25,11 @@ import java.util.Map;
 public class FontUtil {
 
     /**
+     * 默认字体存放目录
+     */
+    protected final static String FONTS_DIR = "jdk_fonts";
+
+    /**
      * 字体缓存
      */
     private static final Map<String, Font> FONT_CACHE_MAP = Maps.newConcurrentMap();
@@ -31,7 +38,22 @@ public class FontUtil {
      * @see #getFontPath(String, String)
      */
     public static String getFontPath(String fontName) {
-        return getFontPath("/jdk_fonts/", fontName);
+        return getFontPath(FONTS_DIR, fontName);
+    }
+
+    /**
+     * 读取jar包的文件流
+     *
+     * @param fontName 字体文件名
+     */
+    public static InputStream getFontInputStream(String fontName) {
+        try {
+            return FontUtil.class.getClassLoader().getResourceAsStream(
+                    FileUtils.generateFileUrl(FONTS_DIR, fontName));
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new SysRuntimeException("路径获取失败，请联系服务提供商处理");
+        }
     }
 
     /**
@@ -69,30 +91,40 @@ public class FontUtil {
         return loadFont(fontFilePath);
     }
 
+    public static Font loadFont(String fontFilePath, int style, float fontSize) throws IOException {
+        return loadFont(fontFilePath, style, fontSize, null);
+    }
+
     /**
      * 加载自定义字体
      *
      * @param fontFilePath 字体文件路径
      * @param style        字体类型
      * @param fontSize     字体大小
+     * @param inputStream  字体文件输入流
      * @return Font
      */
-    public static Font loadFont(String fontFilePath, int style, float fontSize) throws IOException {
-        FileInputStream fis = null;
+    public static Font loadFont(String fontFilePath, int style, float fontSize, InputStream inputStream)
+            throws IOException {
         String key = fontFilePath + "|" + style;
         Font dynamicFont = FONT_CACHE_MAP.get(key);
         if (dynamicFont == null) {
             try {
-                File file = new File(fontFilePath);
-                fis = new FileInputStream(file);
-                dynamicFont = Font.createFont(style, fis);
+                if (null == inputStream) {
+                    File file = new File(fontFilePath);
+                    inputStream = new FileInputStream(file);
+                }
+                dynamicFont = Font.createFont(style, inputStream);
                 FONT_CACHE_MAP.put(key, dynamicFont);
             } catch (Exception e) {
-                log.error("字体加载异常：{}，加载默认字体(宋体)", e.getMessage());
+                log.error("字体加载异常：{}，加载默认字体【宋体】", e.getMessage());
                 return new Font("宋体", Font.PLAIN, 14);
             } finally {
-                if (null != fis) {
-                    fis.close();
+                if (null != inputStream) {
+                    try {
+                        inputStream.close();
+                    } catch (IOException e) {
+                    }
                 }
             }
         }
@@ -128,6 +160,7 @@ public class FontUtil {
     }
 
     public static void main(String[] args) throws IOException {
+        // TODO Test 打成jar包是不是就不能读取了？
         System.out.println(FontUtil.getFontPath("SIMLI.TTF"));
         System.out.println(FontUtil.getDefaultFont());
         System.out.println(FontUtil.loadFont("others/zcool_gaoduanhei.ttf", true));

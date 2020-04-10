@@ -43,7 +43,7 @@ public class LogInterceptor implements HandlerInterceptor {
             long beginTime = System.currentTimeMillis();
             // 线程绑定变量（该数据只有当前请求的线程可见）
             START_TIME_THREAD_LOCAL.set(beginTime);
-            log.debug("开始计时: {}  URI: {}", simpleDateFormat.format(beginTime), request.getRequestURI());
+            // log.debug("开始计时: {}  URI: {}", simpleDateFormat.format(beginTime), request.getRequestURI());
         }
         return true;
     }
@@ -56,7 +56,7 @@ public class LogInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         if (modelAndView != null) {
-            log.info("ViewName: " + modelAndView.getViewName());
+            // log.info("ViewName: " + modelAndView.getViewName());
         }
     }
 

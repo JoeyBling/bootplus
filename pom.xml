@@ -14,12 +14,9 @@
     <description>基于SpringBoot + Shiro + MyBatisPlus的权限管理框架</description>
 
     <properties>
-        <spring.boot.dependencies.scope>provided</spring.boot.dependencies.scope>
         <!-- 默认测试环境 -->
         <package.environment>dev</package.environment>
-        <!-- Docker 插件 -->
-        <docker.repostory>io.github</docker.repostory>
-        <docker.registry.name>bootplus</docker.registry.name>
+        <hessian.version>4.0.38</hessian.version>
         <kaptcha.version>0.0.9</kaptcha.version>
         <commons-lang.version>3.5</commons-lang.version>
         <commons-io.version>2.5</commons-io.version>
@@ -31,6 +28,11 @@
         <guava.version>17.0</guava.version>
         <jsoup.version>1.11.3</jsoup.version>
         <httpclient.version>4.5.6</httpclient.version>
+
+        <spring.boot.dependencies.scope>provided</spring.boot.dependencies.scope>
+        <!-- Docker 插件 -->
+        <docker.repostory>io.github</docker.repostory>
+        <docker.registry.name>bootplus</docker.registry.name>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -88,6 +90,13 @@
                     <artifactId>fastjson</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <!-- hessian -->
+        <dependency>
+            <groupId>com.caucho</groupId>
+            <artifactId>hessian</artifactId>
+            <version>${hessian.version}</version>
         </dependency>
 
         <!-- FastJson -->
@@ -407,6 +416,23 @@
                 <filtering>false</filtering>
             </resource>
         </resources>
+
+        <!--单元测试时引用src/main/resources下的资源文件-->
+        <testResources>
+            <testResource>
+                <directory>${basedir}/src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>${basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.xml</exclude>
+                    <exclude>**/*.yml</exclude>
+                </excludes>
+            </testResource>
+        </testResources>
 
         <plugins>
             <plugin>

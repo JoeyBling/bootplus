@@ -32,7 +32,9 @@ public class LogUtil {
      */
     public static LogUtil getInstance() {
         if (null == logUtil) {
-            logUtil = new LogUtil();
+            synchronized (LogUtil.class) {
+                logUtil = new LogUtil();
+            }
         }
         return logUtil;
     }

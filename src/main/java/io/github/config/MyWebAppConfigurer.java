@@ -78,9 +78,16 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
         }
     }
 
+    /**
+     * https://www.iteye.com/blog/412887952-qq-com-2315133
+     *
+     * @param configurer
+     */
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
         super.configureContentNegotiation(configurer);
+        // 属性ignoreAcceptHeader默认为fasle，表示accept-header匹配，defaultContentType开启默认匹配
+        // favorPathExtension表示支持后缀匹配
 //        configurer.favorPathExtension(false);
     }
 

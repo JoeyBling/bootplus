@@ -9,13 +9,14 @@ import io.github.entity.SysUserLoginLogEntity;
 import io.github.service.SysMenuService;
 import io.github.service.SysUserLoginLogService;
 import io.github.service.SysUserService;
-import io.github.util.*;
+import io.github.util.DateUtils;
+import io.github.util.R;
 import io.github.util.config.EhCacheNames;
+import io.github.util.exception.RRException;
 import io.github.util.http.GetIpAddress;
 import io.github.util.http.HttpUtil;
 import io.github.util.spring.EhcacheUtil;
 import io.github.util.spring.ShiroUtils;
-import io.github.util.DateUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.crypto.hash.Sha256Hash;
@@ -62,7 +63,7 @@ public class SysLoginController extends AbstractController {
      * 默认访问页面
      */
     @RequestMapping(value = {"", "/"})
-    public String redirect() {
+    public String redirect(Model model) {
         if (ShiroUtils.isLogin()) {
             return "redirect:/admin/index.html";
         } else {
@@ -183,12 +184,12 @@ public class SysLoginController extends AbstractController {
             logger.info("管理员退出，清空用户菜单列表Cache");
             Long userId = ShiroUtils.getUserId();
             // 系统管理员退出
-            if (userId != null && userId.equals(Long.valueOf(constant.adminId))) {
+            if (userId != null && constant.adminId.equals(userId)) {
             }
             ShiroUtils.logout();
         }
 
-        return "redirect:/admin/login.html";
+        return getRedirect("/admin/login.html");
     }
 
 }

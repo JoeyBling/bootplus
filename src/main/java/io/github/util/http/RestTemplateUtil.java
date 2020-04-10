@@ -1,7 +1,7 @@
 package io.github.util.http;
 
 import com.google.common.collect.Maps;
-import org.apache.commons.lang3.StringUtils;
+import io.github.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.NamedThreadLocal;
@@ -177,8 +177,9 @@ public class RestTemplateUtil {
          */
         if (MediaType.APPLICATION_FORM_URLENCODED.equals(contentType)) {
             // APPLICATION_FORM_URLENCODED 类型必须使用LinkedMultiValueMap入参
+            // 出参必须为 LinkedMultiValueMap<String,String> 不然会出现问题
             if (body instanceof Map && !(body instanceof MultiValueMap)) {
-                return (T) mapToLinkedMap((Map) body);
+                return (T) mapToLinkedMapStr((Map) body);
             }
         }
         return body;
@@ -190,14 +191,32 @@ public class RestTemplateUtil {
      * @param map Map
      * @param <K>
      * @param <V>
-     * @return
+     * @return LinkedMultiValueMap
      */
+    @Deprecated
     public static <K, V> LinkedMultiValueMap<K, V> mapToLinkedMap(final Map<K, V> map) {
         LinkedMultiValueMap<K, V> linkedMaps = new LinkedMultiValueMap<K, V>();
         if (!ObjectUtils.isEmpty(map)) {
             Set<Map.Entry<K, V>> entrySet = map.entrySet();
             for (Map.Entry<K, V> stringEntry : entrySet) {
                 linkedMaps.add(stringEntry.getKey(), stringEntry.getValue());
+            }
+        }
+        return linkedMaps;
+    }
+
+    /**
+     * Map转LinkedMultiValueMap
+     *
+     * @see org.springframework.http.converter.FormHttpMessageConverter#write(MultiValueMap, MediaType, HttpOutputMessage)
+     */
+    public static LinkedMultiValueMap<String, String> mapToLinkedMapStr(final Map<?, ?> map) {
+        LinkedMultiValueMap<String, String> linkedMaps = new LinkedMultiValueMap<String, String>();
+        if (!ObjectUtils.isEmpty(map)) {
+            Set<? extends Map.Entry<?, ?>> entrySet = map.entrySet();
+            for (Map.Entry<?, ?> stringEntry : entrySet) {
+                linkedMaps.add(StringUtils.toString(stringEntry.getKey()),
+                        StringUtils.toString(stringEntry.getValue()));
             }
         }
         return linkedMaps;
@@ -257,6 +276,13 @@ public class RestTemplateUtil {
      */
     public static <T> T postForObject(final String url, final Object body, final Class<T> t) {
         return postForObject(url, body, DEFAULT_CONTENT_TYPE, t, null, DEFAULT_ACCEPT);
+    }
+
+    /**
+     * @see #postForObject(String, Object, MediaType, Class, Integer, MediaType...)
+     */
+    public static String postForObject(final String url, final Object body, final MediaType contentType) {
+        return postForObject(url, body, contentType, String.class, null, DEFAULT_ACCEPT);
     }
 
     /**
@@ -419,7 +445,7 @@ public class RestTemplateUtil {
         headers.setCacheControl("no-cache");
         headers.setPragma("no-cache");
         HttpEntity<T> formEntity;
-        formEntity = new HttpEntity<>(body, headers);
+        formEntity = new HttpEntity<T>(body, headers);
         return formEntity;
     }
 

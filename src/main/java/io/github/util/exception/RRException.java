@@ -1,4 +1,4 @@
-package io.github.util;
+package io.github.util.exception;
 
 /**
  * 自定义异常
@@ -6,7 +6,7 @@ package io.github.util;
  * @author Joey
  * @Email 2434387555@qq.com
  */
-public class RRException extends RuntimeException {
+public class RRException extends MyRuntimeException {
     private static final long serialVersionUID = 1L;
 
     private String msg;
@@ -34,6 +34,7 @@ public class RRException extends RuntimeException {
         this.code = code;
     }
 
+    @Override
     public String getMsg() {
         return msg;
     }
@@ -42,6 +43,7 @@ public class RRException extends RuntimeException {
         this.msg = msg;
     }
 
+    @Override
     public int getCode() {
         return code;
     }
@@ -50,4 +52,11 @@ public class RRException extends RuntimeException {
         this.code = code;
     }
 
+    @Override
+    public String toString() {
+        return "RRException{" +
+                "msg='" + msg + '\'' +
+                ", code=" + code +
+                '}';
+    }
 }

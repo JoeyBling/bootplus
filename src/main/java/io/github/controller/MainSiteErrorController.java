@@ -30,7 +30,7 @@ import java.util.Map;
 @Controller
 public class MainSiteErrorController extends DefaultErrorAttributes implements ErrorController {
 
-    private static final String ERROR_PATH = "/error";
+    public static final String ERROR_PATH = "/error";
 
     /**
      * Web页面错误处理

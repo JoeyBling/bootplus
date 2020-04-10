@@ -1,9 +1,12 @@
 package io.github.config;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import io.github.config.aop.service.MyInjectBeanSelfProcessor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncExecutionAspectSupport;
+import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -11,11 +14,14 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClas
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.TimeZone;
+import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -23,9 +29,10 @@ import java.util.concurrent.ThreadPoolExecutor;
  *
  * @author Created by 思伟 on 2019/12/16
  */
+@Slf4j
 @Configuration
 @EnableAsync(proxyTargetClass = true)
-public class MyBootConfig {
+public class MyBootConfig implements AsyncConfigurer {
 
     /**
      * 线程池维护线程的最少数量
@@ -108,6 +115,46 @@ public class MyBootConfig {
         mapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));
         System.err.println("starter for Jackson-----Jackson init success.");
         return mapper;
+    }
+
+    /**
+     * 自定义线程池，若不重写会使用默认的线程池
+     */
+    @Override
+    public Executor getAsyncExecutor() {
+        return null;
+//        return taskExecutor();
+    }
+
+    /**
+     * 异常处理器
+     */
+    @Override
+    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
+        return new MyAsyncExceptionHandler();
+    }
+
+    /**
+     * 处理异步方法引发的未捕获异常的策略
+     * A default {@link AsyncUncaughtExceptionHandler} that simply logs the exception.
+     * 被@Async 的方法在独立线程调用，不能被@ControllerAdvice全局异常处理器捕获，所以需要自己设置异常处理
+     *
+     * @see org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler
+     */
+    class MyAsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
+
+        @Override
+        public void handleUncaughtException(Throwable ex, Method method, Object... objects) {
+            if (log.isErrorEnabled()) {
+                log.error(String.format("Unexpected error occurred invoking async " +
+                        "method '%s'.", method), ex);
+                if (ObjectUtil.isNotEmpty(objects)) {
+                    for (Object param : objects) {
+                        log.error("Parameter value - " + param);
+                    }
+                }
+            }
+        }
     }
 
 }
