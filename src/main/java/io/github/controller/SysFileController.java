@@ -1,7 +1,7 @@
 package io.github.controller;
 
 import io.github.config.MyWebAppConfigurer;
-import io.github.controller.frame.AbstractController;
+import io.github.frame.controller.AbstractController;
 import io.github.util.DateUtils;
 import io.github.util.R;
 import io.github.util.exception.RRException;

@@ -1,9 +1,8 @@
 package io.github.util.spring;
 
-import io.github.controller.MainSiteErrorController;
+import io.github.frame.controller.MainSiteErrorController;
 import io.github.util.exception.MyRuntimeException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 /**

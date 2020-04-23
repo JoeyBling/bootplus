@@ -9,7 +9,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import io.github.config.aop.annotation.MyController;
 import io.github.config.aop.annotation.MyLog;
-import io.github.controller.frame.AbstractController;
+import io.github.frame.controller.AbstractController;
 import io.github.util.QrCodeUtil;
 import io.github.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
+ * TODO 如果这里使用了注入IOC的对象，手动注册控制器是否还可用且注入对象不为空
  * 二维码生成器
  * 条形码、二维码生成
  * shiro settings ---> /share/qrcode = anon

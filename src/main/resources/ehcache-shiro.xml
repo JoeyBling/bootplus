@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ehcache name="es_shiro">
+<ehcache name="es_shiro" updateCheck="false">
 
-    <diskStore path="java.io.tmpdir"/>
+    <!--    <diskStore path="java.io.tmpdir"/>-->
+    <diskStore path="user.home"/>
 
     <defaultCache
             maxElementsInMemory="10000"
@@ -45,4 +46,5 @@
            maxElementsInMemory="1000"
            eternal="true"
            overflowToDisk="true"/>
+
 </ehcache>

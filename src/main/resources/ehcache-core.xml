@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache name="core">
 
+    <!--
+        磁盘存储:将缓存中暂时不使用的对象,转移到硬盘,类似于Windows系统的虚拟内存
+        path:指定在硬盘上存储对象的路径
+        path可以配置的目录有：
+            user.home（用户的家目录）
+            user.dir（用户当前的工作目录）
+            java.io.tmpdir（默认的临时目录）
+            ehcache.disk.store.dir（ehcache的配置目录）
+            绝对路径（如：d:\\ehcache）
+        查看路径方法：String tmpDir = System.getProperty("java.io.tmpdir");
+     -->
     <diskStore path="java.io.tmpdir"/>
 
     <!--
@@ -25,12 +36,29 @@
         -->
     <defaultCache maxElementsInMemory="10000" eternal="false"
                   timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="false"
-                  diskPersistent="false" diskExpiryThreadIntervalSeconds="120"/>
+                  diskPersistent="false" diskExpiryThreadIntervalSeconds="120" memoryStoreEvictionPolicy="FIFO"/>
 
-
-    <!-- 管理员菜单缓存 -->
+    <!-- 管理员菜单缓存-1小时 -->
     <cache name="adminMenuCache" maxEntriesLocalHeap="2000" eternal="false"
            timeToIdleSeconds="3600" timeToLiveSeconds="3600" overflowToDisk="false"
+           statistics="true">
+    </cache>
+
+    <!-- 默认缓存-1小时 -->
+    <cache name="BOOT_PLUS_NORMAL" maxEntriesLocalHeap="2000" eternal="false"
+           timeToIdleSeconds="3600" timeToLiveSeconds="0" overflowToDisk="true"
+           statistics="true">
+    </cache>
+
+    <!-- 验证码缓存-10min -->
+    <cache name="BOOT_PLUS_CAPTCHA" maxEntriesLocalHeap="2000" eternal="false"
+           timeToIdleSeconds="600" timeToLiveSeconds="0" overflowToDisk="true"
+           statistics="true">
+    </cache>
+
+    <!-- 配置缓存-24小时 -->
+    <cache name="BOOT_PLUS_CONFIG" maxEntriesLocalHeap="2000" eternal="false"
+           timeToIdleSeconds="86400" timeToLiveSeconds="0" overflowToDisk="true"
            statistics="true">
     </cache>
 

@@ -24,7 +24,8 @@ import java.util.Map;
  * @Email 2434387555@qq.com
  */
 @Service
-public class SysRoleServiceImpl extends BaseAopService<SysRoleServiceImpl, SysRoleDao, SysRoleEntity> implements SysRoleService {
+public class SysRoleServiceImpl extends BaseAopService<SysRoleServiceImpl, SysRoleDao, SysRoleEntity>
+        implements SysRoleService {
 
     @Resource
     private SysRoleMenuService sysRoleMenuService;

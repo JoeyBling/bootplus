@@ -17,16 +17,16 @@ import java.sql.SQLException;
  * mapper里字段到枚举类的映射。
  * <p>
  * 用法一:
- * 入库：#{enumDataField, typeHandler=com.tynet.common.enums.IEnumTypeHandler}
+ * 入库：#{enumDataField, typeHandler=io.github.common.typehandler.IEnumTypeHandler}
  * <p>
  * 出库：
  * <resultMap>
- * <result property="enumDataField" column="enum_data_field" javaType="com.xxx.MyEnum" typeHandler="com.tynet.common.enums.IEnumTypeHandler"/>
+ * <result property="enumDataField" column="enum_data_field" javaType="com.xxx.MyEnum" typeHandler="io.github.common.typehandler.IEnumTypeHandler"/>
  * </resultMap>
  * <p>
  * 用法二： 1）在mybatis-config.xml中指定handler:
  * <typeHandlers>
- * <typeHandler handler="com.tynet.common.enums.IEnumTypeHandler" javaType="com.xxx.MyEnum"/>
+ * <typeHandler handler="io.github.common.typehandler.IEnumTypeHandler" javaType="com.xxx.MyEnum"/>
  * </typeHandlers>
  * <p>
  * 2)在MyClassMapper.xml里直接select/update/insert。

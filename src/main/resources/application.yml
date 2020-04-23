@@ -33,6 +33,9 @@ mybatis-plus:
   type-handlers-package: io.github.common.typehandler
 
 spring:
+  cache:
+    ehcache:
+      config: classpath:/ehcache-core.xml
   profiles:
     # 生产环境
     #    active: prd

@@ -78,6 +78,24 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <!-- FastJson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.60</version>
+        </dependency>
+
+        <dependency>
             <!-- https://github.com/JoeyBling/fastjson-spring-boot-starter/ -->
             <groupId>io.gitee.zhousiwei</groupId>
             <artifactId>fastjson-spring-boot-starter</artifactId>
@@ -97,13 +115,6 @@
             <groupId>com.caucho</groupId>
             <artifactId>hessian</artifactId>
             <version>${hessian.version}</version>
-        </dependency>
-
-        <!-- FastJson -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.60</version>
         </dependency>
 
         <dependency>
@@ -131,6 +142,13 @@
             <version>2.10.5</version>
             <!--<scope>provided</scope>-->
         </dependency>
+
+        <!-- EhCache -->
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+        </dependency>
+
         <!-- https://xz.aliyun.com/t/2233 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -344,12 +362,6 @@
                     <groupId>org.slf4j</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <!-- EhCache -->
-        <dependency>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
         </dependency>
 
         <!-- 包含支持UI模版（Velocity，FreeMarker，JasperReports）， 邮件服务， 脚本服务(JRuby)， 缓存Cache（EHCache），

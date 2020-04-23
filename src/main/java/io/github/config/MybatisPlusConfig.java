@@ -20,7 +20,7 @@ import java.util.Collection;
  * @author Joey
  */
 @Configuration
-@MapperScan("io.github.dao*")
+@MapperScan("io.github.**.dao*")
 @Slf4j
 public class MybatisPlusConfig {
 

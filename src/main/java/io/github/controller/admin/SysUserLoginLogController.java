@@ -1,7 +1,7 @@
 package io.github.controller.admin;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import io.github.controller.frame.AbstractController;
+import io.github.frame.controller.AbstractController;
 import io.github.entity.SysUserLoginLogEntity;
 import io.github.service.SysUserLoginLogService;
 import io.github.util.PageUtils;

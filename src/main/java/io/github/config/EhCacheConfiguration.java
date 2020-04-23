@@ -1,5 +1,6 @@
 package io.github.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
@@ -12,23 +13,12 @@ import org.springframework.core.io.ClassPathResource;
  *
  * @author Joey
  * @Email 2434387555@qq.com
+ * @see org.springframework.boot.autoconfigure.cache.EhCacheCacheConfiguration
  */
+@Slf4j
+@Deprecated
 @Configuration
-@EnableCaching(proxyTargetClass = true)
 public class EhCacheConfiguration {
-
-    /**
-     * 据shared与否的设置,Spring分别通过CacheManager.create()或new CacheManager()方式来创建一个ehcache基地.
-     *
-     * @return EhCacheManagerFactoryBean
-     */
-    @Bean
-    public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
-        EhCacheManagerFactoryBean cacheManagerFactoryBean = new EhCacheManagerFactoryBean();
-        cacheManagerFactoryBean.setConfigLocation(new ClassPathResource("ehcache-core.xml"));
-        cacheManagerFactoryBean.setShared(true);
-        return cacheManagerFactoryBean;
-    }
 
     /**
      * ehcache 主要的管理器
@@ -36,9 +26,23 @@ public class EhCacheConfiguration {
      * @param bean EhCacheManagerFactoryBean
      * @return EhCacheCacheManager
      */
-    @Bean(name = "coreEhCacheCacheManager")
+//    @Bean(name = "coreEhCacheCacheManager")
     public EhCacheCacheManager ehCacheCacheManager(EhCacheManagerFactoryBean bean) {
         return new EhCacheCacheManager(bean.getObject());
+    }
+
+    /**
+     * 据shared与否的设置,Spring分别通过CacheManager.create()或new CacheManager()方式来创建一个ehcache基地.
+     *
+     * @return EhCacheManagerFactoryBean
+     */
+//    @Bean
+    public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
+        log.debug("EhCacheConfiguration.ehCacheManagerFactoryBean()...");
+        EhCacheManagerFactoryBean cacheManagerFactoryBean = new EhCacheManagerFactoryBean();
+        cacheManagerFactoryBean.setConfigLocation(new ClassPathResource("ehcache-core.xml"));
+        cacheManagerFactoryBean.setShared(true);
+        return cacheManagerFactoryBean;
     }
 
 }

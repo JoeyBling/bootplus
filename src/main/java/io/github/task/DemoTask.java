@@ -3,6 +3,7 @@ package io.github.task;
 import io.github.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -12,8 +13,13 @@ import java.util.Date;
 
 /**
  * 定时任务
+ * <p>
+ * InitializingBean:初始化接口方法--等同于`init-method`
+ * Spring先判断类是否实现了InitializingBean接口，是就调用其方法afterPropertiesSet().
+ * 之后在对init-method进行判断是否执行init-method定义的方法
  *
  * @author Created by 思伟 on 2019/12/17
+ * @see org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory#invokeInitMethods(String, Object, RootBeanDefinition)
  */
 @Slf4j
 @Component

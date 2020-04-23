@@ -1,5 +1,7 @@
 package io.github.test;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.util.TypeUtils;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.common.enums.IEnumHelperFactory;
@@ -14,9 +16,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 import org.slf4j.Logger;
+import org.springframework.core.annotation.AnnotatedElementUtils;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +42,12 @@ public class _Main {
     }
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IOException {
+        // 默认的临时目录
+        System.out.println(System.getProperty("java.io.tmpdir"));
+        // 用户的家目录
+        System.out.println(System.getProperty("user.home"));
+        // 用户当前的工作目录
+        System.out.println(System.getProperty("user.dir"));
         Map<String, Boolean> testMap1 = new HashMap<String, Boolean>(2);
         testMap1.put("1", true);
         testMap1.put("2", false);
@@ -53,11 +64,11 @@ public class _Main {
         ImmutableMap<String, Object> map = new ImmutableMap.Builder<String, Object>()
                 .put("start_time", System.currentTimeMillis())
                 .put("enable_auto_cloud_recording", true).build();
-        System.out.println(RestTemplateUtil.postForObject("https://www.baidu.com/", map, MediaType.APPLICATION_FORM_URLENCODED));
-        System.out.println(RestTemplateUtil.getForObject("http://gogs-git.hztywl.cn/", map));
+//        System.out.println(RestTemplateUtil.postForObject("https://www.baidu.com/", map, MediaType.APPLICATION_FORM_URLENCODED));
+//        System.out.println(RestTemplateUtil.getForObject("http://gogs-git.hztywl.cn/", map));
 
 
-        System.out.println(test2());
+        System.out.println("test2：" + test2());
         Logger logger = LogUtil.getInstance().getInterceptorStatementLogger();
 //        logger.info(Enum.valueOf(SysMenuTypeEnum.class, "0").getValue());
         IEnumHelperFactory.IEnumHelper sysMenuTypeHelper = IEnumHelperFactory.getInstance().getByClass(
@@ -75,25 +86,16 @@ public class _Main {
             logger.info(key);
         }
 
-
-        Map<String, String> testMap = new HashMap<String, String>(5);
-
-        testMap.put("1", "2");
-        testMap.put("1", "3");
-        testMap.put("2", "5");
-        testMap.put("2", "4");
-        System.out.println(testMap.containsKey("2"));
-        System.out.println(testMap.containsKey("2 "));
-        Set<Map.Entry<String, String>> entrySet = testMap.entrySet();
-        for (Map.Entry<String, String> stringEntry : entrySet) {
-            System.out.println("key=" + stringEntry.getKey() + "，value=" + stringEntry.getValue());
-        }
         // 要想继承实现@RequestMapping和@ResponseBody 父类的访问修饰符必须是public，不然获取到的方法和实际的方法不一致
         Class<?> sysClass = Class.forName("io.github.controller.admin.SysLoginController");
         for (Method method : sysClass.getMethods()) {
             System.out.println(method.getName());
         }
         Method testString = sysClass.getMethod("testString", Model.class);
+        JSONField annotation = TypeUtils.getAnnotation(testString, JSONField.class);
+        annotation = AnnotationUtils.getAnnotation(testString, JSONField.class);
+        annotation = AnnotationUtils.findAnnotation(testString, JSONField.class);
+        annotation = AnnotatedElementUtils.findMergedAnnotation(testString, JSONField.class);
         System.out.println(testString);
         // 不同的平台生成相应平台的换行符
         /** java中的转义符:\r\n

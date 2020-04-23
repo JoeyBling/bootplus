@@ -1,4 +1,4 @@
-package io.github.controller;
+package io.github.frame.controller;
 
 import com.alibaba.fastjson.JSON;
 import io.github.util.R;
@@ -78,7 +78,12 @@ public class MainSiteErrorController extends DefaultErrorAttributes implements E
         } else if (HttpStatus.UNAUTHORIZED.value() == code) {
             return "登录过期";
         } else {
-            return StringUtils.EMPTY;
+            HttpStatus httpStatus = null;
+            try {
+                httpStatus = HttpStatus.valueOf(code);
+            } catch (Exception e) {
+            }
+            return null != httpStatus ? httpStatus.getReasonPhrase() : StringUtils.EMPTY;
         }
     }
 

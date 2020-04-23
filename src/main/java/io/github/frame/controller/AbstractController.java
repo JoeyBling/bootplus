@@ -1,4 +1,4 @@
-package io.github.controller.frame;
+package io.github.frame.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodIntrospector;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -159,10 +158,10 @@ public abstract class AbstractController<S> extends BaseAopContext<S> {
 //        return "test-Inherited测试";
     }
 
-    /*@RequestMapping("/testString")*/
+//    @RequestMapping("/testString")
     @ResponseBody
     @Deprecated
-    protected String testString(Model model) {
+    public String testString(Model model) {
         return "测试String乱码问题";
     }
 

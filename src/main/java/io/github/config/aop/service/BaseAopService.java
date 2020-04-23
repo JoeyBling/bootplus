@@ -2,6 +2,7 @@ package io.github.config.aop.service;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import io.github.util.exception.SysRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +37,16 @@ public abstract class BaseAopService<S, M extends BaseMapper<T>, T> extends Serv
         if (null != proxyBean) {
             this.self = (S) proxyBean;
         }
+    }
+
+    /**
+     * 自定义缓存Key前缀
+     * 如果要使用缓存注解：#root.target.cachePrefix 必须实现此方法
+     *
+     * @return String
+     */
+    public String getCachePrefix() {
+        throw new SysRuntimeException("请重写getCacheProfix方法");
     }
 
 }
