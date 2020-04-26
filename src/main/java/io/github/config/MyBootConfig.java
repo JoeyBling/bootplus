@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
@@ -33,7 +32,6 @@ import java.util.concurrent.ThreadPoolExecutor;
 @Slf4j
 @Configuration
 @EnableAsync(proxyTargetClass = true)
-@EnableCaching(proxyTargetClass = true)
 public class MyBootConfig implements AsyncConfigurer {
 
     /**
@@ -104,7 +102,7 @@ public class MyBootConfig implements AsyncConfigurer {
      */
     @Bean
     @ConditionalOnMissingBean
-    @ConditionalOnMissingClass({"io.gitee.zhousiwei.FastJsonAutoConfiguration"})
+    @ConditionalOnMissingClass({"io.gitee.zhousiwei.FastJsonProperties"})
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();

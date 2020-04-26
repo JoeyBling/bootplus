@@ -2,9 +2,13 @@ package io.github.service;
 
 import io.github.base.BaseAppTest;
 import io.github.util.StringUtils;
+import io.github.util.spring.AopTargetUtils;
 import org.junit.Test;
+import org.springframework.aop.support.AopUtils;
 
 import javax.annotation.Resource;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,15 +25,29 @@ public class SysRoleMenuServiceTest extends BaseAppTest {
      * 根据角色ID，获取菜单ID列表
      */
     @Test
-    public void queryMenuIdList() {
-        List<Long> menuIdList = sysRoleMenuService.queryMenuIdList(13L);
+    public void queryMenuIdList() throws Exception {
+        SysRoleMenuService targetSelf = AopTargetUtils.getTargetSelf(sysRoleMenuService);
+        long roleId = 13L;
+        List<Long> menuIdList = sysRoleMenuService.queryMenuIdList(roleId);
         outLog(menuIdList);
-        menuIdList = sysRoleMenuService.queryMenuIdList(13L);
+        menuIdList = sysRoleMenuService.queryMenuIdList(roleId);
         outLog(menuIdList);
-        menuIdList = sysRoleMenuService.queryMenuIdList(13L);
+        sysRoleMenuService.clearMenuIdList(roleId);
+        sysRoleMenuService.saveOrUpdate(roleId, Arrays.asList(1L));
+        menuIdList = sysRoleMenuService.queryMenuIdList(roleId);
         outLog(menuIdList);
-        menuIdList = sysRoleMenuService.queryMenuIdList(13L);
-        outLog(menuIdList);
+//        menuIdList = sysRoleMenuService.queryMenuIdList(roleId);
+//        sysRoleMenuService.clearMenuIdList(roleId);
+//        outLog(menuIdList);
+
+
+        // 防止Spring守护线程池提前结束
+        /*try {
+            System.in.read();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }*/
+
     }
 
     private void outLog(List<Long> menuIdList) {

@@ -26,6 +26,9 @@ public class LogTest extends BaseAppTest {
     public static void main(String[] args) {
 //        ContextInitializer.AUTOCONFIG_FILE = "";
         // 此方法可用，不能加classpath或/
+        /**
+         * @see org.springframework.boot.logging.logback.LogbackLoggingSystem#CONFIGURATION_FILE_PROPERTY
+         */
         System.setProperty("logback.configurationFile", "logback-spring.xml");
         // 输出文件
         Logger logger = LogUtil.getInstance().getFileStatementLogger();

@@ -6,7 +6,7 @@ package io.github.util.exception;
  * @author Joey
  * @Email 2434387555@qq.com
  */
-public class RRException extends MyRuntimeException {
+public class RRException extends BaseRuntimeException {
     private static final long serialVersionUID = 1L;
 
     private String msg;

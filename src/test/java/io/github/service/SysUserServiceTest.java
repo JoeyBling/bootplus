@@ -1,11 +1,12 @@
 package io.github.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import io.github.entity.SysUserEntity;
 import io.github.base.BaseAppTest;
+import io.github.entity.SysUserEntity;
 import org.junit.Test;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestContext;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
  * @author Joey
  * @Email 2434387555@qq.com
  */
+@Transactional
 public class SysUserServiceTest extends BaseAppTest {
 
     @Resource
@@ -43,10 +45,10 @@ public class SysUserServiceTest extends BaseAppTest {
      * @see org.springframework.test.context.transaction.TransactionalTestExecutionListener#isRollback(TestContext)
      */
     @Test
-    @Rollback(false)
+    @Rollback(true)
     public void save() {
         long timeMillis = System.currentTimeMillis();
-        SysUserEntity user = SysUserEntity.builder().username("zhousiwei" + timeMillis + timeMillis + timeMillis + timeMillis + timeMillis + timeMillis).build();
+        SysUserEntity user = SysUserEntity.builder().username("zhousiwei" + timeMillis).build();
         sysUserService.save(user);
         user = SysUserEntity.builder().username("zhousiwei2").build();
         sysUserService.save(user);

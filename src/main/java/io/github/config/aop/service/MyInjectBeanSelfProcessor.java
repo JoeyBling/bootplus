@@ -9,6 +9,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.Ordered;
 
 /**
+ * bean自调用切面
  * 只要是在Shiro-AuthorizingRealm接口注入的Bean声明,所有相关联的Bean都被初始化完成且没有被代理[代理会在SpringBoot中无效]（包括BeanPostProcessor也会无效）
  * 手动注入self解决内部方法调用事务注解无效的问题
  * self会在编译的时候和this具有相同的效果，而this是关键字

@@ -1,13 +1,13 @@
 package io.github.service.impl;
 
+import cn.hutool.core.collection.CollectionUtil;
 import com.google.common.collect.ImmutableMap;
 import io.github.config.aop.service.BaseAopService;
 import io.github.dao.SysRoleMenuDao;
 import io.github.entity.SysRoleMenuEntity;
-import io.github.frame.cache.CacheNameProperty;
+import io.github.frame.cache.annotation.MyCacheEvict;
+import io.github.frame.cache.annotation.MyCacheable;
 import io.github.service.SysRoleMenuService;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +26,9 @@ public class SysRoleMenuServiceImpl extends BaseAopService<SysRoleMenuServiceImp
 
     @Override
     @Transactional(rollbackFor = Exception.class)
+    @MyCacheEvict(key = "#root.target.cachePrefix + '_' + #roleId")
     public void saveOrUpdate(Long roleId, List<Long> menuIdList) {
-        if (menuIdList.size() == 0) {
+        if (CollectionUtil.isEmpty(menuIdList)) {
             return;
         }
         // 先删除角色与菜单关系
@@ -38,25 +39,23 @@ public class SysRoleMenuServiceImpl extends BaseAopService<SysRoleMenuServiceImp
                 .put("roleId", roleId)
                 .put("menuIdList", menuIdList).build();
         // 一定要加上 self 关键字，不然缓存切面不会生效
-        self.clearMenuIdList(roleId);
+//        self.clearMenuIdList(roleId);
         baseMapper.save(map);
     }
 
-    @Cacheable(value = CacheNameProperty.CACHE_NAME_NORMAL,
-            key = "#root.target.cachePrefix + '_' + #roleId")
+    @MyCacheable(key = "#root.target.cachePrefix + '_' + #roleId")
     @Override
     public List<Long> queryMenuIdList(Long roleId) {
         return baseMapper.queryMenuIdList(roleId);
     }
-
 
     /**
      * 清除缓存
      *
      * @param roleId 角色ID
      */
-    @CacheEvict(value = CacheNameProperty.CACHE_NAME_NORMAL,
-            key = "#root.target.cachePrefix + '_' + #roleId")
+    @Override
+    @MyCacheEvict(key = "#root.target.cachePrefix + '_' + #roleId")
     public void clearMenuIdList(Long roleId) {
     }
 
@@ -64,4 +63,5 @@ public class SysRoleMenuServiceImpl extends BaseAopService<SysRoleMenuServiceImp
     public String getCachePrefix() {
         return "SYS_ROLE_MENU";
     }
+
 }

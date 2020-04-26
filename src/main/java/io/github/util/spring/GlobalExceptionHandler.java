@@ -1,7 +1,7 @@
 package io.github.util.spring;
 
 import io.github.frame.controller.MainSiteErrorController;
-import io.github.util.exception.MyRuntimeException;
+import io.github.util.exception.BaseRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -21,11 +21,11 @@ public class GlobalExceptionHandler {
      * 自定义异常处理器
      * 会与默认的冲突
      *
-     * @param e MyRuntimeException
+     * @param e BaseRuntimeException
      * @return String
      */
-    @ExceptionHandler(MyRuntimeException.class)
-    public String handleMyException(MyRuntimeException e) {
+    @ExceptionHandler(BaseRuntimeException.class)
+    public String handleMyException(BaseRuntimeException e) {
         log.error("系统异常出错={}", e.toString(), e);
         return MainSiteErrorController.ERROR_PATH;
     }

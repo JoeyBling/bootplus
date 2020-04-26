@@ -10,12 +10,12 @@ server:
     cookie:
       http-only: true
 
-logging:
-  level:
-    root: info
-    io.github: debug
-    #    org.springframework: warn
-    org.springframework: info
+#logging:
+#  level:
+#    root: info
+#    io.github: debug
+#    #    org.springframework: warn
+#    org.springframework: info
 
 mybatis-plus:
   configuration:
@@ -36,6 +36,7 @@ spring:
   cache:
     ehcache:
       config: classpath:/ehcache-core.xml
+  #    type: EHCACHE
   profiles:
     # 生产环境
     #    active: prd
@@ -104,6 +105,7 @@ security:
   basic:
     path: ${management.context-path:/monitor}/**
     enabled: true
+
 
 ################################### 程序自定义配置 ###################################
 

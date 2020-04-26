@@ -29,4 +29,11 @@ public interface SysRoleMenuService extends IService<SysRoleMenuEntity> {
      */
     List<Long> queryMenuIdList(Long roleId);
 
+    /**
+     * 清除缓存
+     *
+     * @param roleId 角色ID
+     */
+    void clearMenuIdList(Long roleId);
+
 }

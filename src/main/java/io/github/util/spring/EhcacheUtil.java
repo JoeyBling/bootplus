@@ -13,11 +13,15 @@ import javax.annotation.Resource;
  * @author Joey
  * @Email 2434387555@qq.com
  */
+@Deprecated
 @Component
 public class EhcacheUtil {
+
     /**
      * 管理员菜单缓存
+     * TODO 改为缓存注解形式
      */
+    @Deprecated
     public final static String ADMINMENUEHCACHENAME = "adminMenuCache";
 
     @Resource

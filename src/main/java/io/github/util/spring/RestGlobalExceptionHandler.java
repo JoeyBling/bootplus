@@ -1,7 +1,7 @@
 package io.github.util.spring;
 
 import io.github.util.R;
-import io.github.util.exception.MyRuntimeException;
+import io.github.util.exception.BaseRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -27,11 +27,11 @@ public class RestGlobalExceptionHandler {
      * TODO org.springframework.web.HttpMediaTypeNotAcceptableException:
      * Could not find acceptable representation
      *
-     * @param e MyRuntimeException
+     * @param e BaseRuntimeException
      * @return Map
      */
-    @ExceptionHandler(MyRuntimeException.class)
-    public R handleMyException(MyRuntimeException e) {
+    @ExceptionHandler(BaseRuntimeException.class)
+    public R handleMyException(BaseRuntimeException e) {
         R r = new R();
         r.put("code", e.getCode());
         r.put("msg", e.getMsg());

@@ -18,14 +18,15 @@ import javax.annotation.Resource;
  * 测试基类
  * 默认情况下，在每个 JPA 测试结束时，事务会发生回滚。这在一定程度上可以防止测试数据污染数据库
  * 测试持久层时，默认是回滚的。可以在具体的测试方法上添加@Rollback(false)来禁止回滚，也可以在测试类上添加
- * SpringBoot junit 全局过滤器和监听器会失效
+ * TODO SpringBoot junit 全局过滤器和监听器会失效
+ * 如果加上了@Transactional注解，读取的数据都有缓存
  *
  * @author Joey
  * @Email 2434387555@qq.com
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = App.class)
-@Transactional
+//@Transactional
 // true ? 测试数据不会污染数据库 : 会真正添加到数据库当中
 //@Rollback(false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

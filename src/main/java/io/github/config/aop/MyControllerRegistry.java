@@ -2,17 +2,13 @@ package io.github.config.aop;
 
 import io.github.App;
 import io.github.config.aop.annotation.MyController;
+import io.github.frame.spring.IStartUp;
 import io.github.util.ClassUtil;
 import io.github.util.StringUtils;
 import io.github.util.spring.SpringBeanUtils;
 import io.github.util.spring.SpringContextUtils;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
@@ -36,21 +32,12 @@ import java.util.Set;
  */
 @Slf4j
 @Component
-public class MyControllerRegistry implements ApplicationListener<ContextRefreshedEvent>,
-        ApplicationContextAware {
-
-    private ApplicationContext applicationContext;
+public class MyControllerRegistry implements IStartUp {
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
-
-    @SneakyThrows
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
+    public void startUp(ApplicationContext applicationContext) throws Exception {
         // root application context 没有parent，他就是老大.
-        if (event.getApplicationContext().getParent() == null) {
+        if (applicationContext.getParent() == null) {
             // 这里只能获取注册了Bean的注解类
             Class<? extends Annotation> annotationClass = MyController.class;
             Map<String, Object> beanWithAnnotation = applicationContext.getBeansWithAnnotation(annotationClass);

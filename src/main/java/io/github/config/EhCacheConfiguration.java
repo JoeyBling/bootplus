@@ -1,7 +1,9 @@
 package io.github.config;
 
+import cn.hutool.core.collection.CollectionUtil;
+import io.github.frame.cache.ehcache.MyEhCacheCacheManager;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
@@ -16,19 +18,11 @@ import org.springframework.core.io.ClassPathResource;
  * @see org.springframework.boot.autoconfigure.cache.EhCacheCacheConfiguration
  */
 @Slf4j
-@Deprecated
 @Configuration
 public class EhCacheConfiguration {
 
-    /**
-     * ehcache 主要的管理器
-     *
-     * @param bean EhCacheManagerFactoryBean
-     * @return EhCacheCacheManager
-     */
-//    @Bean(name = "coreEhCacheCacheManager")
-    public EhCacheCacheManager ehCacheCacheManager(EhCacheManagerFactoryBean bean) {
-        return new EhCacheCacheManager(bean.getObject());
+    public EhCacheConfiguration() {
+        log.debug(this.getClass().getName());
     }
 
     /**
@@ -36,13 +30,34 @@ public class EhCacheConfiguration {
      *
      * @return EhCacheManagerFactoryBean
      */
-//    @Bean
+    @Bean
     public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
         log.debug("EhCacheConfiguration.ehCacheManagerFactoryBean()...");
         EhCacheManagerFactoryBean cacheManagerFactoryBean = new EhCacheManagerFactoryBean();
         cacheManagerFactoryBean.setConfigLocation(new ClassPathResource("ehcache-core.xml"));
         cacheManagerFactoryBean.setShared(true);
+//        cacheManagerFactoryBean.setCacheManagerName("BOOT_PLUS_CORE");
         return cacheManagerFactoryBean;
+    }
+
+    /**
+     * EhCache 主要的管理器
+     *
+     * @param bean EhCacheManagerFactoryBean
+     * @return EhCacheCacheManager
+     */
+    @Bean(name = "coreEhCacheCacheManager")
+    @ConditionalOnBean(EhCacheManagerFactoryBean.class)
+    public EhCacheCacheManager ehCacheCacheManager(EhCacheManagerFactoryBean bean) {
+        if (log.isDebugEnabled()) {
+            CollectionUtil.newArrayList(bean.getObject().getCacheNames()).forEach(ehcacheName -> {
+                log.debug("EhCache--ehcacheName=【{}】", ehcacheName);
+            });
+        }
+        // 自定义 EhCache 缓存Manager
+        EhCacheCacheManager ehCacheCacheManager = new MyEhCacheCacheManager(bean.getObject());
+//        EhCacheCacheManager ehCacheCacheManager = new EhCacheCacheManager(bean.getObject());
+        return ehCacheCacheManager;
     }
 
 }

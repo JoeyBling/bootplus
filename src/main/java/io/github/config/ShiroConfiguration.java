@@ -39,7 +39,7 @@ import java.util.Map;
  */
 @Configuration
 @Slf4j
-@Order(-1)
+@Order(10)
 public class ShiroConfiguration {
 
     /**

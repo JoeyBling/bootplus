@@ -13,7 +13,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
-import java.io.IOException;
 import java.util.Collections;
 
 /**
@@ -41,7 +40,7 @@ public class App extends SpringBootServletInitializer {
      * mvn clean spring-boot:run -Dspring-boot.run.jvmArguments=--Dfile.encoding=UTF-8
      * mvn clean spring-boot:run -Dspring-boot.run.arguments=--Dfile.encoding=UTF-8
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         SpringApplication app = new SpringApplication(App.class);
         app.setBannerMode(Mode.CONSOLE);
         app.run(args);

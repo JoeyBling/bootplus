@@ -19,6 +19,27 @@ public class AopTargetUtils {
      * @param proxy 代理对象
      * @throws Exception
      */
+    public static <T> T getTargetSelf(T proxy) throws Exception {
+        if (!AopUtils.isAopProxy(proxy)) {
+            // 不是代理对象
+            return proxy;
+        }
+
+        // 是否是jdk动态接口代理
+        if (AopUtils.isJdkDynamicProxy(proxy)) {
+            return (T) getJdkDynamicProxyTargetObject(proxy);
+        } else {
+            // cglib类代理
+            return (T) getCglibProxyTargetObject(proxy);
+        }
+    }
+
+    /**
+     * 获取目标对象
+     *
+     * @param proxy 代理对象
+     * @throws Exception
+     */
     public static Object getTarget(Object proxy) throws Exception {
         if (!AopUtils.isAopProxy(proxy)) {
             // 不是代理对象

@@ -17,11 +17,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.sql.SQLException;
@@ -96,12 +96,25 @@ public class DataSourceConfig {
     @Value("${spring.datasource.connectionProperties}")
     private String connectionProperties;
 
-    @Bean
+    /**
+     * @see DruidSpringAopConfiguration#advisor(DruidStatProperties)
+     */
+//    @Bean
     public Advice advice() {
         return new DruidStatInterceptor();
     }
 
-    @Bean
+    /**
+     * 1.1.22 版本以下会被代理两次，新版本已解决
+     * 参考：{ https://github.com/alibaba/druid/issues/2770 }
+     * {Spring Boot二次代理问题 #3096  https://github.com/alibaba/druid/issues/3096}
+     *
+     * @ConditionalOnProperty(name = "spring.aop.auto",havingValue = "false")
+     * @see DruidSpringAopConfiguration#advisorAutoProxyCreator()
+     */
+//    @Bean
+    @ConditionalOnProperty(name = "spring.aop.auto", havingValue = "false")
+    @Deprecated
     public DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator() {
         DefaultAdvisorAutoProxyCreator advisorAutoProxyCreator = new DefaultAdvisorAutoProxyCreator();
         advisorAutoProxyCreator.setProxyTargetClass(true);

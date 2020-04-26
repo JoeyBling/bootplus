@@ -1,5 +1,6 @@
 package io.github.config;
 
+import com.baomidou.mybatisplus.enums.DBType;
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
 import io.github.common.typehandler.MyTypeHandler;
 import io.github.config.aop.annotation.MyAutowired;
@@ -36,7 +37,8 @@ public class MybatisPlusConfig {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
         // 开启 PageHelper 的支持
 //        paginationInterceptor.setLocalPage(true);
-        paginationInterceptor.setDialectType("mysql");
+        // 方言类型
+        paginationInterceptor.setDialectType(DBType.MYSQL.getDb());
         return paginationInterceptor;
     }
 
