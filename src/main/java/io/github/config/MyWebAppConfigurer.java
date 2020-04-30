@@ -27,6 +27,7 @@ import java.util.List;
 
 /**
  * 自定义配置
+ * // 2.0 WebMvcConfigurationSupport
  *
  * @author Joey
  * @Email 2434387555@qq.com
@@ -115,8 +116,10 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 自定义拦截器-list转数组
-        registry.addInterceptor(new LogInterceptor()).addPathPatterns("/**").
-                excludePathPatterns(EXCLUDE_PATH.toArray(new String[EXCLUDE_PATH.size()]));
+        registry.addInterceptor(new LogInterceptor()).addPathPatterns("/**")
+                // 【强制】使用集合转数组的方法，必须使用集合的 toArray(T[] array)，传入的是类型完全一
+                //致、长度为 0 的空数组。 等于 0，动态创建与 size 相同的数组，性能最好。
+                .excludePathPatterns(EXCLUDE_PATH.toArray(new String[0]));
         if (log.isDebugEnabled()) {
             log.debug("自定义拦截器初始化完成...");
         }

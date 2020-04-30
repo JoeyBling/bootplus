@@ -11,9 +11,6 @@ import org.springframework.cache.ehcache.EhCacheCache;
  * 重写EhCache 缓存
  * {@link Cache} implementation on top of an {@link Ehcache} instance.
  *
- * @author Costin Leau
- * @author Juergen Hoeller
- * @author Stephane Nicoll
  * @author Updated by 思伟 on 2020/4/23
  * @see MyEhCacheCacheManager
  * @see org.springframework.cache.ehcache.EhCacheCache

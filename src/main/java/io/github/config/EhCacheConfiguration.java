@@ -8,6 +8,7 @@ import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.ClassPathResource;
 
 /**
@@ -48,6 +49,7 @@ public class EhCacheConfiguration {
      */
     @Bean(name = "coreEhCacheCacheManager")
     @ConditionalOnBean(EhCacheManagerFactoryBean.class)
+    @Primary
     public EhCacheCacheManager ehCacheCacheManager(EhCacheManagerFactoryBean bean) {
         if (log.isDebugEnabled()) {
             CollectionUtil.newArrayList(bean.getObject().getCacheNames()).forEach(ehcacheName -> {

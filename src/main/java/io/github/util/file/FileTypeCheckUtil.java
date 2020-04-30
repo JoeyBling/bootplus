@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public class FileTypeCheckUtil {
 
-    private static Map<String, String> magicNumberMap = new HashMap<String, String>();
+    private static Map<String, String> magicNumberMap = new HashMap<String, String>(16);
 
     static {
         // JPG 文件以FFD8开头(JFIF格式FFD8FFE0开头，Exif格式FFD8FFE1开头，JFIF为老版格式，Exif为新版格式)  FFD9结尾

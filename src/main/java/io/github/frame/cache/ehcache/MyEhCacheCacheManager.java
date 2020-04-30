@@ -17,7 +17,6 @@ import java.util.concurrent.ConcurrentMap;
  *
  * @author Updated by 思伟 on 2020/4/23
  * @see org.springframework.cache.ehcache.EhCacheCacheManager
- * @since 3.1
  */
 public class MyEhCacheCacheManager extends EhCacheCacheManager {
 
@@ -30,7 +29,7 @@ public class MyEhCacheCacheManager extends EhCacheCacheManager {
     /**
      * 缓存的时间
      */
-    private Map<String, Integer> expireMap = new ConcurrentHashMap<String, Integer>();
+    protected Map<String, Integer> expireMap = new ConcurrentHashMap<String, Integer>(16);
 
     /**
      * Create a new EhCacheCacheManager, setting the target EhCache CacheManager

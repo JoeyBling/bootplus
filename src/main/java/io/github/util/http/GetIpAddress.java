@@ -1,6 +1,7 @@
 package io.github.util.http;
 
 import io.github.util.StringUtils;
+import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
@@ -24,6 +25,7 @@ public class GetIpAddress {
      * @throws IOException
      */
     public final static String getIpAddress(HttpServletRequest request) throws IOException {
+        Assert.notNull(request, "request must not be null");
         // 获取请求主机IP地址,如果通过代理进来，则透过防火墙获取真实IP地址
         String ip = request.getHeader("X-Forwarded-For");
         String unknown = "unknown";

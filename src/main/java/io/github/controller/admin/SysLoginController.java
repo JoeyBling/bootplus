@@ -125,8 +125,7 @@ public class SysLoginController extends AbstractController {
         if (StringUtils.isBlank(password)) {
             return R.error("请输入密码！");
         }
-        String kaptcha = ShiroUtils.getKaptcha(Constants.KAPTCHA_SESSION_KEY);
-        if (!captcha.equalsIgnoreCase(kaptcha)) {
+        if (!StringUtils.equalsIgnoreCase(captcha, ShiroUtils.getCaptcha(Constants.KAPTCHA_SESSION_KEY))) {
             return R.error("验证码不正确");
         }
         try {

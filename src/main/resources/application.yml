@@ -33,14 +33,14 @@ mybatis-plus:
   type-handlers-package: io.github.common.typehandler
 
 spring:
-  cache:
-    ehcache:
-      config: classpath:/ehcache-core.xml
-  #    type: EHCACHE
   profiles:
     # 生产环境
     #    active: prd
     active: dev
+  cache:
+    ehcache:
+      config: classpath:/ehcache-core.xml
+  #    type: EHCACHE
   datasource:
     #    filters: stat,wall,log4j
     filters: stat,wall,slf4j
@@ -90,6 +90,13 @@ spring:
   aop:
     auto: true
     proxy-target-class: true
+  data:
+    jpa:
+      repositories:
+        enabled: false
+    redis:
+      repositories:
+        enabled: false
 
 management:
   #  context-path: /monitor

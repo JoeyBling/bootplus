@@ -38,7 +38,7 @@ public class SysUserLoginLogServiceImpl extends BaseAopService<SysUserLoginLogSe
         if (StringUtils.isNoneBlank(loginIp)) {
             wrapper.like("login_ip", loginIp);
         }
-        Page<SysUserLoginLogEntity> page = new Page<>(offset, limit);
+        Page<SysUserLoginLogEntity> page = new Page<SysUserLoginLogEntity>(offset, limit);
         return this.selectPage(page, wrapper);
     }
 

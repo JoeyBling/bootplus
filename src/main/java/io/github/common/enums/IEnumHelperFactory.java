@@ -50,7 +50,9 @@ public class IEnumHelperFactory {
         if (null == iEnumHelperFactory) {
             // 支持对任意对象作为对象监视器来实现同步功能，非this对象
             synchronized (IEnumHelperFactory.class) {
-                iEnumHelperFactory = new IEnumHelperFactory();
+                if (null == iEnumHelperFactory) {
+                    iEnumHelperFactory = new IEnumHelperFactory();
+                }
             }
         }
         return iEnumHelperFactory;

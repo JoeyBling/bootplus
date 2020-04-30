@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
 import com.baomidou.mybatisplus.enums.IdType;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -16,6 +16,10 @@ import java.io.Serializable;
  *
  */
 @Data
+@ToString(callSuper = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @TableName("sys_user_login_log")
 public class SysUserLoginLogEntity implements Serializable {
     private static final long serialVersionUID = 1L;

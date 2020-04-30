@@ -5,7 +5,7 @@ package io.github.frame.cache;
  *
  * @author Created by 思伟 on 2020/4/22
  */
-public class CacheNameProperty {
+public class CacheNameConstant {
 
     /**
      * 默认缓存名-1小时

@@ -27,15 +27,15 @@ public class FileTypeUtil {
     /**
      * 通过文件头获取文件扩展名
      */
-    private static Map<String, String> magicNumberMap = new HashMap<String, String>();
+    private static Map<String, String> magicNumberMap = new HashMap<String, String>(16);
     /**
      * 通过http content-type获取文件扩展名
      */
-    private static Map<String, String> contentTypeMap = new HashMap<String, String>();
+    private static Map<String, String> contentTypeMap = new HashMap<String, String>(16);
     /**
      * 通过文件扩展名获取文件类型
      */
-    private static Map<String, FileTypeEnum> typeMap = new HashMap<String, FileTypeEnum>();
+    private static Map<String, FileTypeEnum> typeMap = new HashMap<String, FileTypeEnum>(16);
 
     static {
         magicNumberMap.put("FFD8FFE0", ".jpg"); // JPEG

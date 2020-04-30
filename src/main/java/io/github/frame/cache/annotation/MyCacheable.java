@@ -1,6 +1,6 @@
 package io.github.frame.cache.annotation;
 
-import io.github.frame.cache.CacheNameProperty;
+import io.github.frame.cache.CacheNameConstant;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.core.annotation.AliasFor;
 
@@ -23,7 +23,7 @@ public @interface MyCacheable {
      * @see Cacheable#value()
      */
     @AliasFor(annotation = Cacheable.class, attribute = "value")
-    String[] value() default {CacheNameProperty.NORMAL};
+    String[] value() default {CacheNameConstant.NORMAL};
 
     /**
      * @see Cacheable#key()

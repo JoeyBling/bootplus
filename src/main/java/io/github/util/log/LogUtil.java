@@ -4,8 +4,8 @@ import io.github.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 日志工具类
@@ -33,7 +33,9 @@ public class LogUtil {
     public static LogUtil getInstance() {
         if (null == logUtil) {
             synchronized (LogUtil.class) {
-                logUtil = new LogUtil();
+                if (null == logUtil) {
+                    logUtil = new LogUtil();
+                }
             }
         }
         return logUtil;
@@ -48,7 +50,7 @@ public class LogUtil {
      */
     private final String INTERCEPTOR_STATEMENT_LOGGER_NAME = "bootplus.interceptor.Statement";
 
-    private Map<String, Logger> loggerMap = new HashMap<String, Logger>(5);
+    private Map<String, Logger> loggerMap = new ConcurrentHashMap<String, Logger>(16);
 
     /**
      * 拦截器日志
@@ -95,6 +97,7 @@ public class LogUtil {
      * 获取日志打印对象并添加到缓存
      *
      * @param loggerName Logger名
+     * @param cover      判断是否已存在且覆盖
      * @return Logger
      */
     private synchronized Logger addLoggerToMap(String loggerName, Boolean cover) {

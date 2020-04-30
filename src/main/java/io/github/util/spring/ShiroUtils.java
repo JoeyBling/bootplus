@@ -85,13 +85,13 @@ public class ShiroUtils {
      * @param key 验证码Key
      * @return String
      */
-    public static String getKaptcha(String key) {
-        Object kaptcha = getSessionAttribute(key);
-        if (kaptcha == null) {
+    public static String getCaptcha(String key) {
+        Object captcha = getSessionAttribute(key);
+        if (captcha == null) {
             throw new RRException("验证码已失效");
         }
         getSession().removeAttribute(key);
-        return kaptcha.toString();
+        return captcha.toString();
     }
 
 }

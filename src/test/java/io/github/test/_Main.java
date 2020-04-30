@@ -19,9 +19,7 @@ import org.slf4j.Logger;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +40,7 @@ public class _Main {
     }
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IOException {
+        System.out.println(Collections.<String>emptyList());
         // 默认的临时目录
         System.out.println(System.getProperty("java.io.tmpdir"));
         // 用户的家目录
@@ -70,6 +69,7 @@ public class _Main {
 
         System.out.println("test2：" + test2());
         Logger logger = LogUtil.getInstance().getInterceptorStatementLogger();
+        logger = LogUtil.getInstance().getInterceptorStatementLogger();
 //        logger.info(Enum.valueOf(SysMenuTypeEnum.class, "0").getValue());
         IEnumHelperFactory.IEnumHelper sysMenuTypeHelper = IEnumHelperFactory.getInstance().getByClass(
                 SysMenuTypeEnum.class);
@@ -79,8 +79,9 @@ public class _Main {
                 FileTypeEnum.class).getByKey("IMAGE").getValue());
         String[] keyArray = sysMenuTypeHelper.getKeyArray();
         List list = sysMenuTypeHelper.getList();
+        Logger finalLogger = logger;
         list.forEach(o -> {
-            logger.info(o.toString());
+            finalLogger.info(o.toString());
         });
         for (String key : keyArray) {
             logger.info(key);
