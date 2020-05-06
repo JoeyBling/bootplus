@@ -1,6 +1,8 @@
 package io.github.config.aop.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 继承的类都可以取得AOP self对象属性【继承此类来解决内部方法调用事务失效问题及没有代理等问题】
@@ -11,7 +13,8 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public abstract class BaseAopContext<S> implements BeanSelfAware {
-
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    
     /**
      * self会在编译的时候和this具有相同的效果，而this是关键字
      * 使用内部方法时可以指定self... 或者不加关键字即可使用代理对象(勿使用this不然无效)

@@ -2,7 +2,6 @@ package io.github.config.interceptor;
 
 import io.github.util.log.LogUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,7 +21,7 @@ public class LogInterceptor implements HandlerInterceptor {
     /**
      * 拦截器日志
      */
-    private final Logger log = LogUtil.getInstance().getInterceptorStatementLogger();
+    private final LogUtil.MyLogger log = LogUtil.getInstance().getInterceptorStatementLogger();
 
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss.SSS");
 
@@ -38,13 +37,11 @@ public class LogInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (log.isDebugEnabled()) {
-            // 开始时间
-            long beginTime = System.currentTimeMillis();
-            // 线程绑定变量（该数据只有当前请求的线程可见）
-            START_TIME_THREAD_LOCAL.set(beginTime);
-            // log.debug("开始计时: {}  URI: {}", simpleDateFormat.format(beginTime), request.getRequestURI());
-        }
+        // 开始时间
+        long beginTime = System.currentTimeMillis();
+        // 线程绑定变量（该数据只有当前请求的线程可见）
+        START_TIME_THREAD_LOCAL.set(beginTime);
+        // log.debug("开始计时: {}  URI: {}", simpleDateFormat.format(beginTime), request.getRequestURI());
         return true;
     }
 
@@ -71,22 +68,20 @@ public class LogInterceptor implements HandlerInterceptor {
                 "/favicon.ico", "", "/")) {
             return;
         }
-        // 打印JVM信息(可选保存日志操作等...)
-        if (log.isDebugEnabled()) {
-            try {
-                // 得到线程绑定的局部变量（开始时间）
-                long beginTime = START_TIME_THREAD_LOCAL.get();
-                // 结束时间
-                long endTime = System.currentTimeMillis();
+        try {
+            // 打印JVM信息(可选保存日志操作等...)
+            // 得到线程绑定的局部变量（开始时间）
+            long beginTime = START_TIME_THREAD_LOCAL.get();
+            // 结束时间
+            long endTime = System.currentTimeMillis();
 //                log.debug("计时结束：{}  耗时：{}  URI: {}  最大内存: {}m  已分配内存: {}m  已分配内存中的剩余空间: {}m  最大可用内存: {}m",
 //                simpleDateFormat.format(endTime), (endTime - beginTime) / 1000 + "s", request.getRequestURI(),
 //                        Runtime.getRuntime().maxMemory() / 1024 / 1024, Runtime.getRuntime().totalMemory() / 1024 / 1024,
 //                        Runtime.getRuntime().freeMemory() / 1024 / 1024, (Runtime.getRuntime().maxMemory() - Runtime.getRuntime().totalMemory() + Runtime.getRuntime().freeMemory()) / 1024 / 1024)
 //                ;
-            } finally {
-                // 回收自定义的ThreadLocal变量
-                START_TIME_THREAD_LOCAL.remove();
-            }
+        } finally {
+            // 回收自定义的ThreadLocal变量
+            START_TIME_THREAD_LOCAL.remove();
         }
 
     }

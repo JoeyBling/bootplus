@@ -2,20 +2,18 @@ package io.github.controller.admin;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
-import io.github.frame.controller.AbstractController;
 import io.github.entity.SysMenuEntity;
 import io.github.entity.SysUserEntity;
 import io.github.entity.SysUserLoginLogEntity;
+import io.github.frame.controller.AbstractController;
 import io.github.service.SysMenuService;
 import io.github.service.SysUserLoginLogService;
 import io.github.service.SysUserService;
 import io.github.util.DateUtils;
 import io.github.util.R;
-import io.github.util.config.EhCacheNames;
 import io.github.util.exception.RRException;
 import io.github.util.http.GetIpAddress;
 import io.github.util.http.HttpUtil;
-import io.github.util.spring.EhcacheUtil;
 import io.github.util.spring.ShiroUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
@@ -178,12 +176,11 @@ public class SysLoginController extends AbstractController {
     @RequestMapping(value = "/sys/logout", method = RequestMethod.GET)
     public String logout() throws Exception {
         if (ShiroUtils.isLogin()) {
-            String cacheName = EhCacheNames.MENUCACHENAME + ShiroUtils.getUserId();
-            ehcacheUtil.remove(EhcacheUtil.ADMINMENUEHCACHENAME, cacheName);
-            logger.info("管理员退出，清空用户菜单列表Cache");
             Long userId = ShiroUtils.getUserId();
+            sysMenuService.clearUserMenuList(userId);
+            logger.info("管理员退出，清空用户菜单列表Cache");
             // 系统管理员退出
-            if (userId != null && constant.adminId.equals(userId)) {
+            if (constant.adminId.equals(userId)) {
             }
             ShiroUtils.logout();
         }

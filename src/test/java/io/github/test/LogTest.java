@@ -1,6 +1,5 @@
 package io.github.test;
 
-import ch.qos.logback.classic.util.ContextInitializer;
 import io.github.base.BaseAppTest;
 import io.github.util.log.LogUtil;
 import org.junit.Test;
@@ -31,9 +30,9 @@ public class LogTest extends BaseAppTest {
          */
         System.setProperty("logback.configurationFile", "logback-spring.xml");
         // 输出文件
-        Logger logger = LogUtil.getInstance().getFileStatementLogger();
+        LogUtil.MyLogger logger = LogUtil.getInstance().getFileStatementLogger();
         logger.debug("debug file Statement");
-        logger.warn("warn file Statement");
+        logger.getLogger().warn("warn file Statement");
         logger.error("error file Statement");
     }
 
@@ -42,9 +41,9 @@ public class LogTest extends BaseAppTest {
      */
     @Test
     public void testLogForFile() {
-        Logger logger = LogUtil.getInstance().getFileStatementLogger();
+        LogUtil.MyLogger logger = LogUtil.getInstance().getFileStatementLogger();
         logger.debug("debug file Statement");
-        logger.warn("warn file Statement");
+        logger.getLogger().warn("warn file Statement");
         logger.error("error file Statement");
     }
 

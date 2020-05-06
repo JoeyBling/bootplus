@@ -27,7 +27,7 @@ public class EhcacheTest extends BaseAppTest {
      */
     @Test
     public void testCache() {
-        String[] ehcacheNames = ehcacheUtil.manager.getCacheNames();
+        String[] ehcacheNames = ehcacheUtil.getManager().getCacheNames();
         CollectionUtil.newArrayList(ehcacheNames).forEach(ehcacheName -> {
             log.debug("EhCache--ehcacheName=【{}】", ehcacheName);
         });

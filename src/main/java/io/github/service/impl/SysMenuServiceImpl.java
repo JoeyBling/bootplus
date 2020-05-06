@@ -3,12 +3,11 @@ package io.github.service.impl;
 import io.github.config.aop.service.BaseAopService;
 import io.github.dao.SysMenuDao;
 import io.github.entity.SysMenuEntity;
+import io.github.frame.cache.annotation.MyCacheEvict;
+import io.github.frame.cache.annotation.MyCacheable;
 import io.github.service.SysMenuService;
-import io.github.service.SysRoleMenuService;
 import io.github.service.SysUserService;
 import io.github.util.config.Constant;
-import io.github.util.config.EhCacheNames;
-import io.github.util.spring.EhcacheUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,18 +25,18 @@ import java.util.Map;
  * @Email 2434387555@qq.com
  */
 @Service
-public class SysMenuServiceImpl extends BaseAopService<SysMenuServiceImpl, SysMenuDao, SysMenuEntity> implements SysMenuService {
+public class SysMenuServiceImpl extends BaseAopService<SysMenuServiceImpl, SysMenuDao, SysMenuEntity>
+        implements SysMenuService {
 
     @Resource
     private SysUserService sysUserService;
     @Resource
-    private SysRoleMenuService sysRoleMenuService;
-    @Resource
     private Constant constant;
-    @Resource
-    private EhcacheUtil ehcacheUtil;
 
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    @Override
+    public String getCachePrefix() {
+        return "SYS_MENU";
+    }
 
     @Override
     public List<SysMenuEntity> queryListParentId(Long parentId, List<Long> menuIdList) {
@@ -59,28 +58,25 @@ public class SysMenuServiceImpl extends BaseAopService<SysMenuServiceImpl, SysMe
         return baseMapper.queryNotButtonList();
     }
 
-    @SuppressWarnings("unchecked")
+
     @Override
+    @MyCacheable(key = "#root.target.cachePrefix + '_LIST_' + #userId")
     public List<SysMenuEntity> getUserMenuList(Long userId) {
-        String cacheName = EhCacheNames.MENUCACHENAME + userId;
-        Object object = ehcacheUtil.get(EhcacheUtil.ADMINMENUEHCACHENAME, cacheName);
-        if (null != object) {
-            if (object instanceof List) {
-                logger.info("用户菜单列表从EhCache缓存拿值");
-                return (List<SysMenuEntity>) object;
-            }
-        }
+        List<SysMenuEntity> allMenuList;
         // 系统管理员，拥有最高权限
-        if (userId.equals(constant.adminId)) {
-            List<SysMenuEntity> allMenuList = getAllMenuList(null);
-            ehcacheUtil.put(EhcacheUtil.ADMINMENUEHCACHENAME, cacheName, allMenuList);
-            return allMenuList;
+        if (constant.adminId.equals(userId)) {
+            allMenuList = getAllMenuList(null);
+        } else {
+            // 用户菜单列表
+            List<Long> menuIdList = sysUserService.queryAllMenuId(userId);
+            allMenuList = getAllMenuList(menuIdList);
         }
-        // 用户菜单列表
-        List<Long> menuIdList = sysUserService.queryAllMenuId(userId);
-        List<SysMenuEntity> allMenuList = getAllMenuList(menuIdList);
-        ehcacheUtil.put(EhcacheUtil.ADMINMENUEHCACHENAME, cacheName, allMenuList);
         return allMenuList;
+    }
+
+    @Override
+    @MyCacheEvict(key = "#root.target.cachePrefix + '_LIST_' + #userId")
+    public void clearUserMenuList(Long userId) {
     }
 
     @Override

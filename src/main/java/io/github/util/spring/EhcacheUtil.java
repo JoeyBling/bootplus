@@ -17,15 +17,12 @@ import javax.annotation.Resource;
 @Component
 public class EhcacheUtil {
 
-    /**
-     * 管理员菜单缓存
-     * TODO 改为缓存注解形式
-     */
-    @Deprecated
-    public final static String ADMINMENUEHCACHENAME = "adminMenuCache";
-
     @Resource
-    public CacheManager manager;
+    private CacheManager manager;
+
+    public CacheManager getManager() {
+        return manager;
+    }
 
     /**
      * 获得一个Cache

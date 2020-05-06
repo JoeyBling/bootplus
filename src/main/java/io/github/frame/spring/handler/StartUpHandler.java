@@ -21,7 +21,7 @@ import java.util.Map;
 @Component
 public class StartUpHandler implements ApplicationListener<ContextRefreshedEvent> {
 
-    @Autowired
+    //    @Autowired
     DefaultListableBeanFactory defaultListableBeanFactory;
 
     @Override

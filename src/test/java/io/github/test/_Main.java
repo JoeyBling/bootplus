@@ -68,7 +68,7 @@ public class _Main {
 
 
         System.out.println("test2：" + test2());
-        Logger logger = LogUtil.getInstance().getInterceptorStatementLogger();
+        LogUtil.MyLogger logger = LogUtil.getInstance().getInterceptorStatementLogger();
         logger = LogUtil.getInstance().getInterceptorStatementLogger();
 //        logger.info(Enum.valueOf(SysMenuTypeEnum.class, "0").getValue());
         IEnumHelperFactory.IEnumHelper sysMenuTypeHelper = IEnumHelperFactory.getInstance().getByClass(
@@ -79,7 +79,7 @@ public class _Main {
                 FileTypeEnum.class).getByKey("IMAGE").getValue());
         String[] keyArray = sysMenuTypeHelper.getKeyArray();
         List list = sysMenuTypeHelper.getList();
-        Logger finalLogger = logger;
+        Logger finalLogger = logger.getLogger();
         list.forEach(o -> {
             finalLogger.info(o.toString());
         });

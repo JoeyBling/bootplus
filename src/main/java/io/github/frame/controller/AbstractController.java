@@ -5,11 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import io.github.config.aop.service.BaseAopContext;
 import io.github.entity.SysUserEntity;
 import io.github.util.config.Constant;
-import io.github.util.spring.EhcacheUtil;
 import io.github.util.spring.ShiroUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodIntrospector;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,7 +28,6 @@ import java.util.Map;
  * @see org.springframework.util.ClassUtils#getMostSpecificMethod(Method, Class)
  */
 public abstract class AbstractController<S> extends BaseAopContext<S> {
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * 安全随机数实现
@@ -58,9 +54,6 @@ public abstract class AbstractController<S> extends BaseAopContext<S> {
      */
     @Resource
     protected Constant constant;
-
-    @Resource
-    protected EhcacheUtil ehcacheUtil;
 
     /**
      * 重定向
@@ -158,7 +151,7 @@ public abstract class AbstractController<S> extends BaseAopContext<S> {
 //        return "test-Inherited测试";
     }
 
-//    @RequestMapping("/testString")
+    //    @RequestMapping("/testString")
     @ResponseBody
     @Deprecated
     public String testString(Model model) {

@@ -161,7 +161,9 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
         String uri = StringUtils.join(url, StringUtils.equals(
                 File.separator, "\\") ? "/" : File.separator);
         // (?i)在前面 不区分大小写
-        return uri.replaceAll("(\\\\|/)+", "/");
+        return uri.replaceAll("(\\\\|/)+", "/")
+                .replaceFirst("(?i)((ht|f)tp\\:(\\\\|/)+)", "http://")
+                .replaceFirst("(?i)((ht|f)tps\\:(\\\\|/)+)", "https://");
     }
 
     public static void main(String[] args) throws IOException, URISyntaxException {
@@ -170,6 +172,8 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
         forceMkdirParent(getFile("F:\\特扬网络\\WIFI.txt"));
         forceMkdirParent(getFile("F:\\特扬网络\\"));
         forceMkdirParent(getFile(FileUtils.class.getResource("/banner.txt").getPath()));
+        System.out.println(toURI("https://blog.csdn.net/qq_30930805"));
+        System.out.println(toURI("F:\\特扬网络\\WIFI.txt"));
     }
 
 }

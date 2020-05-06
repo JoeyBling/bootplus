@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
  * @see MyInjectBeanSelfProcessor#postProcessAfterInitialization(Object, String)
  */
 public abstract class BaseAopService<S, M extends BaseMapper<T>, T> extends ServiceImpl<M, T> implements BeanSelfAware {
-    protected Logger logger = LoggerFactory.getLogger(getClass());
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     /**
      * self会在编译的时候和this具有相同的效果，而this是关键字
@@ -46,7 +46,7 @@ public abstract class BaseAopService<S, M extends BaseMapper<T>, T> extends Serv
      * @return String
      */
     public String getCachePrefix() {
-        throw new SysRuntimeException("请重写getCacheProfix方法");
+        throw new SysRuntimeException("请重写getCachePrefix方法");
     }
 
 }

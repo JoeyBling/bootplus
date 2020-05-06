@@ -472,23 +472,6 @@ public class RestTemplateUtil {
     }
 
     /**
-     * 拼接文件路径(同时会转换\或/出现2次以上的转/)推荐使用
-     *
-     * @param url 文件路径
-     * @return 拼接后的文件路径
-     */
-    public static final String generateFileUrl(final String... url) {
-        if (null == url) {
-            return null;
-        }
-        // StringUtils.join自动过滤Null值
-        String uri = StringUtils.join(url, StringUtils.equals(
-                File.separator, "\\") ? "/" : File.separator);
-        // (?i)在前面 不区分大小写
-        return uri.replaceAll("(\\\\|/){2,}", "/");
-    }
-
-    /**
      * Map集合转为自定义连接字符串
      *
      * @param paramsMap Map<?, ?>
@@ -623,7 +606,6 @@ public class RestTemplateUtil {
         String s = RestTemplateUtil.generateHttpUrl("www.baidu,com\\\\sad//asdas",
                 "https://asd\\", "啊是大", "////s///adada", null);
         System.out.println(s);
-        s = RestTemplateUtil.generateFileUrl("/C:/Users/Administrator.QH-20150311UHWZ/Desktop/%e5%b9%b3%e5%ae%89%e5%a5%bd%e5%8c%bb%e7%94%9f/server-net/smarthos-recipe/src/main/webapp/WEB-INF/classes/fonts/SIMLI.TTF", null);
         System.out.println(s);
         System.out.println("Users/Administra".toUpperCase(Locale.ENGLISH));
         System.out.println(RestTemplateUtil.isNotHttpUri("http://as.cn", "https://www.baid" +

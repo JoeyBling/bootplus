@@ -1,15 +1,13 @@
 package io.github.controller.admin;
 
 import com.alibaba.fastjson.JSONArray;
-import io.github.frame.controller.AbstractController;
 import io.github.entity.SysMenuEntity;
+import io.github.frame.controller.AbstractController;
 import io.github.service.SysMenuService;
 import io.github.util.PageUtils;
 import io.github.util.R;
 import io.github.util.config.Constant;
-import io.github.util.config.EhCacheNames;
 import io.github.util.exception.RRException;
-import io.github.util.spring.EhcacheUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -114,8 +112,7 @@ public class SysMenuController extends AbstractController<SysMenuController> {
         verifyForm(menu);
         if (sysMenuService.insert(menu)) {
             // 清空菜单缓存
-            String cacheName = EhCacheNames.MENUCACHENAME + getAdminId();
-            ehcacheUtil.remove(EhcacheUtil.ADMINMENUEHCACHENAME, cacheName);
+            sysMenuService.clearUserMenuList(getAdminId());
             return R.ok();
         } else {
             return R.error("保存失败!");
@@ -132,8 +129,7 @@ public class SysMenuController extends AbstractController<SysMenuController> {
         verifyForm(menu);
         if (sysMenuService.updateById(menu)) {
             // 清空菜单缓存
-            String cacheName = EhCacheNames.MENUCACHENAME + getAdminId();
-            ehcacheUtil.remove(EhcacheUtil.ADMINMENUEHCACHENAME, cacheName);
+            sysMenuService.clearUserMenuList(getAdminId());
             return R.ok();
         } else {
             return R.error("修改失败!");
@@ -177,8 +173,7 @@ public class SysMenuController extends AbstractController<SysMenuController> {
         sysMenuService.deleteBatch(menuIds);
 
         // 清空菜单缓存
-        String cacheName = EhCacheNames.MENUCACHENAME + getAdminId();
-        ehcacheUtil.remove(EhcacheUtil.ADMINMENUEHCACHENAME, cacheName);
+        sysMenuService.clearUserMenuList(getAdminId());
 
         return R.ok();
     }
