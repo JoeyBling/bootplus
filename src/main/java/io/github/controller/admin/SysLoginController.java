@@ -104,7 +104,7 @@ public class SysLoginController extends AbstractController {
         ImageIO.write(image, "jpg", out);
     }
 
-    /**
+    /** 
      * 管理员登录
      *
      * @param username 用户名
@@ -124,6 +124,7 @@ public class SysLoginController extends AbstractController {
             return R.error("请输入密码！");
         }
         if (!StringUtils.equalsIgnoreCase(captcha, ShiroUtils.getCaptcha(Constants.KAPTCHA_SESSION_KEY))) {
+//            throw new RRException("验证码不正确");
             return R.error("验证码不正确");
         }
         try {

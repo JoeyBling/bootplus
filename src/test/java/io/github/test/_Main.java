@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 
 import java.io.File;
@@ -64,6 +65,15 @@ public class _Main {
                 .put("start_time", System.currentTimeMillis())
                 .put("enable_auto_cloud_recording", true).build();
 //        System.out.println(RestTemplateUtil.postForObject("https://www.baidu.com/", map, MediaType.APPLICATION_FORM_URLENCODED));
+        System.out.println(Thread.currentThread().getName());
+        RestTemplateUtil.postForObject("https://www.gerensuodeshui.cn/", null, String.class);
+        System.out.println(Thread.currentThread().getName());
+
+        RestTemplateUtil.getForObject("http://gogs-git.hztywl.cn/", map);
+        RestTemplateUtil.getForObject("http://gogs-git.hztywl.cn/", map);
+        RestTemplateUtil.getForObject("http://gogs-git.hztywl.cn/", map);
+        System.out.println(Thread.currentThread().getName());
+
 //        System.out.println(RestTemplateUtil.getForObject("http://gogs-git.hztywl.cn/", map));
 
 
@@ -120,8 +130,6 @@ public class _Main {
         System.out.println(new ToStringBuilder(array, ToStringStyle.SHORT_PREFIX_STYLE).append(array).toString());
         System.out.println(new ToStringBuilder(array, ToStringStyle.NO_CLASS_NAME_STYLE).append(array).toString());
         System.out.println(new ToStringBuilder(array, ToStringStyle.NO_FIELD_NAMES_STYLE).append(array).toString());
-        System.out.println(RestTemplateUtil.postForObject("https://www.gerensuodeshui.cn/", null, String.class, 2000));
-
 
         // Spring原生线程池【写简书】
         ThreadFactory namedThreadFactory = new ThreadFactoryBuilder()

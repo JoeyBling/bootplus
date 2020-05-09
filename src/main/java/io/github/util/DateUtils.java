@@ -61,13 +61,17 @@ public class DateUtils {
      * @return String
      */
     public static String format(Date date, String pattern) {
-        if (date != null) {
-            if (null != pattern) {
-                TL_DATE_FORMATTER.set(new SimpleDateFormat(pattern));
+        try {
+            if (date != null) {
+                if (null != pattern) {
+                    TL_DATE_FORMATTER.set(new SimpleDateFormat(pattern));
+                }
+                return TL_DATE_FORMATTER.get().format(date);
             }
-            return TL_DATE_FORMATTER.get().format(date);
+            return null;
+        } finally {
+            TL_DATE_FORMATTER.remove();
         }
-        return null;
     }
 
     /**

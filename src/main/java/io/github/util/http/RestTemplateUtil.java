@@ -156,7 +156,11 @@ public class RestTemplateUtil {
         Object postBody = buildPostBody(body, contentType);
         HttpEntity<?> formEntity = generateHttpEntity(postBody, contentType, accept, httpHeads);
         logger.info("统一post请求接口：url={},body={},contentType={},httpHeads={}", url, postBody, contentType, httpHeads);
-        return TL_RT.get().postForObject(url, formEntity, t);
+        try {
+            return TL_RT.get().postForObject(url, formEntity, t);
+        } finally {
+            TL_RT.remove();
+        }
     }
 
     /**
@@ -333,9 +337,13 @@ public class RestTemplateUtil {
         HttpEntity<?> formEntity = generateHttpEntity(null, contentType, accept, httpHeads);
         String getUrl = generateGetParams(url, body);
         logger.info("统一get请求接口：url={},body={},contentType={},httpHeads={}", getUrl, body, contentType, httpHeads);
-        ResponseEntity<T> exchange = TL_RT.get().exchange(getUrl,
-                HttpMethod.GET, formEntity, t);
-        return exchange.getBody();
+        try {
+            ResponseEntity<T> exchange = TL_RT.get().exchange(getUrl,
+                    HttpMethod.GET, formEntity, t);
+            return exchange.getBody();
+        } finally {
+            TL_RT.remove();
+        }
     }
 
     /**

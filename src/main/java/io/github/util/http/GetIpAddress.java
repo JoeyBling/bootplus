@@ -4,7 +4,10 @@ import io.github.util.StringUtils;
 import org.springframework.util.Assert;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -29,20 +32,26 @@ public class GetIpAddress {
         // 获取请求主机IP地址,如果通过代理进来，则透过防火墙获取真实IP地址
         String ip = request.getHeader("X-Forwarded-For");
         String unknown = "unknown";
-        if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
-            if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
+        if (StringUtils.isNotEmpty(ip) && !unknown.equalsIgnoreCase(ip)) {
+            // 多次反向代理后会有多个ip值，第一个ip才是真实ip
+            if (StringUtils.contains(ip, ",")) {
+                ip = ip.split(",")[0];
+            }
+        }
+        if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
+            if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("Proxy-Client-IP");
             }
-            if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
+            if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("WL-Proxy-Client-IP");
             }
-            if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
+            if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("HTTP_CLIENT_IP");
             }
-            if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
+            if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
                 ip = request.getHeader("HTTP_X_FORWARDED_FOR");
             }
-            if (ip == null || ip.length() == 0 || unknown.equalsIgnoreCase(ip)) {
+            if (StringUtils.isEmpty(ip) || unknown.equalsIgnoreCase(ip)) {
                 ip = request.getRemoteAddr();
             }
         } else {
@@ -51,7 +60,7 @@ public class GetIpAddress {
                 String[] ips = ip.split(",");
                 for (int index = 0; index < ips.length; index++) {
                     String strIp = ips[index];
-                    if (!(unknown.equalsIgnoreCase(strIp))) {
+                    if (!unknown.equalsIgnoreCase(strIp)) {
                         ip = strIp;
                         break;
                     }
