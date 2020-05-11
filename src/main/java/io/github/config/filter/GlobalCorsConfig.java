@@ -38,11 +38,16 @@ public class GlobalCorsConfig {
     @ConditionalOnMissingClass({"io.github.config.filter.MyCorsFilter"})
     public CorsConfiguration buildCorsConfig() {
         log.info("跨域拦截配置 init success...");
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin(CorsConfiguration.ALL);
-        corsConfiguration.addAllowedHeader(CorsConfiguration.ALL);
-        corsConfiguration.addAllowedMethod(CorsConfiguration.ALL);
-        return corsConfiguration;
+        CorsConfiguration cors = new CorsConfiguration();
+        cors.addAllowedOrigin(CorsConfiguration.ALL);
+        cors.addAllowedHeader(CorsConfiguration.ALL);
+        cors.addAllowedMethod(CorsConfiguration.ALL);
+
+        cors.setAllowCredentials(false);
+        cors.setMaxAge(3600L);
+        // 应用默认设置
+        cors.applyPermitDefaultValues();
+        return cors;
     }
 
     /**
