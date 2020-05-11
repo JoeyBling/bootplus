@@ -1,5 +1,4 @@
 server:
-  name: bootplus
   contextPath: ''
   port: 80
   tomcat:
@@ -116,10 +115,18 @@ security:
 
 ################################### 程序自定义配置 ###################################
 
-# 自定义线程池
-thread-pool:
-#  core-pool-size: 3
-#  max-pool-size: 2000
-#  queue-capacity: 200
-#  keep-alive-seconds: 2000
-#  thread-name-prefix: boot-task-
+application:
+  name: @project.artifactId@
+  version: @project.version@
+  url: @project.url@
+  description: @project.description@
+  logs:
+    level: DEBUG
+    path: @project.basedir@/../logs
+  # 自定义线程池配置
+  thread-pool:
+    core-pool-size: 3
+    max-pool-size: 2000
+    queue-capacity: 200
+    keep-alive-seconds: 3000
+    thread-name-prefix: ${application.name:zhousiwei}-task-

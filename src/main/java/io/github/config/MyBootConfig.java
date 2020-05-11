@@ -7,7 +7,6 @@ import io.github.config.aop.service.MyInjectBeanSelfProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncExecutionAspectSupport;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
@@ -35,49 +34,19 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class MyBootConfig implements AsyncConfigurer {
 
     /**
-     * 线程池维护线程的最少数量
-     */
-    @Value("${thread-pool.core-pool-size:2}")
-    private int corePoolSize;
-
-    /**
-     * 线程池维护线程的最大数量
-     */
-    @Value("${thread-pool.max-pool-size:1000}")
-    private int maxPoolSize;
-
-    /**
-     * 线程池所使用的缓冲队列
-     */
-    @Value("${thread-pool.queue-capacity:200}")
-    private int queueCapacity;
-
-    /**
-     * 线程池维护线程所允许的空闲时间
-     */
-    @Value("${thread-pool.keep-alive-seconds:2000}")
-    private int keepAliveSeconds;
-
-    /**
-     * 配置线程池中的线程的名称前缀
-     */
-    @Value("${thread-pool.thread-name-prefix:async-resource-schedule-}")
-    private String threadNamePrefix;
-
-    /**
      * Spring线程池
      *
      * @return TaskExecutor
      */
     @Bean(name = AsyncExecutionAspectSupport.DEFAULT_TASK_EXECUTOR_BEAN_NAME)
     @ConditionalOnMissingBean
-    public TaskExecutor taskExecutor() {
+    public TaskExecutor taskExecutor(ApplicationProperties applicationProperties) {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(corePoolSize);
-        executor.setMaxPoolSize(maxPoolSize);
-        executor.setQueueCapacity(queueCapacity);
-        executor.setKeepAliveSeconds(keepAliveSeconds);
-        executor.setThreadNamePrefix(threadNamePrefix);
+        executor.setCorePoolSize(applicationProperties.getThreadPool().getCorePoolSize());
+        executor.setMaxPoolSize(applicationProperties.getThreadPool().getMaxPoolSize());
+        executor.setQueueCapacity(applicationProperties.getThreadPool().getQueueCapacity());
+        executor.setKeepAliveSeconds(applicationProperties.getThreadPool().getKeepAliveSeconds());
+        executor.setThreadNamePrefix(applicationProperties.getThreadPool().getThreadNamePrefix());
         // rejection-policy：当pool已经达到max size的时候，如何处理新任务
         // CALLER_RUNS：不在新线程中执行任务，而是有调用者所在的线程来执行
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.AbortPolicy());
@@ -92,6 +61,15 @@ public class MyBootConfig implements AsyncConfigurer {
     @Bean
     public BeanPostProcessor beanPostProcessor() {
         return new MyInjectBeanSelfProcessor();
+    }
+
+    /**
+     * 程序自定义配置
+     */
+    @Bean
+    @ConditionalOnMissingBean
+    public ApplicationProperties applicationProperties() {
+        return new ApplicationProperties();
     }
 
     /**

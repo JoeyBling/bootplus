@@ -90,6 +90,7 @@
             </exclusions>
         </dependency>
 
+        <!-- 在yml中读取pom.xml配置使用 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -422,19 +423,21 @@
                 <excludes>
                     <exclude>conf/**</exclude>
                 </excludes>
-            </resource>
-            <resource>
-                <directory>${basedir}/src/main/resources</directory>
                 <includes>
                     <include>**/**</include>
                 </includes>
-                <filtering>false</filtering>
+                <!-- 资源过滤功能 -->
+                <filtering>true</filtering>
             </resource>
+            <!--<resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>-->
             <resource>
                 <directory>${basedir}/src/main/resources/conf/${package.environment}</directory>
             </resource>
             <resource>
-                <directory>src/main/java</directory>
+                <directory>${basedir}/src/main/java</directory>
                 <includes>
                     <include>**/*.xml</include>
                 </includes>
@@ -442,7 +445,7 @@
             <!-- 打包时将jsp文件拷贝到META-INF目录下(其实也可以直接放在`src/main/resources`目录下) -->
             <resource>
                 <!-- 指定resources插件处理哪个目录下的资源文件 -->
-                <directory>${basedir}/src/main/webapp</directory>
+                <directory>${basedir}/src/main/webapp/</directory>
                 <!-- 千万不能加这个 -->
                 <!-- <targetPath>MATE-INF/resources</targetPath> -->
                 <!--注意此次必须要放在此目录下才能被访问到-->
@@ -474,6 +477,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
+                <configuration>
+                    <!-- <useDefaultDelimiters>true</useDefaultDelimiters> -->
+                </configuration>
                 <executions>
                     <execution>
                         <id>copy-resources</id>
@@ -489,7 +495,7 @@
                             <resources>
                                 <resource>
                                     <directory>${basedir}/src/main/resources/conf/${package.environment}</directory>
-                                    <filtering>false</filtering>
+                                    <filtering>true</filtering>
                                 </resource>
                             </resources>
                         </configuration>

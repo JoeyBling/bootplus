@@ -57,7 +57,7 @@ public class ShiroConfiguration {
     /**
      * 服务容器名称
      */
-    @Value("${server.name:myBoot}")
+    @Value("${application.name:myBoot}")
     private String serverName;
 
     /**
