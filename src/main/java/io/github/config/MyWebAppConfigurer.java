@@ -1,5 +1,6 @@
 package io.github.config;
 
+import io.github.config.aop.annotation.MyAutowired;
 import io.github.config.interceptor.LogInterceptor;
 import io.github.util.file.FileUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 自定义配置
@@ -36,6 +38,9 @@ import java.util.List;
 @Slf4j
 @PropertySource({"classpath:/config.properties"})
 public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
+
+    @MyAutowired
+    private ApplicationProperties applicationProperties;
 
     /**
      * 解决String乱码问题
@@ -159,7 +164,18 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
         super.addViewControllers(registry);
         // 默认首页
 //        registry.addViewController("/").setViewName("forward:/admin");
-        registry.addViewController("/").setViewName("redirect:/admin");
+        Optional<ApplicationProperties> applicationProperties = Optional.ofNullable(this.applicationProperties);
+        applicationProperties.ifPresent(properties -> {
+            Optional.ofNullable(properties.getMvc()).ifPresent(mvc -> {
+                Optional.ofNullable(mvc.getViewResolves()).ifPresent(viewResolves -> {
+                    log.debug("自定义简单响应自动控制器={}", viewResolves.toString());
+                    viewResolves.stream().forEach(viewResolve -> {
+                        registry.addViewController(viewResolve.getUrlPath())
+                                .setViewName(viewResolve.getViewName());
+                    });
+                });
+            });
+        });
     }
 
     /**

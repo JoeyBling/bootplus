@@ -155,6 +155,8 @@
     </root>
 
     <!--<logger name="org.springframework" level="INFO"></logger>-->
+    <!-- SpringBoot2.0以上配置：org.springframework.boot.context.logging.LoggingApplicationListener#initializeSpringBootLogging()#SPRING_BOOT_LOGGING_LOGGERS -->
+    <!--    <logger name="org.springframework.boot.autoconfigure" level="WARN"/>-->
 
     <logger name="io.github" level="DEBUG" additivity="true"/>
 

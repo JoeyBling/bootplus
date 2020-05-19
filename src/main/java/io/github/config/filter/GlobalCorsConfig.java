@@ -43,7 +43,9 @@ public class GlobalCorsConfig {
         cors.addAllowedHeader(CorsConfiguration.ALL);
         cors.addAllowedMethod(CorsConfiguration.ALL);
 
+        // 设置凭证
         cors.setAllowCredentials(false);
+        // 响应超时
         cors.setMaxAge(3600L);
         // 应用默认设置
         cors.applyPermitDefaultValues();

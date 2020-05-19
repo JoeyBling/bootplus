@@ -1,5 +1,7 @@
 package io.github;
 
+import io.github.config.ApplicationProperties;
+import io.github.config.aop.annotation.MyAutowired;
 import io.github.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -26,12 +28,20 @@ public class StartupRunner implements CommandLineRunner {
     @Resource
     private TaskExecutor taskExecutor;
 
+    @MyAutowired
+    private ApplicationProperties applicationProperties;
+
     @Override
     public void run(String... args) throws Exception {
         log.info(">>服务启动完成，执行加载数据等操作....<<");
         taskExecutor.execute(() -> {
             log.info("当前线程名称：{}", Thread.currentThread().getName());
             log.info("Real thread begin to execute!==={}", DateUtils.format(new Date(), DateUtils.DATE_TIME_PATTERN));
+            if (null != applicationProperties) {
+                log.info("项目：{}[{}]启动成功，项目地址：{}，描述：{}",
+                        applicationProperties.getName(), applicationProperties.getVersion(),
+                        applicationProperties.getUrl(), applicationProperties.getDescription());
+            }
         });
     }
 

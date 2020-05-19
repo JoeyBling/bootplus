@@ -7,7 +7,7 @@ import java.util.Optional;
  * 【java8新特性】Optional详解
  *
  * @author Created by 思伟 on 2020/5/6
- * @since 1.8+
+ * @since JDK1.8+
  */
 public class OptionalTest {
 

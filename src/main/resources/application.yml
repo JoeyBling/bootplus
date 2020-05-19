@@ -130,3 +130,6 @@ application:
     queue-capacity: 200
     keep-alive-seconds: 3000
     thread-name-prefix: ${application.name:zhousiwei}-task-
+  mvc:
+    view-resolves:
+      - {urlPath: '/',viewName: 'redirect:/admin'}

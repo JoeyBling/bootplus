@@ -1,11 +1,18 @@
 package io.github.config;
 
+import com.google.common.collect.Lists;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 import org.springframework.boot.context.properties.DeprecatedConfigurationProperty;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import org.springframework.validation.annotation.Validated;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * 程序自定义配置
@@ -13,6 +20,8 @@ import org.springframework.stereotype.Component;
  * @author Created by 思伟 on 2020/5/11
  */
 @Data
+@Validated
+@Primary
 @Component
 @ConfigurationProperties(prefix = ApplicationProperties.APPLICATION_CONFIG_PREFIX)
 @ConfigurationPropertiesBinding
@@ -47,16 +56,60 @@ public class ApplicationProperties {
     /**
      * @see MyLoggerConfig
      */
-    private MyLoggerConfig logs;
+    private MyLoggerConfig logs = new MyLoggerConfig();
 
     /**
      * @see MyThreadPoolConfig
      */
     private MyThreadPoolConfig threadPool = new MyThreadPoolConfig();
 
-    @DeprecatedConfigurationProperty(reason = "暂时弃用")
-    public String getUrl() {
-        return url;
+    /**
+     * @see Mvc
+     */
+    private Mvc mvc = new Mvc();
+
+    /**
+     * SpringMVC配置
+     */
+    @Data
+    public static class Mvc {
+
+        private List<ViewResolve> viewResolves;
+
+        private List<Cors> cors = new ArrayList<Cors>(Arrays.asList(new Cors()));
+
+        /**
+         * 简单响应自动控制器
+         */
+        @Data
+        public static class ViewResolve {
+
+            /**
+             * URL路径（或模式）
+             * <p>Patterns like {@code "/admin/**"} or {@code "/articles/{articlename:\\w+}"}
+             */
+            private String urlPath;
+
+            /**
+             * 视图名称
+             */
+            private String viewName;
+
+        }
+
+        /**
+         * CORS跨域配置
+         */
+        @Data
+        public static class Cors {
+            private List<String> allowedOrigins = Lists.newArrayList("*");
+            private List<String> allowedHeaders = Lists.newArrayList("*");
+            private List<String> allowedMethods = Lists.newArrayList("*");
+            private Boolean allowCredentials = true;
+            private Long maxAge = 3600L;
+            private String path = "/**";
+        }
+
     }
 
     /**
@@ -104,6 +157,11 @@ public class ApplicationProperties {
          * 配置线程池中的线程的名称前缀
          */
         private String threadNamePrefix = "async-resource-schedule-";
+    }
+
+    @DeprecatedConfigurationProperty(reason = "暂时弃用")
+    public String getUrl() {
+        return url;
     }
 
 }

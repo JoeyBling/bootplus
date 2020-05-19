@@ -22,6 +22,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 
+import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -48,6 +49,10 @@ public class _Main {
         System.out.println(System.getProperty("user.home"));
         // 用户当前的工作目录
         System.out.println(System.getProperty("user.dir"));
+        File desktopDir = FileSystemView.getFileSystemView().getHomeDirectory();
+        // 系统桌面路径
+        System.out.println(desktopDir.getPath());
+
         Map<String, Boolean> testMap1 = new HashMap<String, Boolean>(2);
         testMap1.put("1", true);
         testMap1.put("2", false);

@@ -23,6 +23,10 @@ import javax.annotation.Resource;
  * 所以这些BeanDifinition已经被同步。 但是bean1的条件注解依赖的是bean2，bean2是被定义的配置类中的，
  * 所以此时配置类的解析无法保证先后顺序，就会出现不生效的情况。
  * Mark:@Order、@AutoConfigureAfter 无用
+ * 对于三大注解的正确使用姿势是应该是：请使用在你的自动配置里（一般是你自定义starter时使用），而不是使用在你业务工程中的@Configuration里，因为那会毫无效果。
+ * 参考文章：https://mp.weixin.qq.com/s/bNQMoTyrr8pYEHYdIjHW8A
+ * META-INF/spring.factories
+ * 你可以简单粗暴的记住结论：@AutoConfigureBefore、@AutoConfigureAfter、@AutoConfigureOrder这三个注解只能作用于自动配置类，而不能是自定义的@Configuration配置类。
  *
  * @author Created by 思伟 on 2020/4/23
  */
