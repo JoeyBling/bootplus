@@ -9,7 +9,7 @@ import io.github.config.filter.MyCorsFilter;
 import io.github.entity.enums.SysMenuTypeEnum;
 import io.github.util.file.FileTypeEnum;
 import io.github.util.http.RestTemplateUtil;
-import io.github.util.log.LogUtil;
+import io.github.frame.log.LogUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 
 import javax.swing.filechooser.FileSystemView;
