@@ -1,4 +1,4 @@
-package io.github.util.log;
+package io.github.frame.log;
 
 import io.github.util.StringUtils;
 import org.slf4j.Logger;

@@ -43,6 +43,7 @@ public class StartupRunner implements CommandLineRunner {
                         applicationProperties.getUrl(), applicationProperties.getDescription());
             }
         });
+        // Test
     }
 
 }

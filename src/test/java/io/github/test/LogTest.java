@@ -1,9 +1,8 @@
 package io.github.test;
 
 import io.github.base.BaseAppTest;
-import io.github.util.log.LogUtil;
+import io.github.frame.log.LogUtil;
 import org.junit.Test;
-import org.slf4j.Logger;
 import org.springframework.boot.logging.LogFile;
 import org.springframework.boot.logging.LoggingInitializationContext;
 

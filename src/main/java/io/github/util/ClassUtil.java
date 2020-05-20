@@ -53,9 +53,13 @@ public class ClassUtil {
     /**
      * 获取类路径
      */
-    public static String getClass(Object obj) throws Exception {
+    public static String getClass(Object obj) {
         Assert.notNull(obj, "obj must not be null");
-        return getClass(AopTargetUtils.getTarget(obj).getClass());
+        try {
+            return getClass(AopTargetUtils.getTarget(obj).getClass());
+        } catch (Exception e) {
+            return getClass(obj.getClass());
+        }
     }
 
     public static String getClass(Class obj) {

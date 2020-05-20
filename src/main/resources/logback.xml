@@ -13,6 +13,19 @@
     <property name="log.pattern.detail"
               value="[%p][%d{yyyy-MM-dd HH:mm:ss}] %c{1} [%file:%L] %m%n"/>
 
+    <!-- 项目名 -->
+    <define name="log.project" class="io.github.frame.log.logback.property.YamlPropertyDefiner">
+        <propertyKey>application.name</propertyKey>
+    </define>
+    <!-- 日志级别 -->
+    <define name="log.level" class="io.github.frame.log.logback.property.YamlPropertyDefiner">
+        <propertyKey>application.logs.level</propertyKey>
+    </define>
+    <!-- 日志存放路径 -->
+    <define name="log.path.test" class="io.github.frame.log.logback.property.LogsPathPropertyDefiner">
+        <projectName>${log.project}</projectName>
+    </define>
+
     <!-- 彩色日志 -->
     <!-- 彩色日志依赖的渲染类 -->
     <conversionRule conversionWord="clr"

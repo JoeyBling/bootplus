@@ -76,6 +76,7 @@ public class ApplicationProperties {
 
         private List<ViewResolve> viewResolves;
 
+        // TODO
         private List<Cors> cors = new ArrayList<Cors>(Arrays.asList(new Cors()));
 
         /**

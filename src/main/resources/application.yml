@@ -33,9 +33,9 @@ mybatis-plus:
 
 spring:
   profiles:
-    # 生产环境
-    #    active: prd
-    active: dev
+  # 生产环境
+  #    active: prd
+  #    active: dev
   cache:
     ehcache:
       config: classpath:/ehcache-core.xml

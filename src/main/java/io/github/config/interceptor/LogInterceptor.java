@@ -1,6 +1,6 @@
 package io.github.config.interceptor;
 
-import io.github.util.log.LogUtil;
+import io.github.frame.log.LogUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.web.servlet.HandlerInterceptor;

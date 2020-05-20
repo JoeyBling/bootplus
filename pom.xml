@@ -97,6 +97,12 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- yaml解析类 -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+        </dependency>
+
         <!-- FastJson -->
         <dependency>
             <groupId>com.alibaba</groupId>
