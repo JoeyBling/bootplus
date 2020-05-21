@@ -32,8 +32,7 @@ public class YamlPropertyDefiner extends BasePropertyDefiner {
                         , propertyKey, propertyValue));
                 return propertyValue;
             } catch (IOException e) {
-                String errMsg = String.format("%s, propertyKey = 【%s】", getSimpleErrMsg(), this.propertyKey);
-                addError(errMsg, e);
+                addError(getSimpleErrMsg(), e);
             }
             return null;
         }).orElseThrow(() -> new IllegalArgumentException(getSimpleErrMsg()));
@@ -41,6 +40,8 @@ public class YamlPropertyDefiner extends BasePropertyDefiner {
 
     @Override
     protected String getSimpleErrMsg() {
-        return "Load propertyValue from yaml failed";
+        String errMsg = "Load propertyValue from yaml failed";
+        return String.format("%s, propertyKey = 【%s】", errMsg, this.propertyKey);
     }
+
 }
