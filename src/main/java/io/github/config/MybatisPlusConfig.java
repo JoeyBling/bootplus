@@ -2,6 +2,7 @@ package io.github.config;
 
 import com.baomidou.mybatisplus.enums.DBType;
 import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.plugins.pagination.dialects.MySqlDialect;
 import io.github.common.typehandler.MyTypeHandler;
 import io.github.config.aop.annotation.MyAutowired;
 import lombok.extern.slf4j.Slf4j;
@@ -37,8 +38,11 @@ public class MybatisPlusConfig {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
         // 开启 PageHelper 的支持
 //        paginationInterceptor.setLocalPage(true);
-        // 方言类型
-        paginationInterceptor.setDialectType(DBType.MYSQL.getDb());
+        /**
+         * 方言实现类
+         * @see com.baomidou.mybatisplus.plugins.pagination.DialectFactory#getDialect(DBType, String)
+         */
+//        paginationInterceptor.setDialectClazz(MySqlDialect.class.getName());
         return paginationInterceptor;
     }
 

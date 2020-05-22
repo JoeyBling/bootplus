@@ -107,7 +107,7 @@ public class SysUserServiceImpl extends BaseAopService<SysUserServiceImpl, SysUs
         if (StringUtils.isNoneBlank(email)) {
             wrapper.like("email", email);
         }
-        Page<SysUserEntity> page = new Page<>(offset, limit);
+        Page<SysUserEntity> page = new Page<SysUserEntity>(offset, limit);
         return this.selectPage(page, wrapper);
     }
 

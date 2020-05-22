@@ -51,7 +51,7 @@ public class DataSourceConfig {
     @Value("${spring.datasource.password}")
     private String password;
 
-    @Value("${spring.datasource.driverClassName}")
+    @Value("${spring.datasource.driverClassName:}")
     private String driverClassName;
 
     @Value("${spring.datasource.initialSize}")

@@ -30,6 +30,7 @@ mybatis-plus:
   typeAliasesPackage: io.github.entity
   # 自定义类型转换处理器包名
   type-handlers-package: io.github.common.typehandler
+  check-config-location: true
 
 spring:
   profiles:
