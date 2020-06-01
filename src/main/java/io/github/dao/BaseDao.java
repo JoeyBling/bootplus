@@ -1,4 +1,4 @@
-package io.github.util;
+package io.github.dao;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 

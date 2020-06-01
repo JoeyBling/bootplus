@@ -1,7 +1,6 @@
 package io.github.dao;
 
 import io.github.entity.SysUserEntity;
-import io.github.util.BaseDao;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

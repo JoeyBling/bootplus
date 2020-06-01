@@ -1,7 +1,6 @@
 package io.github.dao;
 
 import io.github.entity.SysRoleMenuEntity;
-import io.github.util.BaseDao;
 
 import java.util.List;
 import java.util.Map;
