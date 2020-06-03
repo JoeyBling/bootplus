@@ -7,6 +7,7 @@ import io.github.config.aop.service.MyInjectBeanSelfProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncExecutionAspectSupport;
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
+import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
@@ -28,7 +29,6 @@ import java.util.concurrent.ThreadPoolExecutor;
  *
  * @author Created by 思伟 on 2019/12/16
  */
-@Slf4j
 @Configuration
 @EnableAsync(proxyTargetClass = true)
 public class MyBootConfig implements AsyncConfigurer {
@@ -57,8 +57,11 @@ public class MyBootConfig implements AsyncConfigurer {
 
     /**
      * 手动注入self解决内部方法调用事务注解无效的问题
+     * doc: @Bean导致Ordere 接口失效
      */
     @Bean
+    @ConditionalOnMissingBean
+    @Deprecated
     public BeanPostProcessor beanPostProcessor() {
         return new MyInjectBeanSelfProcessor();
     }
@@ -101,7 +104,7 @@ public class MyBootConfig implements AsyncConfigurer {
     @Override
     public Executor getAsyncExecutor() {
         return null;
-//        return taskExecutor();
+//        return taskExecutor(null);
     }
 
     /**
@@ -119,7 +122,8 @@ public class MyBootConfig implements AsyncConfigurer {
      *
      * @see org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler
      */
-    class MyAsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
+    @Slf4j
+    /* non-public */ static class MyAsyncExceptionHandler extends SimpleAsyncUncaughtExceptionHandler {
 
         @Override
         public void handleUncaughtException(Throwable ex, Method method, Object... objects) {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.Ordered;
+import org.springframework.stereotype.Component;
 
 /**
  * bean自调用切面
@@ -17,6 +18,7 @@ import org.springframework.core.Ordered;
  * @author Created by 思伟 on 2020/1/13
  */
 @Slf4j
+@Component
 public class MyInjectBeanSelfProcessor implements BeanPostProcessor, ApplicationContextAware, Ordered {
 
     private ApplicationContext context;
@@ -62,8 +64,8 @@ public class MyInjectBeanSelfProcessor implements BeanPostProcessor, Application
 
     @Override
     public int getOrder() {
-//        return Ordered.HIGHEST_PRECEDENCE;
-        return Ordered.LOWEST_PRECEDENCE;
+        return Ordered.HIGHEST_PRECEDENCE;
+//        return Ordered.LOWEST_PRECEDENCE;
     }
 
 }

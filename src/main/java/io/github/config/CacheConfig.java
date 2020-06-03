@@ -38,10 +38,6 @@ import javax.annotation.Resource;
 @AutoConfigureAfter(EhCacheConfiguration.class)
 public class CacheConfig extends CachingConfigurerSupport {
 
-    public CacheConfig() {
-        log.debug(this.getClass().getName());
-    }
-
     //    @MyAutowired
     private EhCacheCacheManager ehCacheCacheManager;
 
