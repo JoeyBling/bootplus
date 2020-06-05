@@ -31,8 +31,18 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
      * @throws URISyntaxException 如果位置不是有效的URI
      */
     public static URI toURI(String location) throws URISyntaxException {
-        return new URI(StringUtils.replace(generateFileUrl(location),
-                " ", "%20"));
+        return new URI(getFileUrl(location));
+    }
+
+    /**
+     * 获取转义后的文件路径
+     *
+     * @param location 文件路径
+     * @return String
+     */
+    private static String getFileUrl(String location) {
+        return StringUtils.replace(generateFileUrl(location),
+                " ", "%20");
     }
 
     /**
@@ -43,6 +53,15 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
      */
     public static File getFile(String resourceUrl) throws URISyntaxException {
         return new File(toURI(resourceUrl).getSchemeSpecificPart());
+    }
+
+    /**
+     * 获取文件，进行编码处理（防止中文乱码）
+     *
+     * @param fileUrl 文件路径
+     */
+    public static File getSimpleFile(String fileUrl) {
+        return new File(getFileUrl(fileUrl));
     }
 
     /**

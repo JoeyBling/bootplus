@@ -84,7 +84,7 @@ public class SysFileController extends AbstractController {
             // 上传文件保存的路径
             String uploadPath = FileUtils.generateFileUrl(constant.getUploadPath(), trueFileName);
             // 上传文件后的保存路径
-            File fileUpload = FileUtils.getFile(uploadPath);
+            File fileUpload = FileUtils.getSimpleFile(uploadPath);
 
             // 创建父级目录(Linux需要注意启动用户的权限问题)
             if (!FileUtils.isExists(fileUpload.getParentFile())) {

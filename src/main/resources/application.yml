@@ -81,8 +81,8 @@ spring:
       enabled: true
       force: true
     multipart:
-      maxFileSize: 10Mb
-      maxRequestSize: 10Mb
+      maxFileSize: 10MB
+      maxRequestSize: 20MB
   messages:
     encoding: UTF-8
   resources:

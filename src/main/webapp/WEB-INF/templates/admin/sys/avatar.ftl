@@ -178,7 +178,7 @@
         var fileids = "";
         for (var i = 0; i < portraitFileList.length; i++) {
             console.log("portraitFileList===>" + portraitFileList);
-            let filePath = "${rc.contextPath}/" + portraitFileList[i].data.filePath;
+            let filePath = portraitFileList[i].data.filePath;
             if (fileids != '') {
                 fileids += ",";
             }
