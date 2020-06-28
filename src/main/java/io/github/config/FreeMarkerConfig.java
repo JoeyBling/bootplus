@@ -33,7 +33,7 @@ public class FreeMarkerConfig {
      */
     @PostConstruct
     public void setSharedVariable() throws TemplateModelException {
-        configuration.setTagSyntax(freemarker.template.Configuration.AUTO_DETECT_TAG_SYNTAX);
+//        configuration.setTagSyntax(freemarker.template.Configuration.AUTO_DETECT_TAG_SYNTAX);
         configuration.setSharedVariable("formatTime", new FormatTimeFtlHelper());
         configuration.setSharedVariable("shiro", new ShiroTags());
     }

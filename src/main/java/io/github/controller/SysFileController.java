@@ -83,19 +83,18 @@ public class SysFileController extends AbstractController {
                     MyWebAppConfigurer.FILE_UPLOAD_PATH_EXT, trueFileName);
             // 上传文件保存的路径
             String uploadPath = FileUtils.generateFileUrl(constant.getUploadPath(), trueFileName);
+            logger.debug("存放文件的路径:{}", uploadPath);
             // 上传文件后的保存路径
-            File fileUpload = FileUtils.getSimpleFile(uploadPath);
+            File fileUpload = FileUtils.getFile(uploadPath);
 
             // 创建父级目录(Linux需要注意启动用户的权限问题)
-            if (!FileUtils.isExists(fileUpload.getParentFile())) {
-                FileUtils.forceMkdirParent(fileUpload);
-            }
+            FileUtils.forceMkdirParent(fileUpload.getParentFile());
 
-            logger.debug("存放文件的路径:{}", uploadPath);
             file.transferTo(fileUpload);
             // 进行文件处理
             fileHandle(fileUpload);
-            break; // 这里暂时只能上传一个文件
+            // 这里暂时只能上传一个文件
+            break;
         }
         return R.ok().put("filePath", fileContextPath);
     }

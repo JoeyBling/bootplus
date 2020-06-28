@@ -1,15 +1,20 @@
 package io.github.test;
 
+import cn.hutool.http.HttpResponse;
+import cn.hutool.http.HttpUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.util.TypeUtils;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.common.enums.IEnumHelperFactory;
 import io.github.config.filter.MyCorsFilter;
 import io.github.entity.enums.SysMenuTypeEnum;
+import io.github.frame.log.LogUtil;
 import io.github.util.file.FileTypeEnum;
 import io.github.util.http.RestTemplateUtil;
-import io.github.frame.log.LogUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -19,6 +24,7 @@ import org.slf4j.Logger;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 
 import javax.swing.filechooser.FileSystemView;
@@ -26,10 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * @author Created by 思伟 on 2020/1/9
@@ -41,6 +44,48 @@ public class _Main {
     }
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IOException {
+
+        Map<String, Object> testMap = Maps.newConcurrentMap();
+        testMap.put("1", 1);
+        testMap.forEach((s, o) -> {
+            System.out.println(s + o);
+        });
+        testMap.clear();
+        testMap.forEach((s, o) -> {
+            System.out.println(s + o);
+        });
+        testMap.put("1", 1);
+        testMap.forEach((s, o) -> {
+            System.out.println(s + o);
+        });
+
+        Map<String, Object> bodyMap = new ImmutableMap.Builder<String, Object>()
+                .put("mobile", "15870631411")
+                .put("password", "z77555211314")
+                .put("count", "50000")
+                .put("model", "1").build();
+        String url = "https://www.bushu.run/api/mi/submit";
+        String result = RestTemplateUtil.getForObject(url, bodyMap,
+                MediaType.APPLICATION_FORM_URLENCODED, String.class, null, new MediaType[0]);
+        System.out.println(result);
+        result = RestTemplateUtil.postForObject(url, bodyMap,
+                MediaType.APPLICATION_FORM_URLENCODED, String.class, null, new MediaType[0]);
+        System.out.println(result);
+        JSONObject jsonObject = JSON.parseObject(result);
+
+        if (null != jsonObject) {
+            if (jsonObject.getInteger("code") == 0) {
+                System.out.println(result);
+            } else {
+                System.err.println(result);
+            }
+        }
+
+        try (HttpResponse response = HttpUtil.createGet(url).form(bodyMap)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE).execute()) {
+            System.out.println("response=" + response.body());
+        }
+
         System.out.println(Collections.<String>emptyList());
         // 默认的临时目录
         System.out.println(System.getProperty("java.io.tmpdir"));

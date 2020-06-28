@@ -1,5 +1,6 @@
 package io.github.util.config;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,7 @@ public class Constant {
      * 文件上传保存路径-不提供set方法，防止恶意篡改值
      */
     @Value("${file.UploadPath}")
+    @Getter
     private String uploadPath;
 
     @Value("${database.adminId}")
@@ -101,7 +103,4 @@ public class Constant {
         }
     }
 
-    public String getUploadPath() {
-        return uploadPath;
-    }
 }

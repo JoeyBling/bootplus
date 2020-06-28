@@ -57,7 +57,7 @@ public class MyBootConfig implements AsyncConfigurer {
 
     /**
      * 手动注入self解决内部方法调用事务注解无效的问题
-     * doc: @Bean导致Ordere 接口失效
+     * doc: @Bean导致`Ordered`接口失效
      */
     @Bean
     @ConditionalOnMissingBean

@@ -17,6 +17,11 @@ import java.net.URL;
 public class FileUtils extends org.apache.commons.io.FileUtils {
 
     /**
+     * 文件路径前缀
+     */
+    public static final String FILE_PREFIX = "file:/";
+
+    /**
      * @see java.net.URL#toURI()
      */
     public static URI toURI(URL url) throws URISyntaxException {
@@ -31,37 +36,22 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
      * @throws URISyntaxException 如果位置不是有效的URI
      */
     public static URI toURI(String location) throws URISyntaxException {
-        return new URI(getFileUrl(location));
-    }
-
-    /**
-     * 获取转义后的文件路径
-     *
-     * @param location 文件路径
-     * @return String
-     */
-    private static String getFileUrl(String location) {
-        return StringUtils.replace(generateFileUrl(location),
-                " ", "%20");
-    }
-
-    /**
-     * 获取文件，进行编码处理（防止中文乱码）
-     *
-     * @param resourceUrl 文件路径
-     * @throws URISyntaxException
-     */
-    public static File getFile(String resourceUrl) throws URISyntaxException {
-        return new File(toURI(resourceUrl).getSchemeSpecificPart());
+        return URI.create(StringUtils.replace(generateFileUrl(location),
+                " ", "%20"));
     }
 
     /**
      * 获取文件，进行编码处理（防止中文乱码）
      *
      * @param fileUrl 文件路径
+     * @throws URISyntaxException
      */
-    public static File getSimpleFile(String fileUrl) {
-        return new File(getFileUrl(fileUrl));
+    public static File getFile(final String fileUrl) throws URISyntaxException {
+        String location = fileUrl;
+        if (!StringUtils.startsWithIgnoreCase(location, FILE_PREFIX)) {
+            location = FILE_PREFIX.concat(location);
+        }
+        return new File(toURI(location).getSchemeSpecificPart());
     }
 
     /**
@@ -186,13 +176,15 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
     }
 
     public static void main(String[] args) throws IOException, URISyntaxException {
-        forceMkdirParent(getFile("/home/fulei/zhousiwei/upload"));
-        forceMkdirParent(getFile("F:/siwei"));
+        System.out.println(getFile("/home/fulei/zhousiwei/upload"));
+        System.out.println(getFile("D:/siwei"));
         forceMkdirParent(getFile("F:\\特扬网络\\WIFI.txt"));
         forceMkdirParent(getFile("F:\\特扬网络\\"));
         forceMkdirParent(getFile(FileUtils.class.getResource("/banner.txt").getPath()));
         System.out.println(toURI("https://blog.csdn.net/qq_30930805"));
-        System.out.println(toURI("F:\\特扬网络\\WIFI.txt"));
+        System.out.println(toURI("F:\\特扬网络\\WIFI.txt").getSchemeSpecificPart());
+        System.out.println(toURI(FILE_PREFIX.concat("F:\\特扬网络\\WIFI.txt")).getSchemeSpecificPart());
+        System.out.println(toURI(FILE_PREFIX.concat("F:\\特扬网络\\WIFI.txt")).getScheme());
     }
 
 }

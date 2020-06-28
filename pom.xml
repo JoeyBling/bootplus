@@ -22,6 +22,7 @@
     <description>基于SpringBoot + Shiro + MyBatisPlus的权限管理框架</description>
 
     <properties>
+        <lombok.version>1.18.10</lombok.version>
         <!-- 默认测试环境 -->
         <package.environment>dev</package.environment>
         <hessian.version>4.0.38</hessian.version>
@@ -30,6 +31,7 @@
         <commons-io.version>2.5</commons-io.version>
         <!-- 在1.4.2之前的Apache Shiro，使用默认的“记住我”配置时，cookie可能会受到填充攻击。 -->
         <shiro.version>1.4.2</shiro.version>
+        <!--        <mybatisplus-spring-boot-starter.version>3.3.0</mybatisplus-spring-boot-starter.version>-->
         <mybatisplus-spring-boot-starter.version>2.1.9</mybatisplus-spring-boot-starter.version>
         <!--<spring-log4j.version>1.3.5.RELEASE</spring-log4j.version>-->
         <guava.version>17.0</guava.version>
@@ -97,19 +99,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- yaml解析类 -->
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-        </dependency>
-
-        <!-- FastJson -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.60</version>
-        </dependency>
-
         <dependency>
             <!-- https://github.com/JoeyBling/fastjson-spring-boot-starter/ -->
             <groupId>io.gitee.zhousiwei</groupId>
@@ -123,6 +112,89 @@
                     <artifactId>fastjson</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <!-- FastJson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.60</version>
+        </dependency>
+
+        <!-- 应用监控Actuator -->
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>-->
+
+        <!-- https://xz.aliyun.com/t/2233 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
+        <!-- Redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <!--<dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+        </dependency>-->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+
+        <!-- 替换log4j为logback -->
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j</artifactId>
+            <version>${spring-log4j.version}</version>
+        </dependency>-->
+
+        <!-- yaml解析类 -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
         </dependency>
 
         <!-- hessian -->
@@ -144,11 +216,6 @@
             <version>1</version>
         </dependency>
 
-        <!-- 应用监控Actuator -->
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>-->
         <!-- 解决报错：net.sf.ehcache.Ehcache.getStatistics()Lnet/sf/ehcache/statistics/StatisticsGateway -->
         <!-- https://mvnrepository.com/artifact/net.sf.ehcache.internal/ehcache-core -->
         <dependency>
@@ -162,12 +229,6 @@
         <dependency>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
-        </dependency>
-
-        <!-- https://xz.aliyun.com/t/2233 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
         <!-- HTML解析器 -->
@@ -261,59 +322,11 @@
             <version>${commons-io.version}</version>
         </dependency>
 
+        <!-- TODO del it -->
         <dependency>
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
-            <version>1.20</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-
-        <!-- Redis -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
-        <!--<dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-redis</artifactId>
-        </dependency>-->
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-
-        <!-- Druid数据库连接池 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${druid.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <version>1.21</version>
         </dependency>
 
         <dependency>
@@ -327,18 +340,6 @@
             <artifactId>cglib</artifactId>
             <version>3.2.5</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
-        </dependency>
-
-        <!-- 替换log4j为logback -->
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j</artifactId>
-            <version>${spring-log4j.version}</version>
-        </dependency>-->
 
         <!-- Testing Dependencies -->
         <dependency>
@@ -423,11 +424,13 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
         </dependency>
 
     </dependencies>
 
     <build>
+        <defaultGoal>package</defaultGoal>
         <resources>
             <resource>
                 <directory>${basedir}/src/main/resources</directory>
@@ -626,7 +629,7 @@
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
-                <version>1.16.8.0</version>
+                <version>1.18.10.0</version>
                 <!--<executions>
                     <execution>
                         <phase>generate-sources</phase>

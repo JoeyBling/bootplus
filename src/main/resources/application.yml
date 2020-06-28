@@ -71,6 +71,9 @@ spring:
     expose-session-attributes: true
     request-context-attribute: rc
     settings:
+      # freemarker.core.Configurable#setSetting
+      # freemarker.template.Configuration#setSetting
+      tag_syntax: auto_detect
       number_format: 0.##
     suffix: .ftl
     check-template-location: true
@@ -97,6 +100,8 @@ spring:
     redis:
       repositories:
         enabled: false
+  jpa:
+    open-in-view: false
 
 management:
   #  context-path: /monitor

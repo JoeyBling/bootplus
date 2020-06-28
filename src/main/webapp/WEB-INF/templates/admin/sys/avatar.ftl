@@ -177,7 +177,7 @@
     function updateportraitBind() {
         var fileids = "";
         for (var i = 0; i < portraitFileList.length; i++) {
-            console.log("portraitFileList===>" + portraitFileList);
+            // console.log("portraitFileList===>" + portraitFileList);
             let filePath = portraitFileList[i].data.filePath;
             if (fileids != '') {
                 fileids += ",";

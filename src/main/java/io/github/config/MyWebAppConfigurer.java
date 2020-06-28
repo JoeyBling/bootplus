@@ -105,9 +105,9 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
         // For windows style path, we replace '\' to '/'.
         uploadPath = FileUtils.generateFileUrl(uploadPath);
         // 必须加上文件路径前缀
-        if (!StringUtils.startsWithIgnoreCase(uploadPath, FILE_PREFIX)) {
+        if (!StringUtils.startsWithIgnoreCase(uploadPath, FileUtils.FILE_PREFIX)) {
             // 防止路径符号重复且映射路径必须以/结束
-            uploadPath = FileUtils.generateFileUrl(FILE_PREFIX, uploadPath, File.separator);
+            uploadPath = FileUtils.generateFileUrl(FileUtils.FILE_PREFIX, uploadPath, File.separator);
         }
         // ResourceUtils.CLASSPATH_URL_PREFIX
         registry.addResourceHandler("/statics/**").addResourceLocations("classpath:/statics/");
@@ -184,11 +184,6 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
     private final static List<String> EXCLUDE_PATH = Arrays.asList("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
 
     /**
-     * 文件路径前缀
-     */
-    public static final String FILE_PREFIX = "file:/";
-
-    /**
      * 外部访问用-上传文件映射访问路径
      */
     public static final String FILE_UPLOAD_PATH_EXT = "upload";
@@ -201,7 +196,7 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
     /**
      * 文件上传保存路径
      */
-    @Value("${file.UploadPath:#{myWebAppConfigurer.FILE_PREFIX + myWebAppConfigurer.FILE_UPLOAD_PATH}}")
+    @Value("${file.UploadPath:#{T(io.github.util.file.FileUtils).FILE_PREFIX + myWebAppConfigurer.FILE_UPLOAD_PATH}}")
     public String uploadPath;
 
     @Override

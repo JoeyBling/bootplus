@@ -25,7 +25,7 @@
                 AND m.name like concat('%',#{menuName},'%')
             </if>
         </where>
-        <if test="null!=sort and null!=order">
+        <if test="null != sort and null != order">
             order by ${sort} ${order}
         </if>
         <if test="offset != null and limit != null">

@@ -185,7 +185,7 @@
     </logger>
 
     <!-- 系统日志 -->
-    <logger name="bootplus.file.Statement" level="WARN" additivity="false">
+    <logger name="bootplus.file.Statement" level="INFO" additivity="false">
         <appender-ref ref="SYS_FILE"/>
         <appender-ref ref="STDOUT_DETAIL"/>
     </logger>
