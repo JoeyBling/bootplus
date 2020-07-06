@@ -160,7 +160,7 @@ public class ApplicationProperties {
         private String threadNamePrefix = "async-resource-schedule-";
     }
 
-    @DeprecatedConfigurationProperty(reason = "暂时弃用")
+    //    @DeprecatedConfigurationProperty(reason = "暂时弃用")
     public String getUrl() {
         return url;
     }

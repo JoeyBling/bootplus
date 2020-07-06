@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import io.github.config.aop.annotation.MyAutowired;
 import io.github.frame.log.LogUtil;
 import io.github.util.StringUtils;
 import lombok.AllArgsConstructor;
@@ -15,11 +16,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.Map;
 
@@ -31,6 +38,12 @@ import java.util.Map;
 @Slf4j
 @Component
 public class XiaoMiRunTask implements InitializingBean {
+
+    @Value("${spring.mail.username:}")
+    private String from;
+
+    @MyAutowired
+    private JavaMailSender mailSender;
 
     /**
      * 完成标识缓存
@@ -59,7 +72,33 @@ public class XiaoMiRunTask implements InitializingBean {
         if (null != completeFlagCacheMap) {
             log.info("缓存清除成功！");
             completeFlagCacheMap.clear();
+            if (null != mailSender) {
+                try {
+                    //sendHtmlMail("2434387555@qq.com", "小米运动刷步数记录", "账号[{}]，<br/>同步步数[{}]成功");
+                    log.debug("HTML邮件发送成功!");
+                } catch (Exception e) {
+                    log.error("HTML邮件发送失败：{}", e.getMessage());
+                }
+            }
         }
+    }
+
+    /**
+     * 发送HTML文本邮件
+     *
+     * @param to      接收者邮件
+     * @param subject 邮件主题
+     * @param html    HTML内容
+     * @throws MessagingException
+     */
+    public void sendHtmlMail(String to, String subject, String html) throws MessagingException {
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(html, true);
+        helper.setFrom(from);
+        mailSender.send(message);
     }
 
     /**

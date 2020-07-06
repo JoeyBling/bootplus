@@ -137,21 +137,7 @@ public abstract class AbstractController<S> extends BaseAopContext<S> {
         return false;
     }
 
-    /**
-     * 事实证明@RequestMapping...等注解不可以被继承
-     * 注解需要添加@Inherited 才可以被继承
-     *
-     * @see org.springframework.aop.framework.CglibAopProxy#accept
-     */
-//    @RequestMapping("/Inherited")
-    @ResponseBody
-    @Deprecated
-    public boolean testInherited(Model model) {
-        return true;
-//        return "test-Inherited测试";
-    }
-
-    //    @RequestMapping("/testString")
+//    @RequestMapping("/testString")
     @ResponseBody
     @Deprecated
     public String testString(Model model) {

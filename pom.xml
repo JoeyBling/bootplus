@@ -17,14 +17,15 @@
     <!--<version>1.0.0.RELEASE</version>-->
     <packaging>jar</packaging>
 
-    <name>bootplus</name>
-    <url>https://github.com/JoeyBling/bootplus</url>
+    <name>${project.artifactId}</name>
+    <url>https://github.com/JoeyBling/${project.artifactId}</url>
     <description>基于SpringBoot + Shiro + MyBatisPlus的权限管理框架</description>
 
     <properties>
-        <lombok.version>1.18.10</lombok.version>
         <!-- 默认测试环境 -->
         <package.environment>dev</package.environment>
+        <maven.build.timestamp.format>yyyyMMdd_HHmmss</maven.build.timestamp.format>
+        <lombok.version>1.18.10</lombok.version>
         <hessian.version>4.0.38</hessian.version>
         <kaptcha.version>0.0.9</kaptcha.version>
         <commons-lang.version>3.5</commons-lang.version>
@@ -42,7 +43,7 @@
         <spring.boot.dependencies.scope>provided</spring.boot.dependencies.scope>
         <!-- Docker 插件 -->
         <docker.repostory>io.github</docker.repostory>
-        <docker.registry.name>bootplus</docker.registry.name>
+        <docker.registry.name>${project.artifactId}</docker.registry.name>
 
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
@@ -322,7 +323,6 @@
             <version>${commons-io.version}</version>
         </dependency>
 
-        <!-- TODO del it -->
         <dependency>
             <groupId>eu.bitwalker</groupId>
             <artifactId>UserAgentUtils</artifactId>
@@ -538,6 +538,16 @@
                     <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
                     <!--<mainClass>io.github.App</mainClass>
                     <layout>JAR</layout>-->
+                    <!-- 注意：layout应设置为ZIP,不然后面会出现找不到类的错误. -->
+                    <includes>
+                        <!-- SpringBoot 项目瘦身 ->
+                         https://github.com/johnnian/Blog/issues/41 -->
+                        <include>
+                            <!-- -Dloader.path= -->
+                            <!--                            <groupId>nothing</groupId>-->
+                            <!--                            <artifactId>nothing</artifactId>-->
+                        </include>
+                    </includes>
                 </configuration>
             </plugin>
 
@@ -646,8 +656,35 @@
                     </execution>
                 </executions>-->
             </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>timestamp-property</id>
+                        <goals>
+                            <goal>timestamp-property</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!--                    <name>maven.build.timestamp</name>-->
+                    <name>current.time</name>
+                    <pattern>${maven.build.timestamp.format}</pattern>
+                    <timeZone>GMT+8</timeZone>
+                    <locale>zh_CN</locale>
+                    <fileSet/>
+                    <regex/>
+                    <source/>
+                    <value/>
+                </configuration>
+            </plugin>
         </plugins>
-        <finalName>bootplus</finalName>
+        <!--        <finalName>${project.artifactId}_${project.version}_${maven.build.timestamp}</finalName>-->
+        <!-- 自定义打包名称及时间戳 -->
+        <finalName>${project.artifactId}_${current.time}</finalName>
     </build>
 
     <profiles>

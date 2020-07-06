@@ -170,6 +170,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
         String uri = StringUtils.join(url, StringUtils.equals(
                 File.separator, "\\") ? "/" : File.separator);
         // (?i)在前面 不区分大小写
+        // Matcher.quoteReplacement(File.separator)
         return uri.replaceAll("(\\\\|/)+", "/")
                 .replaceFirst("(?i)((ht|f)tp\\:(\\\\|/)+)", "http://")
                 .replaceFirst("(?i)((ht|f)tps\\:(\\\\|/)+)", "https://");

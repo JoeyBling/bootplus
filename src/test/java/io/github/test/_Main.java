@@ -45,6 +45,9 @@ public class _Main {
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IOException {
 
+        System.out.println(Locale.getDefault());
+        System.out.println(Locale.getDefault().toString());
+
         Map<String, Object> testMap = Maps.newConcurrentMap();
         testMap.put("1", 1);
         testMap.forEach((s, o) -> {

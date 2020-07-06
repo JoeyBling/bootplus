@@ -22,7 +22,7 @@ import java.lang.annotation.*;
         ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Inherited // 可以被继承
+@Inherited // 可以被继承 -- 只对类注解有效，方法注解无效
 @Autowired
 public @interface MyAutowired {
 
