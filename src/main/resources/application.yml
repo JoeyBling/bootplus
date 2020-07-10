@@ -1,5 +1,5 @@
 server:
-  contextPath: ''
+  context-path: ''
   port: 80
   tomcat:
     uri-encoding: UTF-8
@@ -27,7 +27,7 @@ mybatis-plus:
     id-type: 0
     refresh-mapper: true
   mapper-locations: classpath:/mapper/*Dao.xml
-  typeAliasesPackage: io.github.entity
+  type-aliases-package: io.github.entity
   # 自定义类型转换处理器包名
   type-handlers-package: io.github.common.typehandler
   check-config-location: true
@@ -84,8 +84,8 @@ spring:
       enabled: true
       force: true
     multipart:
-      maxFileSize: 10MB
-      maxRequestSize: 20MB
+      max-file-size: 10MB
+      max-request-size: 20MB
   messages:
     encoding: UTF-8
   resources:
