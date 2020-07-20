@@ -12,7 +12,7 @@
 
     <!--个人博客:https://zhousiwei.gitee.io/ -->
     <groupId>io.github.joeybling</groupId>
-    <artifactId>bootplus</artifactId>
+    <artifactId>bootplus1.5</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <!--<version>1.0.0.RELEASE</version>-->
     <packaging>jar</packaging>
