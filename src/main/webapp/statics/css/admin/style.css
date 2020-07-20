@@ -1,6 +1,6 @@
 /*
  *
- *   H+ - ��̨����UI���
+ *   H+ - 后台主题UI框架
  *   version 4.5
  *
 */
@@ -149,7 +149,7 @@ body.body-small .navbar-top-links li:last-child {
 }
 .nav-header {
 	padding: 33px 25px;
-	//background: url("../images/header-profile.png") no-repeat;
+	//background: url("./patterns/header-profile.png") no-repeat;
 }
 .pace-done .nav-header {
 	-webkit-transition: all 0.5s;
@@ -5538,14 +5538,14 @@ body.rtls .navbar-top-links li:last-child {
 }
 .blue-skin {
 	font-weight: 600;
-	background: url("../images/header-profile-skin-1.png") repeat scroll 0 0;
+	background: url("patterns/header-profile-skin-1.png") repeat scroll 0 0;
 }
 .blue-skin:hover {
 	background: #0d8ddb;
 }
 .yellow-skin {
 	font-weight: 600;
-	background: url("../images/header-profile-skin-3.png") repeat scroll 0 100%;
+	background: url("patterns/header-profile-skin-3.png") repeat scroll 0 100%;
 }
 .yellow-skin:hover {
 	background: #ce8735;
@@ -5569,11 +5569,10 @@ body.rtls .navbar-top-links li:last-child {
 }
 /*
  *
- *   SKIN 1 - H+ - ��̨����UI���
+ *   SKIN 1 - H+ - 后台主题UI框架
  *   NAME - Blue light
  *
 */
-
 .skin-1 .minimalize-styl-2 {
 	margin: 14px 5px 5px 30px;
 }
@@ -5588,7 +5587,7 @@ body.rtls .navbar-top-links li:last-child {
 }
 .skin-1 .nav-header {
 	background: #0e9aef;
-	background: url('../images/header-profile-skin-1.png');
+	background: url('patterns/header-profile-skin-1.png');
 }
 .skin-1.mini-navbar .nav-second-level {
 	background: #3e495f;
@@ -5682,11 +5681,10 @@ body.skin-1 {
 }
 /*
  *
- *   SKIN 3 - H+ - ��̨����UI���
+ *   SKIN 3 - H+ - 后台主题UI框架
  *   NAME - Yellow/purple
  *
 */
-
 .skin-3 .minimalize-styl-2 {
 	margin: 14px 5px 5px 30px;
 }
@@ -5704,7 +5702,7 @@ body.boxed-layout.skin-3 #wrapper {
 }
 .skin-3 .nav-header {
 	background: #ecba52;
-	background: url('../images/header-profile-skin-3.png');
+	background: url('patterns/header-profile-skin-3.png');
 }
 .skin-3.mini-navbar .nav-second-level {
 	background: #3e2c42;

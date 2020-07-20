@@ -2,7 +2,7 @@ package io.github.config;
 
 import com.google.common.collect.Lists;
 import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 import org.springframework.boot.context.properties.DeprecatedConfigurationProperty;
@@ -34,13 +34,13 @@ public class ApplicationProperties {
     /**
      * 程序名称
      */
-    @NotEmpty
+    @NotBlank
     private String name;
 
     /**
      * 版本号
      */
-    @NotEmpty
+    @NotBlank
     private String version;
 
     /**

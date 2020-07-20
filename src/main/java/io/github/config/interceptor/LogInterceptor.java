@@ -2,6 +2,8 @@ package io.github.config.interceptor;
 
 import io.github.frame.log.LogUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,7 +30,15 @@ public class LogInterceptor implements HandlerInterceptor {
     /**
      * 默认本地执行线程开始时间标识
      */
-    private static final ThreadLocal<Long> START_TIME_THREAD_LOCAL = new NamedThreadLocal<Long>("ThreadLocal_StartTime");
+    private static final ThreadLocal<Long> START_TIME_THREAD_LOCAL = new NamedThreadLocal<Long>("ThreadLocal_StartTime") {
+        private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+        @Override
+        protected Long initialValue() {
+            logger.warn("统一日志拦截器错误获取线程绑定变量，使用默认值...");
+            return System.currentTimeMillis();
+        }
+    };
 
     /**
      * 在业务处理器处理请求之前被调用。预处理，可以进行编码、安全控制、权限校验等处理

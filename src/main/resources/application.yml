@@ -89,7 +89,7 @@ spring:
   messages:
     encoding: UTF-8
   resources:
-    static-locations: classpath:/statics
+    static-locations: classpath:/statics/
   aop:
     auto: true
     proxy-target-class: true

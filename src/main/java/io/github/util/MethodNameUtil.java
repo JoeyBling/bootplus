@@ -1,5 +1,7 @@
 package io.github.util;
 
+import com.google.common.base.CaseFormat;
+
 /**
  * 方法名帮助类
  *
@@ -29,10 +31,22 @@ public class MethodNameUtil {
         return name;
     }
 
+    /**
+     * 驼峰命名转下划线命名
+     *
+     * @param c 原字符串
+     * @return String
+     */
+    public static String camel2underStr(String c) {
+        return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, c);
+//        return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, c);
+    }
+
     public static void main(String[] args) {
         System.out.println(getMethodName(null));
         System.out.println(getMethodName("a"));
         System.out.println(getMethodName("abcd"));
+        System.out.println(camel2underStr("loginIp"));
     }
 
 }
