@@ -44,7 +44,7 @@ import java.sql.SQLException;
 /* 转化后的数据类型 */
 @MappedTypes(value = {SysMenuTypeEnum.class, FileTypeEnum.class})
 @Slf4j
-public class IEnumTypeHandler<E extends Enum<?> & IEnum> extends BaseTypeHandler<IEnum> implements MyTypeHandler {
+public class IEnumTypeHandler<E extends Enum<?> & IEnum> extends BaseTypeHandler<E> implements MyTypeHandler {
     private Class<E> clazz;
 
     public IEnumTypeHandler(Class<E> enumType) {
@@ -56,7 +56,7 @@ public class IEnumTypeHandler<E extends Enum<?> & IEnum> extends BaseTypeHandler
     }
 
     @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, IEnum parameter, JdbcType jdbcType) throws SQLException {
+    public void setNonNullParameter(PreparedStatement ps, int i, E parameter, JdbcType jdbcType) throws SQLException {
         ps.setString(i, parameter.getKey());
     }
 

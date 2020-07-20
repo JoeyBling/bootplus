@@ -77,7 +77,7 @@ spring:
       number_format: 0.##
     suffix: .ftl
     check-template-location: true
-    template-loader-path: classpath:/WEB-INF/templates
+    template-loader-path: classpath:/WEB-INF/templates/
   http:
     encoding:
       charset: UTF-8

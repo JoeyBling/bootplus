@@ -2,23 +2,27 @@
 
 # Created by https://github.com/JoeyBling
 
+# SVN
+/.svn/
+
 # Log file #
 # Logs
 logs
 *.log
 npm-debug.log*
-
-/.settings/
-/target/
 /logs/
-/.svn/
-*.class
-*.jar
 
 # Eclipse project files
+/.settings/
+/target/
 .classpath
 .project
+
+# MacOS files
 .DS_Store
+
+# Windows files
+Thumbs.db
 
 ### PRODUCE ###
 # Dockerfile
@@ -37,6 +41,8 @@ npm-debug.log*
 *.iws
 *.iml
 *.ipr
+out
+gem
 
 ### NetBeans ###
 nbproject/private/
