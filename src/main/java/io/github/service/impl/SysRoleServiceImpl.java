@@ -1,14 +1,15 @@
 package io.github.service.impl;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.config.aop.service.BaseAopService;
 import io.github.dao.SysRoleDao;
 import io.github.entity.SysRoleEntity;
 import io.github.service.SysRoleMenuService;
 import io.github.service.SysRoleService;
 import io.github.service.SysUserRoleService;
+import io.github.util.MethodNameUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +21,7 @@ import java.util.Map;
 /**
  * 角色
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @Service
 public class SysRoleServiceImpl extends BaseAopService<SysRoleServiceImpl, SysRoleDao, SysRoleEntity>
@@ -39,17 +39,17 @@ public class SysRoleServiceImpl extends BaseAopService<SysRoleServiceImpl, SysRo
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(SysRoleEntity role) {
+    public boolean save(SysRoleEntity role) {
         baseMapper.insert(role);
         // 保存角色与菜单关系
         sysRoleMenuService.saveOrUpdate(role.getRoleId(), role.getMenuIdList());
+        return true;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(SysRoleEntity role) {
         baseMapper.updateNoMapper(role);
-
         // 更新角色与菜单关系
         sysRoleMenuService.saveOrUpdate(role.getRoleId(), role.getMenuIdList());
     }
@@ -62,16 +62,16 @@ public class SysRoleServiceImpl extends BaseAopService<SysRoleServiceImpl, SysRo
 
     @Override
     public Page<SysRoleEntity> queryListByPage(Integer offset, Integer limit, String roleName, String sort,
-                                               Boolean order) {
-        Wrapper<SysRoleEntity> wrapper = new EntityWrapper<SysRoleEntity>();
-        if (StringUtils.isNoneBlank(sort) && null != order) {
-            wrapper.orderBy(sort, order);
+                                               Boolean isAsc) {
+        QueryWrapper<SysRoleEntity> wrapper = new QueryWrapper(new SysRoleEntity());
+        if (StringUtils.isNoneBlank(sort) && null != isAsc) {
+            wrapper.orderBy(true, isAsc, MethodNameUtil.camel2underStr(sort));
         }
         if (StringUtils.isNoneBlank(roleName)) {
             wrapper.like("role_name", roleName);
         }
-        Page<SysRoleEntity> page = new Page<>(offset, limit);
-        return this.selectPage(page, wrapper);
+        Page<SysRoleEntity> page = new Page<SysRoleEntity>(offset, limit);
+        return this.page(page, wrapper);
     }
 
 }

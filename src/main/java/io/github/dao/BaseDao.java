@@ -1,18 +1,18 @@
 package io.github.dao;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 import java.util.Map;
 
 /**
  * 因为MyBatisPlus的缘故，不能放在Dao对应的包里 基础Dao(还需在XML文件里，有对应的SQL语句)
- * 老版本会有问题，TODO 待找出问题
+ * 待删除，建议移到具体Mapper方法，不建议抽离
  *
  * @param <T>
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
+@Deprecated
 public interface BaseDao<T> extends BaseMapper<T> {
 
     /**

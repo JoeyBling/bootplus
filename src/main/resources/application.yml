@@ -1,13 +1,28 @@
+# https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Configuration-Changelog
+# https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.3.0-Configuration-Changelog
+debug: false
+
 server:
-  context-path: ''
   port: 80
   tomcat:
     uri-encoding: UTF-8
     basedir: /home/temp
-  session:
-    tracking-modes: cookie
-    cookie:
-      http-only: true
+  servlet:
+    context-path: ''
+    session:
+      tracking-modes: cookie
+      cookie:
+        http-only: true
+    encoding:
+      enabled: true
+      charset: UTF-8
+      force: true
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: never
+    include-exception: true
+    path: /error
 
 #logging:
 #  level:
@@ -17,22 +32,27 @@ server:
 #    org.springframework: info
 
 mybatis-plus:
-  configuration:
-    cache-enabled: false
-    map-underscore-to-camel-case: true
-    log-prefix: bootplus.dao.
-  global-config:
-    db-column-underline: true
-    field-strategy: 0
-    id-type: 0
-    refresh-mapper: true
-  mapper-locations: classpath:/mapper/*Dao.xml
+  #  mapper-locations: classpath*:/mapper/**/*.xml
   type-aliases-package: io.github.entity
   # 自定义类型转换处理器包名
   type-handlers-package: io.github.common.typehandler
   check-config-location: true
+  configuration:
+    cache-enabled: false
+    log-prefix: bootplus.dao.
+    map-underscore-to-camel-case: true
+  global-config:
+    banner: true
+    db-config:
+      id-type: auto
+      table-underline: true
 
 spring:
+  application:
+    name: ${application.name}
+  aop:
+    auto: true
+    proxy-target-class: true
   profiles:
   # 生产环境
   #    active: prd
@@ -44,24 +64,23 @@ spring:
   datasource:
     #    filters: stat,wall,log4j
     filters: stat,wall,slf4j
-    initialSize: 5
-    maxActive: 20
+    initial-size: 5
+    max-active: 20
     maxPoolPreparedStatementPerConnectionSize: 20
-    maxWait: 60000
+    max-wait: 60000
     minEvictableIdleTimeMillis: 300000
     minIdle: 5
     poolPreparedStatements: true
-    testOnBorrow: false
-    testOnReturn: false
-    testWhileIdle: true
-    timeBetweenEvictionRunsMillis: 60000
+    test-on-borrow: false
+    test-on-return: false
+    test-while-idle: true
+    time-between-eviction-runs-millis: 60000
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost:3306/bootplus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/bootplus?serverTimezone=GMT%2B8&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: root
-    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;password=${spring.datasource.password}
-    driverClassName: com.mysql.jdbc.Driver
-    validationQuery: SELECT 1 FROM DUAL
+    connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;password=${spring.datasource.password}
+    validation-query: SELECT 1 FROM DUAL
   freemarker:
     allow-request-override: false
     cache: false
@@ -71,28 +90,22 @@ spring:
     expose-session-attributes: true
     request-context-attribute: rc
     settings:
+      number_format: 0.##
       # freemarker.core.Configurable#setSetting
       # freemarker.template.Configuration#setSetting
       tag_syntax: auto_detect
-      number_format: 0.##
     suffix: .ftl
     check-template-location: true
-    template-loader-path: classpath:/WEB-INF/templates/
-  http:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 20MB
+    template-loader-path:
+      - classpath:/templates/
   messages:
     encoding: UTF-8
   resources:
-    static-locations: classpath:/statics/
-  aop:
-    auto: true
-    proxy-target-class: true
+    static-locations:
+      - classpath:/META-INF/resources/
+      - classpath:/resources/
+      - classpath:/statics/
+      - classpath:/public/
   data:
     jpa:
       repositories:
@@ -100,32 +113,46 @@ spring:
     redis:
       repositories:
         enabled: false
+  redis:
+    # TODO 接入
+    timeout: 3000
+    password: test
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+  # Spring Security Default user name and password
+  security:
+    user:
+      name: admin
+      password: admin
+      roles: admin
   jpa:
     open-in-view: false
 
 management:
-  #  context-path: /monitor
-  security:
-    # 权限拦截
-    enabled: true
-
-security:
-  user:
-    name: admin
-    password: admin
-    role: admin
-  basic:
-    path: ${management.context-path:/monitor}/**
-    enabled: true
-
+  endpoint:
+    health:
+      show-details: always
+  server:
+  #    port: 8090
+  #    servlet:
+  #      context-path: /monitor
+  endpoints:
+    web:
+      # io.github.config.ActuatorWebSecurityConfig
+      base-path: /admin/monitor
 
 ################################### 程序自定义配置 ###################################
 
 application:
+  #  管理员ID
+  admin-id: 1
   name: @project.artifactId@
   version: @project.version@
   url: @project.url@
   description: @project.description@
+  blog: @blog.url@
   logs:
     level: DEBUG
     path: @project.basedir@/../logs
@@ -139,3 +166,9 @@ application:
   mvc:
     view-resolves:
       - {urlPath: '/',viewName: 'redirect:/admin'}
+  file-config:
+    # 文件上传保存路径
+    upload-path: /home/fulei/zhousiwei/upload
+  junit-env:
+    admin-name: admin
+    admin-pwd: admin

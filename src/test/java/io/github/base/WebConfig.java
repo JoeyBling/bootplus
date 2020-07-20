@@ -17,6 +17,7 @@ import javax.servlet.ServletContextListener;
  * @author Created by 思伟 on 2020/1/15
  */
 @Configuration
+@Deprecated
 public class WebConfig {
 
     /**

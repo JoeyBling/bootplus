@@ -6,7 +6,6 @@ import io.github.frame.controller.AbstractController;
 import io.github.service.SysMenuService;
 import io.github.util.PageUtils;
 import io.github.util.R;
-import io.github.util.config.Constant;
 import io.github.util.exception.RRException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -21,8 +20,7 @@ import java.util.*;
 /**
  * 系统菜单
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @RestController
 @RequestMapping("/admin/sys/menu")
@@ -98,7 +96,7 @@ public class SysMenuController extends AbstractController<SysMenuController> {
     @RequestMapping("/info/{menuId}")
     @RequiresPermissions("sys:menu:info")
     public R info(@PathVariable("menuId") Long menuId) {
-        SysMenuEntity menu = sysMenuService.selectById(menuId);
+        SysMenuEntity menu = sysMenuService.getById(menuId);
         return R.ok().put("menu", menu);
     }
 
@@ -110,7 +108,7 @@ public class SysMenuController extends AbstractController<SysMenuController> {
     public R save(SysMenuEntity menu) {
         // 数据校验
         verifyForm(menu);
-        if (sysMenuService.insert(menu)) {
+        if (sysMenuService.save(menu)) {
             // 清空菜单缓存
             sysMenuService.clearUserMenuList(getAdminId());
             return R.ok();
@@ -191,16 +189,16 @@ public class SysMenuController extends AbstractController<SysMenuController> {
         }
 
         // 菜单
-        if (menu.getType().equals(Constant.MenuType.MENU.getValue())) {
+        if (menu.getType().equals(SysMenuEntity.MenuType.MENU.getValue())) {
             if (StringUtils.isBlank(menu.getUrl())) {
                 throw new RRException("菜单URL不能为空");
             }
         }
 
         // 上级菜单类型
-        int parentType = Constant.MenuType.CATALOG.getValue();
-        if (menu.getType() != Constant.MenuType.CATALOG.getValue()) {
-            SysMenuEntity parentMenu = sysMenuService.selectById(menu.getParentId());
+        int parentType = SysMenuEntity.MenuType.CATALOG.getValue();
+        if (menu.getType() != SysMenuEntity.MenuType.CATALOG.getValue()) {
+            SysMenuEntity parentMenu = sysMenuService.getById(menu.getParentId());
             if (null == parentMenu) {
                 throw new RRException("请先选择上级菜单");
             }
@@ -208,16 +206,16 @@ public class SysMenuController extends AbstractController<SysMenuController> {
         }
 
         // 目录、菜单
-        if (menu.getType() == Constant.MenuType.CATALOG.getValue() || menu.getType() == Constant.MenuType.MENU.getValue()) {
-            if (parentType != Constant.MenuType.CATALOG.getValue()) {
+        if (menu.getType() == SysMenuEntity.MenuType.CATALOG.getValue() || menu.getType() == SysMenuEntity.MenuType.MENU.getValue()) {
+            if (parentType != SysMenuEntity.MenuType.CATALOG.getValue()) {
                 throw new RRException("上级菜单只能为目录类型");
             }
             return;
         }
 
         // 按钮
-        if (menu.getType() == Constant.MenuType.BUTTON.getValue()) {
-            if (parentType != Constant.MenuType.MENU.getValue()) {
+        if (menu.getType() == SysMenuEntity.MenuType.BUTTON.getValue()) {
+            if (parentType != SysMenuEntity.MenuType.MENU.getValue()) {
                 throw new RRException("上级菜单只能为菜单类型");
             }
             return;

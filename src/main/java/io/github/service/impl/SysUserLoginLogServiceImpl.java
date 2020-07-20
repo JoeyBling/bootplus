@@ -1,45 +1,37 @@
 package io.github.service.impl;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.config.aop.service.BaseAopService;
 import io.github.dao.SysUserLoginLogDao;
 import io.github.entity.SysUserLoginLogEntity;
 import io.github.service.SysUserLoginLogService;
+import io.github.util.MethodNameUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.stereotype.Service;
 
 /**
  * 用户登录日志
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @Service
 public class SysUserLoginLogServiceImpl extends BaseAopService<SysUserLoginLogServiceImpl, SysUserLoginLogDao, SysUserLoginLogEntity>
         implements SysUserLoginLogService {
 
     @Override
-    public Page<SysUserLoginLogEntity> getSelf(Integer offset, Integer limit, Long adminId, String loginIp, String sort,
-                                               Boolean order) {
-        // Spring XML:<!-- 启用AspectJ对Annotation的支持 -->
-        //    <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true"/>
-        // SpringBoot:@EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
-        // 获取当前代理对象【从ThreadLocal获取代理对象】(不建议使用)-【expose-proxy必须设为true】
-        // 只会取到代理对象,如果当前对象为空，则一层层往上获取代理对象【如果不存在会报错】
-//        Object proxy = org.springframework.aop.framework.AopContext.currentProxy();
-        Wrapper<SysUserLoginLogEntity> wrapper = new EntityWrapper<SysUserLoginLogEntity>();
-        wrapper.eq("user_id", adminId);
-        if (StringUtils.isNoneBlank(sort) && null != order) {
-            wrapper.orderBy(sort, order);
+    public Page<SysUserLoginLogEntity> getPage(Integer offset, Integer limit, Long adminId, String loginIp, String sort,
+                                               Boolean isAsc) {
+        QueryWrapper<SysUserLoginLogEntity> wrapper = new QueryWrapper();
+        wrapper.lambda().eq(SysUserLoginLogEntity::getUserId, adminId);
+        if (StringUtils.isNoneBlank(sort) && null != isAsc) {
+            wrapper.orderBy(true, isAsc, MethodNameUtil.camel2underStr(sort));
         }
         if (StringUtils.isNoneBlank(loginIp)) {
-            wrapper.like("login_ip", loginIp);
+            wrapper.lambda().like(SysUserLoginLogEntity::getLoginIp, loginIp);
         }
         Page<SysUserLoginLogEntity> page = new Page<SysUserLoginLogEntity>(offset, limit);
-        return this.selectPage(page, wrapper);
+        return this.page(page, wrapper);
     }
 
 }

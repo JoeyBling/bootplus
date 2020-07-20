@@ -41,8 +41,7 @@ import java.util.List;
 /**
  * 管理员登录相关
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @Controller
 @RequestMapping("/admin")
@@ -104,7 +103,7 @@ public class SysLoginController extends AbstractController {
         ImageIO.write(image, "jpg", out);
     }
 
-    /** 
+    /**
      * 管理员登录
      *
      * @param username 用户名
@@ -160,7 +159,7 @@ public class SysLoginController extends AbstractController {
         entity.setOperatingSystem(HttpUtil.getUserOperatingSystem(request));
         entity.setUserId(getAdminId());
         entity.setLoginIp(ipAddress);
-        boolean insert = sysUserLoginLogService.insert(entity);
+        boolean insert = sysUserLoginLogService.save(entity);
         // 这里只能抛异常回滚事务
         if (!insert) {
             throw new RRException("系统异常，请联系管理员!");
@@ -181,7 +180,7 @@ public class SysLoginController extends AbstractController {
             sysMenuService.clearUserMenuList(userId);
             logger.info("管理员退出，清空用户菜单列表Cache");
             // 系统管理员退出
-            if (constant.adminId.equals(userId)) {
+            if (applicationProperties.getAdminId().equals(userId)) {
             }
             ShiroUtils.logout();
         }

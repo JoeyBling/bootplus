@@ -1,7 +1,7 @@
 package io.github.service;
 
-import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.entity.SysRoleEntity;
 
 import java.util.List;
@@ -10,8 +10,7 @@ import java.util.Map;
 /**
  * 角色
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public interface SysRoleService extends IService<SysRoleEntity> {
 
@@ -29,13 +28,6 @@ public interface SysRoleService extends IService<SysRoleEntity> {
      * @param roleIds 角色ID
      */
     void deleteBatch(Long[] roleIds);
-
-    /**
-     * 保存角色
-     *
-     * @param role SysRoleEntity
-     */
-    void save(SysRoleEntity role);
 
     /**
      * 更新角色

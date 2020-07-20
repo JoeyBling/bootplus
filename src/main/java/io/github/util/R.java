@@ -17,7 +17,7 @@ public class R extends HashMap<String, Object> {
     }
 
     public static R error() {
-        return error(500, "未知异常，请联系管理员");
+        return error("未知异常，请联系管理员");
     }
 
     public static R error(String msg) {
@@ -26,8 +26,7 @@ public class R extends HashMap<String, Object> {
 
     public static R error(int code, String msg) {
         R r = new R();
-        r.put("code", code);
-        r.put("msg", msg);
+        r.put("code", code).put("msg", msg);
         return r;
     }
 
@@ -52,4 +51,10 @@ public class R extends HashMap<String, Object> {
         super.put(key, value);
         return this;
     }
+
+    public R myPutAll(Map<String, Object> m) {
+        super.putAll(m);
+        return this;
+    }
+
 }

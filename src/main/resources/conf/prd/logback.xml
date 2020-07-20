@@ -13,6 +13,19 @@
     <property name="log.pattern.detail"
               value="[%p][%d{yyyy-MM-dd HH:mm:ss}] %c{1} [%file:%L] %m%n"/>
 
+    <!-- 项目名 -->
+    <define name="log.project" class="io.github.frame.log.logback.property.YamlPropertyDefiner">
+        <propertyKey>application.name</propertyKey>
+    </define>
+    <!-- 日志级别 -->
+    <define name="log.level" class="io.github.frame.log.logback.property.YamlPropertyDefiner">
+        <propertyKey>application.logs.level</propertyKey>
+    </define>
+    <!-- 日志存放路径 -->
+    <define name="log.path.test" class="io.github.frame.log.logback.property.LogsPathPropertyDefiner">
+        <projectName>${log.project}</projectName>
+    </define>
+
     <!-- 彩色日志 -->
     <!-- 彩色日志依赖的渲染类 -->
     <conversionRule conversionWord="clr"
@@ -40,6 +53,15 @@
         <encoder>
             <pattern>%m%n</pattern>
             <!--            <pattern>${log.pattern.detail}</pattern>-->
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 详细日志输出 -->
+    <appender name="STDOUT_DETAIL" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--            <pattern>%m%n</pattern>-->
+            <pattern>${log.pattern.detail}</pattern>
             <charset>UTF-8</charset>
         </encoder>
     </appender>
@@ -136,6 +158,7 @@
 
     <root level="INFO">
         <appender-ref ref="console"/>
+        <!--        <appender-ref ref="STDOUT_DETAIL"/>-->
     </root>
 
     <!-- 系统操作日志 -->
@@ -145,6 +168,14 @@
     </root>
 
     <!--<logger name="org.springframework" level="INFO"></logger>-->
+    <!-- SpringBoot2.0以上配置：org.springframework.boot.context.logging.LoggingApplicationListener#initializeSpringBootLogging()#SPRING_BOOT_LOGGING_LOGGERS -->
+    <!--    <logger name="org.springframework.boot.autoconfigure" level="WARN"/>-->
+    <!-- add requestMapping log for debug -->
+    <!--<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"
+            level="trace"></logger>-->
+    <!-- add hessian mapping log for debug -->
+    <!--<logger name="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"
+            level="trace"></logger>-->
 
     <logger name="io.github" level="DEBUG" additivity="true"/>
 
@@ -160,8 +191,9 @@
     </logger>
 
     <!-- 系统日志 -->
-    <logger name="bootplus.file.Statement" level="WARN" additivity="true">
+    <logger name="bootplus.file.Statement" level="INFO" additivity="false">
         <appender-ref ref="SYS_FILE"/>
+        <appender-ref ref="STDOUT_DETAIL"/>
     </logger>
 
     <!-- 拦截器日志 -->

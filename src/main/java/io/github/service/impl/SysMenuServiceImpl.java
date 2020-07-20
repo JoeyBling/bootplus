@@ -1,5 +1,6 @@
 package io.github.service.impl;
 
+import io.github.config.ApplicationProperties;
 import io.github.config.aop.service.BaseAopService;
 import io.github.dao.SysMenuDao;
 import io.github.entity.SysMenuEntity;
@@ -7,9 +8,6 @@ import io.github.frame.cache.annotation.MyCacheEvict;
 import io.github.frame.cache.annotation.MyCacheable;
 import io.github.service.SysMenuService;
 import io.github.service.SysUserService;
-import io.github.util.config.Constant;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,8 +19,7 @@ import java.util.Map;
 /**
  * 菜单管理
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @Service
 public class SysMenuServiceImpl extends BaseAopService<SysMenuServiceImpl, SysMenuDao, SysMenuEntity>
@@ -31,7 +28,7 @@ public class SysMenuServiceImpl extends BaseAopService<SysMenuServiceImpl, SysMe
     @Resource
     private SysUserService sysUserService;
     @Resource
-    private Constant constant;
+    private ApplicationProperties applicationProperties;
 
     @Override
     public String getCachePrefix() {
@@ -64,7 +61,7 @@ public class SysMenuServiceImpl extends BaseAopService<SysMenuServiceImpl, SysMe
     public List<SysMenuEntity> getUserMenuList(Long userId) {
         List<SysMenuEntity> allMenuList;
         // 系统管理员，拥有最高权限
-        if (constant.adminId.equals(userId)) {
+        if (applicationProperties.getAdminId().equals(userId)) {
             allMenuList = getAllMenuList(null);
         } else {
             // 用户菜单列表
@@ -91,7 +88,7 @@ public class SysMenuServiceImpl extends BaseAopService<SysMenuServiceImpl, SysMe
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Integer deleteBatch(Long[] menuIds) {
+    public int deleteBatch(Long[] menuIds) {
         return baseMapper.deleteBatch(menuIds);
     }
 
@@ -113,7 +110,7 @@ public class SysMenuServiceImpl extends BaseAopService<SysMenuServiceImpl, SysMe
         List<SysMenuEntity> subMenuList = new ArrayList<SysMenuEntity>();
         for (SysMenuEntity entity : menuList) {
             // 目录
-            if (entity.getType() == Constant.MenuType.CATALOG.getValue()) {
+            if (entity.getType() == SysMenuEntity.MenuType.CATALOG.getValue()) {
                 entity.setList(getMenuTreeList(queryListParentId(entity.getMenuId(), menuIdList), menuIdList));
             }
             subMenuList.add(entity);

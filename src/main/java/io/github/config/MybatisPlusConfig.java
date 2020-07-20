@@ -1,10 +1,8 @@
 package io.github.config;
 
-import com.baomidou.mybatisplus.enums.DBType;
-import com.baomidou.mybatisplus.plugins.PaginationInterceptor;
-import com.baomidou.mybatisplus.plugins.pagination.dialects.MySqlDialect;
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.pagination.optimize.JsqlParserCountOptimize;
 import io.github.common.typehandler.MyTypeHandler;
-import io.github.config.aop.annotation.MyAutowired;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.TypeHandler;
@@ -19,7 +17,7 @@ import java.util.Collection;
 /**
  * MybatisPlus Config
  *
- * @author Joey
+ * @author Created by 思伟 on 2020/6/6
  */
 @Configuration
 @MapperScan("io.github.**.dao*")
@@ -31,18 +29,17 @@ public class MybatisPlusConfig {
 
     /**
      * mybatis-plus分页插件<br>
-     * 文档：http://mp.baomidou.com
+     * 文档：https://mybatis.plus/
      */
     @Bean
     public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
-        // 开启 PageHelper 的支持
-//        paginationInterceptor.setLocalPage(true);
-        /**
-         * 方言实现类
-         * @see com.baomidou.mybatisplus.plugins.pagination.DialectFactory#getDialect(DBType, String)
-         */
-//        paginationInterceptor.setDialectClazz(MySqlDialect.class.getName());
+        // 设置请求的页面大于最大页后操作， true调回到首页，false 继续请求  默认false
+        // paginationInterceptor.setOverflow(false);
+        // 设置最大单页限制数量，默认 500 条，-1 不受限制
+        // paginationInterceptor.setLimit(500);
+        // 开启 count 的 join 优化,只针对部分 left join
+        paginationInterceptor.setCountSqlParser(new JsqlParserCountOptimize(true));
         return paginationInterceptor;
     }
 

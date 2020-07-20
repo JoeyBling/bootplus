@@ -1,10 +1,10 @@
 package io.github.shiro;
 
+import io.github.config.ApplicationProperties;
 import io.github.entity.SysMenuEntity;
 import io.github.entity.SysUserEntity;
 import io.github.service.SysMenuService;
 import io.github.service.SysUserService;
-import io.github.util.config.Constant;
 import io.github.util.spring.SpringContextUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
@@ -18,10 +18,9 @@ import org.slf4j.LoggerFactory;
 import java.util.*;
 
 /**
- * Shiro认证
+ * Shiro认证及授权
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public class UserRealm extends AuthorizingRealm {
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -36,7 +35,7 @@ public class UserRealm extends AuthorizingRealm {
 
     //    @Resource
 //    @Lazy
-    private Constant constant;
+    private ApplicationProperties applicationProperties;
 
     /**
      * 授权(验证权限时调用)
@@ -51,7 +50,7 @@ public class UserRealm extends AuthorizingRealm {
         List<String> permsList = null;
 
         // 系统管理员，拥有最高权限
-        if (constant.adminId.equals(userId)) {
+        if (applicationProperties.getAdminId().equals(userId)) {
             List<SysMenuEntity> menuList = sysMenuService.queryList(new HashMap<String, Object>(10));
             permsList = new ArrayList<>(menuList.size());
             for (SysMenuEntity menu : menuList) {
@@ -119,8 +118,8 @@ public class UserRealm extends AuthorizingRealm {
         if (null == sysUserService) {
             sysUserService = SpringContextUtils.getBean(SysUserService.class);
         }
-        if (null == constant) {
-            constant = SpringContextUtils.getBean(Constant.class);
+        if (null == applicationProperties) {
+            applicationProperties = SpringContextUtils.getBean(ApplicationProperties.class);
         }
     }
 

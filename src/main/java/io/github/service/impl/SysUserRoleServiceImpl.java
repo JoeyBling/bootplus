@@ -5,7 +5,6 @@ import io.github.config.aop.service.BaseAopService;
 import io.github.dao.SysUserRoleDao;
 import io.github.entity.SysUserRoleEntity;
 import io.github.service.SysUserRoleService;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,8 +15,7 @@ import java.util.Map;
 /**
  * 用户与角色对应关系
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @Service
 public class SysUserRoleServiceImpl extends BaseAopService<SysUserRoleServiceImpl, SysUserRoleDao, SysUserRoleEntity>

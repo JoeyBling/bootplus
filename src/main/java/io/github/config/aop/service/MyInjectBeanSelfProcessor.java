@@ -10,7 +10,7 @@ import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
 /**
- * bean自调用切面
+ * bean自调用切面(解决Spring-AOP嵌套调用)
  * 只要是在Shiro-AuthorizingRealm接口注入的Bean声明,所有相关联的Bean都被初始化完成且没有被代理[代理会在SpringBoot中无效]（包括BeanPostProcessor也会无效）
  * 手动注入self解决内部方法调用事务注解无效的问题
  * self会在编译的时候和this具有相同的效果，而this是关键字
@@ -42,6 +42,7 @@ public class MyInjectBeanSelfProcessor implements BeanPostProcessor, Application
             if (AopUtils.isAopProxy(bean)) {
                 ((BeanSelfAware) bean).setSelf(bean);
             } else {
+                // log.warn("The beanName[{}] is not a Aop target,please fixed it...", beanName);
                 // ④ 如果当前对象不是AOP代理，则通过context.getBean(beanName)获取代理对象并注入
                 // 此种方式不适合解决 prototype Bean的代理对象注入
                 ((BeanSelfAware) bean).setSelf(context.getBean(beanName));

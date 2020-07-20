@@ -19,12 +19,9 @@ import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.core.annotation.Order;
 
 import javax.servlet.Filter;
@@ -33,9 +30,9 @@ import java.util.Map;
 
 /**
  * Shiro 配置
+ * TODO 改为Redis Cache
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @Configuration
 @Slf4j
@@ -233,7 +230,6 @@ public class ShiroConfiguration {
     public ShiroFilterFactoryBean shiroFilter(SecurityManager securityManager) {
         log.info("ShiroConfiguration.shiroFilter()");
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-
         // 必须设置 SecurityManager
         shiroFilterFactoryBean.setSecurityManager(securityManager);
 
@@ -246,7 +242,7 @@ public class ShiroConfiguration {
         // 配置记住我或认证通过可以访问的地址
         filterChainDefinitionMap.put("/admin/index", "user");
 
-        // <!-- 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
+        // <!-- 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了
         // <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
         // noSessionCreation
         filterChainDefinitionMap.put("/statics/**", "anon");
@@ -260,7 +256,7 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setLoginUrl("/admin/login.html");
         // 登录成功后要跳转的链接
         shiroFilterFactoryBean.setSuccessUrl("/admin/");
-        // 未授权界面;
+        // 未授权界面
         shiroFilterFactoryBean.setUnauthorizedUrl("/error.html");
 
         // TODO 自定义拦截器

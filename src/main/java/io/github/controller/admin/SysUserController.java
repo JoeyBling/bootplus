@@ -1,9 +1,9 @@
 package io.github.controller.admin;
 
 import com.alibaba.fastjson.JSONArray;
-import com.baomidou.mybatisplus.plugins.Page;
-import io.github.frame.controller.AbstractController;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.entity.SysUserEntity;
+import io.github.frame.controller.AbstractController;
 import io.github.service.SysUserRoleService;
 import io.github.service.SysUserService;
 import io.github.util.PageUtils;
@@ -32,8 +32,7 @@ import java.util.Map;
 /**
  * 系统用户
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @Controller
 @Slf4j
@@ -85,7 +84,7 @@ public class SysUserController extends AbstractController<SysUserController> {
     @ResponseBody
     @RequiresPermissions("sys:user:info")
     public R info(@PathVariable("userId") Long userId) {
-        SysUserEntity user = sysUserService.selectById(userId);
+        SysUserEntity user = sysUserService.getById(userId);
 
         // 获取用户所属的角色列表
         List<Long> roleIdList = sysUserRoleService.queryRoleIdList(userId);
@@ -130,7 +129,7 @@ public class SysUserController extends AbstractController<SysUserController> {
         if (ArrayUtils.isEmpty(roles)) {
             return R.error("请为用户赋予至少一个权限");
         }
-        SysUserEntity userEntity = sysUserService.selectById(user.getUserId());
+        SysUserEntity userEntity = sysUserService.getById(user.getUserId());
         if (StringUtils.isNotBlank(user.getPassword())) {
             user.setPassword(user.getPassword());
         }
@@ -179,7 +178,7 @@ public class SysUserController extends AbstractController<SysUserController> {
         if (userIds.length < 1) {
             return R.error("删除的用户为空");
         }
-        if (ArrayUtils.contains(userIds, constant.adminId)) {
+        if (ArrayUtils.contains(userIds, applicationProperties.getAdminId())) {
             return R.error("系统管理员不能删除");
         }
         if (ArrayUtils.contains(userIds, getAdminId())) {

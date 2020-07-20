@@ -9,8 +9,7 @@ import java.util.Map;
 /**
  * 系统用户
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public interface SysUserDao extends BaseDao<SysUserEntity> {
 

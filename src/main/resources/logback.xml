@@ -170,6 +170,12 @@
     <!--<logger name="org.springframework" level="INFO"></logger>-->
     <!-- SpringBoot2.0以上配置：org.springframework.boot.context.logging.LoggingApplicationListener#initializeSpringBootLogging()#SPRING_BOOT_LOGGING_LOGGERS -->
     <!--    <logger name="org.springframework.boot.autoconfigure" level="WARN"/>-->
+    <!-- add requestMapping log for debug -->
+    <!--<logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"
+            level="trace"></logger>-->
+    <!-- add hessian mapping log for debug -->
+    <!--<logger name="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"
+            level="trace"></logger>-->
 
     <logger name="io.github" level="DEBUG" additivity="true"/>
 

@@ -15,6 +15,7 @@ import java.util.Properties;
  * @author Created by 思伟 on 2019/12/18
  */
 @Slf4j
+@Deprecated
 public class ConfUtil {
 
     /**

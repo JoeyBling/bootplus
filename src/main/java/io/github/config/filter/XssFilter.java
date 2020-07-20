@@ -32,7 +32,6 @@ public class XssFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         Assert.notNull(filterConfig, "FilterConfig must not be null");
-        log.info("WebFilter->[{}] init success...", filterConfig.getFilterName());
         {
             // 普通代码块
             String temp = filterConfig.getInitParameter(PARAM_NAME_EXCLUSIONS);
@@ -41,6 +40,7 @@ public class XssFilter implements Filter {
                 excludes.add(url[i]);
             }
         }
+        log.info("WebFilter->[{}] init success...", filterConfig.getFilterName());
     }
 
     @Override

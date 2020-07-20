@@ -8,8 +8,7 @@ import java.util.Map;
 /**
  * 用户与角色对应关系
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public interface SysUserRoleDao extends BaseDao<SysUserRoleEntity> {
 

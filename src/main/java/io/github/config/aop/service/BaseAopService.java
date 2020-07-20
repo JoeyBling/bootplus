@@ -1,7 +1,7 @@
 package io.github.config.aop.service;
 
-import com.baomidou.mybatisplus.mapper.BaseMapper;
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.util.exception.SysRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

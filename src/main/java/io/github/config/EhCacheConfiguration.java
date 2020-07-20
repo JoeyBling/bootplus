@@ -14,8 +14,7 @@ import org.springframework.core.io.ClassPathResource;
 /**
  * EhCache缓存管理器
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  * @see org.springframework.boot.autoconfigure.cache.EhCacheCacheConfiguration
  */
 @Slf4j

@@ -38,20 +38,23 @@ public class ClassUtil {
     }
 
     /**
-     * 获取类名
+     * @see #getClassName(Class)
      */
     public static String getClassName(Object obj) throws Exception {
         Assert.notNull(obj, "obj must not be null");
         return getClassName(AopTargetUtils.getTarget(obj).getClass());
     }
 
+    /**
+     * 获取类名
+     */
     public static String getClassName(Class obj) {
         Assert.notNull(obj, "obj must not be null");
         return obj.getSimpleName();
     }
 
     /**
-     * 获取类路径
+     * @see #getClass(Class)
      */
     public static String getClass(Object obj) {
         Assert.notNull(obj, "obj must not be null");
@@ -62,6 +65,9 @@ public class ClassUtil {
         }
     }
 
+    /**
+     * 获取类路径
+     */
     public static String getClass(Class obj) {
         Assert.notNull(obj, "obj must not be null");
         return obj.getName();
@@ -89,7 +95,6 @@ public class ClassUtil {
         List<Class<?>> returnClassList = getClasses(packageName);
         return returnClassList;
     }
-
 
     /**
      * 取得某个接口下所有实现这个接口的类(默认是扫描接口类所在包以及子包)

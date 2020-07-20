@@ -17,8 +17,7 @@ import java.util.Map;
 /**
  * 角色与菜单对应关系
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @Service
 public class SysRoleMenuServiceImpl extends BaseAopService<SysRoleMenuServiceImpl, SysRoleMenuDao, SysRoleMenuEntity>

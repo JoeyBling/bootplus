@@ -1,6 +1,6 @@
 package io.github.service;
 
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.entity.SysRoleMenuEntity;
 
 import java.util.List;
@@ -8,8 +8,7 @@ import java.util.List;
 /**
  * 角色与菜单对应关系
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public interface SysRoleMenuService extends IService<SysRoleMenuEntity> {
 

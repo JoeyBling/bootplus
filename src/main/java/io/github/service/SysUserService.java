@@ -1,7 +1,7 @@
 package io.github.service;
 
-import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.entity.SysUserEntity;
 
 import java.util.List;
@@ -9,8 +9,7 @@ import java.util.List;
 /**
  * 系统用户
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public interface SysUserService extends IService<SysUserEntity> {
 
@@ -54,13 +53,6 @@ public interface SysUserService extends IService<SysUserEntity> {
      * @return int
      */
     int updatePassword(Long userId, String password, String newPassword);
-
-    /**
-     * 保存用户
-     *
-     * @param user SysUserEntity
-     */
-    void save(SysUserEntity user);
 
     /**
      * 修改用户

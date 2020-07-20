@@ -8,8 +8,17 @@ import io.github.common.enums.IEnum;
  * @author Created by 思伟 on 2020/4/1
  */
 public enum SysMenuTypeEnum implements IEnum {
+    /**
+     * 目录
+     */
     CATALOG("0", "目录"),
+    /**
+     * 菜单
+     */
     MENU("1", "菜单"),
+    /**
+     * 按钮
+     */
     BUTTON("2", "按钮");
 
     private String key;

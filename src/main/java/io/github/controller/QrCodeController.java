@@ -11,15 +11,14 @@ import io.github.config.aop.annotation.MyController;
 import io.github.config.aop.annotation.MyLog;
 import io.github.frame.controller.AbstractController;
 import io.github.util.QrCodeUtil;
-import io.github.util.R;
 import io.github.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -85,18 +84,16 @@ public class QrCodeController extends AbstractController<QrCodeController> {
 
     /**
      * 测试接口
-     * ResponseEntity的优先级高于@ResponseBody。
-     * 在不是ResponseEntity的情况下才去检查有没有@ResponseBody注解。
-     * 如果响应类型是ResponseEntity可以不写@ResponseBody注解，写了也没有关系
      */
     @RequestMapping(value = "/test")
-    protected ResponseEntity<Map<?, ?>> test()
+    @ResponseBody
+    protected Map<?, ?> test()
             throws InterruptedException {
         Map<String, CharSequence> map = Maps.newConcurrentMap();
         map.put("test", "1");
         map.put("random", StringUtils.join(T_VERSION, "_", secureRandom.nextInt(2 << 18)));
-//        Thread.sleep(3000L);
-        return ResponseEntity.ok(map);
+        Thread.sleep(3000L);
+        return map;
     }
 
 }

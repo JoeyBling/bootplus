@@ -1,14 +1,13 @@
 package io.github.service;
 
-import com.baomidou.mybatisplus.plugins.Page;
-import com.baomidou.mybatisplus.service.IService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.entity.SysUserLoginLogEntity;
 
 /**
  * 用户登录日志
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public interface SysUserLoginLogService extends IService<SysUserLoginLogEntity> {
 
@@ -23,7 +22,7 @@ public interface SysUserLoginLogService extends IService<SysUserLoginLogEntity> 
      * @param order   是否为升序
      * @return Page<SysUserLoginLogEntity>
      */
-    Page<SysUserLoginLogEntity> getSelf(Integer offset, Integer limit, Long adminId, String loginIp, String sort,
+    Page<SysUserLoginLogEntity> getPage(Integer offset, Integer limit, Long adminId, String loginIp, String sort,
                                         Boolean order);
 
 }

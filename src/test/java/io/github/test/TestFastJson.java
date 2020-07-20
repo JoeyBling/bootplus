@@ -3,12 +3,10 @@ package io.github.test;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.util.TypeUtils;
-import lombok.Data;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 
 import java.io.Serializable;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 /**
@@ -24,55 +22,43 @@ public class TestFastJson {
         // 获取父类注解
         Class<?> bClass = B.class;
         for (Method method : bClass.getDeclaredMethods()) {
-//        for (Method method : bClass.getMethods()) {
-            System.out.println(method.getName());
             // FastJson内置获取注解无法获取
-            Class<? extends Annotation> annotationClass = JSONField.class;
-            Annotation annotation = TypeUtils.getAnnotation(method, annotationClass);
+            JSONField annotation = TypeUtils.getAnnotation(method, JSONField.class);
             // false
             System.out.println(annotation != null);
-            annotation = AnnotationUtils.getAnnotation(method, annotationClass);
+            annotation = AnnotationUtils.getAnnotation(method, JSONField.class);
             // false
             System.out.println(annotation != null);
-            annotation = AnnotationUtils.findAnnotation(method, annotationClass);
+            annotation = AnnotationUtils.findAnnotation(method, JSONField.class);
             // True
             System.out.println(annotation != null);
-            annotation = AnnotatedElementUtils.findMergedAnnotation(method, annotationClass);
+            annotation = AnnotatedElementUtils.findMergedAnnotation(method, JSONField.class);
             // True
             System.out.println(annotation != null);
         }
+
     }
 
-    interface Entity<T extends CharSequence> extends Serializable {
-        T getModule(T t);
+    interface Entity extends Serializable {
+        String getModule();
     }
 
-    static abstract class A<T extends CharSequence> implements Entity<T> {
+    static class A implements Entity {
 
         @Override
         @JSONField(serialize = false)
-        public T getModule(T t) {
-            return t;
+        public String getModule() {
+            return "AAA";
         }
-
-        @JSONField(serialize = false)
-        public String getTest() {
-            return "";
-        }
-
     }
 
-    static class B extends A<String> {
+    static class B extends A {
 
         @Override
-        public String getModule(String str) {
+        public String getModule() {
             return this.getClass().getSimpleName();
         }
 
-        @Override
-        public String getTest() {
-            return "123";
-        }
     }
 
 

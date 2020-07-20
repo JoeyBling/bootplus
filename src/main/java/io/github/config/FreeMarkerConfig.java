@@ -12,8 +12,7 @@ import javax.annotation.Resource;
 /**
  * FreeMaker配置
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @org.springframework.context.annotation.Configuration
 @Slf4j
@@ -30,17 +29,15 @@ public class FreeMarkerConfig {
      * 添加自定义标签
      *
      * @throws TemplateModelException
+     * @see Configuration#setSetting(java.lang.String, java.lang.String)
      */
     @PostConstruct
     public void setSharedVariable() throws TemplateModelException {
 //        configuration.setTagSyntax(freemarker.template.Configuration.AUTO_DETECT_TAG_SYNTAX);
         configuration.setSharedVariable("formatTime", new FormatTimeFtlHelper());
         configuration.setSharedVariable("shiro", new ShiroTags());
+        log.debug("FreeMarkerConfig添加自定义标签完成...");
     }
 
-    @PostConstruct
-    public void freeMarkerConfigurer() {
-        log.debug("FreeMarkerConfig.freeMarkerConfigurer()...");
-    }
 
 }

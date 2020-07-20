@@ -1,14 +1,14 @@
 package io.github.service.impl;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.config.aop.service.BaseAopService;
 import io.github.dao.SysUserDao;
 import io.github.entity.SysUserEntity;
 import io.github.service.SysUserRoleService;
 import io.github.service.SysUserService;
 import io.github.util.DateUtils;
+import io.github.util.MethodNameUtil;
 import io.github.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.crypto.hash.Sha256Hash;
@@ -23,8 +23,7 @@ import java.util.Map;
 /**
  * 系统用户
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @Service
 @Slf4j
@@ -53,9 +52,8 @@ public class SysUserServiceImpl extends BaseAopService<SysUserServiceImpl, SysUs
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(SysUserEntity user) {
+    public boolean save(SysUserEntity user) {
         // TODO 校验用户名不能重复
-//        log.debug("是否是代理调用:{}", AopUtils.isAopProxy(self));
         user.setCreateTime(DateUtils.getCurrentUnixTime());
         // sha256加密
         if (StringUtils.isNotEmpty(user.getPassword())) {
@@ -64,6 +62,7 @@ public class SysUserServiceImpl extends BaseAopService<SysUserServiceImpl, SysUs
         baseMapper.insert(user);
         // 保存用户与角色关系
         sysUserRoleService.saveOrUpdate(user.getUserId(), user.getRoleIdList());
+        return true;
     }
 
     @Override
@@ -96,10 +95,10 @@ public class SysUserServiceImpl extends BaseAopService<SysUserServiceImpl, SysUs
 
     @Override
     public Page<SysUserEntity> queryListByPage(Integer offset, Integer limit, String email, String userName,
-                                               String sort, Boolean order) {
-        Wrapper<SysUserEntity> wrapper = new EntityWrapper<SysUserEntity>();
-        if (StringUtils.isNoneBlank(sort) && null != order) {
-            wrapper.orderBy(sort, order);
+                                               String sort, Boolean isAsc) {
+        QueryWrapper<SysUserEntity> wrapper = new QueryWrapper<SysUserEntity>();
+        if (StringUtils.isNoneBlank(sort) && null != isAsc) {
+            wrapper.orderBy(true, isAsc, MethodNameUtil.camel2underStr(sort));
         }
         if (StringUtils.isNoneBlank(userName)) {
             wrapper.like("username", userName);
@@ -108,7 +107,7 @@ public class SysUserServiceImpl extends BaseAopService<SysUserServiceImpl, SysUs
             wrapper.like("email", email);
         }
         Page<SysUserEntity> page = new Page<SysUserEntity>(offset, limit);
-        return this.selectPage(page, wrapper);
+        return this.page(page, wrapper);
     }
 
     @Override

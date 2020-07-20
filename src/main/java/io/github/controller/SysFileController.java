@@ -4,9 +4,8 @@ import io.github.config.MyWebAppConfigurer;
 import io.github.frame.controller.AbstractController;
 import io.github.util.DateUtils;
 import io.github.util.R;
-import io.github.util.exception.RRException;
 import io.github.util.StringUtils;
-import io.github.util.config.Constant;
+import io.github.util.exception.RRException;
 import io.github.util.file.FileUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
@@ -29,11 +28,12 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * 文件上传下载控制器
  *
- * @author Joey
+ * @author Created by 思伟 on 2020/6/6
  * @Email 2434387555@qq.com
  */
 @Controller
@@ -51,7 +51,7 @@ public class SysFileController extends AbstractController {
     @ResponseBody
     @RequestMapping(value = "/upload", method = RequestMethod.POST)
     public R upload(Integer uploadType, HttpServletRequest request) throws Exception {
-        MultipartHttpServletRequest multipartRequest = null;
+        MultipartHttpServletRequest multipartRequest;
         // 判断request是否有文件上传
         if (ServletFileUpload.isMultipartContent(request)) {
             multipartRequest = (MultipartHttpServletRequest) request;
@@ -82,7 +82,8 @@ public class SysFileController extends AbstractController {
             fileContextPath = FileUtils.generateFileUrl(
                     MyWebAppConfigurer.FILE_UPLOAD_PATH_EXT, trueFileName);
             // 上传文件保存的路径
-            String uploadPath = FileUtils.generateFileUrl(constant.getUploadPath(), trueFileName);
+            String uploadPath = FileUtils.generateFileUrl(
+                    applicationProperties.getFileConfig().getUploadPath(), trueFileName);
             logger.debug("存放文件的路径:{}", uploadPath);
             // 上传文件后的保存路径
             File fileUpload = FileUtils.getFile(uploadPath);
@@ -129,16 +130,21 @@ public class SysFileController extends AbstractController {
      */
     private String getTrueFileName(String fileName, Integer uploadType) {
         StringBuffer bf = new StringBuffer();
+
         if (null == uploadType) {
             bf.append("other" + File.separator);
-        } else if (uploadType == Constant.UploadType.adminAvatar.getValue()) {
-            bf.append("adminAvatar" + File.separator);
-        } else if (uploadType == Constant.UploadType.other.getValue()) {
-            bf.append("other" + File.separator);
         } else {
+            for (Map.Entry<Integer, String> entry : applicationProperties.getFileConfig().getUploadTypeMapping().entrySet()) {
+                Integer type = entry.getKey();
+                String typeName = entry.getValue();
+                if (uploadType.equals(type)) {
+                    bf.append(typeName.concat(File.separator));
+                    break;
+                }
+            }
         }
-        return bf.append(DateUtils.format(new Date(), Constant.uploadSavePathFormat) + File.separator
-                + System.currentTimeMillis() + fileName).toString();
+        return bf.append(DateUtils.format(new Date(), applicationProperties.getFileConfig().getUploadPathDataFormat())
+                + File.separator + System.currentTimeMillis() + fileName).toString();
     }
 
     /**

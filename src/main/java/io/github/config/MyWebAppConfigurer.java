@@ -5,11 +5,9 @@ import io.github.config.interceptor.LogInterceptor;
 import io.github.util.file.FileUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,6 +16,8 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.http.server.ServletServerHttpResponse;
+import org.springframework.util.unit.DataSize;
+import org.springframework.util.unit.DataUnit;
 import org.springframework.web.servlet.config.annotation.*;
 
 import javax.servlet.MultipartConfigElement;
@@ -29,15 +29,12 @@ import java.util.Optional;
 
 /**
  * 自定义配置
- * // 2.0 WebMvcConfigurationSupport
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @Configuration
 @Slf4j
-@PropertySource({"classpath:/config.properties"})
-public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
+public class MyWebAppConfigurer implements WebMvcConfigurer {
 
     @MyAutowired
     private ApplicationProperties applicationProperties;
@@ -63,7 +60,6 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
      */
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        super.configureMessageConverters(converters);
         // 不建议使用添加，而是进行修改
 //        converters.add(defaultStringHttpMessageConverter());
     }
@@ -75,7 +71,6 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
      */
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-        super.extendMessageConverters(converters);
         for (int i = 0; null != converters && i < converters.size(); i++) {
             HttpMessageConverter<?> httpMessageConverter = converters.get(i);
             if (httpMessageConverter.getClass().equals(StringHttpMessageConverter.class)) {
@@ -91,7 +86,6 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
      */
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        super.configureContentNegotiation(configurer);
         // 属性ignoreAcceptHeader默认为fasle，表示accept-header匹配，defaultContentType开启默认匹配
         // favorPathExtension表示支持后缀匹配
 //        configurer.favorPathExtension(false);
@@ -103,7 +97,7 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // For windows style path, we replace '\' to '/'.
-        uploadPath = FileUtils.generateFileUrl(uploadPath);
+        String uploadPath = FileUtils.generateFileUrl(applicationProperties.getFileConfig().getUploadPath());
         // 必须加上文件路径前缀
         if (!StringUtils.startsWithIgnoreCase(uploadPath, FileUtils.FILE_PREFIX)) {
             // 防止路径符号重复且映射路径必须以/结束
@@ -112,10 +106,9 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
         // ResourceUtils.CLASSPATH_URL_PREFIX
         registry.addResourceHandler("/statics/**").addResourceLocations("classpath:/statics/");
         registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
-        // 媒体资源
+        // 媒体上传资源
         registry.setOrder(3).addResourceHandler(FILE_UPLOAD_PATH + "/**").addResourceLocations("classpath:/upload/", uploadPath);
-        log.info("自定义资源映射成功---{}", this.toString());
-        super.addResourceHandlers(registry);
+        log.info("自定义资源映射成功---{}", applicationProperties.getFileConfig().toString());
     }
 
     @Override
@@ -128,7 +121,6 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
         if (log.isDebugEnabled()) {
             log.debug("自定义拦截器初始化完成...");
         }
-        super.addInterceptors(registry);
     }
 
     /**
@@ -143,9 +135,9 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
     public MultipartConfigElement multipartConfigElement() {
         MultipartConfigFactory factory = new MultipartConfigFactory();
         // KB,MB设置文件大小限制 ,超了，页面会抛出异常信息，这时候就需要进行异常信息的处理了;
-        factory.setMaxFileSize("10MB");
+        factory.setMaxFileSize(DataSize.of(10, DataUnit.MEGABYTES));
         // 设置总上传数据总大小
-        factory.setMaxRequestSize("20MB");
+        factory.setMaxRequestSize(DataSize.of(20, DataUnit.MEGABYTES));
         // 临时目录属性
         // Sets the directory location where files will be stored.
         // springboot打jar包通过java -jar启动的项目
@@ -161,7 +153,6 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        super.addViewControllers(registry);
         // 默认首页
 //        registry.addViewController("/").setViewName("forward:/admin");
         Optional<ApplicationProperties> applicationProperties = Optional.ofNullable(this.applicationProperties);
@@ -192,18 +183,5 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
      * 上传文件映射访问路径（以/开头，结束无/）
      */
     public static final String FILE_UPLOAD_PATH = "/".concat(FILE_UPLOAD_PATH_EXT);
-
-    /**
-     * 文件上传保存路径
-     */
-    @Value("${file.UploadPath:#{T(io.github.util.file.FileUtils).FILE_PREFIX + myWebAppConfigurer.FILE_UPLOAD_PATH}}")
-    public String uploadPath;
-
-    @Override
-    public String toString() {
-        return "MyWebAppConfigurer{" +
-                "uploadPath='" + uploadPath + '\'' +
-                '}';
-    }
 
 }

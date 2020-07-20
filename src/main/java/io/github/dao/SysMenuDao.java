@@ -7,8 +7,7 @@ import java.util.List;
 /**
  * 菜单管理
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public interface SysMenuDao extends BaseDao<SysMenuEntity> {
 

@@ -1,23 +1,23 @@
 package io.github.entity;
 
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableId;
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.enums.IdType;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.List;
 
-/***
+/**
  * 菜单管理
  *
- * @author Joey
- * @Email 2434387555@qq.com
- *
+ * @author Created by 思伟 on 2020/6/6
  */
 @Data
+@Accessors(chain = true)
 @TableName("sys_menu")
 public class SysMenuEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -87,5 +87,37 @@ public class SysMenuEntity implements Serializable {
     @TableField(exist = false)
     @Transient
     private List<?> list;
+
+    /**
+     * 菜单类型
+     *
+     * @author Created by 思伟 on 2020/6/6
+     * @see io.github.entity.enums.SysMenuTypeEnum
+     */
+    @Deprecated
+    public enum MenuType {
+        /**
+         * 目录
+         */
+        CATALOG(0),
+        /**
+         * 菜单
+         */
+        MENU(1),
+        /**
+         * 按钮
+         */
+        BUTTON(2);
+
+        private int value;
+
+        private MenuType(int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
 
 }

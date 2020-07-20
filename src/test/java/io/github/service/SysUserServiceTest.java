@@ -1,6 +1,6 @@
 package io.github.service;
 
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.base.BaseAppTest;
 import io.github.entity.SysUserEntity;
 import org.junit.Test;
@@ -28,7 +28,7 @@ public class SysUserServiceTest extends BaseAppTest {
      */
     @Test
     public void selectList() {
-        List<SysUserEntity> selectList = sysUserService.selectList(null);
+        List<SysUserEntity> selectList = sysUserService.list();
         for (SysUserEntity sysUserEntity : selectList) {
             System.out.println(sysUserEntity);
         }

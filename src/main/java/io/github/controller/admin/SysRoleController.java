@@ -1,7 +1,7 @@
 package io.github.controller.admin;
 
 import com.alibaba.fastjson.JSONArray;
-import com.baomidou.mybatisplus.plugins.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.frame.controller.AbstractController;
 import io.github.entity.SysRoleEntity;
 import io.github.service.SysRoleMenuService;
@@ -24,8 +24,7 @@ import java.util.*;
 /**
  * 角色管理
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @RestController
 @RequestMapping("/admin/sys/role")
@@ -70,7 +69,7 @@ public class SysRoleController extends AbstractController {
     @RequestMapping("/info/{roleId}")
     @RequiresPermissions("sys:role:info")
     public R info(@PathVariable("roleId") Long roleId) {
-        SysRoleEntity role = sysRoleService.selectById(roleId);
+        SysRoleEntity role = sysRoleService.getById(roleId);
 
         // 查询角色对应的菜单
         List<Long> menuIdList = sysRoleMenuService.queryMenuIdList(roleId);

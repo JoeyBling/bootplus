@@ -33,6 +33,7 @@ public class StartupRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        // Test
         log.info(">>服务启动完成，执行加载数据等操作....<<");
         taskExecutor.execute(() -> {
             log.info("当前线程名称：{}", Thread.currentThread().getName());
@@ -43,7 +44,6 @@ public class StartupRunner implements CommandLineRunner {
                         applicationProperties.getUrl(), applicationProperties.getDescription());
             }
         });
-        // Test
     }
 
 }

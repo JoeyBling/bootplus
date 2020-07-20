@@ -1,27 +1,29 @@
 package io.github.config;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.code.kaptcha.Producer;
+import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.google.code.kaptcha.util.Config;
 import io.github.config.aop.service.MyInjectBeanSelfProcessor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.aop.interceptor.AsyncExecutionAspectSupport;
-import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
-import org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
+import org.springframework.boot.web.error.ErrorAttributeOptions;
+import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.TaskExecutor;
-import org.springframework.scheduling.annotation.AsyncConfigurer;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
+import org.springframework.web.context.request.WebRequest;
 
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
+import java.util.Map;
+import java.util.Properties;
 import java.util.TimeZone;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 
 /**
@@ -30,8 +32,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * @author Created by 思伟 on 2019/12/16
  */
 @Configuration
-@EnableAsync(proxyTargetClass = true)
-public class MyBootConfig implements AsyncConfigurer {
+public class MyBootConfig {
 
     /**
      * Spring线程池
@@ -99,44 +100,50 @@ public class MyBootConfig implements AsyncConfigurer {
     }
 
     /**
-     * 自定义线程池，若不重写会使用默认的线程池
+     * 验证码生成器
      */
-    @Override
-    public Executor getAsyncExecutor() {
-        return null;
-//        return taskExecutor(null);
+    @Bean
+    @ConditionalOnMissingBean
+    public Producer kaptcha() {
+        DefaultKaptcha kaptcha = new DefaultKaptcha();
+        Properties properties = new Properties();
+        // 是否有边框
+        properties.put("kaptcha.border", "no");
+        // 字体颜色
+        properties.put("kaptcha.textproducer.font.color", "black");
+        // 文字间隔
+        properties.put("kaptcha.textproducer.char.space", "4");
+        // 验证码文本字符长度默认为5
+        properties.put("kaptcha.textproducer.char.length", "4");
+        Config config = new Config(properties);
+        kaptcha.setConfig(config);
+        return kaptcha;
     }
 
     /**
-     * 异常处理器
-     */
-    @Override
-    public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return new MyAsyncExceptionHandler();
-    }
-
-    /**
-     * 处理异步方法引发的未捕获异常的策略
-     * A default {@link AsyncUncaughtExceptionHandler} that simply logs the exception.
-     * 被@Async 的方法在独立线程调用，不能被@ControllerAdvice全局异常处理器捕获，所以需要自己设置异常处理
+     * 自定义ErrorAttributes
      *
-     * @see org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler
+     * @see org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration#errorAttributes()
      */
-    @Slf4j
-    /* non-public */ static class MyAsyncExceptionHandler extends SimpleAsyncUncaughtExceptionHandler {
+    @Component
+    public class MyErrorAttributes extends DefaultErrorAttributes {
+
+        private ApplicationProperties appConfig;
+
+        public MyErrorAttributes(ApplicationProperties applicationProperties) {
+            Assert.notNull(applicationProperties, "ApplicationProperties must not be null");
+            this.appConfig = applicationProperties;
+        }
 
         @Override
-        public void handleUncaughtException(Throwable ex, Method method, Object... objects) {
-            if (log.isErrorEnabled()) {
-                log.error(String.format("Unexpected error occurred invoking async " +
-                        "method '%s'.", method), ex);
-                if (ObjectUtil.isNotEmpty(objects)) {
-                    for (Object param : objects) {
-                        log.error("Parameter value - " + param);
-                    }
-                }
-            }
+        public Map<String, Object> getErrorAttributes(WebRequest webRequest, ErrorAttributeOptions options) {
+            final Map<String, Object> errorAttributes = super.getErrorAttributes(webRequest, options);
+//            errorAttributes.put("version", appConfig.getVersion());
+            errorAttributes.put("author", "試毅-思伟");
+            errorAttributes.put("blog", appConfig.getBlog());
+            return errorAttributes;
         }
+
     }
 
 }

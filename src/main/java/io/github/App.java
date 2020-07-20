@@ -3,9 +3,8 @@ package io.github;
 import org.springframework.boot.Banner.Mode;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
@@ -18,8 +17,7 @@ import java.util.Collections;
 /**
  * SpringBoot
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 // 开启AspectJ 自动代理模式
 //@EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
@@ -28,30 +26,15 @@ import java.util.Collections;
 @ServletComponentScan
 @SpringBootApplication(scanBasePackages = App.SCAN_BASE_PACKAGES)
 public class App extends SpringBootServletInitializer {
-
     /**
      * 扫描包名
      */
     public static final String SCAN_BASE_PACKAGES = "io.github";
 
-    /**
-     * TODO cmd控制台运行乱码待解决
-     * mvn clean spring-boot:run -Drun.arguments=--Dfile.encoding=UTF-8
-     * mvn clean spring-boot:run -Dspring-boot.run.jvmArguments=--Dfile.encoding=UTF-8
-     * mvn clean spring-boot:run -Dspring-boot.run.arguments=--Dfile.encoding=UTF-8
-     */
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(App.class);
         app.setBannerMode(Mode.CONSOLE);
         app.run(args);
-    }
-
-    /**
-     * 部署Tomcat---mvn clean package(如果使用Tomcat将packaging改为war)
-     */
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(App.class);
     }
 
     @Override

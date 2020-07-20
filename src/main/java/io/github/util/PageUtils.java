@@ -1,5 +1,10 @@
 package io.github.util;
 
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -9,24 +14,32 @@ import java.util.List;
  * @author Joey
  * @Email 2434387555@qq.com
  */
+@Data
+@Accessors(chain = true)
+@NoArgsConstructor
 public class PageUtils implements Serializable {
     private static final long serialVersionUID = 1L;
+
     /**
      * 总记录数
      */
-    private int totalCount;
+    private long totalCount;
+
     /**
      * 每页记录数
      */
-    private int pageSize;
-    /**
-     * 总页数
-     */
-    private int totalPage;
+    private long pageSize;
+
     /**
      * 当前页数
      */
-    private int currPage;
+    private long currPage;
+
+    /**
+     * 总页数
+     */
+    private long totalPage;
+
     /**
      * 列表数据
      */
@@ -40,52 +53,25 @@ public class PageUtils implements Serializable {
      * @param pageSize   每页记录数
      * @param currPage   当前页数
      */
-    public PageUtils(List<?> list, int totalCount, int pageSize, int currPage) {
+    @Builder
+    public PageUtils(List<?> list, long totalCount, long pageSize, long currPage) {
         this.list = list;
         this.totalCount = totalCount;
         this.pageSize = pageSize;
         this.currPage = currPage;
-        this.totalPage = (int) Math.ceil((double) totalCount / pageSize);
+//        this.totalPage = (long) Math.ceil(totalCount / pageSize);
+        this.totalPage = getPages();
     }
 
-    public int getTotalCount() {
-        return totalCount;
-    }
-
-    public void setTotalCount(int totalCount) {
-        this.totalCount = totalCount;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public int getTotalPage() {
-        return totalPage;
-    }
-
-    public void setTotalPage(int totalPage) {
-        this.totalPage = totalPage;
-    }
-
-    public int getCurrPage() {
-        return currPage;
-    }
-
-    public void setCurrPage(int currPage) {
-        this.currPage = currPage;
-    }
-
-    public List<?> getList() {
-        return list;
-    }
-
-    public void setList(List<?> list) {
-        this.list = list;
+    long getPages() {
+        if (getPageSize() == 0) {
+            return 0L;
+        }
+        long pages = getTotalCount() / getPageSize();
+        if (getTotalCount() % getPageSize() != 0) {
+            pages++;
+        }
+        return pages;
     }
 
 }

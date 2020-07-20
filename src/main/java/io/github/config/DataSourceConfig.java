@@ -10,7 +10,7 @@ import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
 import com.alibaba.druid.util.DruidPasswordCallback;
 import com.alibaba.druid.wall.WallConfig;
 import com.alibaba.druid.wall.WallFilter;
-import io.github.util.config.MyDruidPasswordCallback;
+import io.github.util.db.MyDruidPasswordCallback;
 import org.aopalliance.aop.Advice;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,8 +33,7 @@ import java.util.Map;
 /**
  * Druid数据源配置
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @Configuration
 @EnableTransactionManagement(proxyTargetClass = true)
@@ -52,39 +51,40 @@ public class DataSourceConfig {
     private String password;
 
     @Value("${spring.datasource.driverClassName:}")
+    @Deprecated
     private String driverClassName;
 
-    @Value("${spring.datasource.initialSize}")
+    @Value("${spring.datasource.initial-size}")
     private int initialSize;
 
     @Value("${spring.datasource.minIdle}")
     private int minIdle;
 
-    @Value("${spring.datasource.maxActive}")
+    @Value("${spring.datasource.max-active}")
     private int maxActive;
 
-    @Value("${spring.datasource.maxWait}")
+    @Value("${spring.datasource.max-wait}")
     private int maxWait;
 
-    @Value("${spring.datasource.timeBetweenEvictionRunsMillis}")
+    @Value("${spring.datasource.time-between-eviction-runs-millis}")
     private int timeBetweenEvictionRunsMillis;
 
     @Value("${spring.datasource.minEvictableIdleTimeMillis}")
     private int minEvictableIdleTimeMillis;
 
-    @Value("${spring.datasource.validationQuery}")
+    @Value("${spring.datasource.validation-query}")
     private String validationQuery;
 
-    @Value("${spring.datasource.testWhileIdle}")
+    @Value("${spring.datasource.test-while-idle}")
     private boolean testWhileIdle;
 
-    @Value("${spring.datasource.testOnBorrow}")
+    @Value("${spring.datasource.test-on-borrow}")
     private boolean testOnBorrow;
 
-    @Value("${spring.datasource.testOnReturn}")
+    @Value("${spring.datasource.test-on-return}")
     private boolean testOnReturn;
 
-    @Value("${spring.datasource.poolPreparedStatements}")
+    @Value("${spring.datasource.pool-prepared-statements}")
     private boolean poolPreparedStatements;
 
     @Value("${spring.datasource.maxPoolPreparedStatementPerConnectionSize}")
@@ -93,7 +93,7 @@ public class DataSourceConfig {
     @Value("${spring.datasource.filters}")
     private String filters;
 
-    @Value("${spring.datasource.connectionProperties}")
+    @Value("${spring.datasource.connection-properties}")
     private String connectionProperties;
 
     /**

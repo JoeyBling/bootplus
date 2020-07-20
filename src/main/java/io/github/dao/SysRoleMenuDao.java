@@ -8,8 +8,7 @@ import java.util.Map;
 /**
  * 角色与菜单对应关系
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public interface SysRoleMenuDao extends BaseDao<SysRoleMenuEntity> {
 
@@ -34,4 +33,5 @@ public interface SysRoleMenuDao extends BaseDao<SysRoleMenuEntity> {
      * @param map Map
      */
     void save(Map<String, Object> map);
+
 }

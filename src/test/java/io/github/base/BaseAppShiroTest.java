@@ -37,7 +37,7 @@ public abstract class BaseAppShiroTest extends BaseAppMvcTest {
         SecurityUtils.setSecurityManager(securityManager);
 
         // Shiro认证登陆
-        login(constant.defaultAdminName, new Sha256Hash(constant.defaultAdminPwd).toHex());
+        login(getJunitEnv().getAdminName(), new Sha256Hash(getJunitEnv().getAdminPwd()).toHex());
         log.info("Shiro认证登陆成功");
     }
 

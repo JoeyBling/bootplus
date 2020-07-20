@@ -32,6 +32,7 @@ import java.nio.file.Path;
  *
  * @author Created by 思伟 on 2020/3/4
  */
+@SuppressWarnings("AlibabaAvoidDoubleOrFloatEqualCompare")
 public class Img implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -291,6 +292,7 @@ public class Img implements Serializable {
      * @param fixedColor 比例不对时补充的颜色，不补充为<code>null</code>
      * @return this
      */
+    @SuppressWarnings("AlibabaAvoidDoubleOrFloatEqualCompare")
     public Img scale(int width, int height, Color fixedColor) {
         Image srcImage = getValidSrcImg();
         int srcHeight = srcImage.getHeight(null);

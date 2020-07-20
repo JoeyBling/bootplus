@@ -5,8 +5,7 @@ import io.github.entity.SysRoleEntity;
 /**
  * 角色管理
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public interface SysRoleDao extends BaseDao<SysRoleEntity> {
 

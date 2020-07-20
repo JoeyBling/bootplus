@@ -2,9 +2,9 @@ package io.github.frame.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import io.github.config.ApplicationProperties;
 import io.github.config.aop.service.BaseAopContext;
 import io.github.entity.SysUserEntity;
-import io.github.util.config.Constant;
 import io.github.util.spring.ShiroUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodIntrospector;
@@ -21,8 +21,7 @@ import java.util.Map;
  * Controller公共组件
  * 要想继承实现@RequestMapping和@ResponseBody 父类的访问修饰符必须是public，不然获取到的方法和实际的方法不一致
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  * @see org.springframework.web.servlet.handler.AbstractHandlerMethodMapping#detectHandlerMethods(Object)
  * @see org.springframework.core.MethodIntrospector#selectMethods(Class, MethodIntrospector.MetadataLookup)
  * @see org.springframework.util.ClassUtils#getMostSpecificMethod(Method, Class)
@@ -50,10 +49,10 @@ public abstract class AbstractController<S> extends BaseAopContext<S> {
     protected String forward = "forward:";
 
     /**
-     * 常量帮助类
+     * 程序自定义配置
      */
     @Resource
-    protected Constant constant;
+    protected ApplicationProperties applicationProperties;
 
     /**
      * 重定向
@@ -137,7 +136,27 @@ public abstract class AbstractController<S> extends BaseAopContext<S> {
         return false;
     }
 
-//    @RequestMapping("/testString")
+    /**
+     * 获取当前页
+     */
+    protected int getOffset(Integer offset) {
+        if (null == offset || offset.intValue() < 0) {
+            return 0;
+        }
+        return offset;
+    }
+
+    /**
+     * 获取页数
+     */
+    protected int getLimit(Integer limit) {
+        if (null == limit || limit.intValue() < 0) {
+            return 20;
+        }
+        return limit;
+    }
+
+    //    @RequestMapping("/testString")
     @ResponseBody
     @Deprecated
     public String testString(Model model) {

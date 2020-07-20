@@ -1,6 +1,7 @@
 package io.github.config.interceptor;
 
 import io.github.frame.log.LogUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -6,15 +6,14 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.1.RELEASE</version>
-        <!--        <version>2.2.7.RELEASE</version>-->
+        <version>2.3.1.RELEASE</version>
     </parent>
 
-    <!--个人博客:https://zhousiwei.gitee.io/ -->
+    <!-- 个人博客:https://zhousiwei.gitee.io/ -->
     <groupId>io.github.joeybling</groupId>
-    <artifactId>bootplus1.5</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <!--<version>1.0.0.RELEASE</version>-->
+    <artifactId>bootplus</artifactId>
+    <version>2.0.0-SNAPSHOT</version>
+    <!--<version>2.0.0.RELEASE</version>-->
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
@@ -22,23 +21,24 @@
     <description>基于SpringBoot + Shiro + MyBatisPlus的权限管理框架</description>
 
     <properties>
+        <!-- 资源过滤这2个参数总是报错，只能重复声明一下 -->
+        <project.url>${project.url}</project.url>
+        <project.description>${project.description}</project.description>
+        <blog.url>https://zhousiwei.gitee.io/ibooks/</blog.url>
         <!-- 默认测试环境 -->
         <package.environment>dev</package.environment>
         <maven.build.timestamp.format>yyyyMMdd_HHmmss</maven.build.timestamp.format>
-        <lombok.version>1.18.10</lombok.version>
         <hessian.version>4.0.38</hessian.version>
         <kaptcha.version>0.0.9</kaptcha.version>
         <commons-lang.version>3.5</commons-lang.version>
         <commons-io.version>2.5</commons-io.version>
         <!-- 在1.4.2之前的Apache Shiro，使用默认的“记住我”配置时，cookie可能会受到填充攻击。 -->
         <shiro.version>1.4.2</shiro.version>
-        <!--        <mybatisplus-spring-boot-starter.version>3.3.0</mybatisplus-spring-boot-starter.version>-->
-        <mybatisplus-spring-boot-starter.version>2.1.9</mybatisplus-spring-boot-starter.version>
-        <!--<spring-log4j.version>1.3.5.RELEASE</spring-log4j.version>-->
+        <mybatisplus-spring-boot-starter.version>3.3.2</mybatisplus-spring-boot-starter.version>
         <guava.version>29.0-jre</guava.version>
         <jsoup.version>1.11.3</jsoup.version>
         <httpclient.version>4.5.6</httpclient.version>
-        <druid.version>1.1.22</druid.version>
+        <druid-spring-boot-starter.version>1.1.22</druid-spring-boot-starter.version>
 
         <spring.boot.dependencies.scope>provided</spring.boot.dependencies.scope>
         <!-- Docker 插件 -->
@@ -93,6 +93,18 @@
             </exclusions>
         </dependency>
 
+        <!-- https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.3-Release-Notes -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-properties-migrator</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!-- 在yml中读取pom.xml配置使用 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -100,103 +112,32 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- yaml解析类 -->
         <dependency>
-            <!-- https://github.com/JoeyBling/fastjson-spring-boot-starter/ -->
-            <groupId>io.gitee.zhousiwei</groupId>
-            <artifactId>fastjson-spring-boot-starter</artifactId>
-            <version>8.8.8.RELEASE</version>
-            <!--<version>10.10.10.RELEASE</version>-->
-            <exclusions>
-                <exclusion>
-                    <!-- FastJson 1.2.60 以下版本 有重大漏洞 -->
-                    <groupId>com.alibaba</groupId>
-                    <artifactId>fastjson</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
         </dependency>
-        <!-- FastJson -->
+
+        <!-- FastJson 1.2.60 以下版本 有重大漏洞 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.60</version>
         </dependency>
 
-        <!-- 应用监控Actuator -->
+        <!-- 建议从fastjson转jackson -->
+        <!-- https://github.com/JoeyBling/fastjson-spring-boot-starter/ -->
         <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <groupId>io.gitee.zhousiwei</groupId>
+            <artifactId>fastjson-spring-boot-starter</artifactId>
+            <version>10.10.10.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>fastjson</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>-->
-
-        <!-- https://xz.aliyun.com/t/2233 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-
-        <!-- Redis -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
-        <!--<dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-redis</artifactId>
-        </dependency>-->
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-freemarker</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-mail</artifactId>
-        </dependency>
-
-        <!-- 替换log4j为logback -->
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j</artifactId>
-            <version>${spring-log4j.version}</version>
-        </dependency>-->
-
-        <!-- yaml解析类 -->
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-        </dependency>
 
         <!-- hessian -->
         <dependency>
@@ -217,6 +158,11 @@
             <version>1</version>
         </dependency>
 
+        <!-- 应用监控Actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
         <!-- 解决报错：net.sf.ehcache.Ehcache.getStatistics()Lnet/sf/ehcache/statistics/StatisticsGateway -->
         <!-- https://mvnrepository.com/artifact/net.sf.ehcache.internal/ehcache-core -->
         <dependency>
@@ -330,6 +276,44 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
+        <!-- Redis -->
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>-->
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+        </dependency>
+
+        <!-- Druid数据库连接池 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid-spring-boot-starter.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
         </dependency>
@@ -339,6 +323,11 @@
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
             <version>3.2.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
 
         <!-- Testing Dependencies -->
@@ -424,7 +413,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
         </dependency>
 
     </dependencies>
@@ -458,18 +446,6 @@
                 <directory>${basedir}/src/main/java</directory>
                 <includes>
                     <include>**/*.xml</include>
-                </includes>
-            </resource>
-            <!-- 打包时将jsp文件拷贝到META-INF目录下(其实也可以直接放在`src/main/resources`目录下) -->
-            <resource>
-                <!-- 指定resources插件处理哪个目录下的资源文件 -->
-                <directory>${basedir}/src/main/webapp/</directory>
-                <!-- 千万不能加这个 -->
-                <!-- <targetPath>MATE-INF/resources</targetPath> -->
-                <!--注意此次必须要放在此目录下才能被访问到-->
-                <!-- <targetPath>META-INF/resources</targetPath> -->
-                <includes>
-                    <include>**/**</include>
                 </includes>
             </resource>
         </resources>
@@ -617,7 +593,7 @@
                 <version>2.2</version>
                 <configuration>
                     <!-- Tomcat启动 直接访问http://localhost:8080/ -->
-                    <url>http://localhost/manager/bootplus</url>
+                    <url>http://localhost/manager/${project.artifactId}</url>
                     <server>tomcat</server>
                     <username>joey</username>
                     <password>jay</password>
@@ -639,7 +615,7 @@
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
-                <version>1.18.10.0</version>
+                <version>${lombok.version}.0</version>
                 <!--<executions>
                     <execution>
                         <phase>generate-sources</phase>
