@@ -41,16 +41,19 @@
                 </div>
             </li>
             [#list menuList as list]
-                <li><a href="javascript:void(0);" aria-expanded="false"> <i
+            [#-- 当一级菜单只有一个时，默认`active`激活第一个菜单 --]
+                <li [#if menuList?size == 1 && list_index == 0]class="active"[/#if]>
+                    <a href="javascript:void(0);" aria-expanded="false"> <i
                                 class="${list.icon}"></i> <span class="nav-label">${list.name}</span> <span
                                 class="fa arrow"></span> </a>
                     <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
-
                         [#if list.list??]
                             [#list list.list as children]
-                                <li><a class="J_menuItem" href="${rc.contextPath}/${children.url}"
+                                <li>
+                                    <a class="J_menuItem" href="${rc.contextPath}/${children.url}"
                                        data-index="${children_index}"><i
-                                                class="${children.icon}"></i>${children.name}</a></li>
+                                                class="${children.icon}"></i>${children.name}</a>
+                                </li>
                             [/#list]
                         [/#if]
                     </ul>
@@ -67,7 +70,6 @@
             <div class="navbar-header"><a class="navbar-minimalize minimalize-styl-2 btn btn-primary "
                                           href="javascript:void(0);"><i
                             class="fa fa-bars"></i> </a>
-
                 <div role="search" class="navbar-form-custom">
                     <div class="form-group">
                         <a class="form-control" id="time"></a>

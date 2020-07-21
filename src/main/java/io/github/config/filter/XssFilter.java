@@ -75,7 +75,7 @@ public class XssFilter implements Filter {
         String requestUri = request.getRequestURI();
         // 返回除去host和工程名部分的路径
         String servletPath = request.getServletPath();
-        //返回全路径
+        // 返回全路径
         StringBuffer requestURL = request.getRequestURL();
         for (String pattern : excludes) {
             Pattern p = Pattern.compile("^" + pattern);
@@ -97,14 +97,15 @@ public class XssFilter implements Filter {
     public static final String DEFAULT_SEPARATOR_CHARS = ",";
 
     /**
-     * 参数名
+     * 需要忽略排除的链接参数名
      */
     public static final String PARAM_NAME_EXCLUSIONS = "exclusions";
 
     /**
-     * 初始化参数值
+     * 需要忽略排除的链接参数值
+     * http://localhost,http://127.0.0.1,
      */
-    public static final String PARAM_VALUE_EXCLUSIONS = "http://localhost,http://127.0.0.1,";
+    public static final String PARAM_VALUE_EXCLUSIONS = "";
 
     /**
      * 排除链接

@@ -98,9 +98,13 @@ function menu_delete(index, value) {
         // 按钮
     }, function () {
         $.ajax({
+            url: 'menu/delete',
+            contentType: "application/x-www-form-urlencoded",
             type: 'delete',
             dataType: 'json',
-            url: 'menu/delete?menuIds=' + JSON.stringify(menuIds),
+            data: {
+                menuIds: JSON.stringify(menuIds)
+            },
             success: function (result) {
                 if (result.code === 0) {
                     $('#table').bootstrapTable('hideRow', {
@@ -181,7 +185,11 @@ function del(tableName) {
         $.ajax({
             type: 'delete',
             dataType: 'json',
-            url: 'menu/delete?menuIds=' + JSON.stringify(menuIds),
+            contentType: "application/x-www-form-urlencoded",
+            data: {
+                menuIds: JSON.stringify(menuIds)
+            },
+            url: 'menu/delete',
             success: function (result) {
                 if (result.code === 0) {
                     layer.msg('删除成功!', {

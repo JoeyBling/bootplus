@@ -71,7 +71,6 @@ function modify() {
  * 保存信息,按钮点击事件
  */
 function save_info() {
-
     if (!validateForm($("#form"))) {
         return false;
     }
