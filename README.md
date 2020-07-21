@@ -19,13 +19,13 @@
 
 ------------------
 
-> 欢迎使用和Star支持，如使用过程中碰到问题，可以提出[Issue](https://github.com/JoeyBling/bootplus/issues)，我会尽力完善
+> 欢迎使用和Star支持，如使用过程中碰到问题，可以提出[Issue](https://github.com/JoeyBling/bootplus/issues) 我会尽力完善
 
 ## 介绍
 &emsp;&emsp;`bootplus`是基于`SpringBoot + Shiro + MyBatisPlus`的权限管理框架
 - 功能还很少，欢迎各位给我提意见和建议~
 
-> `SpringBoot`1.5.1集成例子请参考[bootplus_1.5.1](https://github.com/JoeyBling/bootplus/tree/1.5)（老项目只进行Bug修复，不再添加新功能实现）
+> `SpringBoot`1.5.1集成例子请参考[bootplus_1.5.1](https://github.com/JoeyBling/bootplus/tree/1.5) （老项目只进行Bug修复，不再添加新功能实现）
 
 ## 线上预览
 
