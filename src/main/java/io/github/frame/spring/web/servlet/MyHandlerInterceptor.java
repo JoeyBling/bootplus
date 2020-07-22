@@ -1,4 +1,4 @@
-package io.github.frame.spring;
+package io.github.frame.spring.web.servlet;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 

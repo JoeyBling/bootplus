@@ -1,5 +1,6 @@
-package io.github.frame.spring;
+package io.github.frame.spring.web.servlet.handler;
 
+import io.github.frame.spring.web.servlet.MyHandlerInterceptor;
 import io.github.util.ClassUtil;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 

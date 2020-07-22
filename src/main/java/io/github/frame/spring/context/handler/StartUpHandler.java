@@ -1,8 +1,7 @@
-package io.github.frame.spring.handler;
+package io.github.frame.spring.context.handler;
 
 import io.github.frame.spring.IStartUp;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;

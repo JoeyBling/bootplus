@@ -2,7 +2,7 @@ package io.github.config;
 
 import com.google.common.collect.Lists;
 import io.github.config.interceptor.LogInterceptor;
-import io.github.frame.spring.MyHandlerInterceptor;
+import io.github.frame.spring.web.servlet.MyHandlerInterceptor;
 import io.github.util.file.FileUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;

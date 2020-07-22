@@ -176,9 +176,10 @@ application:
   url: @project.url@
   description: @project.description@
   blog: @blog.url@
+  basedir: @project.basedir@
   logs:
     level: DEBUG
-    path: @project.basedir@/../logs
+    path: ${application.basedir}/../logs
   # 自定义线程池配置
   thread-pool:
     core-pool-size: 3
@@ -191,7 +192,7 @@ application:
       - {urlPath: '/',viewName: 'redirect:/admin'}
   file-config:
     # 文件上传保存路径
-    upload-path: /home/fulei/zhousiwei/upload
+    upload-path: ${application.basedir}/../upload
   junit-env:
     admin-name: admin
     admin-pwd: admin

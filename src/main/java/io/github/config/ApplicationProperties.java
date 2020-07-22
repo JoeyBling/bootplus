@@ -208,6 +208,7 @@ public class ApplicationProperties {
 
         /**
          * 文件上传保存路径
+         * TODO 后期优化下，如果获取不到就使用临时目录
          */
         private String uploadPath;
 

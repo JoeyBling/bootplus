@@ -1,7 +1,7 @@
 package io.github.config.interceptor;
 
 import io.github.frame.log.LogUtil;
-import io.github.frame.spring.MyHandlerInterceptorAdapter;
+import io.github.frame.spring.web.servlet.handler.MyHandlerInterceptorAdapter;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
