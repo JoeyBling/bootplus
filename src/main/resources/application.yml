@@ -54,33 +54,56 @@ spring:
     auto: true
     proxy-target-class: true
   profiles:
+  #    active: dev
   # 生产环境
   #    active: prd
-  #    active: dev
   cache:
     ehcache:
       config: classpath:/ehcache-core.xml
   #    type: EHCACHE
   datasource:
-    #    filters: stat,wall,log4j
-    filters: stat,wall,slf4j
-    initial-size: 5
-    max-active: 20
-    maxPoolPreparedStatementPerConnectionSize: 20
-    max-wait: 60000
-    minEvictableIdleTimeMillis: 300000
-    minIdle: 5
-    poolPreparedStatements: true
-    test-on-borrow: false
-    test-on-return: false
-    test-while-idle: true
-    time-between-eviction-runs-millis: 60000
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://localhost:3306/bootplus?serverTimezone=GMT%2B8&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
     username: root
     password: root
-    connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;password=${spring.datasource.password}
-    validation-query: SELECT 1 FROM DUAL
+    druid:
+      #      filters: stat,wall,slf4j
+      filter:
+        stat:
+          enabled: true
+        wall:
+          config:
+            # 批量操作
+            multi-statement-allow: true
+          enabled: true
+        slf4j:
+          enabled: true
+      initial-size: 5
+      max-active: 20
+      min-idle: 5
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      min-evictable-idle-time-millis: 300000
+      test-on-borrow: false
+      test-on-return: false
+      test-while-idle: true
+      time-between-eviction-runs-millis: 60000
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000;password=${spring.datasource.password}
+      validation-query: SELECT 1 FROM DUAL
+      # 注册DruidFilter拦截(网络url监控统计)
+      web-stat-filter:
+        enabled: false
+        url-pattern: /*
+        exclusions: '*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*'
+      # 注册DruidServlet（监控页面）
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: admin
+        login-password: admin
+        # 是否能够重置数据
+        reset-enable: false
   freemarker:
     allow-request-override: false
     cache: false

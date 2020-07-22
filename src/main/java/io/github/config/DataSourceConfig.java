@@ -1,21 +1,12 @@
 package io.github.config;
 
-import com.alibaba.druid.filter.Filter;
-import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.spring.boot.autoconfigure.properties.DruidStatProperties;
 import com.alibaba.druid.spring.boot.autoconfigure.stat.DruidSpringAopConfiguration;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;
-import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
 import com.alibaba.druid.util.DruidPasswordCallback;
-import com.alibaba.druid.wall.WallConfig;
-import com.alibaba.druid.wall.WallFilter;
 import io.github.util.db.MyDruidPasswordCallback;
-import org.aopalliance.aop.Advice;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -24,10 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,69 +27,17 @@ import java.util.Map;
 @EnableTransactionManagement(proxyTargetClass = true)
 //@Import(DruidSpringAopConfiguration.class)
 public class DataSourceConfig {
-    private Logger logger = LoggerFactory.getLogger(getClass());
-
-    @Value("${spring.datasource.url}")
-    private String dbUrl;
-
-    @Value("${spring.datasource.username}")
-    private String username;
-
-    @Value("${spring.datasource.password}")
-    private String password;
-
-    @Value("${spring.datasource.driverClassName:}")
-    @Deprecated
-    private String driverClassName;
-
-    @Value("${spring.datasource.initial-size}")
-    private int initialSize;
-
-    @Value("${spring.datasource.minIdle}")
-    private int minIdle;
-
-    @Value("${spring.datasource.max-active}")
-    private int maxActive;
-
-    @Value("${spring.datasource.max-wait}")
-    private int maxWait;
-
-    @Value("${spring.datasource.time-between-eviction-runs-millis}")
-    private int timeBetweenEvictionRunsMillis;
-
-    @Value("${spring.datasource.minEvictableIdleTimeMillis}")
-    private int minEvictableIdleTimeMillis;
-
-    @Value("${spring.datasource.validation-query}")
-    private String validationQuery;
-
-    @Value("${spring.datasource.test-while-idle}")
-    private boolean testWhileIdle;
-
-    @Value("${spring.datasource.test-on-borrow}")
-    private boolean testOnBorrow;
-
-    @Value("${spring.datasource.test-on-return}")
-    private boolean testOnReturn;
-
-    @Value("${spring.datasource.pool-prepared-statements}")
-    private boolean poolPreparedStatements;
-
-    @Value("${spring.datasource.maxPoolPreparedStatementPerConnectionSize}")
-    private int maxPoolPreparedStatementPerConnectionSize;
-
-    @Value("${spring.datasource.filters}")
-    private String filters;
-
-    @Value("${spring.datasource.connection-properties}")
-    private String connectionProperties;
 
     /**
-     * @see DruidSpringAopConfiguration#advisor(DruidStatProperties)
+     * 数据库密码回调解密
+     *
+     * @return MyDruidPasswordCallback
+     * @url https://github.com/alibaba/druid/pull/3877
      */
-//    @Bean
-    public Advice advice() {
-        return new DruidStatInterceptor();
+    @Bean
+    @ConditionalOnMissingBean
+    public DruidPasswordCallback myDruidPasswordCallback() {
+        return new MyDruidPasswordCallback();
     }
 
     /**
@@ -122,11 +58,12 @@ public class DataSourceConfig {
     }
 
     /**
-     * 注册DruidServlet
+     * 注册DruidServlet（监控页面）
+     * wait del：已迁移yml配置
      *
      * @return ServletRegistrationBean
      */
-    @Bean
+//    @Bean
     public ServletRegistrationBean druidServletRegistrationBean() {
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean();
         servletRegistrationBean.setServlet(new StatViewServlet());
@@ -145,6 +82,7 @@ public class DataSourceConfig {
 
     /**
      * 注册DruidFilter拦截(网络url统计)
+     * wait del：已迁移yml配置
      *
      * @return FilterRegistrationBean
      * @see com.alibaba.druid.spring.boot.autoconfigure.stat.DruidWebStatFilterConfiguration#webStatFilterRegistrationBean(DruidStatProperties)
@@ -161,61 +99,6 @@ public class DataSourceConfig {
         filterRegistrationBean.setInitParameters(initParams);
         filterRegistrationBean.addUrlPatterns("/*");
         return filterRegistrationBean;
-    }
-
-    /**
-     * 数据库密码回调解密
-     *
-     * @return MyDruidPasswordCallback
-     */
-    @Bean
-    @ConditionalOnMissingBean
-    public DruidPasswordCallback myDruidPasswordCallback() {
-        return new MyDruidPasswordCallback();
-    }
-
-    /**
-     * 配置DataSource(使用了多数据源注解掉@Bean)
-     *
-     * @return DataSource
-     */
-    @Bean(initMethod = "init")
-    public DruidDataSource dataSource(DruidPasswordCallback druidPasswordCallback) {
-        DruidDataSource druidDataSource = new DruidDataSource();
-        druidDataSource.setUrl(dbUrl);
-        druidDataSource.setUsername(username);
-        druidDataSource.setPassword(password);
-        druidDataSource.setDriverClassName(driverClassName);
-        // configuration
-        druidDataSource.setInitialSize(initialSize);
-        druidDataSource.setMinIdle(minIdle);
-        druidDataSource.setMaxActive(maxActive);
-        druidDataSource.setMaxWait(maxWait);
-        druidDataSource.setTimeBetweenEvictionRunsMillis(timeBetweenEvictionRunsMillis);
-        druidDataSource.setMinEvictableIdleTimeMillis(minEvictableIdleTimeMillis);
-        druidDataSource.setValidationQuery(validationQuery);
-        druidDataSource.setTestWhileIdle(testWhileIdle);
-        druidDataSource.setTestOnBorrow(testOnBorrow);
-        druidDataSource.setTestOnReturn(testOnReturn);
-        druidDataSource.setPoolPreparedStatements(poolPreparedStatements);
-        druidDataSource.setMaxPoolPreparedStatementPerConnectionSize(maxPoolPreparedStatementPerConnectionSize);
-        druidDataSource.setConnectionProperties(connectionProperties);
-        // 数据库密码回调
-        druidDataSource.setPasswordCallback(druidPasswordCallback);
-        try {
-            List<Filter> proxyFilters = new ArrayList<Filter>();
-            WallFilter statFilter = new WallFilter();
-            WallConfig config = new WallConfig();
-            // 批量操作
-            config.setMultiStatementAllow(true);
-            statFilter.setConfig(config);
-            proxyFilters.add(statFilter);
-            druidDataSource.setProxyFilters(proxyFilters);
-            druidDataSource.setFilters(filters);
-        } catch (SQLException e) {
-            logger.error("druid configuration initialization filter error...", e);
-        }
-        return druidDataSource;
     }
 
 }
