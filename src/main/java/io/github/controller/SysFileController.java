@@ -34,7 +34,6 @@ import java.util.Map;
  * 文件上传下载控制器
  *
  * @author Created by 思伟 on 2020/6/6
- * @Email 2434387555@qq.com
  */
 @Controller
 @RequestMapping("/file")

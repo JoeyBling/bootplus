@@ -2,9 +2,7 @@ package io.github.controller.admin;
 
 import io.github.base.BaseAppShiroTest;
 import io.github.controller.QrCodeController;
-import io.github.service.SysUserLoginLogService;
 import io.github.service.SysUserRoleService;
-import io.github.service.impl.SysUserRoleServiceImpl;
 import io.github.util.spring.SpringContextUtils;
 import org.junit.Test;
 import org.springframework.aop.support.AopUtils;
@@ -20,8 +18,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * 系统用户控制器测试
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public class SysUserControllerTest extends BaseAppShiroTest {
 

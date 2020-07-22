@@ -10,8 +10,7 @@ import javax.annotation.Resource;
 /**
  * EhCache 缓存工具类
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @Deprecated
 @Component

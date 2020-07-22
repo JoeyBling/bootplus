@@ -3,8 +3,7 @@ package io.github.util.exception;
 /**
  * 自定义异常
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public class RRException extends BaseRuntimeException {
     private static final long serialVersionUID = 1L;
@@ -59,4 +58,5 @@ public class RRException extends BaseRuntimeException {
                 ", code=" + code +
                 '}';
     }
+
 }

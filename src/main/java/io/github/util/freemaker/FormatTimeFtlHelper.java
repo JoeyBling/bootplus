@@ -14,8 +14,7 @@ import java.util.Map;
  * 使用:[#-- 自定义标签格式化时间戳 ?c防止时间戳有,逗号 --]
  * [@formatTime unix="${entity.createTime?c}" pattern="yyyy-MM-dd HH:mm:ss"] [/@formatTime]
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public class FormatTimeFtlHelper implements TemplateDirectiveModel {
 

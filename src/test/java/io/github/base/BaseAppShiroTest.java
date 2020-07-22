@@ -14,8 +14,7 @@ import org.springframework.mock.web.MockHttpSession;
 /**
  * 测试Shiro基类
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public abstract class BaseAppShiroTest extends BaseAppMvcTest {
 

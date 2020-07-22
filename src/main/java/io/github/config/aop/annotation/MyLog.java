@@ -5,8 +5,7 @@ import java.lang.annotation.*;
 /**
  * 自定义日志注解
  *
- * @author 思伟
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)

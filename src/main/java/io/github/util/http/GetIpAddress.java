@@ -15,8 +15,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * 根据IP地址获取详细的地域信息
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 public class GetIpAddress {
 
@@ -145,7 +144,7 @@ public class GetIpAddress {
             // 往对端写完数据对端服务器返回数据
             StringBuffer buffer;
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), encoding))) {
-                // ,以BufferedReader流来读取
+                // 以BufferedReader流来读取
                 buffer = new StringBuffer();
                 String line = "";
                 while ((line = reader.readLine()) != null) {

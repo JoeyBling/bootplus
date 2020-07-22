@@ -27,7 +27,7 @@ CREATE TABLE `sys_menu`  (
   `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '菜单名称',
   `url` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '菜单URL',
   `perms` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '授权(多个用逗号分隔，如：user:list,user:create)',
-  `type` int(11) DEFAULT NULL COMMENT '类型   0：目录   1：菜单   2：按钮',
+  `type` int(11) DEFAULT NULL COMMENT '类型：0：目录、1：菜单、2：按钮',
   `icon` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '菜单图标',
   `order_num` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`menu_id`) USING BTREE
@@ -119,8 +119,8 @@ CREATE TABLE `sys_user`  (
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user` VALUES (1, 'admin', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 1, '2434387555@qq.com', '13647910412', 1528967776, '0:0:0:0:0:0:0:1', 'upload/adminAvatar/201707/1499675749475head.jpg', 1, 1498801511);
-INSERT INTO `sys_user` VALUES (7, 'lastone', 'd50b4c0cab140a3310e256d86fd3cd33c02f145635df4694e71df062c1679a8f', 2, 'asd@qq.com', '13456465465', 1499069279, '192.168.1.88', 'upload/adminAvatar/201707/1499675749475head.jpg', 1, 1499069190);
-INSERT INTO `sys_user` VALUES (8, 'joey', 'bfef4adc39f01b033fe749bb5f28f10b581fef319d34445d21a7bc63fe732fa3', 2, '2434387555@qq.com', '13647910412', 1499670576, '192.168.1.88', 'upload/adminAvatar/201707/1499675749475head.jpg', 0, 1499410874);
+INSERT INTO `sys_user` VALUES (7, 'lastone', 'd50b4c0cab140a3310e256d86fd3cd33c02f145635df4694e71df062c1679a8f', 2, '2434387555@qq.com', '17180190232', 1499069279, '192.168.1.88', 'upload/adminAvatar/201707/1499675749475head.jpg', 1, 1499069190);
+INSERT INTO `sys_user` VALUES (8, 'joey', 'bfef4adc39f01b033fe749bb5f28f10b581fef319d34445d21a7bc63fe732fa3', 2, '2434387555@qq.com', '15870631411', 1499670576, '192.168.1.88', 'upload/adminAvatar/201707/1499675749475head.jpg', 0, 1499410874);
 
 -- ----------------------------
 -- Table structure for sys_user_login_log

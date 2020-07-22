@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletRequest;
  * 全局异常处理器
  *
  * @author Created by 思伟 on 2020/6/6
- * @author Joey
  * @Email 2434387555@qq.com
  * @see RestGlobalExceptionHandler
  */

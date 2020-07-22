@@ -7,6 +7,11 @@ import org.springframework.remoting.caucho.HessianProxyFactoryBean;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Hessian工具类
+ *
+ * @author Created by 思伟 on 2020/6/6
+ */
 public class HessianUtil {
 
     public static String url = "http://test-wechat-repeater.hztywl.cn";

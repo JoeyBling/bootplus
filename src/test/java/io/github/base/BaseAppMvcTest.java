@@ -11,8 +11,7 @@ import javax.annotation.Resource;
 /**
  * 测试Mvc基类
  *
- * @author Joey
- * @Email 2434387555@qq.com
+ * @author Created by 思伟 on 2020/6/6
  */
 @WebAppConfiguration
 public abstract class BaseAppMvcTest extends BaseAppTest {
