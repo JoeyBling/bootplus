@@ -1,12 +1,11 @@
 package io.github.config.interceptor;
 
 import io.github.frame.log.LogUtil;
-import lombok.extern.slf4j.Slf4j;
+import io.github.frame.spring.MyHandlerInterceptorAdapter;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.NamedThreadLocal;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,12 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 
 /**
- * 统一日志拦截器(也可以继承HandlerInterceptorAdapter)
+ * 统一日志拦截器
  *
  * @author Created by 思伟 on 2019/12/25
  * @see org.springframework.web.servlet.handler.HandlerInterceptorAdapter
  */
-public class LogInterceptor implements HandlerInterceptor {
+public class LogInterceptor extends MyHandlerInterceptorAdapter {
 
     /**
      * 拦截器日志
@@ -94,7 +93,18 @@ public class LogInterceptor implements HandlerInterceptor {
             // 回收自定义的ThreadLocal变量
             START_TIME_THREAD_LOCAL.remove();
         }
+    }
 
+    /**
+     * 处理异步请求
+     *
+     * @throws Exception
+     * @see org.springframework.scheduling.annotation.AsyncResult
+     */
+    @Override
+    public void afterConcurrentHandlingStarted(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        log.debug("After Concurrent Started <==== " + Thread.currentThread().getId());
+        super.afterConcurrentHandlingStarted(request, response, handler);
     }
 
 }

@@ -1,9 +1,13 @@
 package io.github.config;
 
-import io.github.config.aop.annotation.MyAutowired;
+import com.google.common.collect.Lists;
 import io.github.config.interceptor.LogInterceptor;
+import io.github.frame.spring.MyHandlerInterceptor;
 import io.github.util.file.FileUtils;
+import lombok.Data;
+import lombok.experimental.Accessors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +20,8 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.http.server.ServletServerHttpResponse;
+import org.springframework.lang.NonNull;
+import org.springframework.util.Assert;
 import org.springframework.util.unit.DataSize;
 import org.springframework.util.unit.DataUnit;
 import org.springframework.web.servlet.config.annotation.*;
@@ -36,8 +42,37 @@ import java.util.Optional;
 @Slf4j
 public class MyWebAppConfigurer implements WebMvcConfigurer {
 
-    @MyAutowired
     private ApplicationProperties applicationProperties;
+
+    /**
+     * 需要提供的静态资源映射配置
+     */
+    protected List<ResourceHandlerInnerHelper> resourceHandlerInnerHelpers = Lists.newArrayList();
+
+    /**
+     * init serve
+     */
+    public MyWebAppConfigurer(@NonNull ApplicationProperties applicationProperties) {
+        Assert.notNull(applicationProperties, "ApplicationProperties must not be null");
+        this.applicationProperties = applicationProperties;
+        // ResourceUtils.CLASSPATH_URL_PREFIX
+        resourceHandlerInnerHelpers.add(new ResourceHandlerInnerHelper()
+                .setPathPatterns(ArrayUtils.toArray("/statics/**"))
+                .setResourceLocations(ArrayUtils.toArray("classpath:/statics/")));
+
+        // For windows style path, we replace '\' to '/'.
+        String uploadPath = FileUtils.generateFileUrl(applicationProperties.getFileConfig().getUploadPath());
+        // 必须加上文件路径前缀
+        if (!StringUtils.startsWithIgnoreCase(uploadPath, FileUtils.FILE_PREFIX)) {
+            // 防止路径符号重复且映射路径必须以/结束
+            uploadPath = FileUtils.generateFileUrl(FileUtils.FILE_PREFIX, uploadPath, File.separator);
+        }
+        // 媒体上传资源
+        resourceHandlerInnerHelpers.add(new ResourceHandlerInnerHelper()
+                .setPathPatterns(ArrayUtils.toArray(FILE_UPLOAD_PATH + "/**"))
+                .setResourceLocations(ArrayUtils.toArray("classpath:/upload/", uploadPath)));
+
+    }
 
     /**
      * 解决String乱码问题
@@ -96,31 +131,36 @@ public class MyWebAppConfigurer implements WebMvcConfigurer {
      */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // For windows style path, we replace '\' to '/'.
-        String uploadPath = FileUtils.generateFileUrl(applicationProperties.getFileConfig().getUploadPath());
-        // 必须加上文件路径前缀
-        if (!StringUtils.startsWithIgnoreCase(uploadPath, FileUtils.FILE_PREFIX)) {
-            // 防止路径符号重复且映射路径必须以/结束
-            uploadPath = FileUtils.generateFileUrl(FileUtils.FILE_PREFIX, uploadPath, File.separator);
+        // 资源处理顺序（集合越前的解析顺序越高）
+        int order = 1;
+        for (ResourceHandlerInnerHelper resourceHandler :
+                Optional.ofNullable(resourceHandlerInnerHelpers).orElse(Lists.newArrayList())) {
+            // CachePeriod ?
+            registry.setOrder(order).addResourceHandler(resourceHandler.getPathPatterns())
+                    .addResourceLocations(resourceHandler.getResourceLocations());
+            ++order;
+            log.info("自定义资源映射成功。URL=[{}],Locations=[{}]",
+                    ArrayUtils.toString(resourceHandler.getPathPatterns()),
+                    ArrayUtils.toString(resourceHandler.getResourceLocations()));
         }
-        // ResourceUtils.CLASSPATH_URL_PREFIX
-        registry.addResourceHandler("/statics/**").addResourceLocations("classpath:/statics/");
-        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/js/");
-        // 媒体上传资源
-        registry.setOrder(3).addResourceHandler(FILE_UPLOAD_PATH + "/**").addResourceLocations("classpath:/upload/", uploadPath);
-        log.info("自定义资源映射成功---{}", applicationProperties.getFileConfig().toString());
     }
 
+    /**
+     * 自定义添加配置拦截器
+     *
+     * @see MyHandlerInterceptor
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // 自定义拦截器-list转数组
-        registry.addInterceptor(new LogInterceptor()).addPathPatterns("/**")
-                // 【强制】使用集合转数组的方法，必须使用集合的 toArray(T[] array)，传入的是类型完全一
-                //致、长度为 0 的空数组。 等于 0，动态创建与 size 相同的数组，性能最好。
-                .excludePathPatterns(EXCLUDE_PATH.toArray(new String[0]));
-        if (log.isDebugEnabled()) {
-            log.debug("自定义拦截器初始化完成...");
-        }
+        // 自定义拦截器list
+        List<MyHandlerInterceptor> interceptorList = Arrays.asList(new LogInterceptor());
+        interceptorList.stream().forEach(myHandlerInterceptor -> {
+            registry.addInterceptor(myHandlerInterceptor).addPathPatterns(myHandlerInterceptor.getPath())
+                    .excludePathPatterns(myHandlerInterceptor.getExcludePath());
+            if (log.isDebugEnabled()) {
+                log.debug("自定义拦截器[{}]初始化完成...", myHandlerInterceptor.toString());
+            }
+        });
     }
 
     /**
@@ -170,11 +210,6 @@ public class MyWebAppConfigurer implements WebMvcConfigurer {
     }
 
     /**
-     * 拦截器排除路径
-     */
-    private final static List<String> EXCLUDE_PATH = Arrays.asList("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
-
-    /**
      * 外部访问用-上传文件映射访问路径
      */
     public static final String FILE_UPLOAD_PATH_EXT = "upload";
@@ -183,5 +218,27 @@ public class MyWebAppConfigurer implements WebMvcConfigurer {
      * 上传文件映射访问路径（以/开头，结束无/）
      */
     public static final String FILE_UPLOAD_PATH = "/".concat(FILE_UPLOAD_PATH_EXT);
+
+    /**
+     * 自定义资源映射内部帮助类
+     */
+    @Data
+    @Accessors(chain = true)
+    protected static class ResourceHandlerInnerHelper {
+
+        /**
+         * URL路径
+         *
+         * @see ResourceHandlerRegistry#addResourceHandler(java.lang.String...)
+         */
+        private String[] pathPatterns;
+
+        /**
+         * 资源位置
+         *
+         * @see ResourceHandlerRegistration#addResourceLocations(java.lang.String...)
+         */
+        private String[] resourceLocations;
+    }
 
 }
