@@ -32,7 +32,7 @@ public class DataSourceConfig {
      * 数据库密码回调解密
      *
      * @return MyDruidPasswordCallback
-     * @url https://github.com/alibaba/druid/pull/3877
+     * @url { https://github.com/alibaba/druid/pull/3877 }
      */
     @Bean
     @ConditionalOnMissingBean

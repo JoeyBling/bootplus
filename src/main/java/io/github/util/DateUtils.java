@@ -3,8 +3,11 @@ package io.github.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * 日期处理
@@ -13,44 +16,82 @@ import java.util.Date;
  */
 public class DateUtils {
     /**
-     * 时间格式(yyyy-MM-dd)
+     * 日期格式(yyyy-MM-dd)
      */
     public final static String DATE_PATTERN = "yyyy-MM-dd";
+
     /**
-     * 时间格式(yyyy-MM-dd HH:mm:ss)
+     * 时间格式(HH:mm:ss)
+     */
+    public final static String TIME_PATTERN = "HH:mm:ss";
+
+    /**
+     * 日期时间格式(yyyy-MM-dd HH:mm:ss)
      */
     public final static String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * 日期格式化所有格式
      */
-    private final static SimpleDateFormat[] SIMPLE_DATE_FORMATS = new SimpleDateFormat[6];
+    private final static SimpleDateFormat[] SIMPLE_DATE_FORMATS;
 
     static {
         // 静态初始化
-        SIMPLE_DATE_FORMATS[0] = new SimpleDateFormat("yyyy-MM-dd");
-        SIMPLE_DATE_FORMATS[1] = new SimpleDateFormat("yyyy年MM月dd日");
-        SIMPLE_DATE_FORMATS[2] = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SIMPLE_DATE_FORMATS[3] = new SimpleDateFormat("yy/MM/dd HH:mm:ss");
-        SIMPLE_DATE_FORMATS[4] = new SimpleDateFormat("yyyy/MM/dd");
-        SIMPLE_DATE_FORMATS[5] = new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒");
+        List<SimpleDateFormat> dateFormatList = Arrays.asList(
+                new SimpleDateFormat("yyyy-MM-dd"),
+                new SimpleDateFormat("yyyy年MM月dd日"),
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"),
+                new SimpleDateFormat("yy/MM/dd HH:mm:ss"),
+                new SimpleDateFormat("yyyy/MM/dd"),
+                new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒"));
+        SIMPLE_DATE_FORMATS = dateFormatList.toArray(new SimpleDateFormat[0]);
     }
 
     /**
-     * 转换日期为String使用默认的格式(yyyy-MM-dd)
-     *
-     * @param date Date
-     * @return String
+     * 默认时区
      */
-    public static String format(Date date) {
-        return format(date, DATE_PATTERN);
-    }
+    public static final String DATE_TIMEZONE = "GMT+8";
 
     /**
      * 安全用法
      */
     private static final ThreadLocal<DateFormat> TL_DATE_FORMATTER =
-            ThreadLocal.withInitial(() -> new SimpleDateFormat(DATE_TIME_PATTERN));
+            ThreadLocal.withInitial(() -> {
+                DateFormat dateFormat = new SimpleDateFormat(DATE_TIME_PATTERN);
+                dateFormat.setTimeZone(TimeZone.getTimeZone(DATE_TIMEZONE));
+                return dateFormat;
+            });
+
+    /**
+     * 转换日期为String使用默认的格式(yyyy-MM-dd HH:mm:ss)
+     *
+     * @param date Date
+     * @return String
+     */
+    public static String format(Date date) {
+        return format(date, DATE_TIME_PATTERN);
+    }
+
+    /**
+     * 格式化日期
+     */
+    public static String format(LocalDateTime localDateTime) {
+        return localDateTime.format(DateTimeFormatter.ofPattern(DateUtils.DATE_TIME_PATTERN));
+    }
+
+    /**
+     * 格式化日期
+     */
+    public static String format(LocalDate localDate) {
+        return localDate.format(DateTimeFormatter.ofPattern(DateUtils.DATE_PATTERN));
+    }
+
+    /**
+     * 格式化日期
+     */
+    public static String format(LocalTime localTime) {
+        return localTime.format(DateTimeFormatter.ofPattern(DateUtils.TIME_PATTERN));
+    }
 
     /**
      * 转换日期为String
@@ -63,7 +104,9 @@ public class DateUtils {
         try {
             if (date != null) {
                 if (null != pattern) {
-                    TL_DATE_FORMATTER.set(new SimpleDateFormat(pattern));
+                    DateFormat dateFormat = new SimpleDateFormat(pattern);
+                    dateFormat.setTimeZone(TimeZone.getTimeZone(DATE_TIMEZONE));
+                    TL_DATE_FORMATTER.set(dateFormat);
                 }
                 return TL_DATE_FORMATTER.get().format(date);
             }

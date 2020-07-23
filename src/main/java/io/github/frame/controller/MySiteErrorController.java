@@ -42,7 +42,6 @@ public class MySiteErrorController extends BasicErrorController {
      */
     @Override
     public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
-
         /*for (java.util.Enumeration<String> en = request.getAttributeNames(); en.hasMoreElements(); ) {
             String attribute = en.nextElement();
             System.out.println(attribute);

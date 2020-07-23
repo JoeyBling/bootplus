@@ -1,5 +1,6 @@
 package io.github.test;
 
+import cn.hutool.core.date.DateTime;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.alibaba.fastjson.util.TypeUtils;
 import com.google.common.collect.ImmutableMap;
@@ -7,11 +8,11 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.github.common.enums.IEnumHelperFactory;
 import io.github.config.filter.MyCorsFilter;
 import io.github.entity.enums.SysMenuTypeEnum;
+import io.github.frame.log.LogUtil;
+import io.github.util.StringUtils;
 import io.github.util.file.FileTypeEnum;
 import io.github.util.http.RestTemplateUtil;
-import io.github.frame.log.LogUtil;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
@@ -25,6 +26,9 @@ import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -43,6 +47,21 @@ public class _Main {
     }
 
     public static void main(String[] args) throws ClassNotFoundException, NoSuchMethodException, IOException {
+
+        String str = "周思伟zsw";
+        System.out.println(StringUtils.getLen(str));
+        System.out.println(StringUtils.getGBKLen(str));
+        System.out.println(StringUtils.toString(ArrayUtils.toArray("1", "2", "3")));
+        System.out.println(StringUtils.toString(new Date()));
+        System.out.println(StringUtils.toString(DateTime.now()));
+        System.out.println(StringUtils.toString(LocalDateTime.now()));
+        System.out.println(StringUtils.toString(LocalDate.now()));
+        System.out.println(StringUtils.toString(LocalTime.now()));
+
+        System.out.println(StringUtils.format(str, 1, 2));
+        System.out.println(StringUtils.format("联系方式：{},个人博客：{}", 2434387555L, "https://zhousiwei.gitee.io/ibooks/"));
+        System.out.println(StringUtils.formatByStr("联系方式：[]", 2434387555L, "[]"));
+
         System.out.println(Collections.<String>emptyList());
         // 默认的临时目录
         System.out.println(System.getProperty("java.io.tmpdir"));
@@ -169,6 +188,10 @@ public class _Main {
 //        out.write(bytes);
 //        out.close();
 
+        for (int i = 1; i <= 100; i++) {
+            System.out.println(StringUtils.genRandomStr(i));
+            System.out.println(StringUtils.genRandomForNumStr(i));
+        }
     }
 
 

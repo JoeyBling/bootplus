@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -44,5 +45,17 @@ public abstract class BaseAppTest {
                 .orElse(new ApplicationProperties.JunitEnvConfig());
     }
 
+    /**
+     * 防止程序提前结束
+     * 不建议使用，会导致事务出问题
+     */
+    @Deprecated
+    protected void avoidExit() {
+        try {
+            System.in.read();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

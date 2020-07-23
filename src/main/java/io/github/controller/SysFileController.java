@@ -111,6 +111,7 @@ public class SysFileController extends AbstractController {
             int width = buffered.getWidth();
             int maxWidth = 800;
             if (width > maxWidth) {
+                // TODO 压缩优化或添加动态配置
                 logger.debug("进行图片压缩处理...");
                 Thumbnails.of(file).height(maxWidth).toFile(file);
                 logger.debug("图片压缩处理完毕...");
