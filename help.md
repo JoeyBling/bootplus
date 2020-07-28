@@ -15,7 +15,7 @@ git checkout master
 # 合并dev分支
 git merge dev
 # 推送
-git push origin/master
+git push origin master
 ```
 
 ##### Bug修复说明
@@ -30,7 +30,7 @@ git checkout master
 # 合并dev分支
 git merge hotfix-demo
 # 推送
-git push origin/master
+git push origin master
 
 // 删除本地分支
 git branch -D hotfix-demo
