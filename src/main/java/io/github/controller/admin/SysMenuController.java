@@ -55,7 +55,7 @@ public class SysMenuController extends AbstractController<SysMenuController> {
         // 查询列表数据
         List<SysMenuEntity> menuList = sysMenuService.queryList(map);
         int total = sysMenuService.queryTotal(map);
-        PageUtils pageUtil = new PageUtils(menuList, total, limit, (offset / limit) + 1);
+        PageUtils<SysMenuEntity> pageUtil = new PageUtils(menuList, total, limit, (offset / limit) + 1);
         return R.ok().put("page", pageUtil);
     }
 

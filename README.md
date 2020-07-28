@@ -62,6 +62,7 @@ bootplus
 │
 ├── frame -- 框架公用模块
 |    ├── cache -- 缓存模块
+|    ├── constant -- 常量模块
 |    ├── controller -- 控制器模块
 |    ├── log -- 日志模块
 |    ├── spring -- spring模块
@@ -93,7 +94,7 @@ bootplus
 |    ├── upload -- 上传文件
 ```
 
-## 技术选型：
+## 技术选型
 - 核心框架：`Spring Boot 2.3.1`
 - 安全框架：`Apache Shiro`
 - 视图框架：`Spring MVC`
@@ -112,7 +113,7 @@ bootplus
 ![](./examples/images/menu.png "菜单管理")
 ![](./examples/images/role.png "角色管理")
 
-## 本地部署：
+## 本地部署
 - mysql执行[sql/bootplus.sql](./sql/bootplus.sql)文件，初始化数据
 - 修改`application.yml`，更新`MySQL`连接信息,更新`Redis`连接信息（待实现）
 - 项目访问路径：[http://localhost/admin](http://bootplus.diandianys.com/)

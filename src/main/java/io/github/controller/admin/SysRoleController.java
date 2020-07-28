@@ -46,9 +46,7 @@ public class SysRoleController extends AbstractController {
         // 排序逻辑
         Boolean flag = isOrderByAsc(order);
         Page<SysRoleEntity> roleList = sysRoleService.queryListByPage(offset, limit, roleName, sort, flag);
-        PageUtils pageUtil = new PageUtils(roleList.getRecords(), roleList.getTotal(), roleList.getSize(),
-                roleList.getCurrent());
-        return R.ok().put("page", pageUtil);
+        return R.ok().put("page", PageUtils.buildPageUtil(roleList));
     }
 
     /**

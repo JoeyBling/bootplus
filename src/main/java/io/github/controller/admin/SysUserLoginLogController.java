@@ -31,13 +31,9 @@ public class SysUserLoginLogController extends AbstractController {
         offset = (getOffset(offset) / getLimit(limit)) + 1;
         // 排序逻辑
         Boolean flag = isOrderByAsc(order);
-        Page<SysUserLoginLogEntity> self = sysUserLoginLogService.getPage(offset, getLimit(limit), getAdminId(), loginIp, sort,
+        Page<SysUserLoginLogEntity> page = sysUserLoginLogService.getPage(offset, getLimit(limit), getAdminId(), loginIp, sort,
                 flag);
-        return R.ok().put("page", PageUtils.builder()
-                .list(self.getRecords())
-                .totalCount(self.getTotal())
-                .pageSize(self.getSize())
-                .currPage(self.getCurrent()).build());
+        return R.ok().put("page", PageUtils.buildPageUtil(page));
     }
 
 }

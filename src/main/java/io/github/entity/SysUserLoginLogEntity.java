@@ -16,7 +16,7 @@ import java.io.Serializable;
  */
 @Data
 @Accessors(chain = true)
-@ToString(callSuper = true)
+@ToString(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

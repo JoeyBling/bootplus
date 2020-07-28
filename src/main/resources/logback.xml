@@ -9,9 +9,9 @@
     <!-- 日志输出文件 -->
     <property name="log.path" value="${catalina.base:-.}/logs"/>
     <property name="log.pattern"
-              value="[%p][%d{yyyy-MM-dd HH:mm:ss}] [%logger{10}:%L] %m%n"/>
+              value="[%p][%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%logger{10}:%L] %m%n"/>
     <property name="log.pattern.detail"
-              value="[%p][%d{yyyy-MM-dd HH:mm:ss}] %c{1} [%file:%L] %m%n"/>
+              value="[%p][%d{yyyy-MM-dd HH:mm:ss.SSS}] %c{1} [%file:%L] %m%n"/>
 
     <!-- 项目名 -->
     <define name="log.project" class="io.github.frame.log.logback.property.YamlPropertyDefiner">

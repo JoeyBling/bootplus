@@ -20,13 +20,8 @@ public class HessianContext {
      */
     private ServletRequest servletRequest;
 
-    private static final ThreadLocal<HessianContext> LOCAL_CONTEXT = new ThreadLocal<HessianContext>() {
-        @Override
-        public HessianContext initialValue() {
-            return new HessianContext();
-        }
-    };
-
+    private static final ThreadLocal<HessianContext> LOCAL_CONTEXT =
+            ThreadLocal.withInitial(HessianContext::new);
 
     /**
      * 设置request请求对象
