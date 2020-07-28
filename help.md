@@ -38,7 +38,6 @@ git merge hotfix-demo
 # 推送
 git push
 
-git checkout hotfix-demo
 // 删除本地分支
 git branch -D hotfix-demo
 ```
