@@ -27,11 +27,18 @@ git checkout -b hotfix-demo
 
 # 检出master分支
 git checkout master
-# 合并dev分支
+# 合并hotfix分支
 git merge hotfix-demo
 # 推送
-git push origin master
+git push
+# 检出dev分支
+git checkout dev
+# 合并hotfix分支
+git merge hotfix-demo
+# 推送
+git push
 
+git checkout hotfix-demo
 // 删除本地分支
 git branch -D hotfix-demo
 ```
