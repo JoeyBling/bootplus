@@ -1,5 +1,41 @@
 # bootplus
-基于SpringBoot + Shiro + MyBatisPlus的权限管理框架
+&emsp;&emsp;基于SpringBoot + Shiro + MyBatisPlus的权限管理框架
+
+## git分支说明
+&emsp;&emsp;目前开发使用`dev`分支，开发完成或者发布版本需要合并`master`分支
+
+> Tips:如果是第一次克隆仓库。需要从远程分支检出`dev`分支
+```bash
+git checkout -b dev origin/dev
+```
+
+```bash
+# 检出master分支
+git checkout master
+# 合并dev分支
+git merge dev
+# 推送
+git push origin/master
+```
+
+##### Bug修复说明
+&emsp;&emsp;如果是修复线上的Bug、则从`master`分支检出一个`hotfix-0728`Bug修复分支，改完后分别合并`master`和`dev`分支并删除hotfix分支
+```bash
+git checkout master
+git checkout -b hotfix-demo
+// ... fix bugs & commit ....
+
+# 检出master分支
+git checkout master
+# 合并dev分支
+git merge hotfix-demo
+# 推送
+git push origin/master
+
+// 删除本地分支
+git branch -D hotfix-demo
+```
+
 
 ## mvn乱码问题
 ```bash
