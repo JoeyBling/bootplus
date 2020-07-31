@@ -20,8 +20,9 @@
 package io.github.util.http;
 
 import com.alibaba.fastjson.JSONObject;
-import io.github.util.exception.SysRuntimeException;
+import io.github.frame.constant.SystemConst;
 import io.github.util.encry.Md5Util;
+import io.github.util.exception.SysRuntimeException;
 import io.github.util.file.FileTypeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -31,7 +32,6 @@ import org.springframework.http.MediaType;
 import javax.net.ssl.*;
 import java.io.*;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.cert.CertificateException;
 import java.util.Iterator;
@@ -57,7 +57,7 @@ public class HttpsClient {
     private static final int OK = 200;
     private static final int CONNECTION_TIMEOUT = 25000;
     private static final int READ_TIMEOUT = 25000;
-    private static final String DEFAULT_CHARSET = StandardCharsets.UTF_8.name();
+    private static final String DEFAULT_CHARSET = SystemConst.DEFAULT_CHARSET.name();
     private static final String GET_METHOD = "GET";
     private static final String POST_METHOD = "POST";
     private static final String PUT_METHOD = "PUT";
@@ -331,7 +331,7 @@ public class HttpsClient {
         // 设置请求超时
         httpsUrlConnection.setReadTimeout(READ_TIMEOUT);
         // 设置编码
-        httpsUrlConnection.setRequestProperty("Charsert", StandardCharsets.UTF_8.name());
+        httpsUrlConnection.setRequestProperty("Charsert", DEFAULT_CHARSET);
     }
 
     /**
@@ -455,7 +455,7 @@ public class HttpsClient {
                 // 定义BufferedReader输入流来读取URL的响应  
                 StringBuilder bufferRes;
                 try (InputStream in = https.getInputStream();
-                     BufferedReader read = new BufferedReader(new InputStreamReader(in, StandardCharsets.UTF_8.name()))) {
+                     BufferedReader read = new BufferedReader(new InputStreamReader(in, DEFAULT_CHARSET))) {
                     String valueString;
                     bufferRes = new StringBuilder();
                     while ((valueString = read.readLine()) != null) {

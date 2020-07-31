@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -31,23 +32,6 @@ public class DateUtils {
     public final static String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     /**
-     * 日期格式化所有格式
-     */
-    private final static SimpleDateFormat[] SIMPLE_DATE_FORMATS;
-
-    static {
-        // 静态初始化
-        List<SimpleDateFormat> dateFormatList = Arrays.asList(
-                new SimpleDateFormat("yyyy-MM-dd"),
-                new SimpleDateFormat("yyyy年MM月dd日"),
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"),
-                new SimpleDateFormat("yy/MM/dd HH:mm:ss"),
-                new SimpleDateFormat("yyyy/MM/dd"),
-                new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒"));
-        SIMPLE_DATE_FORMATS = dateFormatList.toArray(new SimpleDateFormat[0]);
-    }
-
-    /**
      * 默认时区
      */
     public static final String DATE_TIMEZONE = "GMT+8";
@@ -63,10 +47,29 @@ public class DateUtils {
             });
 
     /**
-     * 转换日期为String使用默认的格式(yyyy-MM-dd HH:mm:ss)
+     * 日期格式化所有格式
+     */
+    @Deprecated
+    private final static SimpleDateFormat[] SIMPLE_DATE_FORMATS;
+
+    static {
+        // 静态初始化
+        List<SimpleDateFormat> dateFormatList = Arrays.asList(
+                new SimpleDateFormat("yyyy-MM-dd"),
+                new SimpleDateFormat("yyyy年MM月dd日"),
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"),
+                new SimpleDateFormat("yy/MM/dd HH:mm:ss"),
+                new SimpleDateFormat("yyyy/MM/dd"),
+                new SimpleDateFormat("yyyy年MM月dd日 HH时mm分ss秒"));
+        SIMPLE_DATE_FORMATS = dateFormatList.toArray(new SimpleDateFormat[0]);
+    }
+
+    /**
+     * 转换日期为String使用默认的格式
      *
      * @param date Date
      * @return String
+     * @see #DATE_TIME_PATTERN
      */
     public static String format(Date date) {
         return format(date, DATE_TIME_PATTERN);
@@ -76,41 +79,41 @@ public class DateUtils {
      * 格式化日期
      */
     public static String format(LocalDateTime localDateTime) {
-        return localDateTime.format(DateTimeFormatter.ofPattern(DateUtils.DATE_TIME_PATTERN));
+        return localDateTime.format(DateTimeFormatter.ofPattern(DATE_TIME_PATTERN));
     }
 
     /**
      * 格式化日期
      */
     public static String format(LocalDate localDate) {
-        return localDate.format(DateTimeFormatter.ofPattern(DateUtils.DATE_PATTERN));
+        return localDate.format(DateTimeFormatter.ofPattern(DATE_PATTERN));
     }
 
     /**
      * 格式化日期
      */
     public static String format(LocalTime localTime) {
-        return localTime.format(DateTimeFormatter.ofPattern(DateUtils.TIME_PATTERN));
+        return localTime.format(DateTimeFormatter.ofPattern(TIME_PATTERN));
     }
 
     /**
      * 转换日期为String
      *
      * @param date    Date
-     * @param pattern 转换的格式
+     * @param pattern 转换格式
      * @return String
      */
     public static String format(Date date, String pattern) {
-        try {
-            if (date != null) {
-                if (null != pattern) {
-                    DateFormat dateFormat = new SimpleDateFormat(pattern);
-                    dateFormat.setTimeZone(TimeZone.getTimeZone(DATE_TIMEZONE));
-                    TL_DATE_FORMATTER.set(dateFormat);
-                }
-                return TL_DATE_FORMATTER.get().format(date);
-            }
+        if (date == null) {
             return null;
+        }
+        try {
+            if (null != pattern) {
+                DateFormat dateFormat = new SimpleDateFormat(pattern);
+                dateFormat.setTimeZone(TimeZone.getTimeZone(DATE_TIMEZONE));
+                TL_DATE_FORMATTER.set(dateFormat);
+            }
+            return TL_DATE_FORMATTER.get().format(date);
         } finally {
             TL_DATE_FORMATTER.remove();
         }
@@ -119,93 +122,139 @@ public class DateUtils {
     /**
      * 将字符串转为日期
      *
-     * @param date 字符串
-     * @return Date
-     * @throws Exception
+     * @see #parseDateStr(String, String)
+     * @see #DATE_PATTERN
      */
-    public static Date parse(String date) throws Exception {
-        if (date != null) {
-            for (SimpleDateFormat df : SIMPLE_DATE_FORMATS) {
-                try {
-                    return df.parse(date);
-                } catch (ParseException e) {
-                    continue;
-                }
-            }
-
-        }
-        throw new Exception("转换失败");
+    public static Date parseDateStr(String dateStr) throws ParseException {
+        return parseDateStr(dateStr, DATE_PATTERN);
     }
 
     /**
-     * 获取当前时间戳
+     * 将字符串转为日期
+     *
+     * @see #parseDateStr(String, String)
+     * @see #DATE_TIME_PATTERN
+     */
+    public static Date parseDateTimeStr(String dateStr) throws ParseException {
+        return parseDateStr(dateStr, DATE_TIME_PATTERN);
+    }
+
+    /**
+     * 将字符串转为日期
+     *
+     * @param dateStr 日期字符串
+     * @param pattern 转换格式
+     * @return Date
+     * @throws ParseException
+     */
+    public static Date parseDateStr(String dateStr, String pattern) throws ParseException {
+        if (dateStr == null) {
+            return null;
+        }
+        try {
+            if (null != pattern) {
+                DateFormat dateFormat = new SimpleDateFormat(pattern);
+                dateFormat.setTimeZone(TimeZone.getTimeZone(DATE_TIMEZONE));
+                TL_DATE_FORMATTER.set(dateFormat);
+            }
+            return TL_DATE_FORMATTER.get().parse(dateStr);
+        } finally {
+            TL_DATE_FORMATTER.remove();
+        }
+    }
+
+    /**
+     * 获取当前时间戳(秒级别)
+     *
+     * @return 当前时间戳
+     * @see #currentTimeStamp()
+     */
+    public static long currentSecondTimeStamp() {
+        return currentTimeStamp() / 1000;
+    }
+
+    /**
+     * 获取当前时间戳(毫秒级别)
      *
      * @return 当前时间戳
      */
-    public static Long getCurrentUnixTime() {
-        return System.currentTimeMillis() / 1000;
+    public static long currentTimeStamp() {
+        // 中国上海时区
+        return LocalDateTime.now().toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
+    }
+
+    /**
+     * 毫秒级别时间戳转换为Date
+     *
+     * @param timeStamp 时间戳(毫秒级别)
+     * @return Date
+     */
+    public static Date getTimeStampDate(long timeStamp) {
+        return new Date(timeStamp);
+    }
+
+    /**
+     * 秒级别时间戳转换为Date
+     *
+     * @param timeStamp 时间戳(秒级别)
+     * @return Date
+     */
+    public static Date getSecondTimeStampDate(long timeStamp) {
+        return new Date(timeStamp * 1000);
     }
 
     /**
      * 判断日期是否是周末
      *
-     * @param d 日期
-     * @return 是否是周末
+     * @param date 日期
+     * @return boolean
      */
-    public static boolean isWeekend(Date d) {
+    public static boolean isWeekend(Date date) {
         Calendar myCalendar = Calendar.getInstance();
-        myCalendar.setTime(d);
+        myCalendar.setTime(date);
 
         int i = myCalendar.get(Calendar.DAY_OF_WEEK);
         // 星期日i==1，星期六i==7
-        if (i == Calendar.SUNDAY || i == Calendar.SATURDAY) {
-            return true;
-        }
-        return false;
+        return i == Calendar.SUNDAY || i == Calendar.SATURDAY;
     }
 
     /**
      * 判断日期是否是周末
      *
-     * @param d yyyy-MM-dd
-     * @return 是否是周末
-     * @throws Exception
+     * @param dateStr yyyy-MM-dd
+     * @see #isWeekend(Date)
      */
-    public static boolean isWeekend(String d) throws Exception {
-        return DateUtils.isWeekend(DateUtils.parse(d));
+    public static boolean isWeekend(String dateStr) throws ParseException {
+        return isWeekend(parseDateStr(dateStr));
     }
 
     /**
      * 判断日期是否是周末
      *
-     * @param timestamp 时间戳
-     * @return 是否是周末
-     * @throws Exception
+     * @param secondTimeStamp 时间戳(秒级别)
+     * @see #isWeekend(Date)
      */
-    public static boolean isWeekendByTimestamp(String timestamp) throws Exception {
-        return isWeekend(JoeyUtil.stampToDate(timestamp));
+    public static boolean isWeekendByTimestamp(long secondTimeStamp) throws Exception {
+        return isWeekend(getSecondTimeStampDate(secondTimeStamp));
     }
 
     /**
-     * 计算两个日期之间相差的天数
+     * 获得当天0点时间
      *
-     * @param smdate 较小的时间
-     * @param bdate  较大的时间
-     * @return 相差天数
-     * @throws ParseException
+     * @return Date
      */
-    public static int daysBetween(Date smdate, Date bdate) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        smdate = sdf.parse(sdf.format(smdate));
-        bdate = sdf.parse(sdf.format(bdate));
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(smdate);
-        long time1 = cal.getTimeInMillis();
-        cal.setTime(bdate);
-        long time2 = cal.getTimeInMillis();
-        long betweenDays = (time2 - time1) / (1000 * 3600 * 24);
+    public static Date getTimeMorning() {
+        // 获得今天时间
+        Calendar c = Calendar.getInstance();
 
-        return Integer.parseInt(String.valueOf(betweenDays));
+        // 将时，分，秒，毫秒设置为0
+        c.set(Calendar.HOUR_OF_DAY, 0);
+        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.SECOND, 0);
+        c.set(Calendar.MILLISECOND, 0);
+
+        // 此处返回的为今天的零点的毫秒数
+        return new Date(c.getTimeInMillis());
     }
 
 }

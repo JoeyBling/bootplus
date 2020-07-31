@@ -163,13 +163,12 @@ public class SysFileController extends AbstractController {
             throw new RRException("未找到资源");
         }
         // 默认编码
-        String defaultCharsetName = StandardCharsets.UTF_8.name();
-        request.setCharacterEncoding(defaultCharsetName);
+        request.setCharacterEncoding(DEFAULT_CHARSET.name());
         BufferedInputStream bis = null;
         BufferedOutputStream bos = null;
 
         // 解码
-        fileName = URLDecoder.decode(fileName, defaultCharsetName);
+        fileName = URLDecoder.decode(fileName, DEFAULT_CHARSET.name());
         logger.info("下载文件的名称:{}", fileName);
         if (null == real || !real) {
             fileName = request.getServletContext().getRealPath(fileName);
@@ -192,7 +191,7 @@ public class SysFileController extends AbstractController {
                     name = name.length() > 13 ? name.substring(13) : name;
                 }
                 response.setHeader("Content-disposition",
-                        "attachment; filename=" + URLEncoder.encode(name, defaultCharsetName));
+                        "attachment; filename=" + URLEncoder.encode(name, DEFAULT_CHARSET.name()));
                 // 设置输出长度
                 response.setHeader("Content-Length", String.valueOf(fileLength));
                 // 获取输入流

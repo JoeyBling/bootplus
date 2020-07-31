@@ -25,7 +25,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -68,7 +67,7 @@ public class QrCodeController extends AbstractController<QrCodeController> {
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
         Map<EncodeHintType, Object> hints = Maps.newConcurrentMap();
         // 生成二维码
-        hints.put(EncodeHintType.CHARACTER_SET, StandardCharsets.UTF_8.name());
+        hints.put(EncodeHintType.CHARACTER_SET, DEFAULT_CHARSET.name());
         // 容错级别，H是最高
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
         // 上线左右的空白边距

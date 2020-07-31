@@ -28,22 +28,6 @@ public class HessianHeaderContext {
     private static final ThreadLocal<HessianHeaderContext> THREAD_LOCAL =
             ThreadLocal.withInitial(() -> new HessianHeaderContext());
 
-    /**
-     * 请求头信息
-     */
-    private Map<String, String> headers = new HashMap<>();
-
-    /**
-     * 外部不提供实例化方法
-     */
-    private HessianHeaderContext() {
-        this(false);
-    }
-
-    private HessianHeaderContext(boolean encode) {
-        this.encode = encode;
-    }
-
     public static HessianHeaderContext setContext(Boolean encode) {
         THREAD_LOCAL.set(new HessianHeaderContext(Boolean.TRUE.equals(encode)));
         return getContext();
@@ -67,6 +51,22 @@ public class HessianHeaderContext {
                 THREAD_LOCAL.remove();
             }
         }
+    }
+
+    /**
+     * 请求头信息
+     */
+    private Map<String, String> headers = new HashMap<>();
+
+    /**
+     * 外部不提供实例化方法
+     */
+    private HessianHeaderContext() {
+        this(false);
+    }
+
+    private HessianHeaderContext(boolean encode) {
+        this.encode = encode;
     }
 
     /**

@@ -33,32 +33,71 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
     /**
+     * 未定义Str常量
+     */
+    public static final String UNDEFINED = "undefined";
+
+    /**
+     * @see #defaultIfUndefined(CharSequence, CharSequence)
+     */
+    public static String defaultIfUndefined(String str) {
+        return defaultIfUndefined(str, EMPTY);
+    }
+
+    /**
+     * 如果为空或undefined返回空
+     *
+     * @param str        T
+     * @param defaultStr 默认值
+     * @param <T>
+     * @return CharSequence
+     */
+    public static <T extends CharSequence> T defaultIfUndefined(final T str, final T defaultStr) {
+        if (isEmpty(str) || equalsIgnoreCase(str, UNDEFINED)) {
+            return defaultStr;
+        }
+        return str;
+    }
+
+    /**
+     * 如果是NULL返回默认值，否则返回本身
+     *
+     * @param str        T
+     * @param defaultStr 默认值
+     * @param <T>
+     * @return CharSequence
+     */
+    public static <T extends CharSequence> T defaultIfNull(final T str, final T defaultStr) {
+        return null == str ? defaultStr : str;
+    }
+
+    /**
      * 首字母转小写
      */
-    public static String toLowerCaseFirstOne(String s) {
-        if (isEmpty(s)) {
+    public static String toLowerCaseFirstOne(String str) {
+        if (isEmpty(str)) {
             return EMPTY;
         }
-        if (Character.isLowerCase(s.charAt(0))) {
-            return s;
+        if (Character.isLowerCase(str.charAt(0))) {
+            return str;
         } else {
-            return (new StringBuilder()).append(Character.toLowerCase(s.charAt(0)))
-                    .append(s.substring(1)).toString();
+            return (new StringBuilder()).append(Character.toLowerCase(str.charAt(0)))
+                    .append(str.substring(1)).toString();
         }
     }
 
     /**
      * 首字母转大写
      */
-    public static String toUpperCaseFirstOne(String s) {
-        if (isEmpty(s)) {
+    public static String toUpperCaseFirstOne(String str) {
+        if (isEmpty(str)) {
             return EMPTY;
         }
-        if (Character.isUpperCase(s.charAt(0))) {
-            return s;
+        if (Character.isUpperCase(str.charAt(0))) {
+            return str;
         } else {
-            return (new StringBuilder()).append(Character.toUpperCase(s.charAt(0)))
-                    .append(s.substring(1)).toString();
+            return (new StringBuilder()).append(Character.toUpperCase(str.charAt(0)))
+                    .append(str.substring(1)).toString();
         }
     }
 

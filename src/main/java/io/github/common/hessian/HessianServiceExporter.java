@@ -38,12 +38,12 @@ public class HessianServiceExporter extends org.springframework.remoting.caucho.
 //        String authorization = request.getHeader("Authorization");
             log.debug("Hessian请求访问[{}],请求主机：[{}]", request.getRequestURI(), request.getHeader("host"));
             // 保存Request到Hessian线程上下文
-            HessianContext.setRequest(request);
+            HessianRequestContext.setRequest(request);
             invoke(request.getInputStream(), response.getOutputStream());
         } catch (Throwable ex) {
             throw new NestedServletException("Hessian skeleton invocation failed", ex);
         } finally {
-            HessianContext.clear();
+            HessianRequestContext.clear();
         }
     }
 

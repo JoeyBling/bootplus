@@ -9,9 +9,10 @@ import io.github.common.enums.IEnumHelperFactory;
 import io.github.config.filter.MyCorsFilter;
 import io.github.entity.enums.SysMenuTypeEnum;
 import io.github.frame.log.LogUtil;
+import io.github.util.DateUtils;
+import io.github.util.RegexUtil;
 import io.github.util.StringUtils;
 import io.github.util.file.FileTypeEnum;
-import io.github.util.http.RestTemplateUtil;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -91,12 +92,12 @@ public class _Main {
                 .put("enable_auto_cloud_recording", true).build();
 //        System.out.println(RestTemplateUtil.postForObject("https://www.baidu.com/", map, MediaType.APPLICATION_FORM_URLENCODED));
         System.out.println(Thread.currentThread().getName());
-        RestTemplateUtil.postForObject("https://www.gerensuodeshui.cn/", null, String.class);
+//        RestTemplateUtil.postForObject("https://www.gerensuodeshui.cn/", null, String.class);
         System.out.println(Thread.currentThread().getName());
 
-        RestTemplateUtil.getForObject("http://gogs-git.hztywl.cn/", map);
-        RestTemplateUtil.getForObject("http://gogs-git.hztywl.cn/", map);
-        RestTemplateUtil.getForObject("http://gogs-git.hztywl.cn/", map);
+//        RestTemplateUtil.getForObject("http://gogs-git.hztywl.cn/", map);
+//        RestTemplateUtil.getForObject("http://gogs-git.hztywl.cn/", map);
+//        RestTemplateUtil.getForObject("http://gogs-git.hztywl.cn/", map);
         System.out.println(Thread.currentThread().getName());
 
 //        System.out.println(RestTemplateUtil.getForObject("http://gogs-git.hztywl.cn/", map));
@@ -192,8 +193,20 @@ public class _Main {
             System.out.println(StringUtils.genRandomStr(i));
             System.out.println(StringUtils.genRandomForNumStr(i));
         }
-    }
 
+        System.out.println(StringUtils.toString(FileTypeEnum.IMAGE));
+        System.out.println(StringUtils.defaultIfUndefined("不是" + StringUtils.UNDEFINED, "是" + StringUtils.UNDEFINED));
+        System.out.println(StringUtils.defaultIfNull("", "是"));
+        System.out.println(StringUtils.defaultIfNull(null, "是"));
+
+        System.out.println(DateUtils.currentTimeStamp());
+        System.out.println(DateUtils.currentSecondTimeStamp());
+
+        System.out.println(RegexUtil.cleanLineBreak("a\n" +
+                "b\n" +
+                "c\r" +
+                "d\n" + "efg\n", "-"));
+    }
 
     public static int test2() {
         int i = 1;
@@ -204,7 +217,6 @@ public class _Main {
             System.out.println("finally语句块中");
             return 2;
         }
-
     }
 
 }

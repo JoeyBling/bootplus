@@ -2,6 +2,7 @@ package io.github.config;
 
 import com.google.common.collect.Lists;
 import io.github.config.interceptor.LogInterceptor;
+import io.github.frame.constant.SystemConst;
 import io.github.frame.spring.web.servlet.MyHandlerInterceptor;
 import io.github.util.file.FileUtils;
 import lombok.Data;
@@ -28,7 +29,6 @@ import org.springframework.web.servlet.config.annotation.*;
 
 import javax.servlet.MultipartConfigElement;
 import java.io.File;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -84,7 +84,7 @@ public class MyWebAppConfigurer implements WebMvcConfigurer {
         /**
          * @see AbstractHttpMessageConverter#getDefaultCharset()
          */
-        StringHttpMessageConverter converter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
+        StringHttpMessageConverter converter = new StringHttpMessageConverter(SystemConst.DEFAULT_CHARSET);
         return converter;
     }
 

@@ -7,12 +7,12 @@ import javax.servlet.ServletRequest;
  *
  * @author Created by 思伟 on 2020/7/10
  */
-public class HessianContext {
+public class HessianRequestContext {
 
     /**
      * 外部不提供实例化方法
      */
-    private HessianContext() {
+    private HessianRequestContext() {
     }
 
     /**
@@ -20,8 +20,8 @@ public class HessianContext {
      */
     private ServletRequest servletRequest;
 
-    private static final ThreadLocal<HessianContext> LOCAL_CONTEXT =
-            ThreadLocal.withInitial(HessianContext::new);
+    private static final ThreadLocal<HessianRequestContext> LOCAL_CONTEXT =
+            ThreadLocal.withInitial(HessianRequestContext::new);
 
     /**
      * 设置request请求对象

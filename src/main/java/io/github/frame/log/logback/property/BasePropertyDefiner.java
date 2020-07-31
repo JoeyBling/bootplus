@@ -31,6 +31,23 @@ public abstract class BasePropertyDefiner extends PropertyDefinerBase {
                 , ClassUtil.getClass(this));
     }
 
+    @Override
+    public String getPropertyValue() {
+        try {
+            return getValue();
+        } catch (Throwable e) {
+            addError(getSimpleErrMsg());
+        }
+        return null;
+    }
+
+    /**
+     * 获取属性值
+     *
+     * @return 自定义属性值
+     */
+    protected abstract String getValue();
+
     /**
      * 判断是否为空字符串
      *
