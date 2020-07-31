@@ -1,10 +1,10 @@
 package io.github.util;
 
+import io.github.frame.constant.SystemConst;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -34,7 +34,7 @@ public class ConfUtil {
      * @see #getInstance(String, String)
      */
     public static ConfUtil getInstance(String confName) {
-        return getInstance(confName, StandardCharsets.UTF_8.name());
+        return getInstance(confName, SystemConst.DEFAULT_CHARSET.name());
     }
 
     /**

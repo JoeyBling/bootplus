@@ -54,7 +54,7 @@ spring:
     auto: true
     proxy-target-class: true
   profiles:
-  #    active: dev
+    active: dev
   # 生产环境
   #    active: prd
   cache:

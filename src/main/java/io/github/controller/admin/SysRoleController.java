@@ -2,12 +2,11 @@ package io.github.controller.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.github.frame.controller.AbstractController;
 import io.github.entity.SysRoleEntity;
+import io.github.frame.controller.AbstractController;
 import io.github.service.SysRoleMenuService;
 import io.github.service.SysRoleService;
 import io.github.util.DateUtils;
-import io.github.util.JoeyUtil;
 import io.github.util.PageUtils;
 import io.github.util.R;
 import org.apache.commons.lang3.StringUtils;
@@ -19,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 角色管理
@@ -90,7 +92,7 @@ public class SysRoleController extends AbstractController {
         SysRoleEntity roleEntity = new SysRoleEntity();
         roleEntity.setRoleName(roleName);
         roleEntity.setRemark(remark);
-        roleEntity.setCreateTime(JoeyUtil.stampDate(new Date(), DateUtils.DATE_TIME_PATTERN));
+        roleEntity.setCreateTime(DateUtils.currentSecondTimeStamp());
 
         JSONArray jsonArray = JSONArray.parseArray(ids);
         Long[] menuId = toArrays(jsonArray);

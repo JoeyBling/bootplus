@@ -54,7 +54,7 @@ public class SysUserServiceImpl extends BaseAopService<SysUserServiceImpl, SysUs
     @Transactional(rollbackFor = Exception.class)
     public boolean save(SysUserEntity user) {
         // TODO 校验用户名不能重复
-        user.setCreateTime(DateUtils.getCurrentUnixTime());
+        user.setCreateTime(DateUtils.currentSecondTimeStamp());
         // sha256加密
         if (StringUtils.isNotEmpty(user.getPassword())) {
             user.setPassword(new Sha256Hash(user.getPassword()).toHex());

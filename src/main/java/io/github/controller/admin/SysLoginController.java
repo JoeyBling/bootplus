@@ -145,7 +145,7 @@ public class SysLoginController extends AbstractController {
         // 登录IP
         String ipAddress = GetIpAddress.getIpAddress(request);
         // 当前时间戳
-        Long currentUnixTime = DateUtils.getCurrentUnixTime();
+        Long currentUnixTime = DateUtils.currentSecondTimeStamp();
         user.setLastLoginIp(ipAddress);
         user.setLastLoginTime(currentUnixTime);
         boolean updateById = sysUserService.updateById(user);

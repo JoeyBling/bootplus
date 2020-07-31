@@ -3,7 +3,6 @@ package io.github.util.freemaker;
 import freemarker.core.Environment;
 import freemarker.template.*;
 import io.github.util.DateUtils;
-import io.github.util.JoeyUtil;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -31,14 +30,14 @@ public class FormatTimeFtlHelper implements TemplateDirectiveModel {
             return;
         }
         TemplateScalarModel pattern = (TemplateScalarModel) params.get("pattern");
-        String asString;
+        String datePattern = null;
         if (pattern == null) {
-            asString = DateUtils.DATE_TIME_PATTERN;
+            datePattern = DateUtils.DATE_TIME_PATTERN;
         } else {
-            asString = pattern.getAsString();
+            datePattern = pattern.getAsString();
         }
-        long flag = Long.valueOf(scalarModel.getAsString());
-        out.write(DateUtils.format(JoeyUtil.fomartDate(flag * 1000), asString));
+        long secondTimeStamp = Long.valueOf(scalarModel.getAsString());
+        out.write(DateUtils.format(DateUtils.getSecondTimeStampDate(secondTimeStamp), datePattern));
         body.render(out);
     }
 

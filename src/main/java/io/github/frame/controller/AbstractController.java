@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import io.github.config.ApplicationProperties;
 import io.github.config.aop.service.BaseAopContext;
 import io.github.entity.SysUserEntity;
+import io.github.frame.constant.SystemConst;
 import io.github.util.spring.ShiroUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.MethodIntrospector;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +29,11 @@ import java.util.Map;
  * @see org.springframework.util.ClassUtils#getMostSpecificMethod(Method, Class)
  */
 public abstract class AbstractController<S> extends BaseAopContext<S> {
+
+    /**
+     * 默认编码
+     */
+    protected final Charset DEFAULT_CHARSET = SystemConst.DEFAULT_CHARSET;
 
     /**
      * 安全随机数实现

@@ -31,23 +31,19 @@ public class MyCorsFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         Assert.notNull(filterConfig, "FilterConfig must not be null");
-        try {
-            // 允许跨域访问的域名数组(使用,分隔)
-            String allowOriginStr = YamlUtil.getProperty("access.control.allow.origin");
-            allowOrigins = StringUtils.split(allowOriginStr, ",");
-            // 允许跨域的请求方法
-            allowMethods = StringUtils.defaultIfEmpty(
-                    YamlUtil.getProperty("access.control.allow.methods"), DEFAULT_ALLOW_METHODS);
+        // 允许跨域访问的域名数组(使用,分隔)
+        String allowOriginStr = YamlUtil.getProperty("access.control.allow.origin");
+        allowOrigins = StringUtils.split(allowOriginStr, ",");
+        // 允许跨域的请求方法
+        allowMethods = StringUtils.defaultIfEmpty(
+                YamlUtil.getProperty("access.control.allow.methods"), DEFAULT_ALLOW_METHODS);
 
-            // 请求的有效期,单位为秒
-            maxAge = StringUtils.defaultIfEmpty(
-                    YamlUtil.getProperty("access.control.max.age"), "3600");
-            // CORS请求中允许的标头
-            allowHeaders = StringUtils.defaultIfEmpty(
-                    YamlUtil.getProperty("access.control.allow.headers"), "Content-Type, sign");
-        } catch (IOException e) {
-            log.error("自定义CORS跨域请求安全配置错误...", e);
-        }
+        // 请求的有效期,单位为秒
+        maxAge = StringUtils.defaultIfEmpty(
+                YamlUtil.getProperty("access.control.max.age"), "3600");
+        // CORS请求中允许的标头
+        allowHeaders = StringUtils.defaultIfEmpty(
+                YamlUtil.getProperty("access.control.allow.headers"), "Content-Type, sign");
         log.info("WebFilter->[{}] init success...", filterConfig.getFilterName());
         log.info("初始化CORS跨域请求安全配置完成===={}", this.toString());
     }

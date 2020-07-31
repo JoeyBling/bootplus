@@ -2,7 +2,6 @@ package io.github.frame.log.logback.property;
 
 import io.github.util.YamlUtil;
 
-import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.Optional;
 
@@ -23,7 +22,7 @@ public class YamlPropertyDefiner extends BasePropertyDefiner {
     }
 
     @Override
-    public String getPropertyValue() {
+    public String getValue() {
         return Optional.ofNullable(this.propertyKey).map(str -> {
             try {
                 // 获取yaml文件对应的key值
@@ -31,7 +30,7 @@ public class YamlPropertyDefiner extends BasePropertyDefiner {
                 addInfo(MessageFormat.format("get propertyKey=[{0}] value=[{1}] "
                         , propertyKey, propertyValue));
                 return propertyValue;
-            } catch (IOException e) {
+            } catch (Throwable e) {
                 addError(getSimpleErrMsg(), e);
             }
             return null;
