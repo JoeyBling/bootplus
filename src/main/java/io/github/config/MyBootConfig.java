@@ -6,6 +6,7 @@ import com.google.code.kaptcha.Producer;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
 import io.github.config.aop.service.MyInjectBeanSelfProcessor;
+import io.github.util.DateUtils;
 import org.springframework.aop.interceptor.AsyncExecutionAspectSupport;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -90,11 +91,11 @@ public class MyBootConfig {
         mapper.findAndRegisterModules();
         // 取消timestamps形式
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DateUtils.DATE_TIME_PATTERN);
         mapper.setDateFormat(dateFormat);
         //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
         // 设置时区
-        mapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        mapper.setTimeZone(TimeZone.getTimeZone(DateUtils.DATE_TIMEZONE));
         System.err.println("starter for Jackson-----Jackson init success.");
         return mapper;
     }
