@@ -93,57 +93,57 @@ function formatStatus(value, row, index) {
     }
 }
 
-// 开关切换(确保在Dom元素加载后渲染)
-$("#table")
-    .on(
-        "load-success.bs.table",
-        function () {
-            $("input[name='my-checkbox']").bootstrapSwitch({
-                onText: "启用",
-                offText: "禁用",
-                size: "mini"
-            });
-            // Dom元素加载后才能绑定触发事件
-            $('input[name="my-checkbox"]')
-                .on(
-                    'switchChange.bootstrapSwitch',
-                    function (event, state) {
-                        var index = layer.load(1, {
-                            shade: [0.3, '#fff']
-                            // 0.1透明度的白色背景
-                        });
-                        var userId = $(this)
-                            .attr("data-userId");
-                        if (userId == null) {
-                            layer.close(index);
-                            return false;
-                        }
-                        $
-                            .ajax({
-                                type: "POST",
-                                url: 'user/updateStatus',
-                                headers: {
-                                    'Content-Type': 'application/x-www-form-urlencoded'
-                                },
-                                data: {
-                                    userId: userId,
-                                    state: state
-                                },
-                                success: function (r) {
-                                    layer.close(index);
-                                    if (r.code === 0) {
-                                    } else {
-                                        layer
-                                            .alert(
-                                                r.msg,
-                                                {
-                                                    icon: 2
-                                                });
-                                    }
-                                }
-                            });
-                    });
+/**
+ * 开关切换(确保在Dom元素加载后渲染)
+ * 绑定多个事件
+ * @url {https://bootstrap-table.com/docs/api/}
+ */
+$("#table").on("toggle.bs.table load-success.bs.table", function (event) {
+    // layer.msg(`cardView=${event}`);
+    $("input[name='my-checkbox']").bootstrapSwitch({
+        onText: "启用",
+        offText: "禁用",
+        size: "mini"
+    });
+    // Dom元素加载后才能绑定触发事件
+    $('input[name="my-checkbox"]').on('switchChange.bootstrapSwitch', function (event, state) {
+        let index = layer.load(1, {
+            shade: [0.3, '#fff']
+            // 0.1透明度的白色背景
         });
+        let userId = $(this)
+            .attr("data-userId");
+        if (userId == null) {
+            layer.close(index);
+            return false;
+        }
+        $.ajax({
+            type: "POST",
+            url: 'user/updateStatus',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            data: {
+                userId: userId,
+                state: state
+            },
+            success: function (r) {
+                layer.close(index);
+                if (r.code === 0) {
+                    layer.msg('操作成功!', {
+                        shade: 0.5,
+                        icon: 1,
+                        time: 1 * 1000 // 1秒关闭（如果不配置，默认是3秒）
+                    });
+                } else {
+                    layer.alert(r.msg, {
+                        icon: 2
+                    });
+                }
+            }
+        });
+    });
+});
 
 let handle = $("#handle");
 let data_update = $(handle).attr("data-update");
@@ -161,7 +161,8 @@ function actionFormatter(e, value, row, index) {
     } else if (null != data_update && null == data_delete) {
         return [
             '<a class="edit text-warning" href="javascript:void(0)" title="编辑">',
-            '<i class="glyphicon glyphicon-edit"></i>编辑', '</a>'].join('');
+            '<i class="glyphicon glyphicon-edit"></i>编辑', '</a>']
+            .join('');
     } else {
         return [
             '<a class="edit m-r-sm text-warning" href="javascript:void(0)" title="编辑">',
@@ -275,7 +276,7 @@ function del(tableName) {
 }
 
 // 新建用户
-function add(s) {
+function add(ele) {
     bootplus.progressBarStartUp();
     $("#title").text("新建用户");
     $("input[name='userId']").val("");
@@ -287,7 +288,7 @@ function add(s) {
     $("input[name='status'][value=" + 1 + "]").prop("checked", true); // 默认选中状态-正常
     radio(); // 要重新生成样式
     getRoleList();
-    layer_show("新建用户", $(s), 800, 500);
+    layer_show("新建用户", $(ele), 800, 500);
     bootplus.progressBarShutDown();
 }
 

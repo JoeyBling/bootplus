@@ -133,10 +133,10 @@
                                            data-sort-name="loginTime"
                                            data-sort-order="desc"
                                            data-unique-id="logId"
-                                           data-response-handler="defaultBootstarpTableHandler">
+                                           data-response-handler="defaultBootstrapTableHandler">
                                         <thead>
                                         <tr>
-                                            <th data-field="loginTime" data-formatter="BootstrapTableformatDate"
+                                            <th data-field="loginTime" data-formatter="BootstrapTableFormatDate"
                                                 data-halign="center" data-align="center" data-sortable="true">登录时间
                                             </th>
                                             <th data-field="loginIp" data-halign="center" data-align="center"

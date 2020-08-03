@@ -289,9 +289,13 @@ function validateForm(event) {
     return $(event).data('bootstrapValidator').isValid();
 }
 
-// BootStrapTable公用
-// 加载服务器数据之前的处理程序，可以用来格式化数据。参数：data为从服务器请求到的数据。
-function defaultBootstarpTableHandler(data) {
+/**
+ * BootStrapTable公用
+ * 加载服务器数据之前的处理程序，可以用来格式化数据
+ * @param data 从服务器请求到的数据。
+ * @returns {{total: *, rows: HTMLElement}}
+ */
+function defaultBootstrapTableHandler(data) {
     if (data.code != 0) {
         layer.alert(data.msg, {
             icon: 2
@@ -309,15 +313,14 @@ function defaultBootstarpTableHandler(data) {
 /**
  * BootStrap默认日期格式化
  *
- * @param {}
- *            uuix 时间戳(秒)
+ * @param secondTimeStamp 时间戳(秒)
  * @return {} yyyy-MM-dd HH:MM
  */
-function BootstrapTableformatDate(uuix) {
-    if (null == uuix || "" == uuix) {
+function BootstrapTableFormatDate(secondTimeStamp) {
+    if (null == secondTimeStamp || "" == secondTimeStamp) {
         return null;
     }
-    let now = new Date(uuix * 1000);
+    let now = new Date(secondTimeStamp * 1000);
     let year = now.getFullYear();
     let month = now.getMonth() + 1;
     let date = now.getDate();

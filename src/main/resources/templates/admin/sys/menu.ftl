@@ -88,7 +88,7 @@
                                            data-click-to-select="true" [#-- 设置true 将在点击行时，自动选择rediobox 和 checkbox --]
                                            data-single-select="false" [#-- 设置True 将禁止多选 --]
                                            data-unique-id="menuId" [#-- 填写主键ID即可 --][#-- 官方文档:http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation/ --]
-	                                       data-response-handler="defaultBootstarpTableHandler"
+	                                       data-response-handler="defaultBootstrapTableHandler"
 	                                       data-striped="true">
                                     <thead>
                                     <tr>
