@@ -16,16 +16,16 @@ package io.github.util.exception;
 public class SysRuntimeException extends BaseRuntimeException {
     private static final long serialVersionUID = 1L;
 
-    protected int code = 500;
+    protected String code = "500";
     protected String msg;
 
-    public SysRuntimeException(int code, String msg) {
+    public SysRuntimeException(String code, String msg) {
         super(msg);
         this.code = code;
         this.msg = msg;
     }
 
-    public SysRuntimeException(int code, String msg, Exception cause) {
+    public SysRuntimeException(String code, String msg, Exception cause) {
         super(msg, cause);
         this.code = code;
         this.msg = msg;
@@ -36,22 +36,8 @@ public class SysRuntimeException extends BaseRuntimeException {
         this.msg = msg;
     }
 
-    public SysRuntimeException(int code) {
+    public SysRuntimeException(String code) {
         super("ERROR_CODE=" + code);
-        this.code = code;
-    }
-
-    public SysRuntimeException(String msg) {
-        super(msg);
-        this.msg = msg;
-    }
-
-    @Override
-    public int getCode() {
-        return code;
-    }
-
-    public void setCode(int code) {
         this.code = code;
     }
 
@@ -64,11 +50,20 @@ public class SysRuntimeException extends BaseRuntimeException {
         this.msg = msg;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Override
     public String toString() {
         return "SysRuntimeException{" +
-                "code=" + code +
+                "code='" + code + '\'' +
                 ", msg='" + msg + '\'' +
                 '}';
     }
+
 }

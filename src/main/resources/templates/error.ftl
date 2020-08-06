@@ -63,6 +63,7 @@
         <a href="${rc.contextPath}/" class="with-tooltip" title="返回首页">返回首页</a>
         | <a href="javascript:history.back();" class="with-tooltip" title="返回上一页">返回上页</a>
         | <a href="${rc.contextPath}/admin" class="with-tooltip" title="进入后台管理系统">进入后台管理系统</a>
+        | <a href="${rc.contextPath}/apidoc/index.html" class="with-tooltip" title="接口文档">接口文档</a>
         | <a href="http://wpa.qq.com/msgrd?v=3&uin=2434387555&site=qq&menu=yes"
              target="_blank" class="with-tooltip" title="联系我们">联系我们</a>
     </div>

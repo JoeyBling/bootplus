@@ -9,6 +9,7 @@ import lombok.experimental.Accessors;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 分页工具类
@@ -83,11 +84,11 @@ public class PageUtils<T> implements Serializable {
      * @return PageUtils<T>
      */
     public static <T> PageUtils<T> buildPageUtil(Page<T> page) {
-        return PageUtils.<T>builder()
-                .list(page.getRecords())
-                .totalCount(page.getTotal())
-                .pageSize(page.getSize())
-                .currPage(page.getCurrent()).build();
+        return Optional.ofNullable(page).map(tPage -> PageUtils.<T>builder()
+                .list(tPage.getRecords())
+                .totalCount(tPage.getTotal())
+                .pageSize(tPage.getSize())
+                .currPage(tPage.getCurrent()).build()).orElse(null);
     }
 
 }

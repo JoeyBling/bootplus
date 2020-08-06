@@ -35,7 +35,7 @@ public class RestGlobalExceptionHandler {
     @Deprecated
     @ExceptionHandler(BaseRuntimeException.class)
     public R handleMyException(BaseRuntimeException e, HttpServletRequest request) {
-        return R.error(e.getCode(), e.getMsg());
+        return R.error(e.getErrorCode(), e.getMsg());
     }
 
     /**

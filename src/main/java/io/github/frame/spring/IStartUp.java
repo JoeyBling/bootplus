@@ -17,6 +17,6 @@ public interface IStartUp {
      * @param applicationContext ApplicationContext
      * @throws Exception
      */
-    void startUp(ApplicationContext applicationContext) throws Exception;
+    void startUp(final ApplicationContext applicationContext) throws Exception;
 
 }

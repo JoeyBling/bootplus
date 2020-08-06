@@ -1,7 +1,14 @@
 package io.github.util.http;
 
+import io.github.frame.constant.SystemConst;
+
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Cookie工具类
@@ -13,11 +20,10 @@ public class CookieUtil {
     /**
      * 设置HttpOnly Cookie
      *
-     * @param response   HTTP响应
-     * @param cookie     Cookie对象
-     * @param isHttpOnly 是否为HttpOnly
+     * @param response HTTP响应
+     * @param cookie   Cookie对象
      */
-    public static void addCookie(HttpServletResponse response, Cookie cookie, boolean isHttpOnly) {
+    public static void addCookie(HttpServletResponse response, Cookie cookie) throws UnsupportedEncodingException {
         //Cookie名称
         String name = cookie.getName();
         //Cookie值
@@ -33,7 +39,8 @@ public class CookieUtil {
 
         StringBuilder buffer = new StringBuilder();
 
-        buffer.append(name).append("=").append(value).append(";");
+        buffer.append(name).append("=").append(
+                URLEncoder.encode(value, SystemConst.DEFAULT_CHARSET.name())).append(";");
 
         if (maxAge == 0) {
             buffer.append("Expires=Thu Jan 01 08:00:00 CST 1970;");
@@ -53,10 +60,43 @@ public class CookieUtil {
             buffer.append("secure;");
         }
 
-        if (isHttpOnly) {
+        if (cookie.isHttpOnly()) {
             buffer.append("HTTPOnly;");
         }
         response.addHeader("Set-Cookie", buffer.toString());
+    }
+
+    /**
+     * 读取cookie
+     *
+     * @param request HTTP请求
+     * @param name    the name of the cookie
+     * @return Cookie
+     */
+    public static Cookie getCookie(HttpServletRequest request, String name) {
+        Map<String, Cookie> cookieMap = readCookieMap(request);
+        if (cookieMap.containsKey(name)) {
+            Cookie cookie = cookieMap.get(name);
+            return cookie;
+        }
+        return null;
+    }
+
+    /**
+     * 将cookie转换为map
+     *
+     * @param request HTTP请求
+     * @return Map
+     */
+    private static Map<String, Cookie> readCookieMap(HttpServletRequest request) {
+        Map<String, Cookie> cookieMap = new HashMap<>();
+        Cookie[] cookies = request.getCookies();
+        if (null != cookies) {
+            for (Cookie cookie : cookies) {
+                cookieMap.put(cookie.getName(), cookie);
+            }
+        }
+        return cookieMap;
     }
 
 }

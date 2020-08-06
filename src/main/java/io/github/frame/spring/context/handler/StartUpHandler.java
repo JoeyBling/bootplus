@@ -26,7 +26,7 @@ public class StartUpHandler implements ApplicationListener<ContextRefreshedEvent
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         // root application context 没有parent，他就是老大.
-        ApplicationContext applicationContext = event.getApplicationContext();
+        final ApplicationContext applicationContext = event.getApplicationContext();
         if (applicationContext.getParent() == null) {
             Map<String, IStartUp> startUpMap = applicationContext.getBeansOfType(IStartUp.class);
 

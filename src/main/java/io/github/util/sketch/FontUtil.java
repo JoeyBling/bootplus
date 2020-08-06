@@ -2,7 +2,6 @@ package io.github.util.sketch;
 
 import com.google.common.collect.Maps;
 import io.github.util.exception.RRException;
-import io.github.util.exception.SysRuntimeException;
 import io.github.util.file.FileUtils;
 import io.github.util.sketch.img.Img;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +51,7 @@ public class FontUtil {
                     FileUtils.generateFileUrl(FONTS_DIR, fontName));
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new SysRuntimeException("路径获取失败，请联系服务提供商处理");
+            throw new RRException("路径获取失败，请联系服务提供商处理");
         }
     }
 

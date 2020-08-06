@@ -42,8 +42,12 @@ public class RRException extends BaseRuntimeException {
         this.msg = msg;
     }
 
-    @Override
     public int getCode() {
+        return code;
+    }
+
+    @Override
+    public int getErrorCode() {
         return code;
     }
 

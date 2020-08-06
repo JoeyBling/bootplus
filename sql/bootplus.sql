@@ -53,6 +53,7 @@ INSERT INTO `sys_menu` VALUES (14, 4, '新增', NULL, 'sys:menu:save,sys:menu:se
 INSERT INTO `sys_menu` VALUES (15, 4, '修改', NULL, 'sys:menu:update,sys:menu:select', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (16, 4, '删除', NULL, 'sys:menu:delete', 2, NULL, 0);
 INSERT INTO `sys_menu` VALUES (17, 1, '监控管理', 'druid/index.html', 'druid:druid:manager', 1, 'fa fa-cogs', 3);
+INSERT INTO `sys_menu` VALUES (18, 1, '接口文档', 'apidoc/index.html', '', 1, 'fa fa-chrome', 0);
 
 -- ----------------------------
 -- Table structure for sys_role

@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -279,6 +280,25 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
             }
         }
         return pwd.toString();
+    }
+
+    /**
+     * str值是否是strList中的一个，如果是返回true，反之false
+     *
+     * @param str     任意字符串
+     * @param strList 字符串列表
+     * @return boolean
+     */
+    public static boolean collectionIn(String str, List<String> strList) {
+        if (null == strList) {
+            return false;
+        }
+        for (String _str : strList) {
+            if (equals(str, _str)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

@@ -1,0 +1,22 @@
+{
+  "name": "XX平台",
+  "version": "2.0.0",
+  "description": "XX平台接口文档",
+  "title": "XX平台接口文档",
+  "sampleUrl": "http://bootplus.diandianys.com",
+  "sampleUrlLocal": "http://localhost",
+  "sampleUrlPrd": "http://bootplus.diandianys.com",
+  "header": {
+    "title": "文档说明",
+    "filename": "header.md"
+  },
+  "footer": {
+    "title": "关于我",
+    "filename": "about.md"
+  },
+  "template": {
+    "withCompare": true,
+    "withGenerator": true,
+    "aloneDisplay": false
+  }
+}

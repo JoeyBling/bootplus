@@ -57,6 +57,12 @@ spring:
     active: dev
   # 生产环境
   #    active: prd
+  jackson:
+    default-property-inclusion: non_null
+    # 取消timestamps形式
+    serialization: { WRITE_DATES_AS_TIMESTAMPS: false }
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
   cache:
     ehcache:
       config: classpath:/ehcache-core.xml
@@ -104,6 +110,7 @@ spring:
         login-password: admin
         # 是否能够重置数据
         reset-enable: false
+        allow: 127.0.0.1
   freemarker:
     allow-request-override: false
     cache: false
@@ -169,14 +176,15 @@ management:
 ################################### 程序自定义配置 ###################################
 
 application:
-  #  管理员ID
-  admin-id: 1
   name: @project.artifactId@
   version: @project.version@
   url: @project.url@
   description: @project.description@
   blog: @blog.url@
   basedir: @project.basedir@
+  requestPassword: aAr9MVS9j1
+  #  管理员ID
+  admin-id: 1
   logs:
     level: DEBUG
     path: ${application.basedir}/../logs
