@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 /**
- * Api校验工具类
+ * Api入参校验工具类
  * <p>
  * TODO 考虑是否放弃ognl语法解析,使用缓存+反射的方式,或者使用SpEL，Validate4JQuery也需要一同处理
  *
@@ -41,7 +41,7 @@ public class Validate4Api {
 
     public static TransBaseResponse valid2Response(Object t, List<Validate4ApiRule> rules) {
         try {
-            new Validate4Api(rules).valid(t);
+            valid(t, rules);
         } catch (SysRuntimeException e) {
             return TransBaseResponse.builder()
                     .code(ResponseCodeConst.ERROR_VALIDATE).msg(e.getMessage()).build();
@@ -49,16 +49,21 @@ public class Validate4Api {
         return null;
     }
 
-    public static void valid(Object t, List<Validate4ApiRule> rules, Function<Object, String> customValid) {
+    public static <T> void valid(T t, List<Validate4ApiRule> rules, Function<T, String> customValid) {
         valid(t, rules);
-        customValid.apply(t);
+        if (null != customValid) {
+            String errorMsg = customValid.apply(t);
+            if (StringUtils.isNotEmpty(errorMsg)) {
+                throw new SysRuntimeException(ResponseCodeConst.ERROR_VALIDATE, errorMsg);
+            }
+        }
     }
 
-    public static TransBaseResponse valid2Response(Object t, List<Validate4ApiRule> rules, Function<Object, String> customValid) {
+    public static <T> TransBaseResponse valid2Response(T t, List<Validate4ApiRule> rules, Function<T, String> customValid) {
         TransBaseResponse response = valid2Response(t, rules);
         if (null == response) {
             return Optional.ofNullable(customValid.apply(t))
-                    .map(o -> TransBaseResponse.builder().code(ResponseCodeConst.ERROR_VALIDATE).msg(o).build())
+                    .map(errorMsg -> TransBaseResponse.builder().code(ResponseCodeConst.ERROR_VALIDATE).msg(errorMsg).build())
                     .orElse(null);
         }
         return response;
@@ -167,6 +172,8 @@ public class Validate4Api {
                     return EmailValidate.exec(obj, param, ruleValue, StringUtils.format("{} 不是有效的email地址", paramName));
                 case mobile:
                     return MobileValidate.exec(obj, param, ruleValue, StringUtils.format("{} 不是有效的手机号", paramName));
+                case remote:
+                case remoteJava:
                 default:
                     return null;
             }

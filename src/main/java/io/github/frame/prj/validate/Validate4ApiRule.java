@@ -40,7 +40,7 @@ public class Validate4ApiRule {
     /**
      * 枚举
      */
-    public static Validate4ApiRule enums(String param, String paramName, String[] enumValue) {
+    public static Validate4ApiRule enums(String param, String paramName, Object[] enumValue) {
         return new Validate4ApiRule(param, paramName, ValidateEnum.enums, StringUtils.joinWith(",", enumValue));
     }
 
@@ -77,36 +77,81 @@ public class Validate4ApiRule {
     /**
      * 最小值
      */
-    public static Validate4ApiRule min(String param, String paramName, String minValue) {
-        return new Validate4ApiRule(param, paramName, ValidateEnum.min, minValue);
+    public static Validate4ApiRule min(String param, String paramName, BigDecimal minValue) {
+        return new Validate4ApiRule(param, paramName, ValidateEnum.min, StringUtils.toString(minValue));
+    }
+
+    /**
+     * 最小值
+     *
+     * @see #min(String, String, BigDecimal)
+     */
+    public static Validate4ApiRule min(String param, String paramName, int minValue) {
+        return min(param, paramName, new BigDecimal(minValue));
     }
 
     /**
      * 最小值(含)
      */
-    public static Validate4ApiRule minInclude(String param, String paramName, String minValue) {
-        return new Validate4ApiRule(param, paramName, ValidateEnum.min_include, minValue);
+    public static Validate4ApiRule minInclude(String param, String paramName, BigDecimal minValue) {
+        return new Validate4ApiRule(param, paramName, ValidateEnum.min_include, StringUtils.toString(minValue));
+    }
+
+    /**
+     * 最小值(含)
+     *
+     * @see #minInclude(String, String, BigDecimal)
+     */
+    public static Validate4ApiRule minInclude(String param, String paramName, int minValue) {
+        return minInclude(param, paramName, new BigDecimal(minValue));
     }
 
     /**
      * 最大值
      */
-    public static Validate4ApiRule max(String param, String paramName, String maxValue) {
+    public static Validate4ApiRule max(String param, String paramName, BigDecimal maxValue) {
         return new Validate4ApiRule(param, paramName, ValidateEnum.max, StringUtils.toString(maxValue));
+    }
+
+    /**
+     * 最大值
+     *
+     * @see #max(String, String, BigDecimal)
+     */
+    public static Validate4ApiRule max(String param, String paramName, int maxValue) {
+        return max(param, paramName, new BigDecimal(maxValue));
     }
 
     /**
      * 最大值(含)
      */
-    public static Validate4ApiRule maxInclude(String param, String paramName, String maxValue) {
-        return new Validate4ApiRule(param, paramName, ValidateEnum.max_include, maxValue);
+    public static Validate4ApiRule maxInclude(String param, String paramName, BigDecimal maxValue) {
+        return new Validate4ApiRule(param, paramName, ValidateEnum.max_include, StringUtils.toString(maxValue));
+    }
+
+    /**
+     * 最大值(含)
+     *
+     * @see #maxInclude(String, String, BigDecimal)
+     */
+    public static Validate4ApiRule maxInclude(String param, String paramName, int maxValue) {
+        return maxInclude(param, paramName, new BigDecimal(maxValue));
     }
 
     /**
      * 数字范围
      */
-    public static Validate4ApiRule range(String param, String paramName, String minValue, String maxValue) {
-        return new Validate4ApiRule(param, paramName, ValidateEnum.range, JSON.toJSONString(new String[]{minValue, maxValue}));
+    public static Validate4ApiRule range(String param, String paramName, BigDecimal minValue, BigDecimal maxValue) {
+        return new Validate4ApiRule(param, paramName, ValidateEnum.range, JSON.toJSONString(new Object[]{minValue, maxValue}));
+    }
+
+    /**
+     * 数字范围
+     *
+     * @see #range(String, String, BigDecimal, BigDecimal)
+     */
+    public static Validate4ApiRule range(String param, String paramName, int minValue, int maxValue) {
+        return range(param, paramName, new BigDecimal(minValue), new BigDecimal(maxValue));
     }
 
     /**

@@ -14,6 +14,6 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
         SysUserControllerTest.class,
 })
-public class TestControllerSuits extends TestCase {
+public class ControllerTestCase extends TestCase {
 
 }

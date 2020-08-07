@@ -54,7 +54,7 @@ npm install -g apidoc 或者 yarn global add apidoc
 ```
 
 
-#### 2、请求添加自定义请求头
+#### 3、请求添加自定义请求头
 &emsp;&emsp;打开文件`apidoc/template/utils/send_sample_request.js`，找到149行，替换以下内容
 
 ```javascript
