@@ -35,7 +35,7 @@ import java.util.Set;
 public class MyControllerRegistry implements IStartUp {
 
     @Override
-    public void startUp(ApplicationContext applicationContext) throws Exception {
+    public void startUp(final ApplicationContext applicationContext) throws Exception {
         // root application context 没有parent，他就是老大.
         if (applicationContext.getParent() == null) {
             // 这里只能获取注册了Bean的注解类

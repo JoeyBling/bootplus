@@ -39,7 +39,8 @@
         <jsoup.version>1.11.3</jsoup.version>
         <httpclient.version>4.5.6</httpclient.version>
         <druid-spring-boot-starter.version>1.1.22</druid-spring-boot-starter.version>
-<!--        <druid-spring-boot-starter.version>1.1.23</druid-spring-boot-starter.version>-->
+        <!--<druid-spring-boot-starter.version>1.1.23</druid-spring-boot-starter.version>-->
+        <hutool.version>5.3.10</hutool.version>
 
         <spring.boot.dependencies.scope>provided</spring.boot.dependencies.scope>
         <!-- Docker 插件 -->
@@ -75,7 +76,6 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>-->
-
                 <!-- 解决循环继承导致栈溢出的问题 -->
                 <!--The class hierarchy being processed was [org.bouncycastle.asn1.ASN1Boolean->
                 org.bouncycastle.asn1.DERBoolean->org.bouncycastle.asn1.ASN1Boolean]-->
@@ -123,7 +123,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.60</version>
+            <version>1.2.62</version>
         </dependency>
 
         <!-- 建议从fastjson转jackson -->
@@ -150,7 +150,18 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-http</artifactId>
-            <version>5.1.2</version>
+            <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-crypto</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <!-- 加密工具类 -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.65</version>
         </dependency>
 
         <dependency>
@@ -408,6 +419,13 @@
             <!-- Tomcat scope must be 'compile' when 'jar' packaging, or 'provided' when 'war' -->
             <scope>${spring.boot.dependencies.scope}</scope>
             <!--            <scope>compile</scope>-->
+        </dependency>
+
+        <!-- ognl语言工具包 -->
+        <dependency>
+            <groupId>ognl</groupId>
+            <artifactId>ognl</artifactId>
+            <version>3.2.14</version>
         </dependency>
 
         <!-- LomBok插件 -->

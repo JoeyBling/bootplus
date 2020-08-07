@@ -12,7 +12,7 @@ public interface MyException {
      *
      * @return default:500
      */
-    default int getCode() {
+    default int getErrorCode() {
         return 500;
     }
 

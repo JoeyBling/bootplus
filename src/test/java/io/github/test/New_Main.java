@@ -12,8 +12,12 @@ import java.util.Calendar;
 public class New_Main {
 
     public static void main(String[] args) throws Exception {
+
+        char c = 'D';
+        System.out.println(c + 1);
+
         Calendar lastMonth = Calendar.getInstance();
-        lastMonth.setTime(DateUtils.parseDateTimeStr("2020-06-30"));
+        lastMonth.setTime(DateUtils.parseDateStr("2020-06-30"));
         lastMonth.add(Calendar.MONTH, -1);
         System.out.println(DateUtils.format(lastMonth.getTime()));
 

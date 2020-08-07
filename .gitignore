@@ -110,6 +110,14 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 
+### Api Doc Files ###
+doc/
+
+# Book build output
+_book
+**/images/uml/
+
 # The custom
+.history
 application.yml.bak
 application-prd.yml

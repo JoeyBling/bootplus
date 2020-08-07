@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * 全局异常处理器
+ * 添加全局异常处理流程，根据需要设置需要处理的异常
  *
  * @author Created by 思伟 on 2020/6/6
  * @see org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver
@@ -34,7 +35,7 @@ public class RestGlobalExceptionHandler {
     @Deprecated
     @ExceptionHandler(BaseRuntimeException.class)
     public R handleMyException(BaseRuntimeException e, HttpServletRequest request) {
-        return R.error(e.getCode(), e.getMsg());
+        return R.error(e.getErrorCode(), e.getMsg());
     }
 
     /**
@@ -74,15 +75,14 @@ public class RestGlobalExceptionHandler {
     }
 
     /**
-     * 添加全局异常处理流程，根据需要设置需要处理的异常
+     * 默认异常处理
      *
      * @param request   HttpServletRequest
-     * @param exception Exception
+     * @param exception Throwable
      * @return Map
-     * @throws Exception
      */
-    @ExceptionHandler(Exception.class)
-    public Object methodArgumentNotValidHandler(HttpServletRequest request, Exception exception) throws Exception {
+    @ExceptionHandler(Throwable.class)
+    public Object defaultErrorHandler(HttpServletRequest request, Throwable exception) {
         // 记录异常日志
         log.error(exception.getMessage(), exception);
         return R.error(exception.getMessage());

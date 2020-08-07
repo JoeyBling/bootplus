@@ -11,10 +11,10 @@
                        |_|
 ```
 
-![star](https://img.shields.io/github/stars/JoeyBling/bootplus "star")
-![fork](https://img.shields.io/github/forks/JoeyBling/bootplus "fork")
-![GitHub Last Commit](https://img.shields.io/github/last-commit/JoeyBling/bootplus.svg?label=commits "GitHub Last Commit")
-![issues](https://img.shields.io/github/issues/JoeyBling/bootplus "issues")
+[![star](https://img.shields.io/github/stars/JoeyBling/bootplus "star")](https://github.com/JoeyBling/bootplus)
+[![fork](https://img.shields.io/github/forks/JoeyBling/bootplus "fork")](https://github.com/JoeyBling/bootplus)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/JoeyBling/bootplus.svg?label=commits "GitHub Last Commit")](https://github.com/JoeyBling/bootplus)
+[![issues](https://img.shields.io/github/issues/JoeyBling/bootplus "issues")](https://github.com/JoeyBling/bootplus)
 [![Author](https://img.shields.io/badge/Author-JoeyBling-red.svg "Author")](https://zhousiwei.gitee.io "Author")
 
 ------------------
@@ -23,13 +23,17 @@
 
 ## 介绍
 &emsp;&emsp;`bootplus`是基于`SpringBoot + Shiro + MyBatisPlus`的权限管理框架
+
+- 项目集成api接口及文档
+- 准备集成定时任务 -- （开发中）
 - 功能还很少，欢迎各位给我提意见和建议~
 
 > `SpringBoot`1.5.1集成例子请参考[bootplus_1.5.1](https://github.com/JoeyBling/bootplus/tree/1.5) （老项目只进行Bug修复，不再添加新功能实现）
 
 ## 线上预览
 
-> **预览 ➡️[http://bootplus.diandianys.com/](http://bootplus.diandianys.com/)**
+- **预览 ➡️[http://bootplus.diandianys.com/](http://bootplus.diandianys.com/)**
+- **接口文档 ➡️[http://bootplus.diandianys.com/apidoc/index.html](http://bootplus.diandianys.com/apidoc/index.html)**
 
 ## 项目结构
 
@@ -65,6 +69,7 @@ bootplus
 |    ├── constant -- 常量模块
 |    ├── controller -- 控制器模块
 |    ├── log -- 日志模块
+|    ├── prj -- 项目核心模块
 |    ├── spring -- spring模块
 │
 ├── service -- 业务逻辑接口

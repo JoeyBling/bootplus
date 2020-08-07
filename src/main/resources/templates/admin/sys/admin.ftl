@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="${rc.contextPath}/statics/common/bootstrap-table/bootstrap-table.min.css"/>
     <link rel="stylesheet" href="${rc.contextPath}/statics/common/icheck/flat/green.css"/>
     <link rel="stylesheet" href="${rc.contextPath}/statics/common/bootstrap-switch/css/bootstrap-switch.min.css"/>
+    <script>
+        const ctx = "${rc.contextPath}";
+    </script>
 </head>
 <body class="gray-bg" style="display:none;">
 <div class="wrapper wrapper-content">
@@ -14,9 +17,10 @@
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>管理员列表</h5>
-
-                    <div class="ibox-tools"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a> <a
-                            class="close-link"><i class="fa fa-times"></i></a></div>
+                    <div class="ibox-tools">
+                        <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                        <a class="close-link"><i class="fa fa-times"></i></a>
+                    </div>
                 </div>
                 <div class="ibox-content form-horizontal">
                     <div class="row row-lg">
@@ -52,16 +56,16 @@
                                 <div class="example">
                                     <div id="toolbar" class="btn-group m-t-sm">
                                         [@shiro.hasPermission name="sys:user:save"]
-                                        <button type="button" style="margin-right:10px;" class="btn btn-primary"
-                                                title="创建管理员" onclick="add($('#showHandle'))"><i
-                                                class="glyphicon glyphicon-plus"></i> 创建管理员
-                                        </button>
+                                            <button type="button" style="margin-right:10px;" class="btn btn-primary"
+                                                    title="创建管理员" onclick="javascript:add($('#showHandle'))">
+                                                <i class="glyphicon glyphicon-plus"></i> 创建管理员
+                                            </button>
                                         [/@shiro.hasPermission]
                                         [@shiro.hasPermission name="sys:user:delete"]
-                                        <button type="button" style="margin-right:10px;" class="btn btn-danger"
-                                                title="批量删除管理员" onclick="del($('#table'))"><i
-                                                class="glyphicon glyphicon-remove"></i> 批量删除管理员
-                                        </button>
+                                            <button type="button" style="margin-right:10px;" class="btn btn-danger"
+                                                    title="批量删除管理员" onclick="javascript:del($('#table'))">
+                                                <i class="glyphicon glyphicon-remove"></i> 批量删除管理员
+                                            </button>
                                         [/@shiro.hasPermission]
                                     </div>
                                     <table id="table"
@@ -86,40 +90,40 @@
                                            data-click-to-select="true" [#-- 设置true 将在点击行时，自动选择rediobox 和 checkbox --]
                                            data-single-select="false" [#-- 设置True 将禁止多选 --]
                                            data-unique-id="userId" [#-- 填写主键ID即可 --][#-- 官方文档:http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation/ --]
-                                    	   data-response-handler="defaultBootstarpTableHandler">
-                                    <thead>
-                                    <tr>
-                                        <th data-checkbox="true"></th>
-                                        <th data-field="username" data-halign="center" data-align="center"
-                                            data-sortable="true">用户名
-                                        </th>
-                                        <th data-field="email" data-halign="center" data-align="center"
-                                            data-sortable="true">邮箱
-                                        </th>
-                                        <th data-field="mobile"
-                                            data-sortable="true" data-halign="center" data-align="center">手机号
-                                        </th>
-                                        <th data-field="status" data-formatter="formatStatus"
-                                            data-sortable="true" data-halign="center" data-align="center">状态
-                                        </th>
-                                        <th data-field="lastLoginIp"
-                                            data-sortable="true" data-halign="center" data-align="center">最后登录IP
-                                        </th>
-                                        <th data-field="lastLoginTime" data-formatter="BootstrapTableformatDate"
-                                            data-sortable="true" data-halign="center" data-align="center">最后登录时间
-                                        </th>
-                                        <th data-field="createTime" data-formatter="BootstrapTableformatDate"
-                                            data-sortable="true" data-halign="center" data-align="center">创建时间
-                                        </th>
-                                        <th data-formatter="actionFormatter" data-events="actionEvents"
-                                            data-halign="center" data-align="center">操作
-                                        </th>
-                                    </tr>
-                                    </thead>
+                                           data-response-handler="defaultBootstrapTableHandler">
+                                        <thead>
+                                        <tr>
+                                            <th data-checkbox="true"></th>
+                                            <th data-field="username" data-halign="center" data-align="center"
+                                                data-sortable="true">用户名
+                                            </th>
+                                            <th data-field="email" data-halign="center" data-align="center"
+                                                data-sortable="true">邮箱
+                                            </th>
+                                            <th data-field="mobile"
+                                                data-sortable="true" data-halign="center" data-align="center">手机号
+                                            </th>
+                                            <th data-field="status" data-formatter="formatStatus"
+                                                data-sortable="true" data-halign="center" data-align="center">状态
+                                            </th>
+                                            <th data-field="lastLoginIp"
+                                                data-sortable="true" data-halign="center" data-align="center">最后登录IP
+                                            </th>
+                                            <th data-field="lastLoginTime" data-formatter="BootstrapTableFormatDate"
+                                                data-sortable="true" data-halign="center" data-align="center">最后登录时间
+                                            </th>
+                                            <th data-field="createTime" data-formatter="BootstrapTableFormatDate"
+                                                data-sortable="true" data-halign="center" data-align="center">创建时间
+                                            </th>
+                                            <th data-formatter="actionFormatter" data-events="actionEvents"
+                                                data-halign="center" data-align="center">操作
+                                            </th>
+                                        </tr>
+                                        </thead>
                                     </table>
                                     <input type='hidden' id="handle"
-                                        [@shiro.hasPermission name="sys:user:update" ] data-update="true" [/@shiro.hasPermission]
-                                    	[@shiro.hasPermission name="sys:user:delete"] data-delete="true"[/@shiro.hasPermission]/>
+                                            [@shiro.hasPermission name="sys:user:update" ] data-update="true" [/@shiro.hasPermission]
+                                            [@shiro.hasPermission name="sys:user:delete"] data-delete="true"[/@shiro.hasPermission]/>
                                 </div>
                             </div>
                         </div>
@@ -135,8 +139,10 @@
         <div class="ibox float-e-margins">
             <div class="ibox-title">
                 <h5><span id="title">创建管理员</span><small></small></h5>
-                <div class="ibox-tools"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a> <a
-                        class="close-link"><i class="fa fa-times"></i></a></div>
+                <div class="ibox-tools">
+                    <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                    <a class="close-link"><i class="fa fa-times"></i></a>
+                </div>
             </div>
             <div class="ibox-content form-horizontal">
                 <form id="form">

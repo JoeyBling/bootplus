@@ -1,15 +1,18 @@
 package io.github.config;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.code.kaptcha.Producer;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
 import io.github.config.aop.service.MyInjectBeanSelfProcessor;
+import io.github.util.DateUtils;
 import org.springframework.aop.interceptor.AsyncExecutionAspectSupport;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
+import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes;
 import org.springframework.context.annotation.Bean;
@@ -81,20 +84,24 @@ public class MyBootConfig {
      *
      * @return ObjectMapper
      * org.springframework.boot.autoconfigure.condition.OnBeanCondition#getMatchOutcome(ConditionContext, AnnotatedTypeMetadata)
+     * @see JacksonAutoConfiguration
      */
-    @Bean
+//    @Bean
+    @Deprecated
     @ConditionalOnMissingBean
     @ConditionalOnMissingClass({"io.gitee.zhousiwei.FastJsonProperties"})
     public ObjectMapper objectMapper() {
         ObjectMapper mapper = new ObjectMapper();
         mapper.findAndRegisterModules();
+        // 序列化的规则
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         // 取消timestamps形式
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DateUtils.DATE_TIME_PATTERN);
         mapper.setDateFormat(dateFormat);
         //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
         // 设置时区
-        mapper.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        mapper.setTimeZone(TimeZone.getTimeZone(DateUtils.DATE_TIMEZONE));
         System.err.println("starter for Jackson-----Jackson init success.");
         return mapper;
     }

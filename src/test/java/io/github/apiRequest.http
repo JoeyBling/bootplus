@@ -1,0 +1,23 @@
+### 系统用户登录日志列表
+#POST http://bootplus.diandianys.com/api
+POST http://localhost/app
+sign: test
+Content-Type: application/json;charset=UTF-8
+Accept: application/json, text/plain, */*
+Referer: http://localhost:8081/
+DNT: 1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36
+
+{
+  "channel": "31",
+  "oper": "127.0.0.1",
+  "appid": "1001",
+  "format": "JSON",
+  "random": "1234",
+  "spid": "1001",
+  "service": "bootplus.user.login.log.list",
+  "token": "OPENID_PAT_omrmBv-XXx3TGoMR0ynIwCCR5EYg",
+  "pageSize": 5
+}
+
+###

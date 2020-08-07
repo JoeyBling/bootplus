@@ -20,6 +20,42 @@ import java.nio.charset.StandardCharsets;
 public class GetIpAddress {
 
     /**
+     * 判断字符串是否是一个IP地址
+     *
+     * @param addr 请求主机IP地址
+     * @return boolean
+     */
+    public static boolean isIPAddr(String addr) {
+        if (StringUtils.isEmpty(addr)) {
+            return false;
+        }
+        String[] ips = StringUtils.split(addr, '.');
+        if (ips.length != 4) {
+            return false;
+        }
+        try {
+            int ipa = Integer.parseInt(ips[0]);
+            int ipb = Integer.parseInt(ips[1]);
+            int ipc = Integer.parseInt(ips[2]);
+            int ipd = Integer.parseInt(ips[3]);
+            return ipa >= 0 && ipa <= 255 && ipb >= 0 && ipb <= 255 && ipc >= 0
+                    && ipc <= 255 && ipd >= 0 && ipd <= 255;
+        } catch (Exception e) {
+        }
+        return false;
+    }
+
+    /**
+     * 是否内网ip地址
+     *
+     * @param addr 请求主机IP地址
+     * @return boolean
+     */
+    public static boolean isLocalIPAddr(String addr) {
+        return (addr.startsWith("10.") || addr.startsWith("192.168.") || "127.0.0.1".equals(addr));
+    }
+
+    /**
      * 获取请求主机IP地址,如果通过代理进来，则透过防火墙获取真实IP地址;
      *
      * @param request HttpServletRequest
