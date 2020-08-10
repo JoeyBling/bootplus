@@ -105,7 +105,7 @@ npm install -g apidoc 或者 yarn global add apidoc
         if(!!id) {
             try {
                 // 转码(如果jquery要选择的元素id中带有点符号，在选择时需要在点前面加上1个反斜)
-                id = decodeURI(id.replace(/\//, '\\\/').replace(/\s/g, "-").replace("(", "\\(").replace(")", "\\)"))
+                id = decodeURIComponent(id.replace(/\//, '\\\/').replace(/\s/g, "-").replace("(", "\\(").replace(")", "\\)"))
                 .replace(/\./,'\\.');
             } catch(ex) {
             }
