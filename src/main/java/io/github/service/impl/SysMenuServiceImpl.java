@@ -4,6 +4,7 @@ import io.github.config.ApplicationProperties;
 import io.github.config.aop.service.BaseAopService;
 import io.github.dao.SysMenuDao;
 import io.github.entity.SysMenuEntity;
+import io.github.entity.enums.SysMenuTypeEnum;
 import io.github.frame.cache.annotation.MyCacheEvict;
 import io.github.frame.cache.annotation.MyCacheable;
 import io.github.service.SysMenuService;
@@ -15,6 +16,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 菜单管理
@@ -36,47 +38,6 @@ public class SysMenuServiceImpl extends BaseAopService<SysMenuServiceImpl, SysMe
     }
 
     @Override
-    public List<SysMenuEntity> queryListParentId(Long parentId, List<Long> menuIdList) {
-        List<SysMenuEntity> menuList = baseMapper.queryListParentId(parentId);
-        if (menuIdList == null) {
-            return menuList;
-        }
-        List<SysMenuEntity> userMenuList = new ArrayList<SysMenuEntity>();
-        for (SysMenuEntity menu : menuList) {
-            if (menuIdList.contains(menu.getMenuId())) {
-                userMenuList.add(menu);
-            }
-        }
-        return userMenuList;
-    }
-
-    @Override
-    public List<SysMenuEntity> queryNotButtonList() {
-        return baseMapper.queryNotButtonList();
-    }
-
-
-    @Override
-    @MyCacheable(key = "#root.target.cachePrefix + '_LIST_' + #userId")
-    public List<SysMenuEntity> getUserMenuList(Long userId) {
-        List<SysMenuEntity> allMenuList;
-        // 系统管理员，拥有最高权限
-        if (applicationProperties.getAdminId().equals(userId)) {
-            allMenuList = getAllMenuList(null);
-        } else {
-            // 用户菜单列表
-            List<Long> menuIdList = sysUserService.queryAllMenuId(userId);
-            allMenuList = getAllMenuList(menuIdList);
-        }
-        return allMenuList;
-    }
-
-    @Override
-    @MyCacheEvict(key = "#root.target.cachePrefix + '_LIST_' + #userId")
-    public void clearUserMenuList(Long userId) {
-    }
-
-    @Override
     public List<SysMenuEntity> queryList(Map<String, Object> map) {
         return baseMapper.queryList(map);
     }
@@ -90,6 +51,42 @@ public class SysMenuServiceImpl extends BaseAopService<SysMenuServiceImpl, SysMe
     @Transactional(rollbackFor = Exception.class)
     public int deleteBatch(Long[] menuIds) {
         return baseMapper.deleteBatch(menuIds);
+    }
+
+    @Override
+    public List<SysMenuEntity> queryListParentId(Long parentId, List<Long> menuIdList) {
+        List<SysMenuEntity> menuList = baseMapper.queryListParentId(parentId);
+        if (menuIdList == null) {
+            return menuList;
+        }
+        // 过滤不存在的用户菜单
+        return menuList.stream().filter(menu ->
+                menuIdList.contains(menu.getMenuId())).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SysMenuEntity> queryNotButtonList() {
+        return baseMapper.queryNotButtonList();
+    }
+
+    @Override
+    @MyCacheable(key = "#root.target.cachePrefix + '_LIST_' + #userId")
+    public List<SysMenuEntity> getUserMenuList(Long userId) {
+        List<SysMenuEntity> allMenuList;
+        // 系统管理员，拥有最高权限（全部菜单可看）
+        if (applicationProperties.getAdminId().equals(userId)) {
+            allMenuList = getAllMenuList(null);
+        } else {
+            // 用户菜单列表
+            List<Long> menuIdList = sysUserService.queryAllMenuId(userId);
+            allMenuList = getAllMenuList(menuIdList);
+        }
+        return allMenuList;
+    }
+
+    @Override
+    @MyCacheEvict(key = "#root.target.cachePrefix + '_LIST_' + #userId")
+    public void clearUserMenuList(Long userId) {
     }
 
     /**
@@ -110,7 +107,7 @@ public class SysMenuServiceImpl extends BaseAopService<SysMenuServiceImpl, SysMe
         List<SysMenuEntity> subMenuList = new ArrayList<SysMenuEntity>();
         for (SysMenuEntity entity : menuList) {
             // 目录
-            if (entity.getType() == SysMenuEntity.MenuType.CATALOG.getValue()) {
+            if (entity.getType() == SysMenuTypeEnum.CATALOG) {
                 entity.setList(getMenuTreeList(queryListParentId(entity.getMenuId(), menuIdList), menuIdList));
             }
             subMenuList.add(entity);

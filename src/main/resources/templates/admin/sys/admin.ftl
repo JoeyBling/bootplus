@@ -182,7 +182,6 @@
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <label class="col-sm-2 col-xs-offset-1 control-label">性别：</label>
-
                         <div class="col-sm-6">
                             <label class="radio-inline add-radio">
                                 <input type="radio" name="sex" value="1">
@@ -198,21 +197,18 @@
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <label class="col-sm-2 col-xs-offset-1 control-label">角色：</label>
-
                         <div id="rolelist" class="col-sm-6">
-
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>
                     <div class="form-group">
                         <label class="col-sm-2 col-xs-offset-1 control-label">状态：</label>
-
                         <div class="col-sm-6">
                             <label class="radio-inline add-radio">
-                                <input type="radio" name="status" value="1">
+                                <input type="radio" name="status" value="true">
                                 正常</label>
                             <label class="radio-inline add-radio">
-                                <input type="radio" name="status" value="0">
+                                <input type="radio" name="status" value="false">
                                 禁用</label>
                         </div>
                     </div>

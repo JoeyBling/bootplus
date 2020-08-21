@@ -143,7 +143,7 @@ public class SysUserController extends AbstractController<SysUserController> {
             return R.error("用户名不能为空");
         }
         if (getAdminId().equals(user.getUserId())) {
-            if (user.getStatus().equals(0)) {
+            if (Boolean.FALSE.equals(user.getStatus())) {
                 ShiroUtils.logout(); // 退出
             }
         }
@@ -158,7 +158,7 @@ public class SysUserController extends AbstractController<SysUserController> {
     @ResponseBody
     @RequiresPermissions("sys:user:update")
     public R updateStatus(Long userId, @RequestParam("state") Boolean status) {
-        int updateStatus = sysUserService.updateStatus(userId, status ? 1 : 0);
+        int updateStatus = sysUserService.updateStatus(userId, Boolean.TRUE.equals(status));
         if (updateStatus > 0) {
             return R.ok();
         } else {

@@ -1,6 +1,7 @@
 package io.github.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
  * @param <T>
  * @author Created by 思伟 on 2020/6/6
  */
+@NoRepositoryBean
 @Deprecated
 public interface BaseDao<T> extends BaseMapper<T> {
 

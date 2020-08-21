@@ -97,6 +97,7 @@ public class MyBootConfig {
         mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         // 取消timestamps形式
         mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        mapper.configure(SerializationFeature.WRITE_ENUMS_USING_TO_STRING, true);
         SimpleDateFormat dateFormat = new SimpleDateFormat(DateUtils.DATE_TIME_PATTERN);
         mapper.setDateFormat(dateFormat);
         //@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")

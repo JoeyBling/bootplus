@@ -14,6 +14,30 @@ import java.util.Map;
 public interface SysMenuService extends IService<SysMenuEntity> {
 
     /**
+     * 查询菜单列表
+     *
+     * @param map Map
+     * @return List<SysMenuEntity>
+     */
+    List<SysMenuEntity> queryList(Map<String, Object> map);
+
+    /**
+     * 查询总数
+     *
+     * @param map Map
+     * @return int
+     */
+    int queryTotal(Map<String, Object> map);
+
+    /**
+     * 根据菜单ID删除菜单
+     *
+     * @param menuIds 菜单ID
+     * @return 影响行数
+     */
+    int deleteBatch(Long[] menuIds);
+
+    /**
      * 根据父菜单，查询子菜单
      *
      * @param parentId   父菜单ID
@@ -43,29 +67,4 @@ public interface SysMenuService extends IService<SysMenuEntity> {
      * @param userId 用户ID
      */
     void clearUserMenuList(Long userId);
-
-    /**
-     * 查询菜单列表
-     *
-     * @param map Map
-     * @return List<SysMenuEntity>
-     */
-    List<SysMenuEntity> queryList(Map<String, Object> map);
-
-    /**
-     * 查询总数
-     *
-     * @param map Map
-     * @return int
-     */
-    int queryTotal(Map<String, Object> map);
-
-    /**
-     * 根据菜单ID删除菜单
-     *
-     * @param menuIds 菜单ID
-     * @return 影响行数
-     */
-    int deleteBatch(Long[] menuIds);
-
 }

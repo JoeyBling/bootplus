@@ -17,6 +17,7 @@ server:
       enabled: true
       charset: UTF-8
       force: true
+  #      force-response: true
   error:
     include-message: always
     include-binding-errors: always
@@ -35,7 +36,7 @@ mybatis-plus:
   #  mapper-locations: classpath*:/mapper/**/*.xml
   type-aliases-package: io.github.entity
   # 自定义类型转换处理器包名
-  type-handlers-package: io.github.common.typehandler
+  #  type-handlers-package: io.github.common.typehandler
   check-config-location: true
   configuration:
     cache-enabled: false
@@ -60,7 +61,7 @@ spring:
   jackson:
     default-property-inclusion: non_null
     # 取消timestamps形式
-    serialization: { WRITE_DATES_AS_TIMESTAMPS: false }
+    serialization: { WRITE_DATES_AS_TIMESTAMPS: false, WRITE_ENUMS_USING_TO_STRING: true }
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8
   cache:

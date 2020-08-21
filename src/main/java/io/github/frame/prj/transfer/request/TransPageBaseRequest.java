@@ -1,6 +1,8 @@
 package io.github.frame.prj.transfer.request;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * 分页请求对象基类
@@ -8,6 +10,8 @@ import lombok.Data;
  * @author Created by 思伟 on 2020/8/3
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class TransPageBaseRequest extends TransBaseRequest {
     private static final long serialVersionUID = 1L;
 

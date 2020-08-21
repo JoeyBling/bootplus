@@ -11,15 +11,15 @@ public enum SysMenuTypeEnum implements IEnum {
     /**
      * 目录
      */
-    CATALOG("0", "目录"),
+    CATALOG("CATALOG", "目录"),
     /**
      * 菜单
      */
-    MENU("1", "菜单"),
+    MENU("MENU", "菜单"),
     /**
      * 按钮
      */
-    BUTTON("2", "按钮");
+    BUTTON("BUTTON", "按钮");
 
     private String key;
 

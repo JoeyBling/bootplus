@@ -3,9 +3,11 @@ package io.github.common.typehandler;
 import io.github.common.enums.EnumUtil;
 import io.github.common.enums.IEnum;
 import io.github.entity.enums.SysMenuTypeEnum;
-import io.github.util.file.FileTypeEnum;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.type.*;
+import org.apache.ibatis.type.BaseTypeHandler;
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.MappedTypes;
+import org.apache.ibatis.type.TypeHandlerRegistry;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
@@ -42,7 +44,7 @@ import java.sql.SQLException;
 /* 数据库中的数据类型 */
 //@MappedJdbcTypes(JdbcType.INTEGER)
 /* 转化后的数据类型 */
-@MappedTypes(value = {SysMenuTypeEnum.class, FileTypeEnum.class})
+@MappedTypes(value = {SysMenuTypeEnum.class})
 @Slf4j
 public class IEnumTypeHandler<E extends Enum<?> & IEnum> extends BaseTypeHandler<E> implements MyTypeHandler {
     private Class<E> clazz;

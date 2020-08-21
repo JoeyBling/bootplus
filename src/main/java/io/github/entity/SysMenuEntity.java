@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import io.github.entity.enums.SysMenuTypeEnum;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -35,13 +36,6 @@ public class SysMenuEntity implements Serializable {
     private Long parentId;
 
     /**
-     * 父菜单名称
-     */
-    @TableField(exist = false)
-    @Transient
-    private String parentName;
-
-    /**
      * 菜单名称
      */
     @TableField
@@ -60,10 +54,10 @@ public class SysMenuEntity implements Serializable {
     private String perms;
 
     /**
-     * 类型 0：目录 1：菜单 2：按钮
+     * 类型：目录、菜单、按钮
      */
     @TableField
-    private Integer type;
+    private SysMenuTypeEnum type;
 
     /**
      * 菜单图标
@@ -78,6 +72,13 @@ public class SysMenuEntity implements Serializable {
     private Integer orderNum;
 
     /**
+     * 父菜单名称
+     */
+    @TableField(exist = false)
+    @Transient
+    private String parentName;
+
+    /**
      * ztree属性
      */
     @TableField(exist = false)
@@ -87,37 +88,5 @@ public class SysMenuEntity implements Serializable {
     @TableField(exist = false)
     @Transient
     private List<?> list;
-
-    /**
-     * 菜单类型
-     *
-     * @author Created by 思伟 on 2020/6/6
-     * @see io.github.entity.enums.SysMenuTypeEnum
-     */
-    @Deprecated
-    public enum MenuType {
-        /**
-         * 目录
-         */
-        CATALOG(0),
-        /**
-         * 菜单
-         */
-        MENU(1),
-        /**
-         * 按钮
-         */
-        BUTTON(2);
-
-        private int value;
-
-        private MenuType(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
-    }
 
 }

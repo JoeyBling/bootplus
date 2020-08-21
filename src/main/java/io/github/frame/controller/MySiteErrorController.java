@@ -2,8 +2,8 @@ package io.github.frame.controller;
 
 import com.alibaba.fastjson.JSON;
 import io.github.util.R;
+import io.github.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.template.TemplateAvailabilityProviders;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
@@ -73,7 +73,8 @@ public class MySiteErrorController extends BasicErrorController {
         ResponseEntity<Map<String, Object>> body;
         if (StringUtils.isNoneEmpty(httpCodeMsg)) {
             body = ResponseEntity.status(httpStatus)
-                    .body(R.error(httpStatus.value(), httpCodeMsg).myPutAll(errorAttributes));
+                    .body(R.error(httpStatus.value(),
+                            StringUtils.defaultIfBlank(StringUtils.toString(errorAttributes.get("message")), httpCodeMsg)).myPutAll(errorAttributes));
         } else {
             body = ResponseEntity.status(httpStatus).body(R.error().myPutAll(errorAttributes));
         }

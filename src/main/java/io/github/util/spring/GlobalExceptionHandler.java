@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
+import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -51,7 +52,10 @@ public class GlobalExceptionHandler {
         log.error("系统异常出错={}", e.toString(), e);
 //        return errorProperties.getPath();
         // 传入我们自己的错误状态码 4xx 5xx，否则就不会进入定制错误页面的解析流程
-        request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 500);
+        /**
+         * @see AbstractErrorController#getStatus(javax.servlet.http.HttpServletRequest)
+         */
+        request.setAttribute(RequestDispatcher.ERROR_STATUS_CODE, 200);
         // 并不直接返回视图名称或json数据，请求转发到`BasicErrorController`，让Springboot按流程处理，从而达到自适应浏览器请求和客户端请求
         return "forward:" + errorProperties.getPath();
     }

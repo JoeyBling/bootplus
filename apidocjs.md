@@ -98,22 +98,42 @@ npm install -g apidoc 或者 yarn global add apidoc
 ```
 
 #### 4、锚链接含有特殊字符替换
-&emsp;&emsp;打开文件`apidoc/template/main.js`，找到618行，替换以下内容
+&emsp;&emsp;打开文件`apidoc/template/main.js`，找到618行，替换以下内容,并添加自定义解码函数
 
 ```javascript
 
         if(!!id) {
             try {
-                // 转码(如果jquery要选择的元素id中带有点符号，在选择时需要在点前面加上1个反斜)
-                id = decodeURIComponent(id.replace(/\//, '\\\/').replace(/\s/g, "-").replace("(", "\\(").replace(")", "\\)"))
-                .replace(/\./,'\\.');
+                id = decodeToJquerySelector(id);
             } catch(ex) {
             }
             if ($(id).length > 0)
                 $('html,body').animate({ scrollTop: parseInt($(id).offset().top) }, 0);
         }
 
+    /**
+     * 自定义解码字符串
+     * @param {string} str 要解码的字符串
+     */
+    function decodeToJquerySelector(str = ''){
+        if(!!str){
+            // Some characters, such as / , Space , ( , ) , .
+            // 转码(如果jquery要选择的元素id中带有点符号，在选择时需要在点前面加上1个反斜)
+            return decodeURIComponent(str.replace(/\//, '\\\/').replace(/\s/g, "-").replace("(", "\\(").replace(")", "\\)"))
+                .replace(/\./,'\\.');
+        }
+    }
+
 ```
 
-#### 5、字体网站替换CDN访问（待完善）
+#### 5、内容滚动导航点击效果失效
+&emsp;&emsp;打开文件`apidoc/template/main.js`，找到409行，替换以下内容。
+> 解码函数在上面
+
+```javascript
+        var id = decodeToJquerySelector($(this).attr('href'));
+```
+
+
+#### 6、字体网站替换CDN访问（待完善）
 &emsp;&emsp;打开文件`apidoc/template/vendor/webfontloader.js`，搜索内容`fonts.googleapis.com/css`，如果此网站不可用可替换为其他CDN

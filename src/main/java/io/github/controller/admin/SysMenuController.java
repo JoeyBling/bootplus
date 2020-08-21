@@ -2,6 +2,7 @@ package io.github.controller.admin;
 
 import com.alibaba.fastjson.JSONArray;
 import io.github.entity.SysMenuEntity;
+import io.github.entity.enums.SysMenuTypeEnum;
 import io.github.frame.controller.AbstractController;
 import io.github.service.SysMenuService;
 import io.github.util.PageUtils;
@@ -151,7 +152,7 @@ public class SysMenuController extends AbstractController<SysMenuController> {
         List<Long> menuIdsFlag = new ArrayList<Long>();
         Collections.addAll(menuIdsFlag, menuIds);
         boolean flag;
-        for (Long menuId : menuIds) {
+        for (Long menuId : menuIdsFlag) {
             flag = true;
             // 判断是否有子菜单或按钮
             List<SysMenuEntity> menuList = sysMenuService.queryListParentId(menuId, null);
@@ -189,15 +190,15 @@ public class SysMenuController extends AbstractController<SysMenuController> {
         }
 
         // 菜单
-        if (menu.getType().equals(SysMenuEntity.MenuType.MENU.getValue())) {
+        if (menu.getType().equals(SysMenuTypeEnum.MENU)) {
             if (StringUtils.isBlank(menu.getUrl())) {
                 throw new RRException("菜单URL不能为空");
             }
         }
 
         // 上级菜单类型
-        int parentType = SysMenuEntity.MenuType.CATALOG.getValue();
-        if (menu.getType() != SysMenuEntity.MenuType.CATALOG.getValue()) {
+        SysMenuTypeEnum parentType = SysMenuTypeEnum.CATALOG;
+        if (menu.getType() != SysMenuTypeEnum.CATALOG) {
             SysMenuEntity parentMenu = sysMenuService.getById(menu.getParentId());
             if (null == parentMenu) {
                 throw new RRException("请先选择上级菜单");
@@ -206,16 +207,16 @@ public class SysMenuController extends AbstractController<SysMenuController> {
         }
 
         // 目录、菜单
-        if (menu.getType() == SysMenuEntity.MenuType.CATALOG.getValue() || menu.getType() == SysMenuEntity.MenuType.MENU.getValue()) {
-            if (parentType != SysMenuEntity.MenuType.CATALOG.getValue()) {
+        if (menu.getType() == SysMenuTypeEnum.CATALOG || menu.getType() == SysMenuTypeEnum.MENU) {
+            if (parentType != SysMenuTypeEnum.CATALOG) {
                 throw new RRException("上级菜单只能为目录类型");
             }
             return;
         }
 
         // 按钮
-        if (menu.getType() == SysMenuEntity.MenuType.BUTTON.getValue()) {
-            if (parentType != SysMenuEntity.MenuType.MENU.getValue()) {
+        if (menu.getType() == SysMenuTypeEnum.BUTTON) {
+            if (parentType != SysMenuTypeEnum.MENU) {
                 throw new RRException("上级菜单只能为菜单类型");
             }
             return;

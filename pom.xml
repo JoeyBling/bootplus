@@ -113,12 +113,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- yaml解析类 -->
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-        </dependency>
-
         <!-- FastJson 1.2.60 以下版本 有重大漏洞 -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -291,6 +285,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
+        <!-- yaml解析类 -->
+        <!--<dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+        </dependency>-->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
