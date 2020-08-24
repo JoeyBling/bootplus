@@ -117,8 +117,8 @@ public class SysUserServiceImpl extends BaseAopService<SysUserServiceImpl, SysUs
     }
 
     @Override
-    public int updateStatus(Long userId, int status) {
-        return dao.updateStatus(userId, status);
+    public int updateStatus(Long userId, boolean status) {
+        return dao.updateById(SysUserEntity.builder().userId(userId).status(status).build());
     }
 
 }

@@ -90,5 +90,5 @@ public interface SysUserService extends IService<SysUserEntity> {
      * @param status 用户状态
      * @return 更新行数
      */
-    int updateStatus(Long userId, int status);
+    int updateStatus(Long userId, boolean status);
 }

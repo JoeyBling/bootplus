@@ -150,11 +150,11 @@
 
                         <div class="col-sm-6">
                             <label class="radio-inline add-radio">
-                                <input type="radio" name="type" value="0" data-event="catalog">目录</label>
+                                <input type="radio" name="type" value="CATALOG" data-event="catalog">目录</label>
                             <label class="radio-inline add-radio">
-                                <input type="radio" name="type" value="1" data-event="menu">菜单</label>
+                                <input type="radio" name="type" value="MENU" data-event="menu">菜单</label>
                             <label class="radio-inline add-radio">
-                                <input type="radio" name="type" value="2" data-event="button">按钮</label>
+                                <input type="radio" name="type" value="BUTTON" data-event="button">按钮</label>
                         </div>
                     </div>
                     <div class="hr-line-dashed"></div>

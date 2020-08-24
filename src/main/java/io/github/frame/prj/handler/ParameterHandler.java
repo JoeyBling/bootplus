@@ -63,7 +63,7 @@ public class ParameterHandler {
                     if (StringUtils.isEmpty(appRequest.getChannel())) {
                         appRequest.setChannel("0");
                     }
-                    // 更具tokenObject设置docId和patId
+                    // 根据tokenObject设置userId
                     TokenObject tobj = appRequest.getTobj();
                     if (null != tobj) {
                         appRequest.setUserId(UserTypeConst.APP.equals(tobj.getUserType()) && null != tobj.getUserId()

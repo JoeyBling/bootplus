@@ -35,14 +35,14 @@ function formatIcon(value, row, index) {
 
 // 类型
 function formatType(value, row, index) {
-    // 0：目录 1：菜单 2：按钮
+    // 目录、菜单、按钮
     if (null == value) {
         return "";
-    } else if (value === 0) {
+    } else if (value == 'CATALOG') {
         return '<span class="label label-primary">目录</span>';
-    } else if (value === 1) {
+    } else if (value == 'MENU') {
         return '<span class="label label-success">菜单</span>';
-    } else if (value === 2) {
+    } else if (value == 'BUTTON') {
         return '<span class="label label-warning">按钮</span>';
     }
 }
@@ -144,13 +144,13 @@ function menu_update(index, value, row) {
                 true);
             radio(); // 要重新生成样式
             getMenu(row.parentId);
-            if (r.menu.type == "0") {
+            if (r.menu.type == "CATALOG") {
                 checkRadio("catalog");
             }
-            if (r.menu.type == "1") {
+            if (r.menu.type == "MENU") {
                 checkRadio("menu");
             }
-            if (r.menu.type == "2") {
+            if (r.menu.type == "BUTTON") {
                 checkRadio("button");
             }
             layer_show("修改菜单", $("#showHandle"), 800, 500);
@@ -285,7 +285,7 @@ function add(s) {
     $("input[name='icon']").val("");
     $("input[name='parentId']").val("");
     $("input[name='type']").removeAttr("checked");
-    $("input[name='type'][value=" + 0 + "]").prop("checked", true);
+    $("input[name='type'][value=" + 'CATALOG' + "]").prop("checked", true);
     radio(); // 要重新生成样式
     getMenu(0);
     checkRadio("catalog");

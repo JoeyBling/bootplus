@@ -86,7 +86,7 @@ public class SysUserEntity implements Serializable {
      */
     @TableField
     @NotNull(message = "状态不能为空")
-    private Integer status;
+    private Boolean status;
 
     /**
      * 创建时间
@@ -101,9 +101,8 @@ public class SysUserEntity implements Serializable {
     private List<Long> roleIdList;
 
     @Builder
-    public SysUserEntity(String username, String password, Integer sex, String email, String mobile,
-                         Long lastLoginTime, String lastLoginIp, String avatarUrl,
-                         Integer status, Long createTime, List<Long> roleIdList) {
+    public SysUserEntity(Long userId, String username, String password, Integer sex, String email, String mobile, Long lastLoginTime, String lastLoginIp, String avatarUrl, Boolean status, Long createTime, List<Long> roleIdList) {
+        this.userId = userId;
         this.username = username;
         this.password = password;
         this.sex = sex;

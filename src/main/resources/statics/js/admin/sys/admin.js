@@ -83,11 +83,10 @@ function formatStatus(value, row, index) {
     if (value == null) {
         return "";
     }
-    if (value === 1) {
+    if (value === true) {
         return '<input type="checkbox" name="my-checkbox" data-userId="'
             + row.userId + '" checked>';
-    }
-    if (value === 0) {
+    } else {
         return '<input type="checkbox" name="my-checkbox" data-userId="'
             + row.userId + '" >';
     }
@@ -285,7 +284,7 @@ function add(ele) {
     $("input[name='email']").val("");
     $("input[name='mobile']").val("");
     $("input[name='sex'][value=" + 0 + "]").prop("checked", true); // 默认选中性别-保密
-    $("input[name='status'][value=" + 1 + "]").prop("checked", true); // 默认选中状态-正常
+    $("input[name='status'][value='true']").prop("checked", true); // 默认选中状态-正常
     radio(); // 要重新生成样式
     getRoleList();
     layer_show("新建用户", $(ele), 800, 500);

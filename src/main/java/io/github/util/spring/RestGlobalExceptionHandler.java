@@ -1,6 +1,7 @@
 package io.github.util.spring;
 
 import io.github.util.R;
+import io.github.util.StringUtils;
 import io.github.util.exception.BaseRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.AuthorizationException;
@@ -85,7 +86,7 @@ public class RestGlobalExceptionHandler {
     public Object defaultErrorHandler(HttpServletRequest request, Throwable exception) {
         // 记录异常日志
         log.error(exception.getMessage(), exception);
-        return R.error(exception.getMessage());
+        return R.error(StringUtils.defaultIfEmpty(exception.getMessage(), "未知异常，请联系管理员"));
     }
 
 }

@@ -27,7 +27,7 @@ CREATE TABLE `sys_menu`  (
   `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '菜单名称',
   `url` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '菜单URL',
   `perms` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '授权(多个用逗号分隔，如：user:list,user:create)',
-  `type` int(11) DEFAULT NULL COMMENT '类型：0：目录、1：菜单、2：按钮',
+  `type` varchar(10) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '类型：目录、菜单、按钮',
   `icon` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '菜单图标',
   `order_num` int(11) DEFAULT NULL COMMENT '排序',
   PRIMARY KEY (`menu_id`) USING BTREE
@@ -36,24 +36,24 @@ CREATE TABLE `sys_menu`  (
 -- ----------------------------
 -- Records of sys_menu
 -- ----------------------------
-INSERT INTO `sys_menu` VALUES (1, 0, '系统管理', '', '', 0, 'fa fa-cog', 0);
-INSERT INTO `sys_menu` VALUES (2, 1, '管理员列表', 'admin/sys/admin.html', '', 1, 'fa fa-user', 1);
-INSERT INTO `sys_menu` VALUES (3, 1, '角色管理', 'admin/sys/role.html', NULL, 1, 'fa fa-user-secret', 2);
-INSERT INTO `sys_menu` VALUES (4, 1, '菜单管理', 'admin/sys/menu.html', NULL, 1, 'fa fa-th-list', 3);
-INSERT INTO `sys_menu` VALUES (5, 2, '查看', NULL, 'sys:user:list,sys:user:info', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (6, 2, '新增', '', 'sys:user:save,sys:role:select', 2, '', 0);
-INSERT INTO `sys_menu` VALUES (7, 2, '修改', '', 'sys:user:update,sys:role:select', 2, '', 0);
-INSERT INTO `sys_menu` VALUES (8, 2, '删除', NULL, 'sys:user:delete', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (9, 3, '查看', NULL, 'sys:role:list,sys:role:info', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (10, 3, '新增', NULL, 'sys:role:save,sys:menu:perms', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (11, 3, '修改', NULL, 'sys:role:update,sys:menu:perms', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (12, 3, '删除', NULL, 'sys:role:delete', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (13, 4, '查看', NULL, 'sys:menu:list,sys:menu:info', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (14, 4, '新增', NULL, 'sys:menu:save,sys:menu:select', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (15, 4, '修改', NULL, 'sys:menu:update,sys:menu:select', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (16, 4, '删除', NULL, 'sys:menu:delete', 2, NULL, 0);
-INSERT INTO `sys_menu` VALUES (17, 1, '监控管理', 'druid/index.html', 'druid:druid:manager', 1, 'fa fa-cogs', 3);
-INSERT INTO `sys_menu` VALUES (18, 1, '接口文档', 'apidoc/index.html', '', 1, 'fa fa-chrome', 0);
+INSERT INTO `sys_menu` VALUES (1, 0, '系统管理', '', '', 'CATALOG', 'fa fa-cog', 0);
+INSERT INTO `sys_menu` VALUES (2, 1, '管理员列表', 'admin/sys/admin.html', '', 'MENU', 'fa fa-user', 1);
+INSERT INTO `sys_menu` VALUES (3, 1, '角色管理', 'admin/sys/role.html', NULL, 'MENU', 'fa fa-user-secret', 2);
+INSERT INTO `sys_menu` VALUES (4, 1, '菜单管理', 'admin/sys/menu.html', NULL, 'MENU', 'fa fa-th-list', 3);
+INSERT INTO `sys_menu` VALUES (5, 2, '查看', NULL, 'sys:user:list,sys:user:info', 'BUTTON', NULL, 0);
+INSERT INTO `sys_menu` VALUES (6, 2, '新增', '', 'sys:user:save,sys:role:select', 'BUTTON', '', 0);
+INSERT INTO `sys_menu` VALUES (7, 2, '修改', '', 'sys:user:update,sys:role:select', 'BUTTON', '', 0);
+INSERT INTO `sys_menu` VALUES (8, 2, '删除', NULL, 'sys:user:delete', 'BUTTON', NULL, 0);
+INSERT INTO `sys_menu` VALUES (9, 3, '查看', NULL, 'sys:role:list,sys:role:info', 'BUTTON', NULL, 0);
+INSERT INTO `sys_menu` VALUES (10, 3, '新增', NULL, 'sys:role:save,sys:menu:perms', 'BUTTON', NULL, 0);
+INSERT INTO `sys_menu` VALUES (11, 3, '修改', NULL, 'sys:role:update,sys:menu:perms', 'BUTTON', NULL, 0);
+INSERT INTO `sys_menu` VALUES (12, 3, '删除', NULL, 'sys:role:delete', 'BUTTON', NULL, 0);
+INSERT INTO `sys_menu` VALUES (13, 4, '查看', NULL, 'sys:menu:list,sys:menu:info', 'BUTTON', NULL, 0);
+INSERT INTO `sys_menu` VALUES (14, 4, '新增', NULL, 'sys:menu:save,sys:menu:select', 'BUTTON', NULL, 0);
+INSERT INTO `sys_menu` VALUES (15, 4, '修改', NULL, 'sys:menu:update,sys:menu:select', 'BUTTON', NULL, 0);
+INSERT INTO `sys_menu` VALUES (16, 4, '删除', NULL, 'sys:menu:delete', 'BUTTON', NULL, 0);
+INSERT INTO `sys_menu` VALUES (17, 1, '监控管理', 'druid/index.html', 'druid:druid:manager', 'MENU', 'fa fa-cogs', 3);
+INSERT INTO `sys_menu` VALUES (18, 1, '接口文档', 'apidoc/index.html', '', 'MENU', 'fa fa-chrome', 0);
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -110,7 +110,7 @@ CREATE TABLE `sys_user`  (
   `last_login_time` int(11) DEFAULT NULL COMMENT '最后登录时间',
   `last_login_ip` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '最后登录IP',
   `avatar_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '头像缩略图地址',
-  `status` tinyint(4) DEFAULT NULL COMMENT '状态  0：禁用   1：正常',
+  `status` tinyint(1) DEFAULT NULL COMMENT '状态 0：禁用、1：正常',
   `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`user_id`) USING BTREE,
   UNIQUE INDEX `username`(`username`) USING BTREE
@@ -167,3 +167,26 @@ INSERT INTO `sys_user_role` VALUES (72, 8, 13);
 INSERT INTO `sys_user_role` VALUES (73, 7, 13);
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+UPDATE sys_menu set type = 'CATALOG' WHERE type = '0';
+UPDATE sys_menu set type = 'MENU' WHERE type = '1';
+UPDATE sys_menu set type = 'BUTTON' WHERE type = '2';
+
+-- ----------------------------
+-- Table structure for sys_task
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_task`;
+CREATE TABLE `sys_task` (
+  `id` bigint(20) NOT NULL COMMENT 'id',
+  `cron_expression` varchar(50) DEFAULT NULL COMMENT '执行时间',
+  `job_name` varchar(20) DEFAULT NULL COMMENT '任务名称',
+  `biz_module` varchar(20) DEFAULT NULL COMMENT '业务模块',
+  `biz_id` varchar(30) DEFAULT NULL COMMENT '业务id',
+  `biz_tag` varchar(30) DEFAULT NULL COMMENT '业务标识',
+  `callback_data` varchar(500) DEFAULT NULL COMMENT '回调内容',
+  `callback_type` varchar(10) DEFAULT NULL COMMENT '回调类型(PRINT/CLASS/HTTP/HESSIAN)',
+  `callback_url` varchar(200) DEFAULT NULL COMMENT '回调地址',
+  `enabled` tinyint(1) NOT NULL COMMENT '是否有效',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='平台_定时任务';

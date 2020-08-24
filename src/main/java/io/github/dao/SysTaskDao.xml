@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="io.github.dao.SysTaskDao">
+    <resultMap id="BaseResultMap" type="io.github.entity.SysTaskEntity">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="cron_expression" property="cronExpression" jdbcType="VARCHAR"/>
+        <result column="job_name" property="jobName" jdbcType="VARCHAR"/>
+        <result column="biz_module" property="bizModule" jdbcType="VARCHAR"/>
+        <result column="biz_id" property="bizId" jdbcType="VARCHAR"/>
+        <result column="biz_tag" property="bizTag" jdbcType="VARCHAR"/>
+        <result column="callback_data" property="callbackData" jdbcType="VARCHAR"/>
+        <result column="callback_type" property="callbackType" jdbcType="VARCHAR"/>
+        <result column="callback_url" property="callbackUrl" jdbcType="INTEGER"/>
+        <result column="enabled" property="enabled" jdbcType="BIT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">task.id, task.cron_expression, task.job_name, task.biz_module, task.biz_tag, task.biz_id, task.callback_data, task.callback_type, task.callback_url, task.enabled, task.create_time</sql>
+
+</mapper>

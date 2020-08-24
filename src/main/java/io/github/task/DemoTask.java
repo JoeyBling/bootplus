@@ -1,14 +1,26 @@
 package io.github.task;
 
+import cn.hutool.core.map.MapUtil;
+import com.alibaba.fastjson.JSON;
+import io.github.entity.SysTaskEntity;
+import io.github.entity.enums.TaskCallbackTypeEnum;
+import io.github.frame.prj.constant.SysModuleConst;
+import io.github.frame.prj.util.TaskUtil;
+import io.github.frame.spring.IStartUp;
+import io.github.service.SysTaskService;
+import io.github.service.impl.SysTaskCallbackServiceImpl;
+import io.github.util.ClassUtil;
 import io.github.util.DateUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import java.util.Date;
 
 /**
@@ -23,7 +35,14 @@ import java.util.Date;
  */
 @Slf4j
 @Component
-public class DemoTask implements InitializingBean {
+public class DemoTask implements IStartUp {
+
+    /**
+     * 回调业务标识
+     */
+    private final String BIZ_TAG = "DEMO_TASK";
+    @Resource
+    private SysTaskService sysTaskService;
 
     /**
      * @Async 代表异步执行
@@ -46,7 +65,43 @@ public class DemoTask implements InitializingBean {
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void startUp(ApplicationContext applicationContext) throws Exception {
+        final Date nowDate = new Date();
+        final SysTaskEntity entity = SysTaskEntity.builder()
+                .cronExpression(TaskUtil.getCronForSecondsAfter(nowDate, 20))
+                .jobName("测试定时任务")
+                .bizModule(SysModuleConst.DEMO).bizId("DEMO").bizTag(BIZ_TAG)
+                .callbackData(JSON.toJSONString(MapUtil.builder()
+                        .put("time", DateUtils.format(nowDate))
+                        .put("type", "DEMO_TYPE").build()))
+                .callbackUrl(ClassUtil.getClass(this)).build();
+        final TaskCallbackTypeEnum[] typeEnums = TaskCallbackTypeEnum.values();
+        for (TaskCallbackTypeEnum typeEnum : typeEnums) {
+            // 添加Demo
+            sysTaskService.addTask(entity.getCronExpression(), entity.getJobName(),
+                    entity.getBizModule(), entity.getBizId(), entity.getBizTag(),
+                    entity.getCallbackData(), typeEnum, entity.getCallbackUrl());
+        }
+    }
+
+    @Service
+    public class DemoBizTaskCallbackService implements SysTaskCallbackServiceImpl.IBizTaskCallbackService {
+
+        @Override
+        public String getBizModule() {
+            return SysModuleConst.DEMO;
+        }
+
+        @Override
+        public String getBizTag() {
+            return BIZ_TAG;
+        }
+
+        @Override
+        public void execute(String jobName, String bizId, String data, String callbackUrl) {
+            log.debug("业务类回调定时任务,jobName={},bizId={},data={}", jobName, bizId, data);
+        }
+
     }
 
 }

@@ -29,6 +29,7 @@ public class LogsPathPropertyDefiner extends BasePropertyDefiner {
         try {
             logsPath = YamlUtil.getProperty(logPathPropertyKey);
         } catch (Throwable e) {
+            logsPath = null;
             addError(getSimpleErrMsg(), e);
         } finally {
             if (isBlank(logsPath) && !isBlank(projectName)) {

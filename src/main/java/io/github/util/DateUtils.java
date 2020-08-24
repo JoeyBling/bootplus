@@ -1,5 +1,7 @@
 package io.github.util;
 
+import org.joda.time.*;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,7 +17,7 @@ import java.util.*;
  *
  * @author Created by 思伟 on 2020/6/6
  */
-public class DateUtils {
+public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     /**
      * 日期格式(yyyy-MM-dd)
      */
@@ -255,6 +257,43 @@ public class DateUtils {
 
         // 此处返回的为今天的零点的毫秒数
         return new Date(c.getTimeInMillis());
+    }
+
+    /**
+     * 转时间类型
+     */
+    public static Date toDate(int year, int month, int day, int hour, int minute, int second) {
+        return new DateTime(year, month, day, hour, minute, second).toDate();
+    }
+
+    /**
+     * 返回两个日期的时间差，
+     * 返回的时间差格式可以是: Calendar.YEAR, Calendar.MONTH, Calendar.DATE, Calendar.HOUR, Calendar.MINUTE, Calendar.SECOND
+     * 为空时，返回week的差
+     *
+     * @param earlyDate        the start Date
+     * @param lateDate         the end Date
+     * @param returnTimeFormat 时间差格式
+     * @return time
+     */
+    public static int getBetweenTime(Date earlyDate, Date lateDate, int returnTimeFormat) {
+        DateTime earlyDateTime = new DateTime(earlyDate);
+        DateTime lateDateTime = new DateTime(lateDate);
+        if (Calendar.YEAR == returnTimeFormat) {
+            return Years.yearsBetween(earlyDateTime, lateDateTime).getYears();
+        } else if (Calendar.MONTH == returnTimeFormat) {
+            return Months.monthsBetween(earlyDateTime, lateDateTime).getMonths();
+        } else if (Calendar.DATE == returnTimeFormat) {
+            return Days.daysBetween(earlyDateTime, lateDateTime).getDays();
+        } else if (Calendar.HOUR == returnTimeFormat) {
+            return Hours.hoursBetween(earlyDateTime, lateDateTime).getHours();
+        } else if (Calendar.MINUTE == returnTimeFormat) {
+            return Minutes.minutesBetween(earlyDateTime, lateDateTime).getMinutes();
+        } else if (Calendar.SECOND == returnTimeFormat) {
+            return Seconds.secondsBetween(earlyDateTime, lateDateTime).getSeconds();
+        } else {
+            return Weeks.weeksBetween(earlyDateTime, lateDateTime).getWeeks();
+        }
     }
 
 }

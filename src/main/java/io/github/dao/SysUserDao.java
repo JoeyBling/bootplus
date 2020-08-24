@@ -1,7 +1,6 @@
 package io.github.dao;
 
 import io.github.entity.SysUserEntity;
-import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -60,12 +59,4 @@ public interface SysUserDao extends BaseDao<SysUserEntity> {
      */
     int updateAvatar(SysUserEntity entity);
 
-    /**
-     * 根据用户ID更新用户状态
-     *
-     * @param userId 用户ID
-     * @param status 用户状态
-     * @return 更新行数
-     */
-    int updateStatus(@Param("userId") Long userId, @Param("status") int status);
 }

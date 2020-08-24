@@ -3,29 +3,21 @@ package io.github.entity.enums;
 import io.github.common.enums.IEnum;
 
 /**
- * 菜单类型
+ * 定时任务回调类型
  *
- * @author Created by 思伟 on 2020/4/1
+ * @author Created by 思伟 on 2020/8/21
  */
-public enum SysMenuTypeEnum implements IEnum {
-    /**
-     * 目录
-     */
-    CATALOG("CATALOG", "目录"),
-    /**
-     * 菜单
-     */
-    MENU("MENU", "菜单"),
-    /**
-     * 按钮
-     */
-    BUTTON("BUTTON", "按钮");
+public enum TaskCallbackTypeEnum implements IEnum {
+    PRINT("PRINT", "打印"),
+    CLASS("CLASS", "类回调"),
+    HTTP("HTTP", "HTTP请求"),
+    HESSIAN("HESSIAN", "HESSIAN请求");
 
     private String key;
 
     private String value;
 
-    SysMenuTypeEnum(String key, String value) {
+    TaskCallbackTypeEnum(String key, String value) {
         this.key = key;
         this.value = value;
     }

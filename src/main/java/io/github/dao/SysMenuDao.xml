@@ -9,7 +9,7 @@
 
     <select id="queryNotButtonList" resultType="SysMenuEntity">
 		select * from
-		sys_menu where type != 2 order by order_num asc
+		sys_menu where type != 'BUTTON' order by order_num asc
 	</select>
 
     <select id="queryList" resultType="SysMenuEntity">
@@ -17,11 +17,11 @@
         m.parent_id) as parentName
         from sys_menu m
         <where>
-            <if test="null!=parentName and parentName.trim() != ''">
+            <if test="null != parentName and parentName.trim() != ''">
                 AND (select p.name from sys_menu p where p.menu_id =
                 m.parent_id) like concat('%',#{parentName},'%')
             </if>
-            <if test="null!=menuName and menuName.trim() != ''">
+            <if test="null != menuName and menuName.trim() != ''">
                 AND m.name like concat('%',#{menuName},'%')
             </if>
         </where>
@@ -36,11 +36,11 @@
     <select id="queryTotal" resultType="int">
         select count(*) from sys_menu m
         <where>
-            <if test="null!=parentName and parentName.trim() != ''">
+            <if test="null != parentName and parentName.trim() != ''">
                 AND (select p.name from sys_menu p where p.menu_id =
                 m.parent_id) like concat('%',#{parentName},'%')
             </if>
-            <if test="null!=menuName and menuName.trim() != ''">
+            <if test="null != menuName and menuName.trim() != ''">
                 AND m.name like concat('%',#{menuName},'%')
             </if>
         </where>

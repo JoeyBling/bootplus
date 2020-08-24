@@ -33,6 +33,9 @@ public class LogInterceptor extends MyHandlerInterceptorAdapter {
     private static final ThreadLocal<Long> START_TIME_THREAD_LOCAL = new NamedThreadLocal<Long>("ThreadLocal_StartTime") {
         private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+        /**
+         * 防止页面转发出现error
+         */
         @Override
         protected Long initialValue() {
             logger.warn("统一日志拦截器错误获取线程绑定变量，使用默认值...");

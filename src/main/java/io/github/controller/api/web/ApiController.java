@@ -43,8 +43,8 @@ public class ApiController {
     private AppConfigService appConfigService;
 
     @RequestMapping(value = "/app", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object app(HttpServletRequest request, HttpServletResponse response,
-                      TransBaseRequest transRequest, @RequestBody(required = false) String json) {
+    public TransBaseResponse app(HttpServletRequest request, HttpServletResponse response,
+                                 TransBaseRequest transRequest, @RequestBody(required = false) String json) {
         long startTime = DateUtils.currentTimeStamp();
         TransBaseResponse transResponse = null;
         try {
