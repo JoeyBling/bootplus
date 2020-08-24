@@ -171,3 +171,22 @@ SET FOREIGN_KEY_CHECKS = 1;
 UPDATE sys_menu set type = 'CATALOG' WHERE type = '0';
 UPDATE sys_menu set type = 'MENU' WHERE type = '1';
 UPDATE sys_menu set type = 'BUTTON' WHERE type = '2';
+
+-- ----------------------------
+-- Table structure for sys_task
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_task`;
+CREATE TABLE `sys_task` (
+  `id` bigint(20) NOT NULL COMMENT 'id',
+  `cron_expression` varchar(50) DEFAULT NULL COMMENT '执行时间',
+  `job_name` varchar(20) DEFAULT NULL COMMENT '任务名称',
+  `biz_module` varchar(20) DEFAULT NULL COMMENT '业务模块',
+  `biz_id` varchar(30) DEFAULT NULL COMMENT '业务id',
+  `biz_tag` varchar(30) DEFAULT NULL COMMENT '业务标识',
+  `callback_data` varchar(500) DEFAULT NULL COMMENT '回调内容',
+  `callback_type` varchar(10) DEFAULT NULL COMMENT '回调类型(PRINT/CLASS/HTTP/HESSIAN)',
+  `callback_url` varchar(200) DEFAULT NULL COMMENT '回调地址',
+  `enabled` tinyint(1) NOT NULL COMMENT '是否有效',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='平台_定时任务';

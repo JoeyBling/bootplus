@@ -160,6 +160,9 @@ spring:
       roles: admin
   jpa:
     open-in-view: false
+  quartz:
+    # 覆盖已存在的任务
+    overwrite-existing-jobs: true
 
 management:
   endpoint:

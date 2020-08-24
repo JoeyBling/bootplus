@@ -19,10 +19,13 @@ public class TokenObject implements Serializable {
      * 用户ID
      */
     private String userId;
+
     /**
      * 用户类型
+     * io.github.frame.prj.constant.UserTypeConst
      */
     private String userType;
+
     /**
      * 用户所属机构
      */
