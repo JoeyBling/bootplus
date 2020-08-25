@@ -70,16 +70,18 @@ public class QuartzManager extends BaseAopContext<QuartzManager> {
      */
     public void removeJob(String jobName) {
         try {
-            JobDetail jobDetail = scheduler.getJobDetail(new JobKey(jobName));
+            final JobKey jobKey = JobKey.jobKey(jobName, JOB_GROUP_NAME);
+            JobDetail jobDetail = scheduler.getJobDetail(jobKey);
             if (null == jobDetail) {
                 return;
             }
             // 停止触发器
-            scheduler.pauseTrigger(TriggerKey.triggerKey(jobName));
+            final TriggerKey triggerKey = TriggerKey.triggerKey(jobName, JOB_GROUP_NAME);
+            scheduler.pauseTrigger(triggerKey);
             // 移除触发器
-            scheduler.unscheduleJob(TriggerKey.triggerKey(jobName));
+            scheduler.unscheduleJob(triggerKey);
             // 删除任务
-            scheduler.deleteJob(JobKey.jobKey(jobName));
+            scheduler.deleteJob(jobKey);
         } catch (Exception e) {
             logger.error("[{}] 移除任务失败，e={}", SysModuleConst.SYS, e.getMessage(), e);
         }

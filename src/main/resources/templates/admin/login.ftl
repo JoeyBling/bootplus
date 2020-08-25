@@ -64,6 +64,7 @@
 </div>
 <script type="text/javascript">
     $(function () {
+        //  防止被嵌套页面
         if (self != top) {
             top.location.href = self.location.href;
         }
@@ -74,10 +75,14 @@
     }
 
     function login(event) {
-        var username = $("input[name='username']").val();
-        var password = $("input[name='password']").val();
-        var captcha = $("input[name='captcha']").val();
-        var data = "username=" + username + "&password=" + password + "&captcha=" + captcha;
+        let loadIndex = layer.load(2, {
+            shade: [0.1, '#fff'],
+            time: 4 * 1000 //time设置最长等待时间
+        });
+        const username = $("input[name='username']").val();
+        const password = $("input[name='password']").val();
+        const captcha = $("input[name='captcha']").val();
+        let data = "username=" + username + "&password=" + password + "&captcha=" + captcha;
         $.ajax({
             type: "POST",
             headers: {
@@ -87,13 +92,15 @@
             data: data,
             dataType: "json",
             success: function (result) {
-                if (result.code == 0) {//登录成功
+                if (result.code == 0) {
+                    // 登录成功
                     parent.location.href = '${rc.contextPath}/admin/index.html';
                 } else {
                     $(".alert-dismissible").show();
                     $(".errText").text(result.msg);
                     refreshCode();
                 }
+                layer.close(loadIndex);
             }
         });
     }

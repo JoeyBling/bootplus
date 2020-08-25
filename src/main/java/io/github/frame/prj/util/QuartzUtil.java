@@ -37,7 +37,8 @@ public class QuartzUtil {
                 return false;
             }
         } catch (Exception e) {
-            return false;
+            // do it fix
+            return true;
         }
     }
 

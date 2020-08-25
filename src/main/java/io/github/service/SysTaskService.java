@@ -1,5 +1,6 @@
 package io.github.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.entity.SysTaskEntity;
 import io.github.entity.enums.TaskCallbackTypeEnum;
 import io.github.frame.prj.service.ISimpleService;
@@ -26,5 +27,18 @@ public interface SysTaskService extends ISimpleService<SysTaskEntity> {
      */
     boolean addTask(String cronExpression, String jobName, String bizModule, String bizId, String bizTag,
                     String callbackData, TaskCallbackTypeEnum callbackType, String callbackUrl);
+
+    /**
+     * 查询列表
+     *
+     * @param offset 开始
+     * @param limit  条数
+     * @param sort   排序字段
+     * @param isAsc  是否为升序
+     * @param entity 查询条件
+     * @return Page
+     */
+    Page<SysTaskEntity> getPage(Integer offset, Integer limit, String sort,
+                                Boolean isAsc, SysTaskEntity entity);
 
 }

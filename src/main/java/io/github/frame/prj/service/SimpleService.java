@@ -1,7 +1,10 @@
 package io.github.frame.prj.service;
 
 import com.baomidou.mybatisplus.core.conditions.AbstractLambdaWrapper;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import io.github.config.aop.service.BaseAopService;
 import io.github.frame.prj.model.BaseEntity;
@@ -25,7 +28,7 @@ public abstract class SimpleService<S extends ISimpleService<T>, M extends BaseM
      *
      * @url { https://github.com/baomidou/mybatis-plus/issues/1935 }
      * @url { https://github.com/baomidou/mybatis-plus/issues/2616 }
-     * @see AbstractLambdaWrapper#initNeed()
+     * @see AbstractLambdaWrapper#tryInitCache
      */
     private T entity;
 
@@ -69,6 +72,11 @@ public abstract class SimpleService<S extends ISimpleService<T>, M extends BaseM
                 .eq(T::getEnabled, true));
     }
 
+    @Override
+    public boolean enableByPrimaryKey(Long id) {
+        return updateEnable(id, true);
+    }
+
     /**
      * 根据主键ID未启用数据
      *
@@ -77,14 +85,37 @@ public abstract class SimpleService<S extends ISimpleService<T>, M extends BaseM
      */
     @Override
     public boolean disableByPrimaryKey(Long id) {
+        return updateEnable(id, false);
+    }
+
+    @Override
+    public boolean updateEnable(Long id, boolean enabled) {
         try {
             final T defT = (T) entity.getClass().newInstance();
             defT.setId(id);
-            defT.setEnabled(false);
+            defT.setEnabled(enabled);
             return super.updateById(defT);
         } catch (InstantiationException | IllegalAccessException e) {
             return false;
         }
+    }
+
+    @Override
+    public <E extends IPage<T>> E page(E page, Wrapper<T> queryWrapper) {
+        if (onlyEnabled()) {
+            if (null == queryWrapper) {
+                queryWrapper = Wrappers.lambdaQuery(entity).eq(T::getEnabled, true);
+            } else {
+                // https://github.com/baomidou/mybatis-plus/issues/2841
+                ((QueryWrapper<T>) queryWrapper).lambda().eq(T::getEnabled, true);
+            }
+        }
+        return super.page(page, queryWrapper);
+    }
+
+    @Override
+    public <E extends IPage<T>> E page(E page) {
+        return page(page, Wrappers.emptyWrapper());
     }
 
     @Override

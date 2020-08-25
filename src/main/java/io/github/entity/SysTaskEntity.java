@@ -75,11 +75,6 @@ public class SysTaskEntity extends BaseEntity {
     @TableField
     private Date createTime;
 
-    @Override
-    public Long getId() {
-        return super.getId();
-    }
-
     @Builder
     public SysTaskEntity(Long id, String cronExpression, String jobName, String bizModule, String bizId, String bizTag, String callbackData, TaskCallbackTypeEnum callbackType, String callbackUrl, Date createTime, Boolean enabled) {
         super(id,enabled);

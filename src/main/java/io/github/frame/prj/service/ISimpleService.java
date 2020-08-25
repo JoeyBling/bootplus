@@ -21,11 +21,28 @@ public interface ISimpleService<T extends BaseEntity> extends IService<T> {
     List<T> listEnabledAll();
 
     /**
+     * 根据主键ID启用数据
+     *
+     * @param id ID
+     * @return boolean
+     */
+    boolean enableByPrimaryKey(Long id);
+
+    /**
      * 根据主键ID未启用数据
      *
      * @param id ID
      * @return boolean
      */
     boolean disableByPrimaryKey(Long id);
+
+    /**
+     * 根据ID更新启用状态
+     *
+     * @param id      ID
+     * @param enabled 状态
+     * @return boolean
+     */
+    boolean updateEnable(Long id, boolean enabled);
 
 }

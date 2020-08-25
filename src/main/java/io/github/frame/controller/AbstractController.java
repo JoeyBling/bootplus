@@ -28,7 +28,7 @@ import java.util.Map;
  * @see org.springframework.core.MethodIntrospector#selectMethods(Class, MethodIntrospector.MetadataLookup)
  * @see org.springframework.util.ClassUtils#getMostSpecificMethod(Method, Class)
  */
-public abstract class AbstractController<S> extends BaseAopContext<S> {
+public abstract class AbstractController<C> extends BaseAopContext<C> {
 
     /**
      * 默认编码

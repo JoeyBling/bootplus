@@ -113,7 +113,7 @@ spring:
         reset-enable: false
         allow: 127.0.0.1
   freemarker:
-    allow-request-override: false
+    allow-request-override: true
     cache: false
     charset: UTF-8
     content-type: text/html

@@ -1,7 +1,7 @@
 package io.github.config.interceptor;
 
-import io.github.frame.log.LogUtil;
 import io.github.frame.spring.web.servlet.handler.MyHandlerInterceptorAdapter;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,12 +18,13 @@ import java.text.SimpleDateFormat;
  * @author Created by 思伟 on 2019/12/25
  * @see org.springframework.web.servlet.handler.HandlerInterceptorAdapter
  */
+@Slf4j
 public class LogInterceptor extends MyHandlerInterceptorAdapter {
 
     /**
      * 拦截器日志
      */
-    private final LogUtil.MyLogger log = LogUtil.getInstance().getInterceptorStatementLogger();
+//    private final LogUtil.MyLogger log = LogUtil.getInstance().getInterceptorStatementLogger();
 
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh:mm:ss.SSS");
 
@@ -54,7 +55,7 @@ public class LogInterceptor extends MyHandlerInterceptorAdapter {
         long beginTime = System.currentTimeMillis();
         // 线程绑定变量（该数据只有当前请求的线程可见）
         START_TIME_THREAD_LOCAL.set(beginTime);
-        // log.debug("开始计时: {}  URI: {}", simpleDateFormat.format(beginTime), request.getRequestURI());
+//        log.debug("开始计时: {}  URI: {}", simpleDateFormat.format(beginTime), request.getRequestURI());
         return true;
     }
 
@@ -66,7 +67,7 @@ public class LogInterceptor extends MyHandlerInterceptorAdapter {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         if (modelAndView != null) {
-            // log.info("ViewName: " + modelAndView.getViewName());
+//             log.info("ViewName: " + modelAndView.getViewName());
         }
     }
 
@@ -90,8 +91,7 @@ public class LogInterceptor extends MyHandlerInterceptorAdapter {
 //                log.debug("计时结束：{}  耗时：{}  URI: {}  最大内存: {}m  已分配内存: {}m  已分配内存中的剩余空间: {}m  最大可用内存: {}m",
 //                simpleDateFormat.format(endTime), (endTime - beginTime) / 1000 + "s", request.getRequestURI(),
 //                        Runtime.getRuntime().maxMemory() / 1024 / 1024, Runtime.getRuntime().totalMemory() / 1024 / 1024,
-//                        Runtime.getRuntime().freeMemory() / 1024 / 1024, (Runtime.getRuntime().maxMemory() - Runtime.getRuntime().totalMemory() + Runtime.getRuntime().freeMemory()) / 1024 / 1024)
-//                ;
+//                        Runtime.getRuntime().freeMemory() / 1024 / 1024, (Runtime.getRuntime().maxMemory() - Runtime.getRuntime().totalMemory() + Runtime.getRuntime().freeMemory()) / 1024 / 1024);
         } finally {
             // 回收自定义的ThreadLocal变量
             START_TIME_THREAD_LOCAL.remove();
