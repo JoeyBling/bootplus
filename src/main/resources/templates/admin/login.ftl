@@ -15,6 +15,12 @@
         您的浏览器版本太低，如果您使用的是IE浏览器，你将IE浏览器升级到IE9以上，其他浏览器请将浏览器内核切换至极速模式&nbsp;<b><a href="http://chrome.360.cn"
                                                                               target="_blank">下载360极速浏览器</a></b></div>
     <![endif]-->
+    <script type="text/javascript">
+        $(function () {
+            // 禁用text框的输入历史
+            $("input:text").attr("autocomplete", "off");
+        });
+    </script>
 </head>
 <body class="hold-transition login-page">
 <script zIndex="-1" src="${rc.contextPath}/statics/js/admin/canvas-nest.min.js"></script>

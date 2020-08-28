@@ -14,7 +14,7 @@
                 <div class="ibox-title">
                     <h5>管理员信息</h5>
                     <div class="ibox-tools"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a> <a
-                            class="close-link"><i class="fa fa-times"></i></a></div>
+                                class="close-link"><i class="fa fa-times"></i></a></div>
                 </div>
                 <div class="ibox-content form-horizontal">
                     <form id="form">
@@ -34,7 +34,8 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">性别：</label>
                             <div class="col-sm-6">
-                                <input id="sex" type="text" class="form-control" disabled="disabled" value="[#if admin.sex==1]男[#elseif admin.sex==2]女[#else]保密[/#if]">
+                                <input id="sex" type="text" class="form-control" disabled="disabled"
+                                       value="[#if admin.sex==1]男[#elseif admin.sex==2]女[#else]保密[/#if]">
                                 <label class="radio-inline add-radio" style="display: none;">
                                     <input type="radio" name="sex" value="1" [#if admin.sex==1]checked="checked"[/#if]>
                                     男</label>
@@ -64,23 +65,20 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">注册时间：</label>
-
                             <div class="col-sm-6">
                                 <input type="text" class="form-control disabled-form-control" disabled="disabled"
-                                       value="[@formatTime unix="${admin.createTime?c}" pattern="yyyy-MM-dd HH:mm:ss"] [/@formatTime]">
+                                       value="[@formatTime unix="${admin.createTime?c}"/]">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">最后登录时间：</label>
-
                             <div class="col-sm-6">
                                 <input type="text" class="form-control disabled-form-control" disabled="disabled"
-                                       value="[@formatTime unix="${admin.lastLoginTime?c}" pattern="yyyy-MM-dd HH:mm:ss"] [/@formatTime]">
+                                       value="[@formatTime unix="${admin.lastLoginTime?c}"/]">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">最后登录IP：</label>
-
                             <div class="col-sm-6">
                                 <input type="text" class="form-control disabled-form-control" disabled="disabled"
                                        value="${admin.lastLoginIp}">
@@ -106,7 +104,7 @@
                     <h5>管理员登陆记录</h5>
 
                     <div class="ibox-tools"><a class="collapse-link"><i class="fa fa-chevron-up"></i></a> <a
-                            class="close-link"><i class="fa fa-times"></i></a></div>
+                                class="close-link"><i class="fa fa-times"></i></a></div>
                 </div>
                 <div class="ibox-content">
                     <div class="row row-lg">

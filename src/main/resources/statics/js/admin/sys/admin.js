@@ -92,13 +92,8 @@ function formatStatus(value, row, index) {
     }
 }
 
-/**
- * 开关切换(确保在Dom元素加载后渲染)
- * 绑定多个事件
- * @url {https://bootstrap-table.com/docs/api/}
- */
-$("#table").on("toggle.bs.table load-success.bs.table", function (event) {
-    // layer.msg(`cardView=${event}`);
+// 初始化开关按钮插件
+function initSwitch() {
     $("input[name='my-checkbox']").bootstrapSwitch({
         onText: "启用",
         offText: "禁用",
@@ -142,6 +137,16 @@ $("#table").on("toggle.bs.table load-success.bs.table", function (event) {
             }
         });
     });
+}
+
+/**
+ * 开关切换(确保在Dom元素加载后渲染)
+ * 绑定多个事件
+ * @url {https://bootstrap-table.com/docs/api/}
+ */
+$("#table").on("load-success.bs.table toggle.bs.table column-switch.bs.table", function (event) {
+    // layer.msg(`cardView=${event}`);
+    initSwitch();
 });
 
 let handle = $("#handle");
@@ -212,6 +217,7 @@ function user_delete(index, value) {
                         icon: 1,
                         time: 1000
                     });
+                    initSwitch();
                 } else {
                     layer.alert(result.msg, {
                         icon: 2
