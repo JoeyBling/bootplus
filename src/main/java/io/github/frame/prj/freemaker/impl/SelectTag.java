@@ -1,6 +1,7 @@
-package io.github.frame.prj.freemaker;
+package io.github.frame.prj.freemaker.impl;
 
 import freemarker.template.TemplateModelException;
+import io.github.frame.prj.freemaker.SimpleTemplateDirectiveModel;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -8,6 +9,8 @@ import java.io.Writer;
 import java.util.Map;
 
 /**
+ * select下拉框生成
+ *
  * @author Created by 思伟 on 2020/8/28
  */
 @Component

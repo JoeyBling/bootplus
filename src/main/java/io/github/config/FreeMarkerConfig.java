@@ -2,8 +2,8 @@ package io.github.config;
 
 import com.jagregory.shiro.freemarker.ShiroTags;
 import freemarker.template.Configuration;
-import freemarker.template.TemplateDirectiveModel;
 import freemarker.template.TemplateModelException;
+import io.github.frame.prj.freemaker.MyTemplateModel;
 import io.github.frame.spring.IStartUp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
@@ -48,31 +48,17 @@ public class FreeMarkerConfig implements IStartUp {
      * 添加自定义标签
      *
      * @throws TemplateModelException
-     * @see MyTemplateDirectiveModel
+     * @see MyTemplateModel
      * @see Configuration#setSetting(java.lang.String, java.lang.String)
      */
     @Override
     public void startUp(ApplicationContext applicationContext) throws Exception {
-        final Map<String, MyTemplateDirectiveModel> beans = applicationContext.getBeansOfType(MyTemplateDirectiveModel.class);
+        final Map<String, MyTemplateModel> beans = applicationContext.getBeansOfType(MyTemplateModel.class);
         Optional.ofNullable(beans).orElse(new HashMap<>(1)).forEach((beanName, ele) -> {
             configuration.setSharedVariable(ele.getTagName(), ele);
             log.debug("FreeMarker添加自定义标签[{}]完成...", ele.getTagName());
         });
     }
 
-    /**
-     * 自定义FreeMarker标签接口
-     */
-    public interface MyTemplateDirectiveModel extends TemplateDirectiveModel {
-
-        /**
-         * 获取访问标签的名称
-         *
-         * @return String
-         * @see Configuration#setSharedVariable
-         */
-        String getTagName();
-
-    }
 
 }

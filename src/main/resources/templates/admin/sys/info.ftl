@@ -74,7 +74,7 @@
                             <label class="col-sm-3 control-label">最后登录时间：</label>
                             <div class="col-sm-6">
                                 <input type="text" class="form-control disabled-form-control" disabled="disabled"
-                                       value="[@formatTime unix="${admin.lastLoginTime?c}"/]">
+                                       value="${formatTimePlus("${admin.lastLoginTime?c}")}">
                             </div>
                         </div>
                         <div class="form-group">

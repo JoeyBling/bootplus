@@ -1,6 +1,7 @@
-package io.github.frame.prj.freemaker;
+package io.github.frame.prj.freemaker.impl;
 
 import freemarker.template.TemplateModelException;
+import io.github.frame.prj.freemaker.SimpleTemplateDirectiveModel;
 import io.github.util.DateUtils;
 import io.github.util.StringUtils;
 import org.springframework.stereotype.Component;
