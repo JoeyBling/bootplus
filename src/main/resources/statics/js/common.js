@@ -300,7 +300,10 @@ function defaultBootstrapTableHandler(data) {
         layer.alert(data.msg, {
             icon: 2
         });
-        return;
+        return {
+            "total": null,
+            "rows": null
+        };
     }
     return {
         "total": data.page.totalCount,

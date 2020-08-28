@@ -2,14 +2,14 @@
 <html>
 <head>
     <title>XX管理系统</title>
-    [#include "/admin/header.ftl"]
+    [#include "./header.ftl"]
     <!-- iCheck -->
-    <script src="${rc.contextPath}/statics/common/icheck/icheck.min.js"></script>
+    <script src="${ctxstatic}/common/icheck/icheck.min.js"></script>
     <!-- bootstrapvalidator-master前端验证框架 -->
-    <script src="${rc.contextPath}/statics/common/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+    <script src="${ctxstatic}/common/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
     <!-- 自定义js -->
-    <script src="${rc.contextPath}/statics/js/admin/hplus.js"></script>
-    <script src="${rc.contextPath}/statics/js/admin/contabs.js"></script>
+    <script src="${ctxstatic}/js/admin/hplus.js"></script>
+    <script src="${ctxstatic}/js/admin/contabs.js"></script>
 
 </head>
 <body class="fixed-sidebar full-height-layout gray-bg">
@@ -22,7 +22,7 @@
                 <div class="dropdown profile-element"><span> </span>
                     <span class="default-avatar">
                 		<img alt="image" width="58" height="58" class="img-circle"
-                             src="${rc.contextPath}/${admin.avatarUrl!""}"></span>
+                             src="${ctx}/${admin.avatarUrl!""}"></span>
                     <a
                             data-toggle="dropdown" class="dropdown-toggle" href="javascript:void(0);"> <span
                                 class="clear"> <span
@@ -31,12 +31,12 @@
                                     class="text-muted text-xs block">${admin.email}<b class="caret"></b></span> </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a class="J_menuItem" href="${rc.contextPath}/admin/sys/user/view"
+                        <li><a class="J_menuItem" href="${ctx}/admin/sys/user/view"
                                data-index="1">个人资料</a></li>
-                        <li><a class="J_menuItem" href="${rc.contextPath}/admin/sys/user/avatar.html"
+                        <li><a class="J_menuItem" href="${ctx}/admin/sys/user/avatar.html"
                                data-index="1">修改头像</a></li>
                         <li class="divider"></li>
-                        <li><a href="${rc.contextPath}/admin/sys/logout">安全退出</a></li>
+                        <li><a href="${ctx}/admin/sys/logout">安全退出</a></li>
                     </ul>
                 </div>
             </li>
@@ -50,7 +50,7 @@
                         [#if list.list??]
                             [#list list.list as children]
                                 <li>
-                                    <a class="J_menuItem" href="${rc.contextPath}/${children.url}"
+                                    <a class="J_menuItem" href="${ctx}/${children.url}"
                                        data-index="${children_index}"><i
                                                 class="${children.icon}"></i>${children.name}</a>
                                 </li>
@@ -108,11 +108,11 @@
                 <li class="J_tabCloseOther"><a>关闭其他选项卡</a></li>
             </ul>
         </div>
-        <a href="${rc.contextPath}/admin/sys/logout" class="roll-nav roll-right J_tabExit"><i
+        <a href="${ctx}/admin/sys/logout" class="roll-nav roll-right J_tabExit"><i
                     class="fa fa fa-sign-out"></i>
             退出</a></div>
     <div class="row J_mainContent" id="content-main">
-        <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="${rc.contextPath}/admin/sys/user/view"
+        <iframe class="J_iframe" name="iframe0" width="100%" height="100%" src="${ctx}/admin/sys/user/view"
                 frameborder="0" data-id=""
                 seamless></iframe>
     </div>

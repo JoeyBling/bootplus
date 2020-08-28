@@ -3,8 +3,8 @@
 <head>
     <title>个人信息</title>
     [#include "/admin/header.ftl"]
-    <link rel="stylesheet" href="${rc.contextPath}/statics/common/bootstrap-table/bootstrap-table.min.css"/>
-    <link rel="stylesheet" href="${rc.contextPath}/statics/common/icheck/flat/green.css"/>
+    <link rel="stylesheet" href="${ctxstatic}/common/bootstrap-table/bootstrap-table.min.css"/>
+    <link rel="stylesheet" href="${ctxstatic}/common/icheck/flat/green.css"/>
 </head>
 <body class="gray-bg" style="display:none;">
 <div class="wrapper wrapper-content">
@@ -123,7 +123,7 @@
                                            data-show-refresh="true"
                                            data-show-toggle="true"
                                            data-show-export="true"
-                                           data-url="${rc.contextPath}/admin/sys/log/list"
+                                           data-url="${ctx}/admin/sys/log/list"
                                            data-pagination="true"
                                            data-page-size="20"
                                            data-page-list="[20, 50, 100, 200]"
@@ -185,15 +185,15 @@
 </div>
 <!-- 自定义js -->
 <!-- bootstrapvalidator-master前端验证框架 -->
-<script src="${rc.contextPath}/statics/common/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
+<script src="${ctxstatic}/common/bootstrapvalidator/js/bootstrapValidator.min.js"></script>
 <!-- Bootstrap table -->
-<script src="${rc.contextPath}/statics/common/bootstrap-table/bootstrap-table.min.js"></script>
-<script src="${rc.contextPath}/statics/common/bootstrap-table/extensions/export/bootstrap-table-export.js"></script>
-<script src="${rc.contextPath}/statics/common/bootstrap-table/tableExport.js"></script>
-<script src="${rc.contextPath}/statics/common/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="${ctxstatic}/common/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="${ctxstatic}/common/bootstrap-table/extensions/export/bootstrap-table-export.js"></script>
+<script src="${ctxstatic}/common/bootstrap-table/tableExport.js"></script>
+<script src="${ctxstatic}/common/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
 <!-- iCheck -->
-<script src="${rc.contextPath}/statics/common/icheck/icheck.min.js"></script>
-<script src="${rc.contextPath}/statics/js/admin/sys/adminUserInfo.js"></script>
+<script src="${ctxstatic}/common/icheck/icheck.min.js"></script>
+<script src="${ctxstatic}/js/admin/sys/adminUserInfo.js"></script>
 [#-- 自定义搜索框placeholder --]
 [#assign searchText="登录IP"]
 [#include "/admin/bootstrapcommon.ftl"]

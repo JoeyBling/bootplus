@@ -6,9 +6,12 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.config.aop.service.BaseAopService;
 import io.github.frame.prj.model.BaseEntity;
+import io.github.util.MethodNameUtil;
 import io.github.util.ObjectId;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.Collection;
@@ -59,6 +62,16 @@ public abstract class SimpleService<S extends ISimpleService<T>, M extends BaseM
      */
     protected boolean onlyEnabled() {
         return true;
+    }
+
+    @Override
+    public Page<T> getPage(Integer offset, Integer limit, String sort, Boolean isAsc, T entity) {
+        final QueryWrapper<T> wrapper = Wrappers.query(entity);
+        if (StringUtils.isNoneBlank(sort) && null != isAsc) {
+            wrapper.orderBy(true, isAsc, MethodNameUtil.camel2underStr(sort));
+        }
+        Page<T> page = new Page<>(offset, limit);
+        return this.page(page, wrapper);
     }
 
     /**

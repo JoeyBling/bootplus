@@ -190,3 +190,8 @@ CREATE TABLE `sys_task` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='平台_定时任务';
+
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('19', '1', '定时任务管理', 'admin/sys/task/showList', '', 'MENU', 'fa fa-tasks', '4');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('20', '19', '查看', '', 'sys:task:list,sys:task:select', 'BUTTON', '', '0');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('21', '19', '删除', '', 'sys:task:delete', 'BUTTON', '', '2');
+INSERT INTO `sys_menu` (`menu_id`, `parent_id`, `name`, `url`, `perms`, `type`, `icon`, `order_num`) VALUES ('22', '19', '修改', '', 'sys:task:update', 'BUTTON', '', '1');

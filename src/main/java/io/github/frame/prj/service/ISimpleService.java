@@ -1,5 +1,6 @@
 package io.github.frame.prj.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.github.frame.prj.model.BaseEntity;
 
@@ -12,6 +13,18 @@ import java.util.List;
  * @see SimpleService
  */
 public interface ISimpleService<T extends BaseEntity> extends IService<T> {
+
+    /**
+     * 查询列表
+     *
+     * @param offset 开始
+     * @param limit  条数
+     * @param sort   排序字段
+     * @param isAsc  是否为升序
+     * @param entity 查询条件
+     * @return Page
+     */
+    Page<T> getPage(Integer offset, Integer limit, String sort, Boolean isAsc, T entity);
 
     /**
      * 查询全部有效的数据

@@ -119,6 +119,7 @@ spring:
     content-type: text/html
     expose-request-attributes: true
     expose-session-attributes: true
+    #    expose-spring-macro-helpers: true
     request-context-attribute: rc
     settings:
       number_format: 0.##

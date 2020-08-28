@@ -25,7 +25,7 @@
 &emsp;&emsp;`bootplus`是基于`SpringBoot + Shiro + MyBatisPlus`的权限管理框架
 
 - 项目集成api接口及文档
-- 准备集成定时任务 -- （开发中）
+- 集成定时任务
 - 功能还很少，欢迎各位给我提意见和建议~
 
 > `SpringBoot`1.5.1集成例子请参考[bootplus_1.5.1](https://github.com/JoeyBling/bootplus/tree/1.5) （老项目只进行Bug修复，不再添加新功能实现）
@@ -78,6 +78,7 @@ bootplus
 ├── shiro -- Shiro验证框架
 │
 ├── task -- 定时任务
+|    ├── quartz -- quartz定时任务实现
 │
 ├── util -- 工具类
 |    ├── db -- 数据库模块

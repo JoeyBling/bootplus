@@ -12,16 +12,14 @@ let data_delete = $(handle).attr("data-delete");
 function search() {
     let params = $('#table').bootstrapTable('getOptions');
     params.queryParams = function (params) {
-        // 定义参数
-        let search = {};
         // 遍历form 组装json
         $.each($("#searchForm").serializeArray(), function (i, field) {
             // 可以添加提交验证
-            search[field.name] = field.value;
+            // 判断不为空白字符串
+            if (!!field.value && $.trim(field.value) != '') {
+                params[field.name] = field.value;
+            }
         });
-
-        // 参数转为json字符串，并赋给search变量 ,JSON.stringify < ie7不支持，有第三方解决插件
-        params.search = JSON.stringify(search);
         return params;
     }
     $('#table').bootstrapTable('refresh', params);
@@ -88,7 +86,7 @@ $("#table").on("toggle.bs.table load-success.bs.table", function (event) {
         }
         $.ajax({
             type: "POST",
-            url: ctx + '/admin/sys/task/updateEnable',
+            url: action + '/updateEnable',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
@@ -170,7 +168,7 @@ function del(index, value) {
             data: {
                 ids: JSON.stringify(ids)
             },
-            url: ctx + '/admin/sys/task/delete',
+            url: action + '/delete',
             success: function (result) {
                 if (result.code === 0) {
                     $('#table').bootstrapTable('hideRow', {
@@ -220,7 +218,7 @@ function multiDel(tableName) {
             data: {
                 ids: JSON.stringify(ids)
             },
-            url: ctx + '/admin/sys/task/delete',
+            url: action + '/delete',
             success: function (result) {
                 if (result.code === 0) {
                     layer.msg('操作成功!', {
@@ -259,14 +257,14 @@ function update(index, value) {
 
 // 详情
 function getInfo(id) {
-    $.get(ctx + "/admin/sys/task/select/" + id, function (result) {
+    $.get(action + "/select/" + id, function (result) {
         if (result.code === 0) {
             let record = result.record;
-            $("input[name='id']").val(record.id);
-            $("input[name='jobName']").val(record.jobName);
-            $("input[name='cronExpression']").val(record.cronExpression);
-            $("input[name='callbackData']").val(record.callbackData);
-            $("input[name='callbackUrl']").val(record.callbackUrl);
+            $("#form input[name='id']").val(record.id);
+            $("#form input[name='jobName']").val(record.jobName);
+            $("#form input[name='cronExpression']").val(record.cronExpression);
+            $("#form input[name='callbackData']").val(record.callbackData);
+            $("#form input[name='callbackUrl']").val(record.callbackUrl);
         } else {
             layer.alert(result.msg, {
                 icon: 2
@@ -290,11 +288,11 @@ function saveOrUpdate(e) {
         params += $(this).serialize() + "&";
     });
 
-    const reqUrl = id == null ? "task/save" : "task/update";
+    const reqUrl = id == null ? "/save" : "/update";
     bootplus.progressBarStartUp();
     $.ajax({
         type: "POST",
-        url: reqUrl,
+        url: action + reqUrl,
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
         },

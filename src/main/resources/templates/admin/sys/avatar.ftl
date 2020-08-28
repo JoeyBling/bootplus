@@ -2,10 +2,10 @@
 <html>
 <head>
     <title>上传头像</title>
-    [#include "/admin/header.ftl"]
-    <link href="${rc.contextPath}/statics/common/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet"
+    [#include "../header.ftl"]
+    <link href="${ctxstatic}/common/bootstrap-fileinput/css/fileinput.css" media="all" rel="stylesheet"
           type="text/css">
-    <link href="${rc.contextPath}/statics/common/bootstrap-fileinput/themes/explorer/theme.css" media="all"
+    <link href="${ctxstatic}/common/bootstrap-fileinput/themes/explorer/theme.css" media="all"
           rel="stylesheet"
           type="text/css">
     <style>
@@ -56,10 +56,10 @@
 [#-- 滚动顶部插件 --]
 [#include "/gotop.ftl"]
 </body>
-<script src="${rc.contextPath}/statics/common/bootstrap-fileinput/js/plugins/sortable.js"></script>
-<script src="${rc.contextPath}/statics/common/bootstrap-fileinput/js/fileinput.js"></script>
-<script src="${rc.contextPath}/statics/common/bootstrap-fileinput/themes/explorer/theme.js"></script>
-<script src="${rc.contextPath}/statics/common/bootstrap-fileinput/js/locales/zh.js"></script>
+<script src="${ctxstatic}/common/bootstrap-fileinput/js/plugins/sortable.js"></script>
+<script src="${ctxstatic}/common/bootstrap-fileinput/js/fileinput.js"></script>
+<script src="${ctxstatic}/common/bootstrap-fileinput/themes/explorer/theme.js"></script>
+<script src="${ctxstatic}/common/bootstrap-fileinput/js/locales/zh.js"></script>
 <script>
     var flag = "${admin.avatarUrl!""}";
     //提交修改
@@ -79,7 +79,7 @@
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
-            url: '${rc.contextPath}/admin/sys/user/updateAvatar',
+            url: '${ctx}/admin/sys/user/updateAvatar',
             success: function (result) {
                 if (result.code === 0) {
                     layer.alert("头像修改成功!", {
@@ -115,7 +115,7 @@
             showClose: false,
             showCaption: false,
             browseLabel: '选择文件',
-            uploadUrl: "${rc.contextPath}/file/upload", //上传的地址
+            uploadUrl: "${ctx}/file/upload", //上传的地址
             allowedFileExtensions: ['jpg', 'png', 'gif'],//接收的文件后缀
             uploadAsync: true, //默认异步上传
             showUpload: false, //是否显示上传按钮
@@ -129,7 +129,7 @@
             elErrorContainer: '#kv-avatar-errors-1',
             msgErrorClass: 'alert alert-block alert-danger',
             preferIconicPreview: true,
-            defaultPreviewContent: '<img style="widht:100px;height:100px;" src="${rc.contextPath}/${admin.avatarUrl!""}" />',
+            defaultPreviewContent: '<img style="widht:100px;height:100px;" src="${ctx}/${admin.avatarUrl!""}" />',
             uploadExtraData: function () {		//额外上传参数
                 return {"uploadType": "0"};
             }
