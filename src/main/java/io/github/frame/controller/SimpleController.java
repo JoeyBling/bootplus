@@ -3,6 +3,7 @@ package io.github.frame.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.github.frame.prj.model.BaseEntity;
+import io.github.frame.prj.service.CacheHandler;
 import io.github.frame.prj.service.ISimpleService;
 import io.github.util.PageUtils;
 import io.github.util.R;
@@ -103,6 +104,16 @@ public abstract class SimpleController<T extends BaseEntity, S extends ISimpleSe
         model.addAttribute("path", getPath());
         model.addAttribute("frameModule", getFrameModule());
         model.addAttribute("frameModuleName", getFrameModuleName());
+        CacheHandler.getInstance().loadCache(model, getBillActor(), loadCacheNames());
+    }
+
+    /**
+     * 需要在页面数据加载的缓存名
+     *
+     * @return String[]
+     */
+    protected String[] loadCacheNames() {
+        return null;
     }
 
     /**

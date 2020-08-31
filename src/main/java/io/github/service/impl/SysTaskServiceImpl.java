@@ -108,6 +108,9 @@ public class SysTaskServiceImpl extends SimpleService<SysTaskServiceImpl, SysTas
         if (StringUtils.isNoneBlank(entity.getJobName())) {
             wrapper.lambda().like(SysTaskEntity::getJobName, StringUtils.trim(entity.getJobName()));
         }
+        if (null != entity.getCallbackType()) {
+            wrapper.lambda().eq(SysTaskEntity::getCallbackType, entity.getCallbackType());
+        }
         Page<SysTaskEntity> page = new Page<>(offset, limit);
         return this.page(page, wrapper);
     }

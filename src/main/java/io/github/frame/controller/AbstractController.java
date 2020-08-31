@@ -6,8 +6,10 @@ import io.github.config.ApplicationProperties;
 import io.github.config.aop.service.BaseAopContext;
 import io.github.entity.SysUserEntity;
 import io.github.frame.constant.SystemConst;
+import io.github.frame.prj.model.BillActor;
 import io.github.util.spring.ShiroUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.core.MethodIntrospector;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,6 +18,7 @@ import javax.annotation.Resource;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.security.SecureRandom;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -73,6 +76,20 @@ public abstract class AbstractController<C> extends BaseAopContext<C> {
      */
     public String getForward(String path) {
         return forward + path;
+    }
+
+    /**
+     * 获取操作人信息
+     *
+     * @return BillActor
+     */
+    public BillActor getBillActor() {
+        BillActor actor = new BillActor();
+        final SysUserEntity admin = getAdmin();
+        BeanUtils.copyProperties(admin, actor);
+        actor.setOperateTime(new Date());
+        actor.setUserId(admin.getUserId());
+        return actor;
     }
 
     /**

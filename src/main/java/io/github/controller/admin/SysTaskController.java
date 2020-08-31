@@ -1,7 +1,9 @@
 package io.github.controller.admin;
 
 import io.github.entity.SysTaskEntity;
+import io.github.entity.enums.TaskCallbackTypeEnum;
 import io.github.frame.controller.SimpleController;
+import io.github.frame.prj.service.CacheHandler;
 import io.github.service.SysTaskService;
 import io.github.util.R;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -34,8 +36,16 @@ public class SysTaskController extends SimpleController<SysTaskEntity, SysTaskSe
     }
 
     @Override
+    protected String[] loadCacheNames() {
+        return new String[]{
+                CacheHandler.SYS_TASK_CALLBACK_TYPE_LIST};
+    }
+
+    @Override
     @RequiresPermissions("sys:task:list")
     public String showList(SysTaskEntity taskEntity, Model model) {
+        // 默认选择类型
+        taskEntity.setCallbackType(TaskCallbackTypeEnum.CLASS);
         return super.showList(taskEntity, model);
     }
 

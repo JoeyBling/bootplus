@@ -39,6 +39,24 @@
                                 </div>
                             </div>
                             <div class="col-sm-3">
+                                <div class="input-group">
+                                    <div class="input-group-btn">
+                                        <button data-toggle="dropdown" class="btn btn-default dropdown-toggle"
+                                                type="button" aria-expanded="false">回调类型
+                                        </button>
+                                    </div>
+                                    [@select items=sysTaskCallbackTypeList name="callbackType"
+                                    val="${record.callbackType!''}" defaultValue="" defaultLabel="全部"
+                                    class="form-control" itemValue="k" itemLabel="v"/]
+                                    [#--<select class="form-control" name="callbackType">
+                                        <option value="">全部</option>
+                                        [#list sysTaskCallbackTypeList as list]
+                                            <option value="${list.k}">${list.v}</option>
+                                        [/#list]
+                                    </select>--]
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
                                 <button type="button" class="btn btn-primary" onclick="javascript:search()">
                                     <i class="fa fa-search"></i>&nbsp;搜索
                                 </button>
