@@ -121,3 +121,4 @@ _book
 .history
 application.yml.bak
 application-prd.yml
+apidoc/
