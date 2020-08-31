@@ -121,4 +121,6 @@ _book
 .history
 application.yml.bak
 application-prd.yml
-apidoc/
+apidoc/**
+application-dev.yml
+/src/main/resources/statics/apidoc/
