@@ -8,21 +8,29 @@ let handle = $("#handle");
 let data_update = $(handle).attr("data-update");
 let data_delete = $(handle).attr("data-delete");
 
+/**
+ * 其他查询参数封装
+ * @param params
+ * @returns {*}
+ */
+function queryParams(params) {
+    // 遍历form 组装json
+    $.each($("#searchForm").serializeArray(), function (i, field) {
+        // 可以添加提交验证
+        // 判断不为空白字符串
+        if (!!field.value && $.trim(field.value) != '') {
+            params[field.name] = field.value;
+        }
+    });
+    return params;
+}
+
 // 筛选数据
 function search() {
-    let params = $('#table').bootstrapTable('getOptions');
-    params.queryParams = function (params) {
-        // 遍历form 组装json
-        $.each($("#searchForm").serializeArray(), function (i, field) {
-            // 可以添加提交验证
-            // 判断不为空白字符串
-            if (!!field.value && $.trim(field.value) != '') {
-                params[field.name] = field.value;
-            }
-        });
-        return params;
-    }
-    $('#table').bootstrapTable('refresh', params);
+    $('#table').bootstrapTable('refresh');
+    // let params = $('#table').bootstrapTable('getOptions');
+    // params.queryParams = queryParams;
+    // $('#table').bootstrapTable('refresh', params);
 }
 
 // 状态

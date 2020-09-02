@@ -71,7 +71,7 @@ public class ApiServiceInitService implements IStartUp {
                         if (AopUtils.isAopProxy(apiService)) {
                             handler.setHandler(apiService);
                         } else {
-                            log.debug("The beanName[{}] is not a Aop target,please fixed it...",
+                            log.warn("The beanName[{}] is not a Aop target,please fixed it...",
                                     beanName);
                             handler.setHandler(applicationContext.getBean(beanName));
                         }

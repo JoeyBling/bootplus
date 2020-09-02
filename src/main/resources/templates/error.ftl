@@ -28,6 +28,7 @@
         });
     </script>
 </head>
+<body>
 <!-- Universal preloader -->
 <div id="universal-preloader">
     <div class="preloader">

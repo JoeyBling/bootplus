@@ -49,6 +49,7 @@ public class SelectTag extends SimpleTemplateDirectiveModel {
         }
         StringBuffer sb = new StringBuffer();
 
+        // TODO 后续考虑封装下通用生成html文本的方法
 
         // init select
         sb.append("<select class=\"");
@@ -78,7 +79,12 @@ public class SelectTag extends SimpleTemplateDirectiveModel {
             String value = StringUtils.toString(wrapper.getPropertyValue(getStrParam(params, "itemValue")));
             sb.append("<option value=\"");
             sb.append(StringUtils.defaultString(value));
-            sb.append(StringUtils.equals(selectVal, value) ? "\" selected>" : "\">");
+            sb.append("\" ");
+            if (StringUtils.equals(selectVal, value)) {
+                // 支持回显
+                sb.append("selected ");
+            }
+            sb.append(">");
             sb.append(label);
             sb.append("</option>");
         }

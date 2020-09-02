@@ -61,7 +61,7 @@
                 </div>
             </div>
             <div class="col-xs-4">
-                <button type="button" class="btn btn-primary btn-block btn-flat" onclick="login()">登录</button>
+                <button type="button" class="btn btn-primary btn-block btn-flat" onclick="javascript:login();">登录</button>
             </div>
         </div>
 
