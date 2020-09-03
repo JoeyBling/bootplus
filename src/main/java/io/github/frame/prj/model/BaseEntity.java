@@ -1,10 +1,14 @@
 package io.github.frame.prj.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import io.github.frame.prj.constant.ResponseCodeConst;
+import io.github.util.exception.SysRuntimeException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,12 +44,17 @@ public abstract class BaseEntity implements Entity {
     private Boolean enabled;
 
     @Override
+    @JSONField(serialize = false)
+    @JsonIgnore
     public String getModule() {
-        return null;
+        throw new SysRuntimeException(ResponseCodeConst.ERROR_VALIDATE, "谁没有在model中重写getModule方法");
+//        return null;
     }
 
     @Override
+    @JSONField(serialize = false)
     public boolean isNew() {
+        // if ID type==String using StringUtils.isBlank
         return null == id;
     }
 }

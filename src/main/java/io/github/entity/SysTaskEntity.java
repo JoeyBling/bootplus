@@ -3,6 +3,7 @@ package io.github.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.github.entity.enums.TaskCallbackTypeEnum;
+import io.github.frame.prj.constant.SysModuleConst;
 import io.github.frame.prj.model.BaseEntity;
 import lombok.Builder;
 import lombok.Data;
@@ -20,6 +21,20 @@ import java.util.Date;
 @TableName("sys_task")
 public class SysTaskEntity extends BaseEntity {
     private static final long serialVersionUID = 1L;
+
+    @Builder
+    public SysTaskEntity(Long id, String cronExpression, String jobName, String bizModule, String bizId, String bizTag, String callbackData, TaskCallbackTypeEnum callbackType, String callbackUrl, Date createTime, Boolean enabled) {
+        super(id, enabled);
+        this.cronExpression = cronExpression;
+        this.jobName = jobName;
+        this.bizModule = bizModule;
+        this.bizId = bizId;
+        this.bizTag = bizTag;
+        this.callbackData = callbackData;
+        this.callbackType = callbackType;
+        this.callbackUrl = callbackUrl;
+        this.createTime = createTime;
+    }
 
     /**
      * 执行时间
@@ -75,18 +90,9 @@ public class SysTaskEntity extends BaseEntity {
     @TableField
     private Date createTime;
 
-    @Builder
-    public SysTaskEntity(Long id, String cronExpression, String jobName, String bizModule, String bizId, String bizTag, String callbackData, TaskCallbackTypeEnum callbackType, String callbackUrl, Date createTime, Boolean enabled) {
-        super(id,enabled);
-        this.cronExpression = cronExpression;
-        this.jobName = jobName;
-        this.bizModule = bizModule;
-        this.bizId = bizId;
-        this.bizTag = bizTag;
-        this.callbackData = callbackData;
-        this.callbackType = callbackType;
-        this.callbackUrl = callbackUrl;
-        this.createTime = createTime;
+    @Override
+    public String getModule() {
+        return SysModuleConst.SYS;
     }
 
 }

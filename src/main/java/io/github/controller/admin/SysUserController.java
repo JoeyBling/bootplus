@@ -95,6 +95,7 @@ public class SysUserController extends AbstractController<SysUserController> {
 
     /**
      * 保存用户
+     * 使用`@Valid`可以实现「递归验证」
      */
     @RequestMapping("/save")
     @ResponseBody
