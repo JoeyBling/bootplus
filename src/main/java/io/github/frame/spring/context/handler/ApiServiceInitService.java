@@ -1,9 +1,9 @@
 package io.github.frame.spring.context.handler;
 
-import io.github.frame.prj.annotation.ApiMethod;
+import io.github.frame.prj.service.annotation.ApiMethod;
 import io.github.frame.prj.constant.ResponseCodeConst;
 import io.github.frame.prj.transfer.request.TransBaseRequest;
-import io.github.frame.spring.ApiService;
+import io.github.frame.prj.service.ApiService;
 import io.github.frame.spring.IStartUp;
 import io.github.util.ClassUtil;
 import io.github.util.MapUtil;

@@ -1,5 +1,6 @@
 package io.github.frame.cache.ehcache;
 
+import lombok.extern.slf4j.Slf4j;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Status;
 import org.springframework.cache.Cache;
@@ -18,8 +19,12 @@ import java.util.concurrent.ConcurrentMap;
  * @author Updated by 思伟 on 2020/4/23
  * @see org.springframework.cache.ehcache.EhCacheCacheManager
  */
+@Slf4j
 public class MyEhCacheCacheManager extends EhCacheCacheManager {
-
+    /**
+     * 是否允许新缓存创建
+     */
+    private boolean allowInFlightCacheCreation = true;
     /**
      * 缓存对象集合
      */
@@ -90,7 +95,21 @@ public class MyEhCacheCacheManager extends EhCacheCacheManager {
         if (ehcache != null) {
             return new MyEhCacheCache(ehcache);
         }
-        return null;
+        return allowInFlightCacheCreation ? createCache(name) : null;
+    }
+
+    /**
+     * 创建一个新的Cache
+     * Configuration hook for creating {@link MyEhCacheCache} with given name.
+     *
+     * @param name must not be {@literal null}.
+     * @return never {@literal null}.
+     */
+    protected Cache createCache(String name) {
+        log.info("Create new Ehcache[{}]", name);
+        getCacheManager().addCache(name);
+        final Ehcache ehcache = getCacheManager().getEhcache(name);
+        return new MyEhCacheCache(ehcache);
     }
 
     public void setConfigMap(Map<String, Integer> configMap) {

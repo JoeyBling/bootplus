@@ -1,4 +1,4 @@
-package io.github.frame.prj.annotation;
+package io.github.frame.prj.service.annotation;
 
 import org.springframework.core.annotation.AliasFor;
 
@@ -34,4 +34,12 @@ public @interface ApiMethod {
      * @return String[]
      */
     String[] permission() default {};
+
+    /**
+     * TODO 待实现
+     * 多个调用权限下权限检查的逻辑操作
+     * The logical operation for the permission checks in case multiple user type are specified. OR is the default
+     */
+    Logical logical() default Logical.OR;
+
 }

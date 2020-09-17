@@ -6,12 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.filter.mgt.DefaultFilter;
 import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.apache.shiro.web.servlet.Cookie;
@@ -237,20 +237,19 @@ public class ShiroConfiguration {
         Map<String, String> filterChainDefinitionMap = Maps.newLinkedHashMap();
 
         // 配置退出 过滤器,其中的具体的退出代码Shiro已经替我们实现了
-        filterChainDefinitionMap.put("/admin/sys/logout", "logout");
-
+        filterChainDefinitionMap.put("/admin/sys/logout", DefaultFilter.logout.name());
         // 配置记住我或认证通过可以访问的地址
-        filterChainDefinitionMap.put("/admin/index", "user");
-
+        filterChainDefinitionMap.put("/admin/index", DefaultFilter.user.name());
         // <!-- 过滤链定义，从上向下顺序执行，一般将 /**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了
         // <!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
+        filterChainDefinitionMap.put("/admin/captcha.jpg", DefaultFilter.anon.name());
+        filterChainDefinitionMap.put("/admin/sys/login", DefaultFilter.anon.name());
+        filterChainDefinitionMap.put("/admin/sys/logout", DefaultFilter.anon.name());
+        filterChainDefinitionMap.put("/admin/**", DefaultFilter.authc.name());
+        filterChainDefinitionMap.put("/share/qrcode", DefaultFilter.anon.name());
         // noSessionCreation
-        filterChainDefinitionMap.put("/statics/**", "anon");
-        filterChainDefinitionMap.put("/admin/captcha.jpg", "anon");
-        filterChainDefinitionMap.put("/share/qrcode", "anon");
-        filterChainDefinitionMap.put("/admin/sys/login", "anon");
-        filterChainDefinitionMap.put("/admin/sys/logout", "anon");
-        filterChainDefinitionMap.put("/admin/**", "authc");
+        filterChainDefinitionMap.put("/statics/**", DefaultFilter.anon.name());
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
 
         // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         shiroFilterFactoryBean.setLoginUrl("/admin/login.html");
@@ -266,7 +265,6 @@ public class ShiroConfiguration {
         // 统计登录人数
         shiroFilterFactoryBean.setFilters(filtersMap);
 
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
 

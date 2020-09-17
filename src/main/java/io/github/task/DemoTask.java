@@ -41,6 +41,7 @@ public class DemoTask implements IStartUp {
      * 回调业务标识
      */
     private final String BIZ_TAG = "DEMO_TASK";
+
     @Resource
     private SysTaskService sysTaskService;
 

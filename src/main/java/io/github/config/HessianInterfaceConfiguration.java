@@ -2,6 +2,7 @@ package io.github.config;
 
 import io.github.common.hessian.HessianServiceExporter;
 import io.github.service.SysUserLoginLogService;
+import io.github.service.hessian.IExtShortLinkService;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,19 @@ public class HessianInterfaceConfiguration {
         HessianServiceExporter exporter = new HessianServiceExporter();
         exporter.setServiceInterface(SysUserLoginLogService.class);
         exporter.setService(sysUserLoginLogService);
+        return exporter;
+    }
+
+    /**
+     * 短链接生成Hessian接口
+     * 不能通过方法名来指定URL即可，必须为/开头
+     */
+    @Bean("/IExtShortLinkService")
+    @ConditionalOnBean({IExtShortLinkService.class})
+    public HessianServiceExporter iExtShortLinkService(IExtShortLinkService shortLinkService) {
+        HessianServiceExporter exporter = new HessianServiceExporter();
+        exporter.setServiceInterface(IExtShortLinkService.class);
+        exporter.setService(shortLinkService);
         return exporter;
     }
 

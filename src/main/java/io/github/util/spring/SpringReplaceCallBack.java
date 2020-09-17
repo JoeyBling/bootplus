@@ -22,7 +22,7 @@ public class SpringReplaceCallBack implements RegexUtil.ReplaceCallBack {
     /**
      * 是否启用日志
      */
-    private boolean logEnabled = true;
+    private boolean logEnabled;
 
     /**
      * 数据集合

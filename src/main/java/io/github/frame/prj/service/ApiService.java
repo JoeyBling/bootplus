@@ -1,4 +1,4 @@
-package io.github.frame.spring;
+package io.github.frame.prj.service;
 
 /**
  * Api接口

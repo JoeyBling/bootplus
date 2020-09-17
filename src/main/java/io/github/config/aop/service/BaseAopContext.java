@@ -1,6 +1,5 @@
 package io.github.config.aop.service;
 
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,10 +10,9 @@ import org.slf4j.LoggerFactory;
  * @author Created by 思伟 on 2020/3/1
  * @see MyInjectBeanSelfProcessor#postProcessAfterInitialization(Object, String)
  */
-@Slf4j
 public abstract class BaseAopContext<S> implements BeanSelfAware {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
-    
+
     /**
      * self会在编译的时候和this具有相同的效果，而this是关键字
      * 使用内部方法时可以指定self... 或者不加关键字即可使用代理对象(勿使用this不然无效)

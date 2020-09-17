@@ -187,6 +187,7 @@ application:
   description: @project.description@
   blog: @blog.url@
   basedir: @project.basedir@
+  domain: http://bootplus.diandianys.com
   requestPassword: aAr9MVS9j1
   #  管理员ID
   admin-id: 1

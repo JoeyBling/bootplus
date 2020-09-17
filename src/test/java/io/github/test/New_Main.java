@@ -18,6 +18,10 @@ public class New_Main {
 
     public static void main(String[] args) throws Exception {
 
+        System.out.println(getNewBoolVal(false));
+        System.out.println(getNewBoolVal(true));
+        System.out.println(getNewBoolVal(null));
+
         char c = 'D';
         System.out.println(c + 1);
 
@@ -48,5 +52,12 @@ public class New_Main {
         }
     }
 
+    public static String getNewBoolVal(Boolean bol) {
+        return getBoolVal(Boolean.TRUE.equals(bol));
+    }
+
+    public static String getBoolVal(boolean bol) {
+        return String.valueOf(bol);
+    }
 
 }

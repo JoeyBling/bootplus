@@ -161,9 +161,8 @@ public class FileTypeUtil {
             while (iter.hasNext()) {
                 Map.Entry<String, String> entry = iter.next();
                 String key = entry.getKey();
-                String val = entry.getValue();
                 if (StringUtils.startsWithIgnoreCase(contentType.trim(), key)) {
-                    return val;
+                    return entry.getValue();
                 }
             }
         }

@@ -166,7 +166,13 @@ public class HttpAttachment {
         this.error = error;
     }
 
-    public void getFile(String savePath) throws IOException {
+    /**
+     * 生成文件
+     *
+     * @param savePath 文件路径
+     * @throws IOException
+     */
+    public void toFile(String savePath) throws IOException {
         BufferedInputStream bis = null;
         BufferedOutputStream bos = null;
         try {
@@ -175,7 +181,7 @@ public class HttpAttachment {
             FileOutputStream fos = new FileOutputStream(savePath);
             bos = new BufferedOutputStream(fos);
 
-            int size = 0;
+            int size;
             byte[] buffer = new byte[10240];
             while ((size = bis.read(buffer)) != -1) {
                 bos.write(buffer, 0, size);

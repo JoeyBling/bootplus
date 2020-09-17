@@ -2,12 +2,12 @@ package io.github.controller.api;
 
 import com.google.common.collect.Lists;
 import io.github.controller.api.transfer.request.TransAppLoginRequest;
-import io.github.frame.prj.annotation.ApiMethod;
+import io.github.frame.prj.service.annotation.ApiMethod;
 import io.github.frame.prj.constant.ResponseCodeConst;
 import io.github.frame.prj.transfer.response.TransBaseResponse;
 import io.github.frame.prj.validate.Validate4Api;
 import io.github.frame.prj.validate.Validate4ApiRule;
-import io.github.frame.spring.ApiService;
+import io.github.frame.prj.service.ApiService;
 import io.github.service.impl.AppConfigService;
 import io.github.service.impl.AppTokenService;
 import org.springframework.stereotype.Service;

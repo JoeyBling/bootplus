@@ -28,15 +28,15 @@ public class HessianHeaderContext {
     private static final ThreadLocal<HessianHeaderContext> THREAD_LOCAL =
             ThreadLocal.withInitial(() -> new HessianHeaderContext());
 
-    public static HessianHeaderContext setContext(Boolean encode) {
+    public static HessianHeaderContext getInstance(Boolean encode) {
         THREAD_LOCAL.set(new HessianHeaderContext(Boolean.TRUE.equals(encode)));
-        return getContext();
+        return getInstance();
     }
 
     /**
      * 获取请求头信息
      */
-    public static HessianHeaderContext getContext() {
+    public static HessianHeaderContext getInstance() {
         return THREAD_LOCAL.get();
     }
 

@@ -73,6 +73,12 @@ public class ApplicationProperties {
     private String blog;
 
     /**
+     * 域名
+     */
+    @NotBlank
+    private String domain;
+
+    /**
      * @see MyLoggerConfig
      */
     @NestedConfigurationProperty

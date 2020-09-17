@@ -51,9 +51,9 @@ public class ApiController {
             String sign = request.getHeader("sign");
             if (StringUtils.isNotBlank(json)) {
                 transRequest = JSON.parseObject(json, TransBaseRequest.class);
-                logger.debug("API请求访问[{}], 请求参数[{}]", transRequest.getService(), json);
+                logger.debug("[API请求] 访问[{}], 请求参数[{}]", transRequest.getService(), json);
             } else {
-                logger.debug("API请求访问[{}], 请求参数[{}]", request.getParameter("service"),
+                logger.debug("[API请求] 访问[{}], 请求参数[{}]", request.getParameter("service"),
                         toJsonString(request.getParameterMap()));
             }
             if (StringUtils.isNotBlank(sign)) {

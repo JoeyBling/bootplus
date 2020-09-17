@@ -4,12 +4,15 @@ import io.github.common.enums.IEnum;
 import io.github.entity.enums.TaskCallbackTypeEnum;
 import io.github.frame.prj.model.BillActor;
 import io.github.frame.prj.model.KvObject;
+import io.github.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 页面数据缓存
@@ -84,6 +87,25 @@ public class CacheHandler {
         for (IEnum anEnum : enums) {
             kv = new KvObject(anEnum.getKey(), anEnum.getValue());
             list.add(kv);
+        }
+        return list;
+    }
+
+    /**
+     * 根据常量键值对生成KV集合
+     *
+     * @param constMap 常量键值对
+     * @return List
+     */
+    private List<KvObject> generateMap2KVList(Map<String, ?> constMap) {
+        List<KvObject> list = new ArrayList<KvObject>();
+        if (null != constMap) {
+            Set<? extends Map.Entry<String, ?>> entrySet = constMap.entrySet();
+            KvObject kv;
+            for (Map.Entry<String, ?> entry : entrySet) {
+                kv = new KvObject(entry.getKey(), StringUtils.toString(entry.getValue()));
+                list.add(kv);
+            }
         }
         return list;
     }

@@ -4,14 +4,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Lists;
 import io.github.controller.api.transfer.request.TransUserLoginRequest;
 import io.github.entity.SysUserLoginLogEntity;
-import io.github.frame.prj.annotation.ApiMethod;
 import io.github.frame.prj.constant.ResponseCodeConst;
 import io.github.frame.prj.constant.UserTypeConst;
+import io.github.frame.prj.service.BaseApiService;
+import io.github.frame.prj.service.annotation.ApiMethod;
+import io.github.frame.prj.service.annotation.Logical;
 import io.github.frame.prj.transfer.response.TransBaseResponse;
 import io.github.frame.prj.transfer.response.TransPageBaseResponse;
 import io.github.frame.prj.validate.Validate4Api;
 import io.github.frame.prj.validate.Validate4ApiRule;
-import io.github.frame.spring.ApiService;
 import io.github.service.SysUserLoginLogService;
 import io.github.util.PageUtils;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ import javax.annotation.Resource;
  * @author Created by 思伟 on 2020/8/3
  */
 @Service
-public class ApiUserLoginLogService implements ApiService {
+public class ApiUserLoginLogService extends BaseApiService {
 
     @Resource
     private SysUserLoginLogService sysUserLoginLogService;
@@ -78,7 +79,8 @@ public class ApiUserLoginLogService implements ApiService {
      * }
      * }
      */
-    @ApiMethod(value = "bootplus.user.login.log.list", permission = {UserTypeConst.ADM, UserTypeConst.SYS})
+    @ApiMethod(value = "bootplus.user.login.log.list", permission = {UserTypeConst.ADM, UserTypeConst.SYS}
+            , logical = Logical.OR)
     public TransBaseResponse list(TransUserLoginRequest request) {
         // 执行校验
         TransBaseResponse response = Validate4Api.valid2Response(request, Lists.newArrayList(

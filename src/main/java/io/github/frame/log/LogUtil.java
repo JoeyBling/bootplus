@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 日志工具类
- * 对于 trace/debug/info 级别的日志输出，必须进行日志级别的开关判断
+ * 对于 `trace/debug/info` 级别的日志输出，必须进行日志级别的开关判断
  *
  * @author Created by 思伟 on 2020/3/17
  */

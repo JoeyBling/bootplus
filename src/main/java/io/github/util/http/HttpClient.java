@@ -197,7 +197,6 @@ public class HttpClient {
                 fullName = ds.substring(ds.indexOf("filename=\"") + 10, ds.length() - 1);
                 relName = fullName.substring(0, fullName.lastIndexOf("."));
                 suffix = fullName.substring(relName.length() + 1);
-
             } else {
                 // http头中不含文件信息
                 // 随机生成文件名

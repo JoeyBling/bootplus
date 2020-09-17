@@ -7,7 +7,10 @@ import com.caucho.hessian.client.HessianProxyFactory;
 import com.caucho.hessian.io.HessianRemoteObject;
 import io.github.common.hessian.HessianHeaderContext;
 import io.github.entity.SysUserLoginLogEntity;
+import io.github.frame.prj.enums.ShortLinkForwardModeEnum;
+import io.github.frame.prj.model.ShortLinkVO;
 import io.github.service.SysUserLoginLogService;
+import io.github.service.hessian.IExtShortLinkService;
 import io.github.util.PageUtils;
 import org.junit.Test;
 import org.springframework.remoting.caucho.HessianProxyFactoryBean;
@@ -61,18 +64,23 @@ public class HessianUtil {
 
     @Test
     public void test() {
-        HessianHeaderContext.getContext().addHeader("test", "Joey")
+        HessianHeaderContext.getInstance().addHeader("test", "Joey")
                 .addHeader("testName", "思伟_");
         SysUserLoginLogService sysUserLoginLogService = getClient(SysUserLoginLogService.class, "/ExtSysUserLoginLogService");
         Page<SysUserLoginLogEntity> page = sysUserLoginLogService.getPage(1, 20, 1L, null, null, null);
 
-        HessianHeaderContext.setContext(true).addHeader("test", "Joey2")
+        HessianHeaderContext.getInstance(true).addHeader("test", "Joey2")
                 .addHeader("testName", "思伟2");
         page = sysUserLoginLogService.getPage(1, 20, 1L, null, null, null);
         final PageUtils<SysUserLoginLogEntity> pageUtils = PageUtils.buildPageUtil(page);
         pageUtils.getList().forEach(entity -> {
             System.out.println(entity);
         });
+
+        final IExtShortLinkService iExtShortLinkService = getClient(IExtShortLinkService.class, "/IExtShortLinkService");
+        final ShortLinkVO shortLinkVO = iExtShortLinkService.generateShortLink(ShortLinkForwardModeEnum.REDIRECT, "https://zhousiwei.gitee.io/ibooks/");
+        System.out.println(shortLinkVO);
+
     }
 
     /**
@@ -96,7 +104,7 @@ public class HessianUtil {
             super.addRequestHeaders(conn);
             // add Hessian Header
             try {
-                Map<String, String> headerMap = HessianHeaderContext.getContext().getHeaders();
+                Map<String, String> headerMap = HessianHeaderContext.getInstance().getHeaders();
                 for (Map.Entry<String, String> entry : headerMap.entrySet()) {
                     conn.addHeader(entry.getKey(), entry.getValue());
                 }
