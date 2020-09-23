@@ -28,7 +28,13 @@
         <!-- 默认测试环境 -->
         <package.environment>dev</package.environment>
         <maven.build.timestamp.format>yyyyMMdd_HHmmss</maven.build.timestamp.format>
-        <hessian.version>4.0.38</hessian.version>
+        <!-- <hessian.version>4.0.38</hessian.version> -->
+        <!-- 解决`BigDecimal`反序列化异常，默认`4.0.37`已经进行修复了，但是Mvn中央仓库没有收录此包
+            官网链接：http://hessian.caucho.com/download/hessian-4.0.37.jar
+            hessian-x.jar!\META-INF\hessian\serializers
+            hessian-x.jar!\META-INF\hessian\deserializers
+            Bug链接：http://bugs.caucho.com/view.php?id=3920 -->
+        <hessian.version>4.0.63</hessian.version>
         <kaptcha.version>0.0.9</kaptcha.version>
         <commons-io.version>2.5</commons-io.version>
         <!-- 在1.4.2之前的Apache Shiro，使用默认的“记住我”配置时，cookie可能会受到填充攻击。 -->
