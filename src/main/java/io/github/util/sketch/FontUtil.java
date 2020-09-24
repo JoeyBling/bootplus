@@ -1,7 +1,7 @@
 package io.github.util.sketch;
 
 import com.google.common.collect.Maps;
-import io.github.util.exception.RRException;
+import io.github.frame.prj.exception.RRException;
 import io.github.util.file.FileUtils;
 import io.github.util.sketch.img.Img;
 import lombok.extern.slf4j.Slf4j;

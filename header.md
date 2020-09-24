@@ -66,6 +66,7 @@ bootplus
 |    ├── controller -- 控制器模块
 |    ├── log -- 日志模块
 |    ├── prj -- 项目核心模块
+|    |    ├── exception -- 自定义异常
 |    ├── spring -- spring模块
 │
 ├── service -- 业务逻辑接口
@@ -78,7 +79,6 @@ bootplus
 ├── util -- 工具类
 |    ├── db -- 数据库模块
 |    ├── encry -- 加解密模块
-|    ├── exception -- 自定义异常
 |    ├── file -- 文件工具类
 |    ├── freemaker -- 自定义FreeMarker标签
 |    ├── http -- http模块实现

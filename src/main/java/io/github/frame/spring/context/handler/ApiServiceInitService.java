@@ -7,7 +7,7 @@ import io.github.frame.prj.service.ApiService;
 import io.github.frame.spring.IStartUp;
 import io.github.util.ClassUtil;
 import io.github.util.MapUtil;
-import io.github.util.exception.SysRuntimeException;
+import io.github.frame.prj.exception.SysRuntimeException;
 import io.github.util.spring.AopTargetUtils;
 import lombok.Data;
 import lombok.experimental.Accessors;

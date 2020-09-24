@@ -19,6 +19,7 @@ public class SystemConst {
      * @see BigDecimal#ROUND_HALF_UP 四舍五入
      * @see BigDecimal#ROUND_HALF_DOWN 五舍六入
      * @see BigDecimal#setScale(int, int) 调用此方法建议使用此全局变量，防止出现无限循环小数
+     * @see BigDecimal#divide(BigDecimal, int)
      */
     public static final int GLOBAL_BIG_DECIMAL_ROUNDING_MODE = BigDecimal.ROUND_HALF_UP;
 

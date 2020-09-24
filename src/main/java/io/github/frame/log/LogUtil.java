@@ -17,17 +17,25 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LogUtil {
 
     /**
+     * 外部不提供实例化方法
+     */
+    private LogUtil() {
+        super();
+    }
+
+    /**
      * 获取唯一实例对象
      */
     public static LogUtil getInstance() {
-        if (null == logUtil) {
-            synchronized (LogUtil.class) {
-                if (null == logUtil) {
-                    logUtil = new LogUtil();
-                }
-            }
-        }
-        return logUtil;
+        return SingletonHolder.INSTANCE;
+    }
+
+    /**
+     * 登记式/静态内部类
+     * 多线程安全
+     */
+    private static class SingletonHolder {
+        private static final LogUtil INSTANCE = new LogUtil();
     }
 
     /**
@@ -44,13 +52,6 @@ public class LogUtil {
      */
     public MyLogger getFileStatementLogger() {
         return getLogger(FILE_STATEMENT_LOGGER_NAME);
-    }
-
-    /**
-     * 外部不提供实例化方法
-     */
-    private LogUtil() {
-        super();
     }
 
     /**

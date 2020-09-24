@@ -1,15 +1,13 @@
 package io.github.util.spring;
 
-import io.github.util.exception.BaseRuntimeException;
+import io.github.frame.prj.exception.BaseRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.web.ErrorProperties;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.autoconfigure.web.servlet.error.AbstractErrorController;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;

@@ -1,4 +1,4 @@
-package io.github.util.exception;
+package io.github.frame.prj.exception;
 
 /**
  * 自定义异常
@@ -8,8 +8,11 @@ package io.github.util.exception;
 public class RRException extends BaseRuntimeException {
     private static final long serialVersionUID = 1L;
 
-    private String msg;
+    /**
+     * @see org.springframework.http.HttpStatus#INTERNAL_SERVER_ERROR
+     */
     private int code = 500;
+    private String msg;
 
     public RRException(String msg) {
         super(msg);
@@ -46,13 +49,13 @@ public class RRException extends BaseRuntimeException {
         return code;
     }
 
+    public void setCode(int code) {
+        this.code = code;
+    }
+
     @Override
     public int getErrorCode() {
         return code;
-    }
-
-    public void setCode(int code) {
-        this.code = code;
     }
 
     @Override

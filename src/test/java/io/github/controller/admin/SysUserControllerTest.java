@@ -39,6 +39,23 @@ public class SysUserControllerTest extends BaseAppShiroTest {
     }
 
     /**
+     * 测试保存用户
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testSave() throws Exception {
+        String uri = "/admin/sys/user/save?";
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON)
+                .param("role", "1"))
+                .andReturn();
+        mvcResult.getResponse().setCharacterEncoding(StandardCharsets.UTF_8.name());
+        int status = mvcResult.getResponse().getStatus();
+        String content = mvcResult.getResponse().getContentAsString();
+        log.info(status + "===>" + content);
+    }
+
+    /**
      * @throws Exception
      * @see org.springframework.transaction.interceptor.TransactionAspectSupport#invokeWithinTransaction(Method, Class, TransactionAspectSupport.InvocationCallback)
      */

@@ -7,7 +7,7 @@ import io.github.frame.controller.AbstractController;
 import io.github.service.SysMenuService;
 import io.github.util.PageUtils;
 import io.github.util.R;
-import io.github.util.exception.RRException;
+import io.github.frame.prj.exception.RRException;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -45,6 +45,7 @@ public class IEnumHelperFactory {
 
     /**
      * 获取唯一实例对象
+     * 双检锁/双重校验锁
      */
     public static IEnumHelperFactory getInstance() {
         if (null == iEnumHelperFactory) {

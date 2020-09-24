@@ -5,7 +5,7 @@ import io.github.frame.prj.transfer.request.TransBaseRequest;
 import io.github.frame.prj.transfer.response.TransBaseResponse;
 import io.github.frame.spring.context.handler.ApiServiceInitService;
 import io.github.util.StringUtils;
-import io.github.util.exception.SysRuntimeException;
+import io.github.frame.prj.exception.SysRuntimeException;
 
 /**
  * 接口响应处理实现

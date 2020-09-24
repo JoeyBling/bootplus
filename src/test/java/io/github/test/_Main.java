@@ -110,7 +110,7 @@ public class _Main {
         IEnumHelperFactory.IEnumHelper sysMenuTypeHelper = IEnumHelperFactory.getInstance().getByClass(
                 SysMenuTypeEnum.class);
         logger.info(IEnumHelperFactory.getInstance().getByClass(
-                SysMenuTypeEnum.class).getByKey("0").getValue());
+                SysMenuTypeEnum.class).getByKey("CATALOG").getValue());
         logger.info(IEnumHelperFactory.getInstance().getByClass(
                 FileTypeEnum.class).getByKey("IMAGE").getValue());
         String[] keyArray = sysMenuTypeHelper.getKeyArray();

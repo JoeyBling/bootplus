@@ -1,4 +1,4 @@
-package io.github.util.exception;
+package io.github.frame.prj.exception;
 
 /**
  * 自定义异常接口
@@ -8,12 +8,18 @@ package io.github.util.exception;
 public interface MyException {
 
     /**
+     * 默认异常错误码
+     */
+    int DEFAULT_ERROR_CODE = 500;
+
+    /**
      * 获取错误码
      *
-     * @return default:500
+     * @return {@link #DEFAULT_ERROR_CODE}
+     * @since 1.8
      */
     default int getErrorCode() {
-        return 500;
+        return DEFAULT_ERROR_CODE;
     }
 
     /**

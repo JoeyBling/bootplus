@@ -15,8 +15,9 @@ import javax.servlet.ServletContextListener;
  * javac -encoding UTF-8 -Xlint:unchecked -classpath ../../../target/classes
  *
  * @author Created by 思伟 on 2020/1/15
+ * @deprecated 不会进`init`方法
  */
-@Configuration
+//@Configuration
 @Deprecated
 public class WebConfig {
 

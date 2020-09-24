@@ -2,7 +2,7 @@ package io.github.util.spring;
 
 import io.github.util.R;
 import io.github.util.StringUtils;
-import io.github.util.exception.BaseRuntimeException;
+import io.github.frame.prj.exception.BaseRuntimeException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authz.AuthorizationException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -30,8 +30,8 @@ public class RestGlobalExceptionHandler {
      *
      * @param e BaseRuntimeException
      * @return Map
-     * @see GlobalExceptionHandler#handleMyException
      * @since 2.3.1
+     * @deprecated {@link GlobalExceptionHandler#handleMyException}
      */
     @Deprecated
     @ExceptionHandler(BaseRuntimeException.class)

@@ -1,4 +1,6 @@
-package io.github.util.exception;
+package io.github.frame.prj.exception;
+
+import io.github.util.StringUtils;
 
 /**
  * 自定义异常类
@@ -56,6 +58,11 @@ public class SysRuntimeException extends BaseRuntimeException {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    @Override
+    public int getErrorCode() {
+        return StringUtils.getIntegerValue(code, DEFAULT_ERROR_CODE);
     }
 
     @Override

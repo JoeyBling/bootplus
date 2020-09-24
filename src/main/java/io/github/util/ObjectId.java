@@ -1,7 +1,7 @@
 package io.github.util;
 
 import com.google.common.base.Objects;
-import io.github.util.exception.RRException;
+import io.github.frame.prj.exception.RRException;
 
 import java.net.NetworkInterface;
 import java.nio.ByteBuffer;

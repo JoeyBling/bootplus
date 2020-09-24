@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 /**
  * 继承的类都可以取得AOP self对象属性【继承此类来解决内部方法调用事务失效问题及没有代理等问题】
  * （泛型：S为当前对象）
+ * 注意继承此抽象类的子类，必须被spring管理
  *
  * @author Created by 思伟 on 2020/3/1
  * @see MyInjectBeanSelfProcessor#postProcessAfterInitialization(Object, String)
@@ -25,6 +26,9 @@ public abstract class BaseAopContext<S> implements BeanSelfAware {
     public void setSelf(Object proxyBean) {
         if (null != proxyBean) {
             this.self = (S) proxyBean;
+            if (logger.isDebugEnabled()) {
+                // logger.debug("ClassName={},注入代理对象成功！", this.getClass().getName());
+            }
         }
     }
 

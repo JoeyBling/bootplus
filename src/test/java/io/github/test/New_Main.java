@@ -1,12 +1,15 @@
 package io.github.test;
 
 import io.github.controller.admin.SysTaskController;
+import io.github.frame.constant.SystemConst;
+import io.github.frame.prj.exception.SysRuntimeException;
 import io.github.util.DateUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.core.annotation.AnnotationUtils;
 
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 /**
@@ -17,6 +20,11 @@ import java.util.Calendar;
 public class New_Main {
 
     public static void main(String[] args) throws Exception {
+        System.out.println(new SysRuntimeException("").getErrorCode());
+        System.out.println(new SysRuntimeException("304").getErrorCode());
+
+        System.out.println(new BigDecimal("100").divide(new BigDecimal("3"), SystemConst.GLOBAL_BIG_DECIMAL_ROUNDING_MODE));
+        System.out.println(new BigDecimal("100.595").setScale(2, SystemConst.GLOBAL_BIG_DECIMAL_ROUNDING_MODE));
 
         System.out.println(getNewBoolVal(false));
         System.out.println(getNewBoolVal(true));

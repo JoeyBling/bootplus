@@ -3,13 +3,14 @@ package io.github.config.aop.service;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.github.frame.prj.constant.ResponseCodeConst;
-import io.github.util.exception.SysRuntimeException;
+import io.github.frame.prj.exception.SysRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * 所有service必须继承此类来解决内部方法调用事务失效问题
  * （ 泛型：S为当前对象，M 是 mapper 对象，T 是实体 ， PK 是主键泛型 ）
+ * 注意继承此抽象类的子类，必须被spring管理
  *
  * @author Created by 思伟 on 2020/1/13
  * @see MyInjectBeanSelfProcessor#postProcessAfterInitialization(Object, String)

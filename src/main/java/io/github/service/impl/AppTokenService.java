@@ -9,7 +9,7 @@ import io.github.frame.prj.constant.AppResponseCodeConst;
 import io.github.frame.cache.annotation.MyCachePut;
 import io.github.frame.cache.annotation.MyCacheable;
 import io.github.frame.prj.model.TokenObject;
-import io.github.util.exception.SysRuntimeException;
+import io.github.frame.prj.exception.SysRuntimeException;
 import io.github.util.http.CookieUtil;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;

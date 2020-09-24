@@ -5,7 +5,7 @@ import io.github.frame.prj.constant.ResponseCodeConst;
 import io.github.frame.prj.transfer.response.TransBaseResponse;
 import io.github.frame.prj.validate.rule.*;
 import io.github.util.StringUtils;
-import io.github.util.exception.SysRuntimeException;
+import io.github.frame.prj.exception.SysRuntimeException;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;

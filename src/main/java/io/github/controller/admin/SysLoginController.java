@@ -11,7 +11,7 @@ import io.github.service.SysUserLoginLogService;
 import io.github.service.SysUserService;
 import io.github.util.DateUtils;
 import io.github.util.R;
-import io.github.util.exception.RRException;
+import io.github.frame.prj.exception.RRException;
 import io.github.util.http.GetIpAddress;
 import io.github.util.http.HttpUtil;
 import io.github.util.spring.ShiroUtils;
