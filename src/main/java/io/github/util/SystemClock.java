@@ -31,6 +31,7 @@ public class SystemClock {
     /**
      * 原子对象
      * 对长整形进行原子操作
+     * `volatile`不能保证原子性而`Atomic`可以 @url { https://blog.csdn.net/weixin_34190136/article/details/86275092 }
      */
     private final AtomicLong now;
 
