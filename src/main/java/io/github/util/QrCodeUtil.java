@@ -180,6 +180,8 @@ public class QrCodeUtil {
     public static String decode(final String base64Str) throws IOException, NotFoundException {
         // 从分隔符第一次出现的位置向后截取
         final String base64String = StringUtils.defaultIfBlank(StringUtils.substringAfter(base64Str, IMAGE_PNG_BASE64_PREFIX), base64Str);
+        // base64转义
+        // base64String.substring(base64String.indexOf("base64,") + 7);
         final byte[] bytes = Base64.decodeBase64(base64String);
         try (ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes)) {
             return decode(ImageIO.read(byteArrayInputStream));
