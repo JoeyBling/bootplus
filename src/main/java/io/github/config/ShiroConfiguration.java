@@ -1,10 +1,13 @@
 package io.github.config;
 
+import cn.hutool.crypto.KeyUtil;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.symmetric.SymmetricAlgorithm;
 import com.google.common.collect.Maps;
 import io.github.shiro.UserRealm;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
-import org.apache.shiro.codec.Base64;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.mgt.SessionManager;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
@@ -120,7 +123,26 @@ public class ShiroConfiguration {
     }
 
     /**
+     * Symmetric algorithm test
+     */
+    public static void main(String[] args) {
+        // 默认密钥
+        final String aesKey = Base64.encodeBase64String(
+                KeyUtil.generateKey(SymmetricAlgorithm.AES.getValue()).getEncoded());
+        log.debug("aesKey=[{}]", aesKey);
+        // 待加密json字符串
+        final String params = "{\"pharmacyId\":\"12\",\"orderId\":\"5f506742e4b08cfcf5590575\"}";
+        // 加密
+        final String encryptHex = SecureUtil.aes(Base64.decodeBase64(aesKey)).encryptHex(params);
+        log.debug("加密后内容：{}", encryptHex);
+        //解密Hex表示的字符串，默认UTF-8编码
+        log.debug("进行解密：{}", SecureUtil.aes(Base64.decodeBase64(aesKey)).decryptStr(encryptHex));
+    }
+
+    /**
      * cookie对象
+     *
+     * @see SimpleCookie#SimpleCookie()
      */
     @Primary
     @Bean(name = "rememberMeCookie")
@@ -147,8 +169,14 @@ public class ShiroConfiguration {
         log.info("ShiroConfiguration.rememberMeManager()");
         CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
         cookieRememberMeManager.setCookie(cookie);
-        // rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
-        byte[] cipherKey = Base64.decode("wGiHplamyXlVB11UXWol8g==");
+//        byte[] cipherKey = Base64.decodeBase64("wGiHplamyXlVB11UXWol8g==");
+        /**
+         * rememberMe cookie加密的密钥 建议每个项目都不一样 默认AES算法 密钥长度(128 256 512 位)
+         * @see #main
+         */
+        byte[] cipherKey = Base64.decodeBase64("s/29TncV2aWcOLrdESikaA==");
+        // TODO 待测试
+//        byte[] cipherKey = Base64.decodeBase64("just error test");
         cookieRememberMeManager.setCipherKey(cipherKey);
         return cookieRememberMeManager;
     }

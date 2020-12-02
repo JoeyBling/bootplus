@@ -51,6 +51,7 @@ mvn -v
 > 设置windows环境变量：设置后需要重启IDEA才能生效
 - Key: `MAVEN_OPTS`
 - Value: `-Xms256m -Xmx512m -Dfile.encoding=UTF-8`
+- 默认Value: `-Xms256m -Xmx512m -Dfile.encoding=GBK`
 
 ## Git标签管理
 > 查看远程标签

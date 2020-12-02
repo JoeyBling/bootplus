@@ -71,6 +71,7 @@ public class QuartzJobFactory implements Job {
      * @see TaskCallbackTypeEnum#CLASS
      */
     private boolean classExecute(SysTaskEntity task) {
+        // TODO 不建议每次取，建议使用静态变量
         return SpringContextUtils.getBean(ITaskCallbackService.class).execute(
                 task.getId(), task.getJobName(), task.getBizModule(), task.getBizId(), task.getBizTag(),
                 task.getCallbackData(), task.getCallbackUrl());

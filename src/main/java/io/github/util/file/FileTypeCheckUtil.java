@@ -51,6 +51,7 @@ public class FileTypeCheckUtil {
      * @param is
      * @return
      */
+    @Deprecated
     public static boolean checkImage(InputStream is) {
         boolean flag = false;
         try {

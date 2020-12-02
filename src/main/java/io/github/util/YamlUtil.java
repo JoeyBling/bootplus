@@ -30,7 +30,7 @@ public class YamlUtil {
     /**
      * Yaml配置缓存集合
      */
-    protected static Map<String, HashMap<?, ?>> yamlPropertiesCacheMap = new HashMap<>();
+    private static Map<String, HashMap<?, ?>> yamlPropertiesCacheMap = new HashMap<>();
 
     /**
      * 获取对应key的值
@@ -85,12 +85,32 @@ public class YamlUtil {
      * @see #loadYamlProperties(String)
      */
     private static HashMap loadYamlPropertiesByCache(String yamlFile) {
-        HashMap<?, ?> yamlProperties = yamlPropertiesCacheMap.get(yamlFile);
+        HashMap<?, ?> yamlProperties = getYamlPropertiesCacheMap().get(yamlFile);
         if (null == yamlProperties) {
             yamlProperties = loadYamlProperties(yamlFile);
-            yamlPropertiesCacheMap.put(yamlFile, yamlProperties);
+            getYamlPropertiesCacheMap().put(yamlFile, yamlProperties);
         }
         return yamlProperties;
+    }
+
+    /**
+     * FIXME 用`main`方法测试时，静态变量总是不初始化
+     * 目前会导致初始化1次后，又重新初始化一次，导致数据丢失了
+     * 待找出问题
+     *
+     * @return 缓存对象
+     */
+    public static Map<String, HashMap<?, ?>> getYamlPropertiesCacheMap() {
+        if (null == yamlPropertiesCacheMap) {
+            synchronized (YamlUtil.class) {
+                if (null == yamlPropertiesCacheMap) {
+                    yamlPropertiesCacheMap = new HashMap<>();
+                    // TODO 待删除
+                    yamlPropertiesCacheMap.put("test", null);
+                }
+            }
+        }
+        return yamlPropertiesCacheMap;
     }
 
     /**

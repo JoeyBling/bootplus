@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
+ * 改进 {@link cn.hutool.core.date.SystemClock}
  * 高并发场景下`System.currentTimeMillis()`的性能问题的优化
  * <p><p>
  * System.currentTimeMillis()的调用比new一个普通对象要耗时的多（具体耗时高出多少我还没测试过，有人说是100倍左右）<p>
@@ -87,17 +88,6 @@ public class SystemClock {
     }
 
     /**
-     * just test
-     */
-    public static void main(String[] args) {
-        for (int i = 0; i < 5000; i++) {
-            System.out.println(now());
-            System.out.println(nowTimestamp());
-            System.out.println(nowDate());
-        }
-    }
-
-    /**
      * 定时更新时间戳
      */
     private void scheduleClockUpdating() {
@@ -129,4 +119,14 @@ public class SystemClock {
         public static final SystemClock INSTANCE = new SystemClock();
     }
 
+    /**
+     * just test
+     */
+    public static void main(String[] args) {
+        for (int i = 0; i < 5000; i++) {
+            System.out.println(now());
+            System.out.println(nowTimestamp());
+            System.out.println(nowDate());
+        }
+    }
 }

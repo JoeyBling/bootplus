@@ -2,10 +2,10 @@ package io.github.controller;
 
 import io.github.config.MyWebAppConfigurer;
 import io.github.frame.controller.AbstractController;
+import io.github.frame.prj.exception.RRException;
 import io.github.util.DateUtils;
 import io.github.util.R;
 import io.github.util.StringUtils;
-import io.github.frame.prj.exception.RRException;
 import io.github.util.file.FileUtils;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
@@ -129,7 +129,6 @@ public class SysFileController extends AbstractController {
      */
     private String getTrueFileName(String fileName, Integer uploadType) {
         StringBuffer bf = new StringBuffer();
-
         if (null == uploadType) {
             bf.append("other" + File.separator);
         } else {
@@ -154,7 +153,9 @@ public class SysFileController extends AbstractController {
      * @param request  HttpServletRequest
      * @param response HttpServletResponse
      * @throws IOException
+     * @deprecated 待改进
      */
+    @Deprecated
     @RequestMapping("/download")
     public void download(@RequestParam("name") String fileName, Boolean real, HttpServletRequest request,
                          HttpServletResponse response) throws IOException {

@@ -73,7 +73,7 @@ public class QrCodeUtil {
     /**
      * 生成条形码图像
      *
-     * @param contents 内容
+     * @param content 内容
      * @param format   要生成的条形码格式
      * @param width    宽度(单位:像素)
      * @param height   高度(单位:像素)
@@ -81,9 +81,9 @@ public class QrCodeUtil {
      * @return BitMatrix
      * @throws WriterException
      */
-    private static BitMatrix getEncode(String contents, BarcodeFormat format,
+    private static BitMatrix getEncode(String content, BarcodeFormat format,
                                        int width, int height, Map<EncodeHintType, ?> hints) throws WriterException {
-        return multiFormatWriter.encode(contents, format, width, height, hints);
+        return multiFormatWriter.encode(content, format, width, height, hints);
     }
 
     /**
@@ -91,10 +91,10 @@ public class QrCodeUtil {
      *
      * @return byte[]
      */
-    public static byte[] encodeToBytes(String contents, BarcodeFormat format,
+    public static byte[] encodeToBytes(String content, BarcodeFormat format,
                                        int width, int height, Map<EncodeHintType, ?> hints) throws IOException, WriterException {
         try {
-            BitMatrix bitMatrix = getEncode(contents, format, width, height, hints);
+            BitMatrix bitMatrix = getEncode(content, format, width, height, hints);
             BufferedImage image = toBufferedImage(bitMatrix);
             try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
                 if (!ImageIO.write(image, DEFAULT_OUTPUT_FORMAT_NAME, out)) {
@@ -115,10 +115,10 @@ public class QrCodeUtil {
      * @param outputStream 输出流
      * @see MatrixToImageWriter#writeToStream
      */
-    public static void encodeToStream(OutputStream outputStream, String contents, BarcodeFormat format,
+    public static void encodeToStream(OutputStream outputStream, String content, BarcodeFormat format,
                                       int width, int height, Map<EncodeHintType, ?> hints) throws IOException, WriterException {
         try {
-            BitMatrix bitMatrix = getEncode(contents, format, width, height, hints);
+            BitMatrix bitMatrix = getEncode(content, format, width, height, hints);
             BufferedImage image = toBufferedImage(bitMatrix);
             if (!ImageIO.write(image, DEFAULT_OUTPUT_FORMAT_NAME, outputStream)) {
                 throw new IOException("Could not write an image of format " + DEFAULT_OUTPUT_FORMAT_NAME);
@@ -136,10 +136,10 @@ public class QrCodeUtil {
      * @param file   生成二维码图片位置
      * @see MatrixToImageWriter#writeToFile
      */
-    public static void encodeToFile(String contents, File file, BarcodeFormat format,
+    public static void encodeToFile(String content, File file, BarcodeFormat format,
                                     int width, int height, Map<EncodeHintType, ?> hints) throws IOException, WriterException {
         try {
-            BitMatrix bitMatrix = getEncode(contents, format, width, height, hints);
+            BitMatrix bitMatrix = getEncode(content, format, width, height, hints);
             BufferedImage image = toBufferedImage(bitMatrix);
             if (!ImageIO.write(image, DEFAULT_OUTPUT_FORMAT_NAME, file)) {
                 throw new IOException("Could not write an image of format " + DEFAULT_OUTPUT_FORMAT_NAME + " to " + file);

@@ -20,6 +20,11 @@
     <url>https://github.com/JoeyBling/bootplus</url>
     <description>基于SpringBoot + Shiro + MyBatisPlus的权限管理框架</description>
 
+    <modules>
+        <!-- 考虑如何分模块?是否有必要 -->
+        <!--<module></module>-->
+    </modules>
+
     <properties>
         <!-- 资源过滤这2个参数总是报错，只能重复声明一下 -->
         <project.url>${project.url}</project.url>

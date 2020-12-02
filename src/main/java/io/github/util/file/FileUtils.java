@@ -17,8 +17,11 @@ import java.net.URL;
 public class FileUtils extends org.apache.commons.io.FileUtils {
 
     /**
-     * 文件路径前缀
+     * 文件系统路径URL前缀
+     * TODO test
+     * {@link org.springframework.util.ResourceUtils#FILE_URL_PREFIX}
      */
+    // public static final String FILE_PREFIX = "file:";
     public static final String FILE_PREFIX = "file:/";
 
     /**

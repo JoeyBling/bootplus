@@ -18,6 +18,27 @@ import java.util.Map;
 public class AppConfigService extends BaseAopContext<AppConfigService> {
 
     /**
+     * 调试or测试 模式
+     */
+    private final String DEBUG = YamlUtil.getProperty("debug");
+
+    /**
+     * just test
+     */
+    public static void main(String[] args) {
+        String testValue = "{\n" +
+                "    \"oper\": \"127.0.0.1\",\n" +
+                "    \"appid\": \"1001\",\n" +
+                "    \"random\": \"1234\",\n" +
+                "    \"service\": \"bootplus.user.login.log.list\"\n" +
+                "}";
+        System.out.println(SecureUtil.md5().digestHex(
+                YamlUtil.getProperty("application.requestPassword").concat(testValue)));
+        System.out.println(SecureUtil.md5().digestHex(
+                YamlUtil.getProperty("application.requestPassword").concat(testValue)));
+    }
+
+    /**
      * 签名校验
      *
      * @param sign 签名
@@ -37,9 +58,8 @@ public class AppConfigService extends BaseAopContext<AppConfigService> {
             valStr = appid + map.get("random")[0];
         }
 
-        String debug = YamlUtil.getProperty("debug");
-//        if ("test".equals(sign) && "true".equals(debug)) {
-        if ("test".equals(sign)) {
+//        if ("test".equals(sign) && "true".equals(DEBUG)) {
+        if ("test".equals(sign) || "true".equals(DEBUG)) {
             logger.debug("validate service provider sign, debug mode and using test sign");
             return true;
         } else {
@@ -51,16 +71,6 @@ public class AppConfigService extends BaseAopContext<AppConfigService> {
             logger.debug("validate service provider sign inSign={}, sysSign={}, valStr={}", sign, sysSign, valStr);
             return StringUtils.equals(sign, sysSign);
         }
-    }
-
-    public static void main(String[] args) {
-        String testValue = "{\n" +
-                "    \"oper\": \"127.0.0.1\",\n" +
-                "    \"appid\": \"1001\",\n" +
-                "    \"random\": \"1234\",\n" +
-                "    \"service\": \"bootplus.user.login.log.list\"\n" +
-                "}";
-        System.out.println(SecureUtil.md5().digestHex(YamlUtil.getProperty("application.requestPassword").concat(testValue)));
     }
 
 }
