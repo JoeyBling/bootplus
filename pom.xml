@@ -31,7 +31,7 @@
         <hessian.version>4.0.38</hessian.version>
         <kaptcha.version>0.0.9</kaptcha.version>
         <commons-lang.version>3.5</commons-lang.version>
-        <commons-io.version>2.5</commons-io.version>
+        <commons-io.version>2.7</commons-io.version>
         <!-- 在1.4.2之前的Apache Shiro，使用默认的“记住我”配置时，cookie可能会受到填充攻击。 -->
         <shiro.version>1.4.2</shiro.version>
         <mybatisplus-spring-boot-starter.version>3.3.2</mybatisplus-spring-boot-starter.version>
