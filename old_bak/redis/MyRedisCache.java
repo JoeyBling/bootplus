@@ -15,7 +15,7 @@ import org.springframework.data.redis.core.RedisTemplate;
  * @see RedisCache,MyRedisCacheManager
  */
 public class MyRedisCache extends RedisCache {
-    protected Logger log = LoggerFactory.getLogger(this.getClass());
+    protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private RedisTemplate<? extends Object, ? extends Object> redisTemplate;
 
@@ -46,7 +46,7 @@ public class MyRedisCache extends RedisCache {
         final String keyStr = toString(key);
         ValueWrapper wrapper = super.get(key);
         if (null != wrapper) {
-            log.debug("获取Redis缓存 key ：{}, value : {}",
+            log.debug("获取Redis缓存 key : {}, value : {}",
                     keyStr, toString(wrapper.get()));
         }
         return wrapper;
@@ -56,15 +56,15 @@ public class MyRedisCache extends RedisCache {
     public void put(Object key, Object value) {
         ValueWrapper waWrapper = super.get(key);
         if (null != waWrapper) {
-            log.warn("重复添加Redis缓存 key ：{}, old-value : {}", key, toString(waWrapper.get()));
+            log.warn("重复添加Redis缓存 key : {}, old-value : {}", key, toString(waWrapper.get()));
         }
-        log.debug("设置Redis缓存 key ：{}", toString(key));
+        log.debug("设置Redis缓存 key : {}", toString(key));
         super.put(key, value);
     }
 
     @Override
     public void evict(Object key) {
-        log.debug("删除Redis缓存 key ：{}", toString(key));
+        log.debug("删除Redis缓存 key : {}", toString(key));
         super.evict(key);
     }
 
